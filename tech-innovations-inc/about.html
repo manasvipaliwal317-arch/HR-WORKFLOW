@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us | Tech Innovations Inc. | Khandwa, MP, India</title>
+  <meta name="description" content="Learn about Tech Innovations Inc., a premier cybersecurity and technology consulting company based in Khandwa, Madhya Pradesh, India.">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            cyber: {
+              dark: '#070a13',
+              card: '#0f172a',
+              cyan: '#06b6d4',
+              cyanLight: '#22d3ee',
+              blue: '#3b82f6',
+              emerald: '#10b981'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-[#070a13] text-slate-200 cyber-grid-bg antialiased selection:bg-cyan-500 selection:text-white">
+
+  <!-- STICKY HEADER -->
+  <header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 p-0.5 shadow-lg shadow-cyan-500/20 group-hover:shadow-cyan-500/40 transition-all">
+          <div class="w-full h-full bg-slate-950 rounded-[7px] flex items-center justify-center">
+            <svg class="w-5 h-5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+        </div>
+        <div>
+          <span class="text-lg font-bold tracking-tight text-white">Tech Innovations <span class="text-cyan-400">Inc.</span></span>
+          <span class="text-[10px] text-slate-400 block tracking-wider uppercase font-medium">Cybersecurity & IT Solutions</span>
+        </div>
+      </a>
+
+      <nav class="hidden lg:flex items-center gap-7 text-sm font-medium">
+        <a href="index.html" class="text-slate-300 hover:text-cyan-400 transition-colors">Home</a>
+        <a href="about.html" class="text-cyan-400 font-semibold transition-colors">About</a>
+        <a href="services.html" class="text-slate-300 hover:text-cyan-400 transition-colors">Services</a>
+        <a href="solutions.html" class="text-slate-300 hover:text-cyan-400 transition-colors">Solutions</a>
+        <a href="industries.html" class="text-slate-300 hover:text-cyan-400 transition-colors">Industries</a>
+        <a href="why-us.html" class="text-slate-300 hover:text-cyan-400 transition-colors">Why Us</a>
+        <a href="careers.html" class="text-slate-300 hover:text-cyan-400 transition-colors flex items-center gap-1.5">
+          Careers <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        </a>
+        <a href="contact.html" class="text-slate-300 hover:text-cyan-400 transition-colors">Contact</a>
+      </nav>
+
+      <div class="hidden lg:flex items-center gap-4">
+        <a href="contact.html" class="btn-cyber-primary text-xs uppercase tracking-wider">Get a Security Consultation</a>
+      </div>
+
+      <button id="mobile-menu-btn" class="lg:hidden p-2 text-slate-300 hover:text-white" aria-label="Open Menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- MOBILE MENU -->
+  <div id="mobile-menu" class="hidden fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-xl p-6 flex flex-col justify-between overflow-y-auto">
+    <div>
+      <div class="flex items-center justify-between pb-6 border-b border-slate-800">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold">🛡️</div>
+          <span class="text-base font-bold text-white">Tech Innovations Inc.</span>
+        </div>
+        <button id="mobile-menu-close" class="p-2 text-slate-400 hover:text-white" aria-label="Close Menu">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <nav class="flex flex-col gap-4 text-base font-medium mt-8">
+        <a href="index.html" class="text-slate-200 hover:text-cyan-400 py-2 border-b border-slate-900">Home</a>
+        <a href="about.html" class="text-cyan-400 font-semibold py-2 border-b border-slate-900">About Us</a>
+        <a href="services.html" class="text-slate-200 hover:text-cyan-400 py-2 border-b border-slate-900">Services</a>
+        <a href="solutions.html" class="text-slate-200 hover:text-cyan-400 py-2 border-b border-slate-900">Solutions</a>
+        <a href="industries.html" class="text-slate-200 hover:text-cyan-400 py-2 border-b border-slate-900">Industries</a>
+        <a href="why-us.html" class="text-slate-200 hover:text-cyan-400 py-2 border-b border-slate-900">Why Choose Us</a>
+        <a href="careers.html" class="text-slate-200 hover:text-cyan-400 py-2 border-b border-slate-900">Careers</a>
+        <a href="contact.html" class="text-slate-200 hover:text-cyan-400 py-2">Contact Us</a>
+      </nav>
+    </div>
+    <div class="pt-6 border-t border-slate-800">
+      <a href="contact.html" class="btn-cyber-primary w-full text-center text-sm py-3 mb-3">Get a Security Consultation</a>
+      <p class="text-center text-xs text-slate-500">Khandwa, Madhya Pradesh, India</p>
+    </div>
+  </div>
+
+  <main class="pt-28">
+    <!-- PAGE HERO -->
+    <section class="py-16 cyber-radial-glow relative border-b border-slate-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4 reveal-on-scroll">
+        <span class="cyber-badge">Our Identity & Mission</span>
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-white">About <span class="text-gradient-cyan">Tech Innovations Inc.</span></h1>
+        <p class="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto">
+          A dedicated cybersecurity and technology-focused enterprise located in Khandwa, Madhya Pradesh, India.
+        </p>
+      </div>
+    </section>
+
+    <!-- COMPANY STORY & FOUNDATION -->
+    <section class="py-20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          
+          <div class="space-y-6 text-left reveal-on-scroll">
+            <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">PIONEERING DIGITAL PROTECTION</span>
+            <h2 class="text-3xl font-extrabold text-white">
+              Building Resilient Digital Infrastructure for Modern Organizations
+            </h2>
+            <p class="text-slate-300 text-sm leading-relaxed">
+              <strong>Tech Innovations Inc.</strong> is a specialized cybersecurity and technology consulting company based in <strong>Khandwa, Madhya Pradesh, India</strong>. Founded with the conviction that security should be proactive rather than reactive, we help organizations safeguard their critical data, web assets, endpoints, and network infrastructure.
+            </p>
+            <p class="text-slate-300 text-sm leading-relaxed">
+              In an era of rapid technological transformation and sophisticated threat vectors, we empower businesses with practical risk assessments, modern cryptographic controls, and continuous defense strategies designed around their specific operational realities.
+            </p>
+
+            <div class="grid grid-cols-2 gap-4 pt-4">
+              <div class="p-4 rounded-xl glass-panel">
+                <span class="text-2xl mb-1 block">🛡️</span>
+                <h4 class="text-sm font-bold text-white">Proactive Security</h4>
+                <p class="text-xs text-slate-400 mt-1">Zero-Trust architecture & continuous vulnerability defense.</p>
+              </div>
+              <div class="p-4 rounded-xl glass-panel">
+                <span class="text-2xl mb-1 block">⚡</span>
+                <h4 class="text-sm font-bold text-white">Business Continuity</h4>
+                <p class="text-xs text-slate-400 mt-1">Ensuring uninterrupted operations through structured resilience.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mission & Vision Cards -->
+          <div class="space-y-6 reveal-on-scroll">
+            <div class="glass-panel p-8 rounded-2xl border-cyan-500/30">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-xl font-bold">🎯</div>
+                <h3 class="text-xl font-bold text-white">Our Mission</h3>
+              </div>
+              <blockquote class="text-slate-200 text-sm italic font-medium leading-relaxed">
+                "To help organizations build safer, smarter, and more resilient digital environments through proactive security standards, practical consulting, and continuous technological innovation."
+              </blockquote>
+            </div>
+
+            <div class="glass-panel p-8 rounded-2xl border-blue-500/30">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 text-xl font-bold">🔭</div>
+                <h3 class="text-xl font-bold text-white">Our Vision</h3>
+              </div>
+              <blockquote class="text-slate-200 text-sm italic font-medium leading-relaxed">
+                "To become a trusted technology and cybersecurity partner for organizations navigating the digital world, setting the benchmark for integrity, engineering excellence, and threat protection."
+              </blockquote>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CORE PILLARS OF OUR APPROACH -->
+    <section class="py-20 bg-slate-950/70 border-t border-slate-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-16 reveal-on-scroll">
+          <span class="cyber-badge mb-3">Our Guiding Values</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-white">The Pillars That Drive Our Work</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+          
+          <div class="glass-panel p-6 rounded-xl reveal-on-scroll text-left">
+            <span class="text-3xl mb-3 block">🔒</span>
+            <h4 class="text-base font-bold text-white mb-2">Zero Trust Discipline</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">Never trust, always verify. We build defense-in-depth across user identities, endpoints, and microservices.</p>
+          </div>
+
+          <div class="glass-panel p-6 rounded-xl reveal-on-scroll text-left">
+            <span class="text-3xl mb-3 block">📊</span>
+            <h4 class="text-base font-bold text-white mb-2">Risk-Driven Strategy</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">We focus resources where risks are highest, creating cost-effective, high-impact defense postures.</p>
+          </div>
+
+          <div class="glass-panel p-6 rounded-xl reveal-on-scroll text-left">
+            <span class="text-3xl mb-3 block">💡</span>
+            <h4 class="text-base font-bold text-white mb-2">Continuous Learning</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">Cyber threats evolve daily; our engineering methodologies stay ahead of emerging vulnerabilities.</p>
+          </div>
+
+          <div class="glass-panel p-6 rounded-xl reveal-on-scroll text-left">
+            <span class="text-3xl mb-3 block">🤝</span>
+            <h4 class="text-base font-bold text-white mb-2">Client Partnership</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">We work transparently alongside your internal IT and leadership teams to foster long-term resilience.</p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CALL TO ACTION -->
+    <section class="py-20 text-center">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 reveal-on-scroll">
+        <h2 class="text-3xl font-extrabold text-white">Partner with Tech Innovations Inc.</h2>
+        <p class="text-slate-300 text-sm max-w-xl mx-auto">
+          Learn how our Khandwa security engineering team can assist your business with a tailored vulnerability assessment or IT security consultation.
+        </p>
+        <div class="flex items-center justify-center gap-4 pt-2">
+          <a href="contact.html" class="btn-cyber-primary text-sm">Schedule a Consultation</a>
+          <a href="services.html" class="btn-cyber-secondary text-sm">Explore Services</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-950 border-t border-slate-800 text-slate-400 text-xs py-14">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-10">
+      <div class="space-y-3.5">
+        <div class="flex items-center gap-2">
+          <div class="w-7 h-7 rounded bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-400 font-bold">🛡️</div>
+          <span class="text-sm font-bold text-white">Tech Innovations Inc.</span>
+        </div>
+        <p class="leading-relaxed">Delivering modern cybersecurity, threat protection, vulnerability assessments, and technology solutions.</p>
+        <p class="text-[11px] text-slate-500">📍 Khandwa, Madhya Pradesh, India</p>
+      </div>
+      <div class="space-y-2.5">
+        <h4 class="text-sm font-semibold text-white uppercase tracking-wider">Company</h4>
+        <ul class="space-y-1.5">
+          <li><a href="about.html" class="text-cyan-400">About Us</a></li>
+          <li><a href="why-us.html" class="hover:text-cyan-400">Why Choose Us</a></li>
+          <li><a href="careers.html" class="hover:text-cyan-400">Careers</a></li>
+          <li><a href="contact.html" class="hover:text-cyan-400">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="space-y-2.5">
+        <h4 class="text-sm font-semibold text-white uppercase tracking-wider">Key Services</h4>
+        <ul class="space-y-1.5">
+          <li><a href="services.html" class="hover:text-cyan-400">Cybersecurity Assessment</a></li>
+          <li><a href="services.html" class="hover:text-cyan-400">Vulnerability Assessment</a></li>
+          <li><a href="services.html" class="hover:text-cyan-400">Network Security</a></li>
+          <li><a href="services.html" class="hover:text-cyan-400">Data Protection</a></li>
+        </ul>
+      </div>
+      <div class="space-y-2.5">
+        <h4 class="text-sm font-semibold text-white uppercase tracking-wider">Contact</h4>
+        <p>Email: <a href="mailto:info@techinnovations.example" class="hover:text-cyan-400">info@techinnovations.example</a></p>
+        <p>Careers: <a href="mailto:manasvipaliwal317@gmail.com" class="text-cyan-400">manasvipaliwal317@gmail.com</a></p>
+        <p>Location: Khandwa, MP, India</p>
+      </div>
+    </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 mt-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
+      <p>© 2026 Tech Innovations Inc. All Rights Reserved.</p>
+      <div class="flex items-center gap-5">
+        <a href="privacy-policy.html" class="hover:text-slate-400">Privacy Policy</a>
+        <a href="terms.html" class="hover:text-slate-400">Terms of Use</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

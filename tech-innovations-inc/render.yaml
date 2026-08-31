@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: tech-innovations-inc-site
+    runtime: static
+    buildCommand: ""
+    staticPublishPath: .
+    pullRequestPreviewsEnabled: false
