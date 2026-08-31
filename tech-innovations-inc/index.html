@@ -18,15 +18,14 @@
       theme: {
         extend: {
           colors: {
-            cyber: {
-              950: '#070b14',
-              900: '#0c1322',
-              850: '#111a30',
-              800: '#1e293b',
-              accent: '#00f0ff',
-              blue: '#38bdf8',
-              indigo: '#6366f1',
-              emerald: '#10b981'
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              700: '#0369a1',
+              800: '#075985',
+              900: '#0c4a6e'
             }
           },
           fontFamily: {
@@ -41,7 +40,7 @@
   <!-- Custom Stylesheet -->
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="cyber-grid-bg text-slate-100 flex flex-col min-h-screen">
+<body class="cyber-grid-bg text-slate-800 flex flex-col min-h-screen">
 
   <!-- ==================== HEADER / STICKY NAVBAR ==================== -->
   <header id="site-header" class="fixed top-0 left-0 right-0 z-50 glass-nav transition-all duration-300">
@@ -49,44 +48,44 @@
       
       <!-- Brand Logo -->
       <a href="index.html" class="flex items-center gap-3 group text-decoration-none">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 via-sky-500 to-indigo-600 p-0.5 shadow-lg shadow-cyan-500/20 group-hover:shadow-cyan-400/40 transition-all">
-          <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-            <svg class="w-5 h-5 text-cyan-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 via-sky-500 to-indigo-600 p-0.5 shadow-md shadow-blue-500/20 group-hover:shadow-blue-500/40 transition-all">
+          <div class="w-full h-full bg-white rounded-[10px] flex items-center justify-center">
+            <svg class="w-5 h-5 text-blue-600 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
             </svg>
           </div>
         </div>
         <div>
-          <span class="text-lg font-bold tracking-tight text-white flex items-center gap-1.5">
-            Tech Innovations <span class="text-cyan-400">Inc.</span>
+          <span class="text-lg font-extrabold tracking-tight text-slate-900 flex items-center gap-1">
+            Tech Innovations <span class="text-blue-600">Inc.</span>
           </span>
-          <span class="block text-[10px] font-mono tracking-widest text-slate-400 uppercase">Cybersecurity & IT Solutions</span>
+          <span class="block text-[10px] font-mono font-semibold tracking-widest text-slate-500 uppercase">Cybersecurity & IT Solutions</span>
         </div>
       </a>
 
       <!-- Desktop Navigation -->
       <nav class="hidden lg:flex items-center gap-7">
-        <a href="index.html" class="nav-link-item text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors">Home</a>
-        <a href="about.html" class="nav-link-item text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors">About</a>
-        <a href="services.html" class="nav-link-item text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors">Services</a>
-        <a href="solutions.html" class="nav-link-item text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors">Solutions</a>
-        <a href="industries.html" class="nav-link-item text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors">Industries</a>
-        <a href="why-us.html" class="nav-link-item text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors">Why Us</a>
-        <a href="careers.html" class="nav-link-item text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors inline-flex items-center gap-1.5">
+        <a href="index.html" class="nav-link-item text-sm font-semibold text-blue-600">Home</a>
+        <a href="about.html" class="nav-link-item text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">About</a>
+        <a href="services.html" class="nav-link-item text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">Services</a>
+        <a href="solutions.html" class="nav-link-item text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">Solutions</a>
+        <a href="industries.html" class="nav-link-item text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">Industries</a>
+        <a href="why-us.html" class="nav-link-item text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">Why Us</a>
+        <a href="careers.html" class="nav-link-item text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors inline-flex items-center gap-1.5">
           Careers
-          <span class="px-1.5 py-0.5 text-[10px] font-bold rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 animate-pulse">Hiring</span>
+          <span class="px-1.5 py-0.5 text-[10px] font-bold rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">Hiring</span>
         </a>
-        <a href="contact.html" class="nav-link-item text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors">Contact</a>
+        <a href="contact.html" class="nav-link-item text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">Contact</a>
       </nav>
 
       <!-- CTA Button & Mobile Toggle -->
       <div class="flex items-center gap-3">
-        <a href="contact.html" class="hidden sm:inline-flex btn-cyber-primary text-xs sm:text-sm py-2.5 px-4">
+        <a href="contact.html" class="hidden sm:inline-flex btn-cyber-primary text-xs sm:text-sm py-2.5 px-5">
           Get a Security Consultation
         </a>
 
         <!-- Mobile Hamburger Button -->
-        <button id="mobile-menu-btn" class="lg:hidden p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-cyan-400 focus:outline-none" aria-label="Toggle mobile menu">
+        <button id="mobile-menu-btn" class="lg:hidden p-2 rounded-lg bg-slate-100 border border-slate-200 text-slate-700 hover:text-blue-600 focus:outline-none" aria-label="Toggle mobile menu">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
           </svg>
@@ -95,15 +94,15 @@
     </div>
 
     <!-- Mobile Drawer -->
-    <div id="mobile-menu-drawer" class="hidden lg:hidden glass-nav border-t border-slate-800/80 px-4 pt-4 pb-6 space-y-3">
-      <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:bg-slate-800/60 hover:text-cyan-400">Home</a>
-      <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:bg-slate-800/60 hover:text-cyan-400">About Us</a>
-      <a href="services.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:bg-slate-800/60 hover:text-cyan-400">Services</a>
-      <a href="solutions.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:bg-slate-800/60 hover:text-cyan-400">Cybersecurity Solutions</a>
-      <a href="industries.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:bg-slate-800/60 hover:text-cyan-400">Industries</a>
-      <a href="why-us.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:bg-slate-800/60 hover:text-cyan-400">Why Choose Us</a>
-      <a href="careers.html" class="block px-3 py-2 rounded-md text-base font-medium text-emerald-400 hover:bg-slate-800/60">Careers & Openings 🟢</a>
-      <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:bg-slate-800/60 hover:text-cyan-400">Contact Us</a>
+    <div id="mobile-menu-drawer" class="hidden lg:hidden glass-nav border-t border-slate-200 px-4 pt-4 pb-6 space-y-3 bg-white">
+      <a href="index.html" class="block px-3 py-2 rounded-md text-base font-bold text-blue-600 bg-blue-50">Home</a>
+      <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600">About Us</a>
+      <a href="services.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600">Services</a>
+      <a href="solutions.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600">Cybersecurity Solutions</a>
+      <a href="industries.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600">Industries</a>
+      <a href="why-us.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600">Why Choose Us</a>
+      <a href="careers.html" class="block px-3 py-2 rounded-md text-base font-medium text-emerald-700 hover:bg-emerald-50">Careers & Openings 🟢</a>
+      <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600">Contact Us</a>
       <div class="pt-2">
         <a href="contact.html" class="w-full btn-cyber-primary text-center">Get a Security Consultation</a>
       </div>
@@ -120,18 +119,18 @@
         
         <!-- Left Hero Content -->
         <div class="lg:col-span-7 space-y-6 text-center lg:text-left reveal-on-scroll">
-          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-semibold tracking-wide">
-            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-semibold tracking-wide shadow-sm">
+            <span class="w-2 h-2 rounded-full bg-blue-600 animate-ping"></span>
             Khandwa, Madhya Pradesh, India • Enterprise Cybersecurity
           </div>
 
-          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-tight">
             Secure Your <br>
             <span class="gradient-text-cyan">Digital Future</span> <br>
             With Confidence
           </h1>
 
-          <p class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+          <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
             Tech Innovations Inc. delivers modern cybersecurity and IT security solutions engineered to protect businesses, startups, and institutions from evolving digital threats.
           </p>
 
@@ -145,10 +144,10 @@
           </div>
 
           <!-- Secondary Trust Message -->
-          <div class="pt-6 flex items-center justify-center lg:justify-start gap-3 text-xs sm:text-sm font-mono text-slate-400 tracking-wider">
-            <span class="text-cyan-400 font-bold">PROTECT.</span>
+          <div class="pt-6 flex items-center justify-center lg:justify-start gap-3 text-xs sm:text-sm font-mono text-slate-500 tracking-wider">
+            <span class="text-blue-600 font-bold">PROTECT.</span>
             <span>DETECT.</span>
-            <span class="text-sky-400 font-bold">RESPOND.</span>
+            <span class="text-sky-600 font-bold">RESPOND.</span>
             <span>INNOVATE.</span>
           </div>
         </div>
@@ -158,48 +157,48 @@
           <div class="relative mx-auto max-w-md lg:max-w-none">
             
             <!-- Cyber Shield Interactive Card -->
-            <div class="glass-panel p-6 sm:p-8 relative overflow-hidden border-cyan-500/30 glow-cyan">
+            <div class="glass-panel p-6 sm:p-8 relative overflow-hidden border-slate-200 shadow-xl bg-white">
               
               <!-- Background Radar Pulse Rings -->
               <div class="absolute -right-12 -top-12 w-64 h-64 pulse-radar-ring pointer-events-none"></div>
               <div class="absolute -right-12 -top-12 w-96 h-96 pulse-radar-ring pointer-events-none" style="animation-delay: 1.5s;"></div>
 
-              <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-6">
+              <div class="flex items-center justify-between border-b border-slate-100 pb-4 mb-6">
                 <div class="flex items-center gap-2.5">
-                  <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
-                  <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
-                  <div class="w-3 h-3 rounded-full bg-emerald-500/80"></div>
-                  <span class="text-xs font-mono text-slate-400 ml-2">TECH-DEFENSE-NODE-01</span>
+                  <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                  <div class="w-3 h-3 rounded-full bg-amber-400"></div>
+                  <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
+                  <span class="text-xs font-mono text-slate-500 ml-2 font-medium">TECH-DEFENSE-NODE-01</span>
                 </div>
-                <span class="text-[11px] font-mono text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-500/30">
+                <span class="text-[11px] font-mono text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 font-bold">
                   SHIELD ACTIVE
                 </span>
               </div>
 
               <!-- Main Central Graphic -->
               <div class="my-6 text-center">
-                <div class="w-24 h-24 mx-auto mb-4 rounded-2xl bg-gradient-to-tr from-cyan-500/20 via-sky-500/20 to-indigo-500/20 border border-cyan-400/40 flex items-center justify-center relative shadow-inner">
-                  <svg class="w-12 h-12 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="w-24 h-24 mx-auto mb-4 rounded-2xl bg-gradient-to-tr from-blue-50 via-sky-50 to-indigo-50 border border-blue-200 flex items-center justify-center relative shadow-inner">
+                  <svg class="w-12 h-12 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
                   </svg>
-                  <div class="absolute -bottom-2 -right-2 px-2 py-0.5 bg-emerald-900/90 text-emerald-300 text-[10px] font-mono rounded border border-emerald-500/40">
+                  <div class="absolute -bottom-2 -right-2 px-2 py-0.5 bg-emerald-600 text-white text-[10px] font-mono font-bold rounded-full shadow-sm">
                     24/7 GUARD
                   </div>
                 </div>
 
-                <h3 class="text-lg font-bold text-white mb-1">Adaptive Threat Protection</h3>
-                <p class="text-xs text-slate-400">Continuous vulnerability mitigation & infrastructure defense.</p>
+                <h3 class="text-lg font-bold text-slate-900 mb-1">Adaptive Threat Protection</h3>
+                <p class="text-xs text-slate-500">Continuous vulnerability mitigation & infrastructure defense.</p>
               </div>
 
               <!-- Metric Grid in Card -->
-              <div class="grid grid-cols-2 gap-3 pt-4 border-t border-slate-800 text-left">
-                <div class="bg-slate-900/70 p-3 rounded-lg border border-slate-800">
-                  <span class="text-[10px] text-slate-400 font-mono block">DEFENSE POSTURE</span>
-                  <span class="text-sm font-bold text-cyan-400 font-mono">100% HARDENED</span>
+              <div class="grid grid-cols-2 gap-3 pt-4 border-t border-slate-100 text-left">
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                  <span class="text-[10px] text-slate-500 font-mono font-semibold block">DEFENSE POSTURE</span>
+                  <span class="text-sm font-bold text-blue-700 font-mono">100% HARDENED</span>
                 </div>
-                <div class="bg-slate-900/70 p-3 rounded-lg border border-slate-800">
-                  <span class="text-[10px] text-slate-400 font-mono block">SECURITY PROTOCOL</span>
-                  <span class="text-sm font-bold text-emerald-400 font-mono">ZERO TRUST</span>
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                  <span class="text-[10px] text-slate-500 font-mono font-semibold block">SECURITY PROTOCOL</span>
+                  <span class="text-sm font-bold text-emerald-700 font-mono">ZERO TRUST</span>
                 </div>
               </div>
 
@@ -212,32 +211,32 @@
   </section>
 
   <!-- ==================== TRUST / STATS SECTION ==================== -->
-  <section class="py-12 border-y border-slate-800/80 bg-slate-950/60 relative">
+  <section class="py-12 border-y border-slate-200 bg-white relative">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 text-center">
         
         <div class="p-6 glass-panel reveal-on-scroll">
-          <div class="text-3xl sm:text-4xl font-extrabold text-cyan-400 font-mono mb-2 stat-counter" data-target="24" data-suffix="/7">24/7</div>
-          <h4 class="text-sm font-bold text-white">Security Mindset</h4>
-          <p class="text-xs text-slate-400 mt-1">Continuous awareness & threat mitigation</p>
+          <div class="text-3xl sm:text-4xl font-extrabold text-blue-600 font-mono mb-2 stat-counter" data-target="24" data-suffix="/7">24/7</div>
+          <h4 class="text-sm font-bold text-slate-900">Security Mindset</h4>
+          <p class="text-xs text-slate-500 mt-1">Continuous awareness & threat mitigation</p>
         </div>
 
         <div class="p-6 glass-panel reveal-on-scroll" style="transition-delay: 100ms;">
-          <div class="text-3xl sm:text-4xl font-extrabold text-sky-400 font-mono mb-2 stat-counter" data-target="100" data-suffix="%">100%</div>
-          <h4 class="text-sm font-bold text-white">Proactive Protection</h4>
-          <p class="text-xs text-slate-400 mt-1">Security-first architecture from day one</p>
+          <div class="text-3xl sm:text-4xl font-extrabold text-sky-600 font-mono mb-2 stat-counter" data-target="100" data-suffix="%">100%</div>
+          <h4 class="text-sm font-bold text-slate-900">Proactive Protection</h4>
+          <p class="text-xs text-slate-500 mt-1">Security-first architecture from day one</p>
         </div>
 
         <div class="p-6 glass-panel reveal-on-scroll" style="transition-delay: 200ms;">
-          <div class="text-3xl sm:text-4xl font-extrabold text-indigo-400 font-mono mb-2 stat-counter" data-target="10" data-suffix="+ Domains">10+ Domains</div>
-          <h4 class="text-sm font-bold text-white">Modern Security Practices</h4>
-          <p class="text-xs text-slate-400 mt-1">Network, cloud, endpoint & web security</p>
+          <div class="text-3xl sm:text-4xl font-extrabold text-indigo-600 font-mono mb-2 stat-counter" data-target="10" data-suffix="+ Domains">10+ Domains</div>
+          <h4 class="text-sm font-bold text-slate-900">Modern Security Practices</h4>
+          <p class="text-xs text-slate-500 mt-1">Network, cloud, endpoint & web security</p>
         </div>
 
         <div class="p-6 glass-panel reveal-on-scroll" style="transition-delay: 300ms;">
-          <div class="text-3xl sm:text-4xl font-extrabold text-emerald-400 font-mono mb-2">B2B & SMB</div>
-          <h4 class="text-sm font-bold text-white">Business-Focused</h4>
-          <p class="text-xs text-slate-400 mt-1">Tailored for organizations in Khandwa & beyond</p>
+          <div class="text-3xl sm:text-4xl font-extrabold text-emerald-600 font-mono mb-2">B2B & SMB</div>
+          <h4 class="text-sm font-bold text-slate-900">Business-Focused</h4>
+          <p class="text-xs text-slate-500 mt-1">Tailored for organizations in Khandwa & beyond</p>
         </div>
 
       </div>
@@ -251,23 +250,23 @@
         
         <div class="lg:col-span-6 space-y-6 reveal-on-scroll">
           <span class="badge-cyber">ABOUT OUR ORGANIZATION</span>
-          <h2 class="text-3xl sm:text-4xl font-extrabold text-white leading-snug">
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 leading-snug">
             Empowering Organizations with Resilient Cyber Defenses
           </h2>
-          <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+          <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
             Headquartered in <strong>Khandwa, Madhya Pradesh, India</strong>, Tech Innovations Inc. is dedicated to helping businesses, startups, and institutions navigate the complex cybersecurity landscape with confidence.
           </p>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-            <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800">
-              <h4 class="text-sm font-bold text-cyan-400 mb-1">🎯 Our Mission</h4>
-              <p class="text-xs text-slate-400 leading-relaxed">
+            <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+              <h4 class="text-sm font-bold text-blue-600 mb-1.5">🎯 Our Mission</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
                 To help organizations build safer, smarter, and more resilient digital environments through proactive security.
               </p>
             </div>
-            <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800">
-              <h4 class="text-sm font-bold text-emerald-400 mb-1">👁️ Our Vision</h4>
-              <p class="text-xs text-slate-400 leading-relaxed">
+            <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+              <h4 class="text-sm font-bold text-emerald-600 mb-1.5">👁️ Our Vision</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
                 To become a trusted technology and cybersecurity partner for organizations navigating the modern digital world.
               </p>
             </div>
@@ -279,30 +278,30 @@
         </div>
 
         <div class="lg:col-span-6 reveal-on-scroll">
-          <div class="glass-panel p-6 sm:p-8 space-y-6">
-            <h3 class="text-lg font-bold text-white border-b border-slate-800 pb-3">Core Principles of Tech Innovations Inc.</h3>
+          <div class="glass-panel p-6 sm:p-8 space-y-6 bg-white">
+            <h3 class="text-lg font-bold text-slate-900 border-b border-slate-100 pb-3">Core Principles of Tech Innovations Inc.</h3>
             
-            <div class="space-y-4 text-sm text-slate-300">
+            <div class="space-y-4 text-sm text-slate-600">
               <div class="flex items-start gap-3.5">
-                <span class="w-6 h-6 rounded-md bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">01</span>
+                <span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 border border-blue-200 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">01</span>
                 <div>
-                  <strong class="text-white block">Security by Design:</strong>
+                  <strong class="text-slate-900 block font-semibold">Security by Design:</strong>
                   Security is integrated into every phase of technology planning and architecture.
                 </div>
               </div>
 
               <div class="flex items-start gap-3.5">
-                <span class="w-6 h-6 rounded-md bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">02</span>
+                <span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 border border-blue-200 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">02</span>
                 <div>
-                  <strong class="text-white block">Actionable Risk Reduction:</strong>
+                  <strong class="text-slate-900 block font-semibold">Actionable Risk Reduction:</strong>
                   We provide practical, prioritized recommendations rather than overwhelming jargon.
                 </div>
               </div>
 
               <div class="flex items-start gap-3.5">
-                <span class="w-6 h-6 rounded-md bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">03</span>
+                <span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 border border-blue-200 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">03</span>
                 <div>
-                  <strong class="text-white block">Local Touch, Global Standards:</strong>
+                  <strong class="text-slate-900 block font-semibold">Local Touch, Global Standards:</strong>
                   Providing accessible IT security expertise in Madhya Pradesh built on global standards.
                 </div>
               </div>
@@ -315,15 +314,15 @@
   </section>
 
   <!-- ==================== CORE SERVICES GRID ==================== -->
-  <section class="py-20 bg-slate-950/70 border-t border-slate-800/80 relative">
+  <section class="py-20 bg-slate-50 border-t border-slate-200 relative">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <div class="text-center max-w-3xl mx-auto mb-16 space-y-4 reveal-on-scroll">
         <span class="badge-cyber">COMPREHENSIVE SERVICES</span>
-        <h2 class="text-3xl sm:text-4xl font-extrabold text-white">
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">
           Cybersecurity & IT Security Services
         </h2>
-        <p class="text-slate-300 text-sm sm:text-base">
+        <p class="text-slate-600 text-sm sm:text-base">
           Holistic security assessments, technical hardening, and consulting designed to protect your assets across every layer.
         </p>
       </div>
@@ -331,87 +330,87 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         
         <!-- Service 1 -->
-        <div class="glass-panel p-6 sm:p-7 flex flex-col justify-between reveal-on-scroll group">
+        <div class="glass-panel p-6 sm:p-7 flex flex-col justify-between reveal-on-scroll group bg-white">
           <div>
-            <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 mb-5 group-hover:scale-110 transition-transform">
+            <div class="w-12 h-12 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600 mb-5 group-hover:scale-110 transition-transform">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
             </div>
-            <h3 class="text-lg font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">1. Cybersecurity Assessment</h3>
-            <p class="text-slate-400 text-xs sm:text-sm leading-relaxed mb-4">
+            <h3 class="text-lg font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">1. Cybersecurity Assessment</h3>
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">
               Comprehensive evaluation to identify security weaknesses, structural risks, and actionable improvement opportunities.
             </p>
           </div>
-          <a href="services.html#assessment" class="text-xs font-semibold text-cyan-400 hover:text-cyan-300 inline-flex items-center gap-1">Learn More ➔</a>
+          <a href="services.html#assessment" class="text-xs font-semibold text-blue-600 hover:text-blue-700 inline-flex items-center gap-1">Learn More ➔</a>
         </div>
 
         <!-- Service 2 -->
-        <div class="glass-panel p-6 sm:p-7 flex flex-col justify-between reveal-on-scroll group" style="transition-delay: 100ms;">
+        <div class="glass-panel p-6 sm:p-7 flex flex-col justify-between reveal-on-scroll group bg-white" style="transition-delay: 100ms;">
           <div>
-            <div class="w-12 h-12 rounded-xl bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-400 mb-5 group-hover:scale-110 transition-transform">
+            <div class="w-12 h-12 rounded-xl bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-600 mb-5 group-hover:scale-110 transition-transform">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
             </div>
-            <h3 class="text-lg font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">2. Vulnerability Assessment</h3>
-            <p class="text-slate-400 text-xs sm:text-sm leading-relaxed mb-4">
+            <h3 class="text-lg font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">2. Vulnerability Assessment</h3>
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">
               Scanning and analyzing systems, applications, and networks to identify unpatched flaws and misconfigurations.
             </p>
           </div>
-          <a href="services.html#vulnerability" class="text-xs font-semibold text-cyan-400 hover:text-cyan-300 inline-flex items-center gap-1">Learn More ➔</a>
+          <a href="services.html#vulnerability" class="text-xs font-semibold text-blue-600 hover:text-blue-700 inline-flex items-center gap-1">Learn More ➔</a>
         </div>
 
         <!-- Service 3 -->
-        <div class="glass-panel p-6 sm:p-7 flex flex-col justify-between reveal-on-scroll group" style="transition-delay: 200ms;">
+        <div class="glass-panel p-6 sm:p-7 flex flex-col justify-between reveal-on-scroll group bg-white" style="transition-delay: 200ms;">
           <div>
-            <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 mb-5 group-hover:scale-110 transition-transform">
+            <div class="w-12 h-12 rounded-xl bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-600 mb-5 group-hover:scale-110 transition-transform">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
             </div>
-            <h3 class="text-lg font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">3. Network Security</h3>
-            <p class="text-slate-400 text-xs sm:text-sm leading-relaxed mb-4">
+            <h3 class="text-lg font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">3. Network Security</h3>
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">
               Designing secure network architectures, segmentation, firewall governance, and defensive routing policies.
             </p>
           </div>
-          <a href="services.html#network" class="text-xs font-semibold text-cyan-400 hover:text-cyan-300 inline-flex items-center gap-1">Learn More ➔</a>
+          <a href="services.html#network" class="text-xs font-semibold text-blue-600 hover:text-blue-700 inline-flex items-center gap-1">Learn More ➔</a>
         </div>
 
         <!-- Service 4 -->
-        <div class="glass-panel p-6 sm:p-7 flex flex-col justify-between reveal-on-scroll group">
+        <div class="glass-panel p-6 sm:p-7 flex flex-col justify-between reveal-on-scroll group bg-white">
           <div>
-            <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 mb-5 group-hover:scale-110 transition-transform">
+            <div class="w-12 h-12 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600 mb-5 group-hover:scale-110 transition-transform">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
             </div>
-            <h3 class="text-lg font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">4. Endpoint Security</h3>
-            <p class="text-slate-400 text-xs sm:text-sm leading-relaxed mb-4">
+            <h3 class="text-lg font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">4. Endpoint Security</h3>
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">
               Hardening workstations, mobile devices, and server endpoints against unauthorized access and malware threats.
             </p>
           </div>
-          <a href="services.html#endpoint" class="text-xs font-semibold text-cyan-400 hover:text-cyan-300 inline-flex items-center gap-1">Learn More ➔</a>
+          <a href="services.html#endpoint" class="text-xs font-semibold text-blue-600 hover:text-blue-700 inline-flex items-center gap-1">Learn More ➔</a>
         </div>
 
         <!-- Service 5 -->
-        <div class="glass-panel p-6 sm:p-7 flex flex-col justify-between reveal-on-scroll group" style="transition-delay: 100ms;">
+        <div class="glass-panel p-6 sm:p-7 flex flex-col justify-between reveal-on-scroll group bg-white" style="transition-delay: 100ms;">
           <div>
-            <div class="w-12 h-12 rounded-xl bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-400 mb-5 group-hover:scale-110 transition-transform">
+            <div class="w-12 h-12 rounded-xl bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-600 mb-5 group-hover:scale-110 transition-transform">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
             </div>
-            <h3 class="text-lg font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">5. Web Application Security</h3>
-            <p class="text-slate-400 text-xs sm:text-sm leading-relaxed mb-4">
+            <h3 class="text-lg font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">5. Web Application Security</h3>
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">
               Assessment and protection strategies for modern web apps following OWASP standards and secure API practices.
             </p>
           </div>
-          <a href="services.html#webapp" class="text-xs font-semibold text-cyan-400 hover:text-cyan-300 inline-flex items-center gap-1">Learn More ➔</a>
+          <a href="services.html#webapp" class="text-xs font-semibold text-blue-600 hover:text-blue-700 inline-flex items-center gap-1">Learn More ➔</a>
         </div>
 
         <!-- Service 6 -->
-        <div class="glass-panel p-6 sm:p-7 flex flex-col justify-between reveal-on-scroll group" style="transition-delay: 200ms;">
+        <div class="glass-panel p-6 sm:p-7 flex flex-col justify-between reveal-on-scroll group bg-white" style="transition-delay: 200ms;">
           <div>
-            <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-5 group-hover:scale-110 transition-transform">
+            <div class="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 mb-5 group-hover:scale-110 transition-transform">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
             </div>
-            <h3 class="text-lg font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">6. Data Protection</h3>
-            <p class="text-slate-400 text-xs sm:text-sm leading-relaxed mb-4">
+            <h3 class="text-lg font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">6. Data Protection</h3>
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">
               Helping businesses implement responsible data governance, encryption standards, and sensitive data access controls.
             </p>
           </div>
-          <a href="services.html#dataprotection" class="text-xs font-semibold text-cyan-400 hover:text-cyan-300 inline-flex items-center gap-1">Learn More ➔</a>
+          <a href="services.html#dataprotection" class="text-xs font-semibold text-blue-600 hover:text-blue-700 inline-flex items-center gap-1">Learn More ➔</a>
         </div>
 
       </div>
@@ -426,53 +425,53 @@
   </section>
 
   <!-- ==================== 6-STEP DEFENSE PROCESS ==================== -->
-  <section class="py-20 relative">
+  <section class="py-20 bg-white relative border-t border-slate-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <div class="text-center max-w-3xl mx-auto mb-16 space-y-3 reveal-on-scroll">
         <span class="badge-cyber">METHODICAL DEFENSE</span>
-        <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Our 6-Step Cybersecurity Lifecycle</h2>
-        <p class="text-slate-300 text-sm">
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">Our 6-Step Cybersecurity Lifecycle</h2>
+        <p class="text-slate-600 text-sm">
           A structured, continuous methodology designed to understand, secure, and evolve organizational defenses.
         </p>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         
-        <div class="glass-panel p-6 reveal-on-scroll">
-          <span class="text-xs font-mono text-cyan-400 font-bold block mb-1">STEP 01</span>
-          <h4 class="text-base font-bold text-white mb-2">Understand</h4>
-          <p class="text-xs text-slate-400 leading-relaxed">Understand business operations, data flows, compliance boundaries, and security objectives.</p>
+        <div class="glass-panel p-6 reveal-on-scroll bg-white">
+          <span class="text-xs font-mono text-blue-600 font-bold block mb-1">STEP 01</span>
+          <h4 class="text-base font-bold text-slate-900 mb-2">Understand</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">Understand business operations, data flows, compliance boundaries, and security objectives.</p>
         </div>
 
-        <div class="glass-panel p-6 reveal-on-scroll" style="transition-delay: 100ms;">
-          <span class="text-xs font-mono text-cyan-400 font-bold block mb-1">STEP 02</span>
-          <h4 class="text-base font-bold text-white mb-2">Assess</h4>
-          <p class="text-xs text-slate-400 leading-relaxed">Identify existing vulnerabilities, misconfigurations, and exposure across endpoints and networks.</p>
+        <div class="glass-panel p-6 reveal-on-scroll bg-white" style="transition-delay: 100ms;">
+          <span class="text-xs font-mono text-blue-600 font-bold block mb-1">STEP 02</span>
+          <h4 class="text-base font-bold text-slate-900 mb-2">Assess</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">Identify existing vulnerabilities, misconfigurations, and exposure across endpoints and networks.</p>
         </div>
 
-        <div class="glass-panel p-6 reveal-on-scroll" style="transition-delay: 200ms;">
-          <span class="text-xs font-mono text-cyan-400 font-bold block mb-1">STEP 03</span>
-          <h4 class="text-base font-bold text-white mb-2">Protect</h4>
-          <p class="text-xs text-slate-400 leading-relaxed">Recommend and implement appropriate defensive controls, policies, and architectural hardening.</p>
+        <div class="glass-panel p-6 reveal-on-scroll bg-white" style="transition-delay: 200ms;">
+          <span class="text-xs font-mono text-blue-600 font-bold block mb-1">STEP 03</span>
+          <h4 class="text-base font-bold text-slate-900 mb-2">Protect</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">Recommend and implement appropriate defensive controls, policies, and architectural hardening.</p>
         </div>
 
-        <div class="glass-panel p-6 reveal-on-scroll" style="transition-delay: 300ms;">
-          <span class="text-xs font-mono text-cyan-400 font-bold block mb-1">STEP 04</span>
-          <h4 class="text-base font-bold text-white mb-2">Monitor</h4>
-          <p class="text-xs text-slate-400 leading-relaxed">Encourage continuous security awareness, event logging, and proactive threat detection practices.</p>
+        <div class="glass-panel p-6 reveal-on-scroll bg-white" style="transition-delay: 300ms;">
+          <span class="text-xs font-mono text-blue-600 font-bold block mb-1">STEP 04</span>
+          <h4 class="text-base font-bold text-slate-900 mb-2">Monitor</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">Encourage continuous security awareness, event logging, and proactive threat detection practices.</p>
         </div>
 
-        <div class="glass-panel p-6 reveal-on-scroll" style="transition-delay: 400ms;">
-          <span class="text-xs font-mono text-cyan-400 font-bold block mb-1">STEP 05</span>
-          <h4 class="text-base font-bold text-white mb-2">Respond</h4>
-          <p class="text-xs text-slate-400 leading-relaxed">Develop structured incident handling plans to contain and remediate potential security events.</p>
+        <div class="glass-panel p-6 reveal-on-scroll bg-white" style="transition-delay: 400ms;">
+          <span class="text-xs font-mono text-blue-600 font-bold block mb-1">STEP 05</span>
+          <h4 class="text-base font-bold text-slate-900 mb-2">Respond</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">Develop structured incident handling plans to contain and remediate potential security events.</p>
         </div>
 
-        <div class="glass-panel p-6 reveal-on-scroll" style="transition-delay: 500ms;">
-          <span class="text-xs font-mono text-cyan-400 font-bold block mb-1">STEP 06</span>
-          <h4 class="text-base font-bold text-white mb-2">Improve</h4>
-          <p class="text-xs text-slate-400 leading-relaxed">Continuously strengthen and adapt defenses against evolving threat vectors and business growth.</p>
+        <div class="glass-panel p-6 reveal-on-scroll bg-white" style="transition-delay: 500ms;">
+          <span class="text-xs font-mono text-blue-600 font-bold block mb-1">STEP 06</span>
+          <h4 class="text-base font-bold text-slate-900 mb-2">Improve</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">Continuously strengthen and adapt defenses against evolving threat vectors and business growth.</p>
         </div>
 
       </div>
@@ -481,14 +480,14 @@
   </section>
 
   <!-- ==================== CALL TO ACTION SECTION ==================== -->
-  <section class="py-20 bg-gradient-to-b from-slate-950 to-slate-900 border-t border-slate-800">
+  <section class="py-20 bg-slate-50 border-t border-slate-200">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal-on-scroll">
-      <div class="glass-panel p-8 sm:p-12 border-cyan-500/40 glow-cyan">
+      <div class="glass-panel p-8 sm:p-12 border-blue-200 shadow-xl bg-white">
         <span class="badge-cyber mb-4">READY TO PROTECT WHAT MATTERS?</span>
-        <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-4">
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4">
           Ready to Strengthen Your Security Posture?
         </h2>
-        <p class="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto mb-8 leading-relaxed">
+        <p class="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto mb-8 leading-relaxed">
           Let's discuss how Tech Innovations Inc. can help protect your digital infrastructure, secure sensitive data, and build long-term organizational resilience.
         </p>
         <div class="flex flex-wrap justify-center gap-4">
@@ -504,14 +503,14 @@
   </section>
 
   <!-- ==================== FOOTER ==================== -->
-  <footer class="bg-slate-950 border-t border-slate-800 pt-16 pb-12 mt-auto">
+  <footer class="bg-slate-900 text-white border-t border-slate-800 pt-16 pb-12 mt-auto">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-slate-800/80">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-slate-800">
         
         <!-- Col 1: Brand Info -->
         <div class="lg:col-span-2 space-y-4">
           <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-lg bg-cyan-400 flex items-center justify-center text-slate-950 font-bold">
+            <div class="w-8 h-8 rounded-lg bg-blue-500 flex items-center justify-center text-white font-bold">
               🛡️
             </div>
             <span class="text-lg font-bold text-white">Tech Innovations Inc.</span>
@@ -529,10 +528,10 @@
         <div>
           <h4 class="text-xs font-bold font-mono tracking-wider text-slate-300 uppercase mb-4">Company</h4>
           <ul class="space-y-2.5 text-xs sm:text-sm text-slate-400">
-            <li><a href="about.html" class="hover:text-cyan-400 transition-colors">About Us</a></li>
-            <li><a href="why-us.html" class="hover:text-cyan-400 transition-colors">Why Choose Us</a></li>
-            <li><a href="careers.html" class="hover:text-cyan-400 transition-colors">Careers & Openings 🟢</a></li>
-            <li><a href="contact.html" class="hover:text-cyan-400 transition-colors">Contact Us</a></li>
+            <li><a href="about.html" class="hover:text-white transition-colors">About Us</a></li>
+            <li><a href="why-us.html" class="hover:text-white transition-colors">Why Choose Us</a></li>
+            <li><a href="careers.html" class="hover:text-white transition-colors">Careers & Openings 🟢</a></li>
+            <li><a href="contact.html" class="hover:text-white transition-colors">Contact Us</a></li>
           </ul>
         </div>
 
@@ -540,10 +539,10 @@
         <div>
           <h4 class="text-xs font-bold font-mono tracking-wider text-slate-300 uppercase mb-4">Key Services</h4>
           <ul class="space-y-2.5 text-xs sm:text-sm text-slate-400">
-            <li><a href="services.html#assessment" class="hover:text-cyan-400 transition-colors">Cyber Assessment</a></li>
-            <li><a href="services.html#vulnerability" class="hover:text-cyan-400 transition-colors">Vulnerability Audit</a></li>
-            <li><a href="services.html#network" class="hover:text-cyan-400 transition-colors">Network Defense</a></li>
-            <li><a href="services.html#webapp" class="hover:text-cyan-400 transition-colors">Web App Security</a></li>
+            <li><a href="services.html#assessment" class="hover:text-white transition-colors">Cyber Assessment</a></li>
+            <li><a href="services.html#vulnerability" class="hover:text-white transition-colors">Vulnerability Audit</a></li>
+            <li><a href="services.html#network" class="hover:text-white transition-colors">Network Defense</a></li>
+            <li><a href="services.html#webapp" class="hover:text-white transition-colors">Web App Security</a></li>
           </ul>
         </div>
 
@@ -551,10 +550,10 @@
         <div>
           <h4 class="text-xs font-bold font-mono tracking-wider text-slate-300 uppercase mb-4">Solutions</h4>
           <ul class="space-y-2.5 text-xs sm:text-sm text-slate-400">
-            <li><a href="solutions.html#threat" class="hover:text-cyan-400 transition-colors">Threat Protection</a></li>
-            <li><a href="solutions.html#risk" class="hover:text-cyan-400 transition-colors">Risk Management</a></li>
-            <li><a href="solutions.html#data" class="hover:text-cyan-400 transition-colors">Data Security</a></li>
-            <li><a href="industries.html" class="hover:text-cyan-400 transition-colors">Industries Served</a></li>
+            <li><a href="solutions.html#threat" class="hover:text-white transition-colors">Threat Protection</a></li>
+            <li><a href="solutions.html#risk" class="hover:text-white transition-colors">Risk Management</a></li>
+            <li><a href="solutions.html#data" class="hover:text-white transition-colors">Data Security</a></li>
+            <li><a href="industries.html" class="hover:text-white transition-colors">Industries Served</a></li>
           </ul>
         </div>
 
@@ -573,10 +572,7 @@
     </div>
   </footer>
 
-  <!-- Toast Notification Container -->
   <div id="site-toast-container"></div>
-
-  <!-- Main JavaScript Engine -->
   <script src="js/main.js"></script>
 </body>
 </html>

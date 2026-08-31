@@ -1,6 +1,6 @@
 /**
  * Tech Innovations Inc. — Corporate Website JavaScript Engine
- * Cyber Theme, Interactive Particle Canvas, Dynamic Careers API, and Form Validation
+ * Modern Clean Enterprise Light Theme, Interactive Particle Canvas, Dynamic Careers API, and Form Validation
  */
 
 // Production & Local HR Workflow API configuration
@@ -86,8 +86,8 @@ function initNavbar() {
   allNavLinks.forEach(link => {
     const href = link.getAttribute('href');
     if (href === currentPath || (currentPath === '' && href === 'index.html')) {
-      link.classList.add('text-cyan-400', 'font-semibold');
-      link.classList.remove('text-slate-300');
+      link.classList.add('text-blue-600', 'font-bold');
+      link.classList.remove('text-slate-600');
     }
   });
 }
@@ -97,7 +97,7 @@ function initStickyHeader() {
   if (!header) return;
 
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 25) {
+    if (window.scrollY > 20) {
       header.classList.add('scrolled');
     } else {
       header.classList.remove('scrolled');
@@ -128,7 +128,7 @@ function initScrollAnimations() {
 }
 
 /* ==========================================================================
-   3. Interactive Cybersecurity Particle Canvas
+   3. Interactive Particle Canvas (Light Theme: Vibrant Blue & Sky Cyan)
    ========================================================================== */
 function initParticleCanvas() {
   const canvas = document.getElementById('hero-particle-canvas');
@@ -140,8 +140,8 @@ function initParticleCanvas() {
   const ctx = canvas.getContext('2d');
   let width, height;
   let particles = [];
-  const particleCount = 45;
-  const maxDistance = 120;
+  const particleCount = 40;
+  const maxDistance = 130;
 
   function resize() {
     width = canvas.width = canvas.parentElement.offsetWidth;
@@ -155,10 +155,10 @@ function initParticleCanvas() {
     constructor() {
       this.x = Math.random() * width;
       this.y = Math.random() * height;
-      this.vx = (Math.random() - 0.5) * 0.8;
-      this.vy = (Math.random() - 0.5) * 0.8;
-      this.radius = Math.random() * 2 + 1;
-      this.color = Math.random() > 0.4 ? '#00f0ff' : '#38bdf8';
+      this.vx = (Math.random() - 0.5) * 0.75;
+      this.vy = (Math.random() - 0.5) * 0.75;
+      this.radius = Math.random() * 2 + 1.2;
+      this.color = Math.random() > 0.4 ? '#2563eb' : '#0ea5e9';
     }
 
     update() {
@@ -173,8 +173,8 @@ function initParticleCanvas() {
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
       ctx.fillStyle = this.color;
-      ctx.shadowBlur = 8;
-      ctx.shadowColor = '#00f0ff';
+      ctx.shadowBlur = 6;
+      ctx.shadowColor = 'rgba(37, 99, 235, 0.3)';
       ctx.fill();
     }
   }
@@ -199,7 +199,7 @@ function initParticleCanvas() {
           ctx.beginPath();
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.strokeStyle = `rgba(0, 240, 255, ${0.18 * (1 - dist / maxDistance)})`;
+          ctx.strokeStyle = `rgba(14, 165, 233, ${0.18 * (1 - dist / maxDistance)})`;
           ctx.lineWidth = 1;
           ctx.stroke();
         }
@@ -259,7 +259,7 @@ async function initCareersDynamicFeed() {
 
   const statusBadge = document.getElementById('careers-live-status');
   if (statusBadge) {
-    statusBadge.innerHTML = `<span class="inline-block w-2 h-2 rounded-full bg-cyan-400 animate-ping mr-2"></span> Connecting to live HR Recruitment Workflow...`;
+    statusBadge.innerHTML = `<span class="inline-block w-2 h-2 rounded-full bg-blue-600 animate-ping mr-2"></span> Checking active openings...`;
   }
 
   let jobRoles = [];
@@ -277,7 +277,7 @@ async function initCareersDynamicFeed() {
         }
       }
     } catch (e) {
-      // Continue to next URL
+      // Try next
     }
   }
 
@@ -295,21 +295,21 @@ function renderCareers(roles, container, statusBadge) {
 
   if (statusBadge) {
     statusBadge.innerHTML = `
-      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        ${activeRoles.length} Active Job Opening${activeRoles.length === 1 ? '' : 's'} Currently Available
+      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 border border-emerald-200 text-emerald-700 shadow-sm">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        ${activeRoles.length} Active Job Opening${activeRoles.length === 1 ? '' : 's'} Available
       </span>
     `;
   }
 
   if (activeRoles.length === 0) {
     container.innerHTML = `
-      <div class="col-span-full text-center py-12 glass-panel p-8">
-        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-cyan-500/10 flex items-center justify-center text-cyan-400 text-2xl">
+      <div class="col-span-full text-center py-12 bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
+        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 text-2xl">
           💼
         </div>
-        <h3 class="text-xl font-bold text-white mb-2">No Active Openings Right Now</h3>
-        <p class="text-slate-400 max-w-md mx-auto mb-6">
+        <h3 class="text-xl font-bold text-slate-900 mb-2">No Active Openings Right Now</h3>
+        <p class="text-slate-600 max-w-md mx-auto mb-6">
           Our team is currently at full capacity, but we always welcome talented cybersecurity professionals and engineers. Send your resume for future opportunities.
         </p>
         <a href="mailto:${HR_CONTACT_EMAIL}?subject=General Application - Future Opportunities" class="btn-cyber-primary">
@@ -322,7 +322,7 @@ function renderCareers(roles, container, statusBadge) {
 
   container.innerHTML = activeRoles.map((role) => {
     const skillsList = (role.requiredSkills || []).map(skill => 
-      `<span class="text-xs px-2.5 py-1 rounded bg-slate-800/80 border border-slate-700 text-cyan-300 font-mono">${escapeHtml(skill)}</span>`
+      `<span class="text-xs px-2.5 py-1 rounded-md bg-slate-100 border border-slate-200 text-slate-700 font-medium">${escapeHtml(skill)}</span>`
     ).join('');
 
     const emailSubject = encodeURIComponent(`Application for ${role.title} - [Your Full Name]`);
@@ -330,48 +330,48 @@ function renderCareers(roles, container, statusBadge) {
     const mailtoLink = `mailto:${HR_CONTACT_EMAIL}?subject=${emailSubject}&body=${emailBody}`;
 
     return `
-      <div class="glass-panel p-6 sm:p-8 flex flex-col justify-between hover:border-cyan-400/40 transition-all duration-300 group">
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 flex flex-col justify-between hover:border-blue-300 hover:shadow-lg transition-all duration-300 group shadow-sm">
         <div>
           <div class="flex flex-wrap items-start justify-between gap-3 mb-4">
             <div>
-              <span class="text-xs font-semibold px-2.5 py-1 rounded bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 uppercase tracking-wider">
+              <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 uppercase tracking-wider">
                 ${escapeHtml(role.department || 'Cybersecurity & Engineering')}
               </span>
-              <h3 class="text-xl sm:text-2xl font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">
+              <h3 class="text-xl sm:text-2xl font-bold text-slate-900 mt-2.5 group-hover:text-blue-600 transition-colors">
                 ${escapeHtml(role.title)}
               </h3>
             </div>
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/15 border border-emerald-500/30 text-emerald-400">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Active Opening
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 border border-emerald-200 text-emerald-700">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Active Opening
             </span>
           </div>
 
-          <div class="flex items-center gap-4 text-xs text-slate-400 mb-4 pb-4 border-b border-slate-800">
-            <span class="flex items-center gap-1.5">
-              <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          <div class="flex items-center gap-4 text-xs text-slate-500 mb-4 pb-4 border-b border-slate-100">
+            <span class="flex items-center gap-1.5 font-medium">
+              <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
               ${escapeHtml(role.minExperience || '1+ Years')} Experience
             </span>
-            <span class="flex items-center gap-1.5">
-              <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            <span class="flex items-center gap-1.5 font-medium">
+              <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
               Khandwa, MP / Hybrid
             </span>
           </div>
 
-          <p class="text-slate-300 text-sm leading-relaxed mb-6">
+          <p class="text-slate-600 text-sm leading-relaxed mb-6">
             ${escapeHtml(role.description || 'Join our cybersecurity team to build secure architectures and protect enterprise client infrastructure.')}
           </p>
 
           <div class="mb-6">
-            <h4 class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2.5">Key Required Competencies</h4>
+            <h4 class="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2.5">Key Required Competencies</h4>
             <div class="flex flex-wrap gap-1.5">
               ${skillsList}
             </div>
           </div>
         </div>
 
-        <div class="pt-5 border-t border-slate-800/80 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-          <div class="text-xs text-slate-400">
-            <span class="text-slate-500">Recruitment Desk:</span> <span class="text-slate-300 font-mono">${HR_CONTACT_EMAIL}</span>
+        <div class="pt-5 border-t border-slate-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+          <div class="text-xs text-slate-500">
+            <span>Recruitment Desk:</span> <strong class="text-slate-800 font-mono">${HR_CONTACT_EMAIL}</strong>
           </div>
           <div class="flex items-center gap-2">
             <button onclick="copyHREmail('${role.title}')" class="btn-cyber-secondary text-xs py-2 px-3" title="Copy HR application email address">
@@ -435,7 +435,7 @@ function initContactForm() {
     // Success State
     showFormAlert(
       statusMsg, 
-      `🛡️ Thank you, ${name}! Your security consultation request for "${service}" has been recorded in this demo interface. For live production inquiries, please reach our team directly at ${HR_CONTACT_EMAIL}.`, 
+      `🛡️ Thank you, ${name}! Your security consultation request for "${service}" has been recorded in this demo interface. For live inquiries, please reach our team directly at ${HR_CONTACT_EMAIL}.`, 
       'success'
     );
 
@@ -445,12 +445,12 @@ function initContactForm() {
 
 function showFormAlert(container, message, type) {
   if (!container) return;
-  container.classList.remove('hidden', 'bg-red-500/10', 'border-red-500/30', 'text-red-400', 'bg-emerald-500/10', 'border-emerald-500/30', 'text-emerald-400');
+  container.classList.remove('hidden', 'bg-red-50', 'border-red-200', 'text-red-700', 'bg-emerald-50', 'border-emerald-200', 'text-emerald-700');
 
   if (type === 'error') {
-    container.classList.add('bg-red-500/10', 'border', 'border-red-500/30', 'text-red-400');
+    container.classList.add('bg-red-50', 'border', 'border-red-200', 'text-red-700');
   } else {
-    container.classList.add('bg-emerald-500/10', 'border', 'border-emerald-500/30', 'text-emerald-400');
+    container.classList.add('bg-emerald-50', 'border', 'border-emerald-200', 'text-emerald-700');
   }
 
   container.textContent = message;
@@ -462,7 +462,7 @@ function showFormAlert(container, message, type) {
    ========================================================================== */
 function copyHREmail(roleTitle = 'Position') {
   navigator.clipboard.writeText(HR_CONTACT_EMAIL).then(() => {
-    showToast(`Copied ${HR_CONTACT_EMAIL} to clipboard! Email your resume with subject: "Application for ${roleTitle}".`, 'success');
+    showToast(`Copied ${HR_CONTACT_EMAIL} to clipboard! Send your resume with subject: "Application for ${roleTitle}".`, 'success');
   }).catch(() => {
     showToast(`HR Email: ${HR_CONTACT_EMAIL}`, 'info');
   });
@@ -478,9 +478,9 @@ function showToast(message, type = 'info') {
   }
 
   const toast = document.createElement('div');
-  const bgClass = type === 'success' ? 'bg-emerald-950/90 border-emerald-500/50 text-emerald-300' : 'bg-slate-900/90 border-cyan-500/50 text-cyan-300';
+  const bgClass = type === 'success' ? 'bg-white border-emerald-300 text-emerald-800 shadow-xl' : 'bg-white border-blue-300 text-blue-900 shadow-xl';
   
-  toast.className = `p-4 rounded-xl border backdrop-blur-md shadow-2xl text-xs font-medium transition-all duration-300 transform translate-y-2 opacity-0 flex items-start gap-3 ${bgClass}`;
+  toast.className = `p-4 rounded-xl border shadow-lg text-xs font-medium transition-all duration-300 transform translate-y-2 opacity-0 flex items-start gap-3 ${bgClass}`;
   toast.innerHTML = `
     <span class="text-base">${type === 'success' ? '✅' : 'ℹ️'}</span>
     <div class="flex-1">${escapeHtml(message)}</div>
@@ -508,6 +508,5 @@ function escapeHtml(str) {
     .replace(/'/g, '&#039;');
 }
 
-// Make functions globally available
 window.copyHREmail = copyHREmail;
 window.showToast = showToast;
