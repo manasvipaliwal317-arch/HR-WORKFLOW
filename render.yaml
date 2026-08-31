@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: nexus-hr-recruitment
+    env: node
+    plan: free
+    region: oregon
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: GEMINI_API_KEY
+        value: YOUR_GEMINI_API_KEY
+      - key: HR_EMAIL
+        value: manasvipaliwal317@gmail.com
+      - key: GMAIL_APP_PASSWORD
+        value: YOUR_GMAIL_APP_PASSWORD
+      - key: COMPANY_NAME
+        value: Tech Innovations Inc.
+      - key: SELECTION_SCORE_THRESHOLD
+        value: 70
+      - key: AUTO_SEND_EMAILS
+        value: true

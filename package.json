@@ -1,0 +1,25 @@
+{
+  "name": "new-n8n-workflow",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node qa_master_test_suite.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "imap": "^0.8.19",
+    "imap-simple": "^5.1.0",
+    "mailparser": "^3.9.16",
+    "mammoth": "^1.12.1",
+    "multer": "^2.2.0",
+    "nodemailer": "^9.0.5",
+    "pdf-parse": "^2.4.5"
+  }
+}

@@ -1,0 +1,40 @@
+const fs = require('fs');
+const pdfParse = require('pdf-parse');
+
+const samplePdf = `%PDF-1.4
+1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj
+2 0 obj << /Type /Pages /Kids [3 0 R] /Count 1 >> endobj
+3 0 obj << /Type /Page /Parent 2 0 R /Resources << /Font << /F1 4 0 R >> >> /MediaBox [0 0 612 792] /Contents 5 0 R >> endobj
+4 0 obj << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> endobj
+5 0 obj << /Length 250 >> stream
+BT
+/F1 12 Tf
+72 712 Td
+(Candidate Name: Robert Langdon) Tj
+0 -20 Td
+(Email: robert.langdon.qa@gmail.com) Tj
+0 -20 Td
+(Role: Senior Cloud Infrastructure Architect) Tj
+0 -20 Td
+(Experience: 8 years AWS, Terraform, Kubernetes, Docker, Python) Tj
+ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000010 00000 n 
+0000000060 00000 n 
+0000000117 00000 n 
+0000000228 00000 n 
+0000000305 00000 n 
+trailer << /Size 6 /Root 1 0 R >>
+startxref
+610
+%%EOF`;
+
+fs.writeFileSync('test_resume_sample.pdf', samplePdf);
+
+pdfParse(Buffer.from(samplePdf)).then(data => {
+  console.log("Extracted text from PDF:", data.text.trim());
+}).catch(e => console.error("PDF parse error:", e));

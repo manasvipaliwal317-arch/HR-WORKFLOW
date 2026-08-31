@@ -1,0 +1,12 @@
+{
+  "geminiApiKey": "YOUR_GEMINI_API_KEY",
+  "geminiModel": "gemini-3.6-flash",
+  "hrEmail": "manasvipaliwal317@gmail.com",
+  "gmailAppPassword": "YOUR_GMAIL_APP_PASSWORD",
+  "selectionScoreThreshold": 70,
+  "n8nWebhookUrl": "http://localhost:5678/webhook/hr-resume-submit",
+  "n8nBaseUrl": "http://localhost:5678",
+  "companyName": "Tech Innovations Inc.",
+  "interviewPlatform": "Google Meet",
+  "autoSendEmails": true
+}

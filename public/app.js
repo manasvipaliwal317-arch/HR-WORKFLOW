@@ -1,0 +1,1180 @@
+// Nexus HR — Core Frontend Client Logic
+
+let allCandidates = [];
+let filteredCandidates = [];
+let selectedCandidate = null;
+let currentSettings = {};
+let activeView = 'cards'; // 'cards' or 'table'
+
+// Sample Strong & Weak Resumes for instant testing
+const SAMPLE_STRONG_RESUME = `Candidate: Marcus Sterling
+Email: marcus.sterling.lead@gmail.com
+Phone: +1 (555) 832-1920
+Applied Role: Full Stack Developer
+
+Executive Summary:
+Full Stack Developer with 5+ years building scalable web applications. Deep expertise in React, Next.js, Node.js, Express, TypeScript, PostgreSQL, REST APIs, and AWS. Strong focus on clean architecture and high-performance frontend interfaces.
+
+Work History:
+- Full Stack Engineer | CloudNexus (2023 - Present)
+  * Architected high-performance React/TypeScript web app serving 500k monthly users.
+  * Built real-time backend microservices using Node.js, Express, and PostgreSQL.
+  * Decreased page load latency by 55% using SSR, code splitting, and Redis caching.
+- Web Application Developer | Apex Tech (2021 - 2023)
+  * Designed resilient REST & GraphQL APIs with 99.9% uptime SLA.
+  * Implemented automated CI/CD pipelines with Docker and GitHub Actions.
+
+Education:
+B.S. in Computer Science, State University (2017 - 2021)
+
+Core Skills:
+React, TypeScript, Node.js, Express, PostgreSQL, MongoDB, REST APIs, Docker, Git, Tailwind CSS`;
+
+const SAMPLE_MARKETING_RESUME = `Candidate: Sneha Verma
+Email: sneha.verma.marketing@gmail.com
+Phone: +91 98765 43210
+Applied Role: Digital Marketing Specialist
+
+Executive Summary:
+Data-driven Digital Marketing Specialist with 4+ years leading omnichannel growth campaigns, Performance Marketing (Google & Meta Ads), SEO/SEM, and Conversion Rate Optimization (CRO). Managed $350k+ annual ad budgets with an average 4.2x ROAS.
+
+Work History:
+- Senior Performance Marketing Lead | GrowthScale Media (2022 - Present)
+  * Scaled organic search traffic by 180% via technical SEO audits and high-intent content strategy.
+  * Managed Google Ads (Search/Shopping) and Meta Ads campaigns generating $1.8M in attributed pipeline.
+  * Set up Google Analytics 4 (GA4), GTM tracking, and conversion funnels.
+- Digital Marketing Associate | Pulse Digital (2020 - 2022)
+  * Executed email marketing automation nurturing sequences with a 38% open rate.
+  * Coordinated social media brand strategy across LinkedIn, Instagram, and Twitter/X.
+
+Education:
+Bachelor of Business Administration (Marketing), Delhi University (2017 - 2020)
+
+Core Skills:
+Google Ads, Meta Ads Manager, Technical SEO, SEMrush, Google Analytics 4, Content Strategy, Email Marketing, CRO, Copywriting`;
+
+const SAMPLE_MISMATCH_RESUME = `Candidate: Toby Flenderson
+Email: toby.flenderson.sales@yahoo.com
+Phone: +1 (555) 123-9876
+Applied Role: Full Stack Developer
+
+Summary:
+Energetic retail store associate and event coordinator with 1 year experience in cashier management, basic MS Word, and email correspondence. Looking for a high-paying Developer role.
+
+Experience:
+- Store Clerk | Valley Supermarket (2024 - Present)
+  * Handled checkout register, customer questions, and inventory restocking.
+- Receptionist | City Gym (2023 - 2024)
+  * Answered phone inquiries and scheduled fitness classes.
+
+Education:
+High School Diploma, Scranton High
+
+Skills:
+Customer Support, Cash Register, Microsoft Office, Typing (50 WPM)`;
+
+// DOM Ready Init
+document.addEventListener('DOMContentLoaded', () => {
+  initTabs();
+  initTheme();
+  initDropzone();
+  initFilters();
+  initScanner();
+  initSettings();
+  initModal();
+  initRealtimeScanner();
+  
+  // Load initial data
+  loadCandidates();
+  loadStats();
+  loadSettings();
+
+  // Sync button
+  const syncBtn = document.getElementById('btn-sync-refresh');
+  if (syncBtn) {
+    syncBtn.addEventListener('click', async () => {
+      syncBtn.disabled = true;
+      syncBtn.classList.add('loading');
+      await loadCandidates();
+      await loadStats();
+      showToast('Synced with database and backend!', 'success');
+      setTimeout(() => {
+        syncBtn.disabled = false;
+        syncBtn.classList.remove('loading');
+      }, 500);
+    });
+  }
+
+  // Open scanner CTA
+  const openScannerBtn = document.getElementById('btn-open-scanner');
+  if (openScannerBtn) {
+    openScannerBtn.addEventListener('click', () => {
+      switchTab('scanner');
+    });
+  }
+
+  // View toggle
+  const btnCards = document.getElementById('btn-view-cards');
+  const btnTable = document.getElementById('btn-view-table');
+  if (btnCards) btnCards.addEventListener('click', () => setViewMode('cards'));
+  if (btnTable) btnTable.addEventListener('click', () => setViewMode('table'));
+});
+
+// Real-Time Inbox Scanner & Live Updates
+function initRealtimeScanner() {
+  const btnScan = document.getElementById('btn-force-scan');
+  
+  if (btnScan) {
+    btnScan.addEventListener('click', async () => {
+      btnScan.disabled = true;
+      btnScan.innerHTML = `🔄 Scanning...`;
+      try {
+        const res = await fetch('/api/scan-inbox', { method: 'POST' });
+        const data = await res.json();
+        showToast(data.message || 'Scanning INBOX for candidate resumes...', 'info');
+        setTimeout(() => {
+          loadCandidates();
+          loadStats();
+          btnScan.disabled = false;
+          btnScan.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> Scan Mail Now`;
+        }, 3000);
+      } catch (err) {
+        btnScan.disabled = false;
+        btnScan.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> Scan Mail Now`;
+      }
+    });
+  }
+
+  // Server-Sent Events (SSE) for instant push
+  if (window.EventSource) {
+    try {
+      const sse = new EventSource('/api/live-events');
+      sse.addEventListener('candidate_added', (e) => {
+        try {
+          const data = JSON.parse(e.data);
+          if (data && data.candidate) {
+            showToast(`⚡ New Resume Scanned: ${data.candidate.name} (${data.candidate.role}) • ${data.candidate.decision} (${data.candidate.matchScore}%)`, data.candidate.decision === 'SELECTED' ? 'success' : 'info');
+            loadCandidates();
+            loadStats();
+          }
+        } catch (err) {}
+      });
+      sse.addEventListener('candidate_updated', () => { loadCandidates(); loadStats(); });
+      sse.addEventListener('candidate_deleted', () => { loadCandidates(); loadStats(); });
+    } catch (e) {
+      console.warn("SSE not available, relying on background poller");
+    }
+  }
+
+  // Background auto-refresh every 4s
+  setInterval(() => {
+    loadCandidatesSilently();
+    updateScannerTelemetry();
+  }, 4000);
+}
+
+// Silent poller that preserves active user filter selections
+async function loadCandidatesSilently() {
+  try {
+    const res = await fetch('/api/candidates');
+    const data = await res.json();
+    if (data.success && Array.isArray(data.candidates)) {
+      const isDifferent = data.candidates.length !== allCandidates.length || 
+        JSON.stringify(data.candidates.map(c => c.id + '_' + c.updatedAt)) !== JSON.stringify(allCandidates.map(c => c.id + '_' + c.updatedAt));
+      
+      if (isDifferent) {
+        allCandidates = data.candidates;
+        updateMetrics(allCandidates);
+        updateRoleDropdown(allCandidates);
+        applyFilters();
+      }
+    }
+  } catch (e) {}
+}
+
+async function updateScannerTelemetry() {
+  try {
+    const res = await fetch('/api/scanner-status');
+    const data = await res.json();
+    if (data.success && data.stats) {
+      const badgeSync = document.getElementById('scanner-last-sync');
+      if (badgeSync) {
+        badgeSync.textContent = `⚡ Live (Scans: ${data.stats.totalScans} | Resumes: ${data.stats.resumesProcessed})`;
+      }
+    }
+  } catch (e) {}
+}
+
+// Toast Utility
+function showToast(message, type = 'info') {
+  const container = document.getElementById('toast-container');
+  if (!container) return;
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.innerHTML = `
+    <span>${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}</span>
+    <div>${message}</div>
+  `;
+  container.appendChild(toast);
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateY(10px)';
+    setTimeout(() => toast.remove(), 300);
+  }, 4000);
+}
+
+// Tab Switching
+function initTabs() {
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tabId = btn.getAttribute('data-tab');
+      switchTab(tabId);
+    });
+  });
+}
+
+function switchTab(tabId) {
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('data-tab') === tabId);
+  });
+  document.querySelectorAll('.tab-pane').forEach(p => {
+    p.classList.toggle('active', p.id === `tab-${tabId}`);
+  });
+  if (tabId === 'analytics') loadStats();
+  if (tabId === 'emails') renderEmailLogs();
+}
+
+// Theme Toggle
+function initTheme() {
+  const toggleBtn = document.getElementById('btn-theme-toggle');
+  if (!toggleBtn) return;
+  toggleBtn.addEventListener('click', () => {
+    document.body.classList.toggle('light-theme');
+    const isLight = document.body.classList.contains('light-theme');
+    localStorage.setItem('nexus_theme', isLight ? 'light' : 'dark');
+  });
+  if (localStorage.getItem('nexus_theme') === 'light') {
+    document.body.classList.add('light-theme');
+  }
+}
+
+// View Mode
+function setViewMode(mode) {
+  activeView = mode;
+  const btnCards = document.getElementById('btn-view-cards');
+  const btnTable = document.getElementById('btn-view-table');
+  const gridContainer = document.getElementById('candidate-grid-container');
+  const tableContainer = document.getElementById('candidate-table-container');
+
+  if (btnCards) btnCards.classList.toggle('active', mode === 'cards');
+  if (btnTable) btnTable.classList.toggle('active', mode === 'table');
+  if (gridContainer) gridContainer.style.display = mode === 'cards' ? 'grid' : 'none';
+  if (tableContainer) tableContainer.style.display = mode === 'table' ? 'block' : 'none';
+}
+
+// Load Candidates from API
+async function loadCandidates() {
+  try {
+    const res = await fetch('/api/candidates');
+    const data = await res.json();
+    if (data.success && Array.isArray(data.candidates)) {
+      allCandidates = data.candidates;
+      updateMetrics(allCandidates);
+      updateRoleDropdown(allCandidates);
+      applyFilters();
+    }
+  } catch (e) {
+    console.error('Failed to load candidates:', e);
+  }
+}
+
+// Instant Filter Application
+function applyFilters() {
+  const searchInput = document.getElementById('pipeline-search');
+  const decisionSelect = document.getElementById('filter-decision');
+  const statusSelect = document.getElementById('filter-status');
+  const roleSelect = document.getElementById('filter-role');
+
+  const search = (searchInput ? searchInput.value : '').toLowerCase().trim();
+  const decision = decisionSelect ? decisionSelect.value : 'ALL';
+  const status = statusSelect ? statusSelect.value : 'ALL';
+  const role = roleSelect ? roleSelect.value : 'ALL';
+
+  filteredCandidates = allCandidates.filter(c => {
+    // Decision filter
+    if (decision !== 'ALL' && c.decision !== decision) {
+      return false;
+    }
+    // Pipeline Status filter
+    if (status !== 'ALL' && c.status !== status) {
+      return false;
+    }
+    // Role filter
+    if (role !== 'ALL' && c.role !== role) {
+      return false;
+    }
+    // Search query filter
+    if (search) {
+      const name = (c.name || '').toLowerCase();
+      const email = (c.email || '').toLowerCase();
+      const cRole = (c.role || '').toLowerCase();
+      const edu = (c.education || '').toLowerCase();
+      const summary = (c.evaluationSummary || '').toLowerCase();
+      const skills = (c.topSkills || []).map(s => String(s).toLowerCase()).join(' ');
+
+      const matches = name.includes(search) || 
+                      email.includes(search) || 
+                      cRole.includes(search) || 
+                      edu.includes(search) || 
+                      summary.includes(search) || 
+                      skills.includes(search);
+
+      if (!matches) return false;
+    }
+
+    return true;
+  });
+
+  const countDisplay = document.getElementById('candidate-count-display');
+  if (countDisplay) {
+    countDisplay.textContent = filteredCandidates.length;
+  }
+
+  renderCandidates(filteredCandidates);
+}
+
+// Filter listeners
+function initFilters() {
+  const searchInput = document.getElementById('pipeline-search');
+  const decisionSelect = document.getElementById('filter-decision');
+  const statusSelect = document.getElementById('filter-status');
+  const roleSelect = document.getElementById('filter-role');
+
+  if (searchInput) {
+    searchInput.addEventListener('input', applyFilters);
+  }
+
+  if (decisionSelect) {
+    decisionSelect.addEventListener('change', applyFilters);
+  }
+
+  if (statusSelect) {
+    statusSelect.addEventListener('change', applyFilters);
+  }
+
+  if (roleSelect) {
+    roleSelect.addEventListener('change', applyFilters);
+  }
+}
+
+// Render Candidate Cards & Table
+function renderCandidates(candidates) {
+  const grid = document.getElementById('candidate-grid-container');
+  const tbody = document.getElementById('candidate-table-body');
+  if (!grid || !tbody) return;
+
+  grid.innerHTML = '';
+  tbody.innerHTML = '';
+
+  if (candidates.length === 0) {
+    grid.innerHTML = `
+      <div style="grid-column: 1/-1; text-align: center; padding: 3rem; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border-color);">
+        <p style="color: var(--text-secondary); font-size: 1rem; margin-bottom: 1rem;">No candidates match your current search/filter criteria.</p>
+        <button class="btn-primary" onclick="resetFilters()">Reset Filters</button>
+      </div>
+    `;
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="8" style="text-align:center; padding: 2rem; color: var(--text-secondary);">
+          No candidates found for selected filters.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  candidates.forEach(cand => {
+    const isSelected = cand.decision === 'SELECTED';
+    const initials = (cand.name || 'Candidate').split(' ').filter(Boolean).map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'CD';
+    const scoreClass = cand.matchScore >= 70 ? 'high' : 'low';
+    const dateStr = cand.createdAt ? new Date(cand.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'Today';
+
+    // Card View
+    const card = document.createElement('div');
+    card.className = `candidate-card ${isSelected ? 'selected' : 'rejected'}`;
+    card.innerHTML = `
+      <div>
+        <div class="card-top">
+          <div class="candidate-profile-short">
+            <div class="avatar-initials">${initials}</div>
+            <div>
+              <div class="card-name">${escapeHtml(cand.name)}</div>
+              <div class="card-role">${escapeHtml(cand.role || 'Software Engineer')}</div>
+            </div>
+          </div>
+          <div class="score-badge-circle ${scoreClass}">
+            ${cand.matchScore}
+            <span>match</span>
+          </div>
+        </div>
+
+        <div class="card-badges-row">
+          <span class="badge-decision ${isSelected ? 'selected' : 'rejected'}">
+            ${isSelected ? '✓ SELECTED' : '✕ REJECTED'}
+          </span>
+          <span class="badge-status">
+            ${formatStatus(cand.status)}
+          </span>
+        </div>
+
+        <p class="card-summary-snippet">
+          ${escapeHtml(cand.evaluationSummary || 'Candidate resume scanned and analyzed.')}
+        </p>
+
+        <div class="card-skills-row">
+          ${(cand.topSkills || []).slice(0, 4).map(s => `<span class="skill-pill">${escapeHtml(s)}</span>`).join('')}
+          ${(cand.topSkills || []).length > 4 ? `<span class="skill-pill">+${cand.topSkills.length - 4}</span>` : ''}
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <span>Applied ${dateStr}</span>
+        <button class="btn-card-inspect">View AI Analysis ➔</button>
+      </div>
+    `;
+    card.addEventListener('click', () => openCandidateModal(cand));
+    grid.appendChild(card);
+
+    // Table View
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>
+        <strong>${escapeHtml(cand.name)}</strong><br>
+        <small style="color:var(--text-muted);">${escapeHtml(cand.email)}</small>
+      </td>
+      <td>${escapeHtml(cand.role)}</td>
+      <td>
+        <span class="badge-decision ${isSelected ? 'selected' : 'rejected'}">
+          ${cand.decision}
+        </span>
+      </td>
+      <td>
+        <strong style="color: ${cand.matchScore >= 70 ? 'var(--success-text)' : 'var(--danger-text)'}">${cand.matchScore}%</strong>
+      </td>
+      <td><span class="badge-status">${formatStatus(cand.status)}</span></td>
+      <td>
+        ${(cand.topSkills || []).slice(0, 3).map(s => `<span class="skill-pill">${escapeHtml(s)}</span>`).join(' ')}
+      </td>
+      <td>${dateStr}</td>
+      <td>
+        <button class="btn-secondary" style="padding:0.3rem 0.6rem; font-size:0.75rem;">Inspect</button>
+      </td>
+    `;
+    tr.addEventListener('click', () => openCandidateModal(cand));
+    tbody.appendChild(tr);
+  });
+}
+
+function resetFilters() {
+  const searchInput = document.getElementById('pipeline-search');
+  const decisionSelect = document.getElementById('filter-decision');
+  const statusSelect = document.getElementById('filter-status');
+  const roleSelect = document.getElementById('filter-role');
+
+  if (searchInput) searchInput.value = '';
+  if (decisionSelect) decisionSelect.value = 'ALL';
+  if (statusSelect) statusSelect.value = 'ALL';
+  if (roleSelect) roleSelect.value = 'ALL';
+
+  applyFilters();
+}
+
+// Role Dropdown Populator
+function updateRoleDropdown(candidates) {
+  const roleSelect = document.getElementById('filter-role');
+  if (!roleSelect) return;
+  const currentVal = roleSelect.value;
+  const roles = Array.from(new Set(candidates.map(c => c.role).filter(Boolean))).sort();
+
+  roleSelect.innerHTML = `<option value="ALL">All Roles</option>`;
+  roles.forEach(r => {
+    const opt = document.createElement('option');
+    opt.value = r;
+    opt.textContent = r;
+    if (r === currentVal) opt.selected = true;
+    roleSelect.appendChild(opt);
+  });
+}
+
+// Instant KPI Calculation & UI Update from Candidates Array
+function updateMetrics(candidates) {
+  const total = candidates.length;
+  const selected = candidates.filter(c => c.decision === 'SELECTED').length;
+  const rejected = candidates.filter(c => c.decision === 'REJECTED').length;
+  const interviewScheduled = candidates.filter(c => c.status === 'INTERVIEW_SCHEDULED').length;
+  const offerExtended = candidates.filter(c => c.status === 'OFFER_EXTENDED').length;
+
+  const totalScore = candidates.reduce((acc, c) => acc + (Number(c.matchScore) || 0), 0);
+  const avgScore = total > 0 ? Math.round(totalScore / total) : 0;
+  const selectionRate = total > 0 ? Math.round((selected / total) * 100) : 0;
+
+  const elTotal = document.getElementById('metric-total');
+  if (elTotal) elTotal.textContent = total;
+
+  const elSelected = document.getElementById('metric-selected');
+  if (elSelected) elSelected.textContent = selected;
+
+  const elRate = document.getElementById('metric-selection-rate');
+  if (elRate) elRate.textContent = `${selectionRate}% Rate`;
+
+  const elAvg = document.getElementById('metric-avg-score');
+  if (elAvg) elAvg.textContent = avgScore;
+
+  const elInterviews = document.getElementById('metric-interviews');
+  if (elInterviews) elInterviews.textContent = interviewScheduled;
+
+  const elRejected = document.getElementById('metric-rejected');
+  if (elRejected) elRejected.textContent = rejected;
+
+  // Funnel Data
+  renderFunnel({
+    total,
+    selected,
+    interviewScheduled,
+    offerExtended,
+    rejected
+  });
+
+  // Top Skills
+  const skillCounts = {};
+  candidates.forEach(c => {
+    (c.topSkills || []).forEach(s => {
+      const trimmed = (s || '').trim();
+      if (trimmed) skillCounts[trimmed] = (skillCounts[trimmed] || 0) + 1;
+    });
+  });
+  const topSkills = Object.entries(skillCounts)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 10)
+    .map(([skill, count]) => ({ skill, count }));
+  renderSkillsCloud(topSkills);
+
+  // Role Breakdown
+  const roleMap = {};
+  candidates.forEach(c => {
+    const r = c.role || 'Unspecified';
+    roleMap[r] = (roleMap[r] || 0) + 1;
+  });
+  renderRoleBreakdown(roleMap);
+}
+
+// Load KPI Stats from Backend
+async function loadStats() {
+  try {
+    const res = await fetch('/api/analytics');
+    const data = await res.json();
+    if (data.success) {
+      const elTotal = document.getElementById('metric-total');
+      if (elTotal) elTotal.textContent = data.total;
+
+      const elSelected = document.getElementById('metric-selected');
+      if (elSelected) elSelected.textContent = data.selected;
+
+      const elRate = document.getElementById('metric-selection-rate');
+      if (elRate) elRate.textContent = `${data.selectionRate}% Rate`;
+
+      const elAvg = document.getElementById('metric-avg-score');
+      if (elAvg) elAvg.textContent = data.avgScore;
+
+      const elInterviews = document.getElementById('metric-interviews');
+      if (elInterviews) elInterviews.textContent = data.interviewScheduled;
+
+      const elRejected = document.getElementById('metric-rejected');
+      if (elRejected) elRejected.textContent = data.rejected;
+
+      renderFunnel(data);
+      renderSkillsCloud(data.topSkills || []);
+      renderRoleBreakdown(data.roleDistribution || {});
+    }
+  } catch (e) {
+    console.warn('API Analytics fallback, using local candidates');
+    updateMetrics(allCandidates);
+  }
+}
+
+function renderFunnel(stats) {
+  const container = document.getElementById('funnel-container');
+  if (!container) return;
+  const total = stats.total || 1;
+
+  const items = [
+    { label: 'Total Applications Received', count: stats.total || 0, color: '#6366f1' },
+    { label: 'AI Selected (Score ≥ 70%)', count: stats.selected || 0, color: '#10b981' },
+    { label: 'Interviews Scheduled', count: stats.interviewScheduled || 0, color: '#ec4899' },
+    { label: 'Offer Extended / Hired', count: stats.offerExtended || 0, color: '#8b5cf6' },
+    { label: 'Constructively Rejected', count: stats.rejected || 0, color: '#ef4444' }
+  ];
+
+  container.innerHTML = items.map(item => {
+    const pct = total > 0 ? Math.round((item.count / total) * 100) : 0;
+    return `
+      <div class="funnel-bar-item">
+        <div class="funnel-bar-meta">
+          <span>${item.label}</span>
+          <span><strong>${item.count}</strong> (${pct}%)</span>
+        </div>
+        <div class="funnel-bar-track">
+          <div class="funnel-bar-fill" style="width: ${Math.max(pct, 2)}%; background: ${item.color};"></div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderSkillsCloud(skills) {
+  const container = document.getElementById('skills-cloud-container');
+  if (!container) return;
+  if (!skills || skills.length === 0) {
+    container.innerHTML = `<p style="color:var(--text-muted); font-size:0.85rem;">No skill data available yet.</p>`;
+    return;
+  }
+  container.innerHTML = skills.map(s => `
+    <span class="skill-tag-badge">
+      ${escapeHtml(s.skill)}
+      <span class="skill-count-chip">${s.count}</span>
+    </span>
+  `).join('');
+}
+
+function renderRoleBreakdown(roleDist) {
+  const container = document.getElementById('roles-breakdown-container');
+  if (!container) return;
+  const entries = Object.entries(roleDist || {});
+  if (entries.length === 0) {
+    container.innerHTML = `<p style="color:var(--text-muted); font-size:0.85rem;">No roles data available yet.</p>`;
+    return;
+  }
+  container.innerHTML = entries.map(([role, count]) => `
+    <div class="role-stat-item">
+      <strong>${escapeHtml(role)}</strong>
+      <span class="role-stat-badge">${count} applicants</span>
+    </div>
+  `).join('');
+}
+
+// Render Email Logs Tab
+function renderEmailLogs() {
+  const container = document.getElementById('email-logs-container');
+  if (!container) return;
+  const list = allCandidates.filter(c => c.emailBody);
+  if (list.length === 0) {
+    container.innerHTML = `<div class="info-card"><p>No email logs found yet. Resumes evaluated will record sent emails here.</p></div>`;
+    return;
+  }
+
+  container.innerHTML = list.map(c => {
+    const isSelected = c.decision === 'SELECTED';
+    const sentDate = c.emailSentAt ? new Date(c.emailSentAt).toLocaleString() : 'Recently';
+    return `
+      <div class="email-log-item">
+        <div class="email-log-header">
+          <div class="email-recipient">
+            To: <strong>${escapeHtml(c.name)}</strong> &lt;${escapeHtml(c.email)}&gt;
+            <span class="badge-decision ${isSelected ? 'selected' : 'rejected'}" style="margin-left:8px;">
+              ${isSelected ? 'Interview Invitation' : 'Rejection Letter'}
+            </span>
+          </div>
+          <span class="email-date">${sentDate}</span>
+        </div>
+        <div class="email-subject-line"><strong>Subject:</strong> ${escapeHtml(c.emailSubject || 'Update on your application')}</div>
+        <div class="email-body-snippet">${escapeHtml(c.emailBody)}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+// Dropzone & File Upload Logic
+let selectedFile = null;
+function initDropzone() {
+  const dropzone = document.getElementById('resume-dropzone');
+  const fileInput = document.getElementById('resume-file-input');
+  const pill = document.getElementById('file-selected-pill');
+  const fileNameDisplay = document.getElementById('selected-file-name');
+  const removeBtn = document.getElementById('btn-remove-file');
+
+  if (!dropzone || !fileInput) return;
+
+  dropzone.addEventListener('click', (e) => {
+    if (e.target !== removeBtn && !removeBtn?.contains(e.target)) fileInput.click();
+  });
+
+  fileInput.addEventListener('change', (e) => {
+    if (fileInput.files.length > 0) {
+      handleFileSelected(fileInput.files[0]);
+    }
+  });
+
+  ['dragenter', 'dragover'].forEach(name => {
+    dropzone.addEventListener(name, (e) => {
+      e.preventDefault();
+      dropzone.classList.add('dragover');
+    });
+  });
+
+  ['dragleave', 'drop'].forEach(name => {
+    dropzone.addEventListener(name, (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('dragover');
+    });
+  });
+
+  dropzone.addEventListener('drop', (e) => {
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      handleFileSelected(e.dataTransfer.files[0]);
+    }
+  });
+
+  if (removeBtn) {
+    removeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      selectedFile = null;
+      fileInput.value = '';
+      if (pill) pill.style.display = 'none';
+      const title = document.getElementById('dropzone-title');
+      if (title) title.textContent = 'Drag & drop candidate resume here';
+    });
+  }
+
+  function handleFileSelected(file) {
+    selectedFile = file;
+    if (fileNameDisplay) fileNameDisplay.textContent = `${file.name} (${Math.round(file.size / 1024)} KB)`;
+    if (pill) pill.style.display = 'inline-flex';
+    const title = document.getElementById('dropzone-title');
+    if (title) title.textContent = 'File attached:';
+  }
+}
+
+// Scanner Form & Samples
+function initScanner() {
+  const roleSelect = document.getElementById('scan-applied-role');
+  const customRoleGroup = document.getElementById('custom-role-group');
+
+  if (roleSelect && customRoleGroup) {
+    roleSelect.addEventListener('change', () => {
+      customRoleGroup.style.display = roleSelect.value === 'Custom Role' ? 'block' : 'none';
+    });
+  }
+
+  const btnSampleStrong = document.getElementById('btn-load-sample-resume');
+  if (btnSampleStrong) {
+    btnSampleStrong.addEventListener('click', () => {
+      document.getElementById('scan-candidate-name').value = 'Marcus Sterling';
+      document.getElementById('scan-candidate-email').value = 'marcus.sterling.lead@gmail.com';
+      if (roleSelect) roleSelect.value = 'Full Stack Developer';
+      if (customRoleGroup) customRoleGroup.style.display = 'none';
+      document.getElementById('scan-resume-text').value = SAMPLE_STRONG_RESUME;
+      showToast('Loaded sample Full Stack Developer resume!', 'info');
+    });
+  }
+
+  const btnSampleMarketing = document.getElementById('btn-load-sample-marketing');
+  if (btnSampleMarketing) {
+    btnSampleMarketing.addEventListener('click', () => {
+      document.getElementById('scan-candidate-name').value = 'Sneha Verma';
+      document.getElementById('scan-candidate-email').value = 'sneha.verma.marketing@gmail.com';
+      if (roleSelect) roleSelect.value = 'Digital Marketing Specialist';
+      if (customRoleGroup) customRoleGroup.style.display = 'none';
+      document.getElementById('scan-resume-text').value = SAMPLE_MARKETING_RESUME;
+      showToast('Loaded sample Digital Marketing Specialist resume!', 'info');
+    });
+  }
+
+  const btnSampleMismatch = document.getElementById('btn-load-sample-reject');
+  if (btnSampleMismatch) {
+    btnSampleMismatch.addEventListener('click', () => {
+      document.getElementById('scan-candidate-name').value = 'Toby Flenderson';
+      document.getElementById('scan-candidate-email').value = 'toby.flenderson.sales@yahoo.com';
+      if (roleSelect) roleSelect.value = 'Full Stack Developer';
+      if (customRoleGroup) customRoleGroup.style.display = 'none';
+      document.getElementById('scan-resume-text').value = SAMPLE_MISMATCH_RESUME;
+      showToast('Loaded sample mismatch resume!', 'info');
+    });
+  }
+
+  // Submit scan
+  const form = document.getElementById('scanner-form');
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('btn-run-evaluation');
+      const btnText = btn?.querySelector('.btn-text');
+
+      const candidateName = document.getElementById('scan-candidate-name')?.value || '';
+      const candidateEmail = document.getElementById('scan-candidate-email')?.value || '';
+      let appliedRole = roleSelect ? roleSelect.value : 'Full Stack Developer';
+      if (appliedRole === 'Custom Role') {
+        appliedRole = document.getElementById('scan-custom-role')?.value || 'Custom Role';
+      }
+      const resumeText = document.getElementById('scan-resume-text')?.value || '';
+
+      if (!selectedFile && !resumeText.trim()) {
+        showToast('Please attach a resume document or paste resume text.', 'error');
+        return;
+      }
+
+      // Set loading state
+      if (btn) btn.disabled = true;
+      if (btnText) btnText.textContent = '✨ Gemini AI Analyzing Resume...';
+
+      const formData = new FormData();
+      formData.append('candidateName', candidateName);
+      formData.append('candidateEmail', candidateEmail);
+      formData.append('appliedRole', appliedRole);
+      formData.append('resumeText', resumeText);
+      formData.append('resumeTextInput', resumeText);
+      if (selectedFile) {
+        formData.append('resume', selectedFile);
+        formData.append('resumeFile', selectedFile);
+      }
+
+      try {
+        const res = await fetch('/api/evaluate', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await res.json();
+        if (data.success && data.candidate) {
+          showToast(`AI Evaluation Complete! Decision: ${data.candidate.decision} (${data.candidate.matchScore}%)`, 'success');
+          // Reset form
+          form.reset();
+          selectedFile = null;
+          const pill = document.getElementById('file-selected-pill');
+          if (pill) pill.style.display = 'none';
+
+          // Reload data and switch to pipeline
+          await loadCandidates();
+          await loadStats();
+          switchTab('pipeline');
+          // Open modal for this candidate
+          openCandidateModal(data.candidate);
+        } else {
+          showToast(`Scan failed: ${data.error || 'Unknown error'}`, 'error');
+        }
+      } catch (err) {
+        showToast(`Network error: ${err.message}`, 'error');
+      } finally {
+        if (btn) btn.disabled = false;
+        if (btnText) btnText.textContent = '🚀 Run AI Evaluation & Auto-Process';
+      }
+    });
+  }
+
+  // Test trigger n8n sample button
+  const btnN8n = document.getElementById('btn-trigger-n8n-sample');
+  if (btnN8n) {
+    btnN8n.addEventListener('click', async () => {
+      try {
+        showToast('Triggering n8n webhook on localhost:5678...', 'info');
+        const res = await fetch('/api/test-n8n', { method: 'POST' });
+        const data = await res.json();
+        if (data.success) {
+          showToast(`n8n Webhook executed successfully!`, 'success');
+          loadCandidates();
+          loadStats();
+        } else {
+          showToast(`n8n notice: ${data.error || data.message}`, 'info');
+        }
+      } catch (err) {
+        showToast(`Could not connect to n8n: ${err.message}`, 'error');
+      }
+    });
+  }
+}
+
+// Modal Logic
+function initModal() {
+  const modal = document.getElementById('candidate-modal');
+  const closeBtn = document.getElementById('btn-close-modal');
+
+  if (closeBtn && modal) {
+    closeBtn.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.style.display = 'none';
+    });
+  }
+
+  // Copy interview questions
+  const copyBtn = document.getElementById('btn-copy-questions');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', () => {
+      if (!selectedCandidate || !selectedCandidate.interviewQuestions) return;
+      const text = selectedCandidate.interviewQuestions.map((q, i) => `${i + 1}. ${q}`).join('\n\n');
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('Interview questions copied to clipboard!', 'success');
+      });
+    });
+  }
+
+  // Save candidate status update
+  const saveStatusBtn = document.getElementById('btn-save-candidate-status');
+  if (saveStatusBtn) {
+    saveStatusBtn.addEventListener('click', async () => {
+      if (!selectedCandidate) return;
+      const newStatus = document.getElementById('modal-update-status')?.value;
+      const slot = document.getElementById('modal-interview-slot')?.value;
+
+      try {
+        const res = await fetch(`/api/candidates/${selectedCandidate.id}/status`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            status: newStatus,
+            interviewStatus: newStatus === 'INTERVIEW_SCHEDULED' ? `Scheduled (${slot})` : formatStatus(newStatus),
+            interviewDate: slot
+          })
+        });
+        const data = await res.json();
+        if (data.success && data.candidate) {
+          selectedCandidate = data.candidate;
+          // Update candidate in local array
+          const idx = allCandidates.findIndex(c => c.id === selectedCandidate.id);
+          if (idx !== -1) allCandidates[idx] = selectedCandidate;
+
+          showToast('Candidate pipeline stage updated!', 'success');
+          const modalStatus = document.getElementById('modal-status');
+          if (modalStatus) modalStatus.textContent = newStatus;
+
+          updateMetrics(allCandidates);
+          applyFilters();
+        }
+      } catch (err) {
+        showToast(`Update error: ${err.message}`, 'error');
+      }
+    });
+  }
+
+  // Resend email
+  const resendEmailBtn = document.getElementById('btn-resend-email');
+  if (resendEmailBtn) {
+    resendEmailBtn.addEventListener('click', async () => {
+      if (!selectedCandidate) return;
+      try {
+        const res = await fetch('/api/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            candidateId: selectedCandidate.id,
+            toEmail: selectedCandidate.email,
+            subject: selectedCandidate.emailSubject,
+            body: selectedCandidate.emailBody
+          })
+        });
+        const data = await res.json();
+        if (data.success) {
+          showToast('Live email dispatched to ' + selectedCandidate.email, 'success');
+        } else {
+          showToast('Email dispatch error: ' + (data.error || 'Failed'), 'error');
+        }
+      } catch (err) {
+        showToast('Email error: ' + err.message, 'error');
+      }
+    });
+  }
+}
+
+function openCandidateModal(cand) {
+  selectedCandidate = cand;
+  const isSelected = cand.decision === 'SELECTED';
+  const initials = (cand.name || 'Candidate').split(' ').filter(Boolean).map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'CD';
+
+  const elAvatar = document.getElementById('modal-avatar');
+  if (elAvatar) elAvatar.textContent = initials;
+
+  const elName = document.getElementById('modal-name');
+  if (elName) elName.textContent = cand.name;
+
+  const elRoleMeta = document.getElementById('modal-role-meta');
+  if (elRoleMeta) elRoleMeta.textContent = `${cand.role} • ${cand.email} • ${cand.phone || 'No phone'}`;
+
+  const decisionBadge = document.getElementById('modal-decision');
+  if (decisionBadge) {
+    decisionBadge.textContent = isSelected ? '✓ SELECTED' : '✕ REJECTED';
+    decisionBadge.className = `decision-badge ${isSelected ? 'selected' : 'rejected'}`;
+  }
+
+  const statusBadge = document.getElementById('modal-status');
+  if (statusBadge) statusBadge.textContent = cand.status || 'NEW';
+
+  // Score circle
+  const scoreCircle = document.getElementById('modal-score-circle');
+  if (scoreCircle) {
+    scoreCircle.className = `score-circle ${isSelected ? 'selected' : 'rejected'}`;
+    const elScoreNum = document.getElementById('modal-score-num');
+    if (elScoreNum) elScoreNum.textContent = cand.matchScore;
+  }
+
+  const elExp = document.getElementById('modal-exp');
+  if (elExp) elExp.textContent = cand.yearsOfExperience || 'N/A';
+
+  const elEdu = document.getElementById('modal-edu');
+  if (elEdu) elEdu.textContent = cand.education || 'N/A';
+
+  const elSource = document.getElementById('modal-source');
+  if (elSource) elSource.textContent = cand.source || 'Direct Submission';
+
+  const elSummary = document.getElementById('modal-evaluation-summary');
+  if (elSummary) elSummary.textContent = cand.evaluationSummary || 'No summary available.';
+
+  // Strengths
+  const strengthsUl = document.getElementById('modal-strengths-list');
+  if (strengthsUl) {
+    strengthsUl.innerHTML = (cand.strengths || []).map(s => `<li>${escapeHtml(s)}</li>`).join('') || '<li>Standard qualifications.</li>';
+  }
+
+  // Improvements
+  const improvementsUl = document.getElementById('modal-improvements-list');
+  if (improvementsUl) {
+    improvementsUl.innerHTML = (cand.areasForImprovement || []).map(s => `<li>${escapeHtml(s)}</li>`).join('') || '<li>None noted.</li>';
+  }
+
+  // Skills
+  const skillsTags = document.getElementById('modal-skills-tags');
+  if (skillsTags) {
+    skillsTags.innerHTML = (cand.topSkills || []).map(s => `<span>${escapeHtml(s)}</span>`).join('') || '<span>General Skills</span>';
+  }
+
+  // Questions
+  const questionsOl = document.getElementById('modal-interview-questions');
+  if (questionsOl) {
+    if (cand.interviewQuestions && cand.interviewQuestions.length > 0) {
+      questionsOl.innerHTML = cand.interviewQuestions.map(q => `<li>${escapeHtml(q)}</li>`).join('');
+    } else {
+      questionsOl.innerHTML = `<li>No interview questions generated (Candidate marked as ${cand.decision}).</li>`;
+    }
+  }
+
+  // Pipeline update select
+  const updateStatusSelect = document.getElementById('modal-update-status');
+  if (updateStatusSelect) updateStatusSelect.value = cand.status || 'INTERVIEW_SCHEDULED';
+
+  const interviewSlotInput = document.getElementById('modal-interview-slot');
+  if (interviewSlotInput) interviewSlotInput.value = cand.proposedInterviewDate || '';
+
+  // Email Preview
+  const emailSubj = document.getElementById('modal-email-subject');
+  if (emailSubj) emailSubj.textContent = cand.emailSubject || 'N/A';
+
+  const emailBody = document.getElementById('modal-email-body');
+  if (emailBody) emailBody.textContent = cand.emailBody || 'No email generated.';
+
+  const modal = document.getElementById('candidate-modal');
+  if (modal) modal.style.display = 'flex';
+}
+
+// Settings Logic
+function initSettings() {
+  const slider = document.getElementById('setting-threshold');
+  const label = document.getElementById('threshold-val-label');
+  if (slider && label) {
+    slider.addEventListener('input', () => {
+      label.textContent = `${slider.value}%`;
+    });
+  }
+
+  const form = document.getElementById('settings-form');
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const hrEmail = document.getElementById('setting-hr-email')?.value || '';
+      const gmailAppPassword = document.getElementById('setting-app-password')?.value || '';
+      const geminiApiKey = document.getElementById('setting-gemini-key')?.value || '';
+      const selectionScoreThreshold = slider ? slider.value : 70;
+      const autoSendEmails = document.getElementById('setting-auto-email')?.checked || false;
+      const companyName = document.getElementById('setting-company-name')?.value || '';
+
+      try {
+        const res = await fetch('/api/settings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            hrEmail,
+            gmailAppPassword,
+            geminiApiKey,
+            selectionScoreThreshold,
+            autoSendEmails,
+            companyName
+          })
+        });
+        const data = await res.json();
+        if (data.success) {
+          showToast('Settings & Credentials saved successfully!', 'success');
+          const headerEmail = document.getElementById('header-email-label');
+          if (headerEmail) headerEmail.textContent = hrEmail;
+          const bannerEmail = document.getElementById('banner-inbox-email');
+          if (bannerEmail) bannerEmail.textContent = hrEmail;
+        }
+      } catch (err) {
+        showToast('Failed to save settings: ' + err.message, 'error');
+      }
+    });
+  }
+
+  const openN8nBtn = document.getElementById('btn-open-n8n-editor');
+  if (openN8nBtn) {
+    openN8nBtn.addEventListener('click', () => {
+      window.open('http://localhost:5678', '_blank');
+    });
+  }
+}
+
+async function loadSettings() {
+  try {
+    const res = await fetch('/api/settings');
+    const data = await res.json();
+    if (data.success && data.config) {
+      currentSettings = data.config;
+      const hrEmailInput = document.getElementById('setting-hr-email');
+      if (hrEmailInput) hrEmailInput.value = currentSettings.hrEmail || '';
+
+      const headerEmail = document.getElementById('header-email-label');
+      if (headerEmail) headerEmail.textContent = currentSettings.hrEmail || 'manasvipaliwal317@gmail.com';
+
+      const bannerEmail = document.getElementById('banner-inbox-email');
+      if (bannerEmail) bannerEmail.textContent = currentSettings.hrEmail || 'manasvipaliwal317@gmail.com';
+
+      const slider = document.getElementById('setting-threshold');
+      if (slider) slider.value = currentSettings.selectionScoreThreshold || 70;
+
+      const label = document.getElementById('threshold-val-label');
+      if (label) label.textContent = `${currentSettings.selectionScoreThreshold || 70}%`;
+
+      const autoEmailCheck = document.getElementById('setting-auto-email');
+      if (autoEmailCheck) autoEmailCheck.checked = !!currentSettings.autoSendEmails;
+
+      const companyInput = document.getElementById('setting-company-name');
+      if (companyInput) companyInput.value = currentSettings.companyName || '';
+    }
+  } catch (err) {
+    console.error('Failed to load settings:', err);
+  }
+}
+
+// Helpers
+function formatStatus(status) {
+  if (!status) return 'New';
+  return status.replace(/_/g, ' ');
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}

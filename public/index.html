@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus HR — AI Resume Automation & Pipeline Dashboard</title>
+  <meta name="description" content="End-to-end intelligent recruitment automation powered by n8n, Google Gemini 3.6 Flash, and Gmail.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+  <!-- App Container -->
+  <div class="app-layout">
+    
+    <!-- Top Header -->
+    <header class="app-header">
+      <div class="header-left">
+        <div class="brand-logo">
+          <div class="logo-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </div>
+          <div class="logo-text">
+            <h1>Nexus<span>HR</span></h1>
+            <span class="badge-tag">Gemini 3.6 Flash + n8n</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-center">
+        <div class="live-status-bar">
+          <div class="status-indicator online" id="n8n-status-pill" title="n8n Workflow Running on Port 5678">
+            <span class="pulse-dot"></span>
+            <span class="status-label">n8n Engine: <strong>Active (5678)</strong></span>
+          </div>
+          <div class="status-indicator online" id="gemini-status-pill" title="Google Gemini 3.6 Flash Connected">
+            <span class="sparkle-icon">✨</span>
+            <span class="status-label">Gemini AI: <strong>Ready</strong></span>
+          </div>
+          <div class="status-indicator email-pill" id="email-status-pill" title="Target Inbox: manasvipaliwal317@gmail.com">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect width="20" height="16" x="2" y="4" rx="2"/>
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+            </svg>
+            <span class="status-label" id="header-email-label">manasvipaliwal317@gmail.com</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <button class="btn-secondary" id="btn-sync-refresh" title="Refresh Candidates & Metrics">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+            <path d="M3 3v5h5"/>
+            <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/>
+            <path d="M16 21h5v-5"/>
+          </svg>
+          Sync
+        </button>
+        <button class="btn-primary" id="btn-open-scanner">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          Scan New Resume
+        </button>
+      </div>
+    </header>
+
+    <!-- Real-Time Automated INBOX Scanner Status Banner -->
+    <div class="live-inbox-scanner-banner" id="live-scanner-banner">
+      <div class="scanner-banner-left">
+        <div class="pulse-radar-dot"></div>
+        <div class="scanner-banner-text">
+          <strong>Continuous AI Scanner:</strong> Auto-watching <code id="banner-inbox-email">manasvipaliwal317@gmail.com</code> (INBOX) • <span>Strict Mode: Resumes (.pdf / .docx / .doc) Only</span>
+        </div>
+      </div>
+      <div class="scanner-banner-right">
+        <span class="last-sync-badge" id="scanner-last-sync">⚡ Active (Every 5s)</span>
+        <button class="btn-scan-now" id="btn-force-scan" title="Trigger Instant Mail Check">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          Scan Mail Now
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Navigation Bar -->
+    <nav class="nav-tabs-bar">
+      <div class="tabs-list">
+        <button class="tab-btn active" data-tab="pipeline">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Candidate Pipeline
+        </button>
+        <button class="tab-btn" data-tab="scanner">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          AI Resume Lab
+        </button>
+        <button class="tab-btn" data-tab="emails">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          Email Logs & Dispatches
+        </button>
+        <button class="tab-btn" data-tab="analytics">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+          Talent Analytics
+        </button>
+        <button class="tab-btn" data-tab="settings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+          Settings & Credentials
+        </button>
+      </div>
+      <div class="theme-switch-wrapper">
+        <button id="btn-theme-toggle" class="btn-icon" title="Toggle Theme">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+
+      <!-- Metrics KPI Bar (Always Visible) -->
+      <section class="kpi-grid">
+        <div class="kpi-card total-card">
+          <div class="kpi-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          </div>
+          <div class="kpi-details">
+            <span class="kpi-title">Total Applications</span>
+            <div class="kpi-value-row">
+              <span class="kpi-number" id="metric-total">0</span>
+              <span class="kpi-trend neutral">All Time</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="kpi-card selected-card">
+          <div class="kpi-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+          </div>
+          <div class="kpi-details">
+            <span class="kpi-title">Selected / Shortlisted</span>
+            <div class="kpi-value-row">
+              <span class="kpi-number" id="metric-selected">0</span>
+              <span class="kpi-trend positive" id="metric-selection-rate">0% Rate</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="kpi-card score-card">
+          <div class="kpi-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          </div>
+          <div class="kpi-details">
+            <span class="kpi-title">Average AI Match Score</span>
+            <div class="kpi-value-row">
+              <span class="kpi-number" id="metric-avg-score">0</span>
+              <span class="kpi-score-badge">/ 100</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="kpi-card interview-card">
+          <div class="kpi-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          </div>
+          <div class="kpi-details">
+            <span class="kpi-title">Interviews Scheduled</span>
+            <div class="kpi-value-row">
+              <span class="kpi-number" id="metric-interviews">0</span>
+              <span class="kpi-trend highlight">Auto Dispatched</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="kpi-card rejected-card">
+          <div class="kpi-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+          </div>
+          <div class="kpi-details">
+            <span class="kpi-title">Rejected Candidates</span>
+            <div class="kpi-value-row">
+              <span class="kpi-number" id="metric-rejected">0</span>
+              <span class="kpi-trend negative">Constructive Email Sent</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 1: CANDIDATE PIPELINE -->
+      <section id="tab-pipeline" class="tab-pane active">
+        <div class="controls-card">
+          <div class="search-input-wrapper">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input type="text" id="pipeline-search" placeholder="Search candidate by name, email, skills, or role...">
+          </div>
+
+          <div class="filter-group">
+            <label>Decision:</label>
+            <select id="filter-decision" class="select-styled">
+              <option value="ALL">All Decisions</option>
+              <option value="SELECTED">Selected (Score ≥ 70)</option>
+              <option value="REJECTED">Rejected (Score &lt; 70)</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label>Pipeline Stage:</label>
+            <select id="filter-status" class="select-styled">
+              <option value="ALL">All Stages</option>
+              <option value="INTERVIEW_SCHEDULED">Interview Scheduled</option>
+              <option value="SHORTLISTED">Shortlisted</option>
+              <option value="OFFER_EXTENDED">Offer Extended</option>
+              <option value="REJECTED">Rejected</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label>Target Role:</label>
+            <select id="filter-role" class="select-styled">
+              <option value="ALL">All Roles</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Candidate Cards & Table View -->
+        <div class="pipeline-container">
+          <div class="pipeline-header-row">
+            <div class="results-count">
+              Showing <strong id="candidate-count-display">0</strong> Candidates
+            </div>
+            <div class="view-toggles">
+              <button class="view-btn active" id="btn-view-cards" title="Grid View">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              </button>
+              <button class="view-btn" id="btn-view-table" title="Table View">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Cards Grid -->
+          <div class="candidate-grid" id="candidate-grid-container">
+            <!-- Dynamic Candidate Cards Populated by JS -->
+          </div>
+
+          <!-- Table View (Hidden by default) -->
+          <div class="candidate-table-wrapper" id="candidate-table-container" style="display:none;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Candidate</th>
+                  <th>Target Role</th>
+                  <th>Decision</th>
+                  <th>AI Score</th>
+                  <th>Interview Status</th>
+                  <th>Top Skills</th>
+                  <th>Applied On</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="candidate-table-body">
+                <!-- Rows Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: AI RESUME LAB / SCANNER -->
+      <section id="tab-scanner" class="tab-pane">
+        <div class="scanner-layout">
+          <div class="scanner-card">
+            <div class="scanner-card-header">
+              <h2>✨ Gemini 3.6 Flash Resume Scanner</h2>
+              <p>Upload a candidate resume (PDF or DOCX) or paste raw text. The AI will parse experience, calculate match score, formulate customized interview questions, and prepare automated emails.</p>
+            </div>
+
+            <form id="scanner-form" class="scanner-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="scan-candidate-name">Candidate Name (Optional)</label>
+                  <input type="text" id="scan-candidate-name" placeholder="e.g. Alex Morgan (extracted automatically if left blank)">
+                </div>
+                <div class="form-group">
+                  <label for="scan-candidate-email">Candidate Email *</label>
+                  <input type="email" id="scan-candidate-email" placeholder="e.g. alex.morgan@gmail.com" required>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="scan-applied-role">Target Job Role * (Active Openings)</label>
+                  <select id="scan-applied-role" class="select-styled">
+                    <option value="Full Stack Developer">Full Stack Developer</option>
+                    <option value="Digital Marketing Specialist">Digital Marketing Specialist</option>
+                    <option value="Custom Role">Other / Custom Role...</option>
+                  </select>
+                </div>
+                <div class="form-group" id="custom-role-group" style="display:none;">
+                  <label for="scan-custom-role">Enter Custom Role Title</label>
+                  <input type="text" id="scan-custom-role" placeholder="e.g. Data Engineer">
+                </div>
+              </div>
+
+              <div class="dropzone-area" id="resume-dropzone">
+                <input type="file" id="resume-file-input" accept=".pdf,.docx,.doc,.txt" style="display:none;">
+                <div class="dropzone-icon">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                  </svg>
+                </div>
+                <h3 id="dropzone-title">Drag & drop candidate resume here</h3>
+                <p id="dropzone-subtitle">Supports PDF, DOCX, DOC files (up to 10MB) or <span class="text-link">browse files</span></p>
+                <div class="file-selected-pill" id="file-selected-pill" style="display:none;">
+                  <span id="selected-file-name">filename.pdf</span>
+                  <button type="button" id="btn-remove-file">&times;</button>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="scan-resume-text">Or Paste Resume / Cover Letter Text</label>
+                <textarea id="scan-resume-text" rows="5" placeholder="Paste candidate resume text, skills, experience, or raw application email body here..."></textarea>
+              </div>
+
+              <div class="scanner-actions">
+                <button type="button" class="btn-secondary" id="btn-load-sample-resume">
+                  💻 Sample Full Stack Resume
+                </button>
+                <button type="button" class="btn-secondary" id="btn-load-sample-marketing">
+                  📈 Sample Digital Marketing Resume
+                </button>
+                <button type="button" class="btn-secondary" id="btn-load-sample-reject">
+                  ⚠️ Sample Mismatch Resume
+                </button>
+                <button type="submit" class="btn-primary-large" id="btn-run-evaluation">
+                  <span class="btn-text">🚀 Run AI Evaluation & Auto-Process</span>
+                  <span class="btn-spinner" style="display:none;"></span>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Quick Tips Panel -->
+          <div class="scanner-sidebar">
+            <div class="info-card">
+              <h3>🎯 How Gemini Evaluates</h3>
+              <ul class="feature-checklist">
+                <li><strong>Score ≥ 70%:</strong> Auto-classified as <strong>SELECTED</strong>. Generates 4-5 tailored technical questions + interview scheduling email.</li>
+                <li><strong>Score &lt; 70%:</strong> Auto-classified as <strong>REJECTED</strong>. Generates constructive feedback and polite rejection email.</li>
+                <li><strong>Full Sync:</strong> Result is automatically saved to the database and dispatches email directly via Gmail SMTP.</li>
+              </ul>
+            </div>
+
+            <div class="info-card webhook-card">
+              <h3>⚡ Direct n8n Integration</h3>
+              <p>You can also send resumes directly to your local n8n webhook:</p>
+              <div class="code-box">
+                <code>POST http://localhost:5678/webhook/hr-resume-submit</code>
+              </div>
+              <button class="btn-secondary btn-full" id="btn-trigger-n8n-sample">
+                Test Trigger via n8n Webhook
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: EMAIL LOGS -->
+      <section id="tab-emails" class="tab-pane">
+        <div class="email-logs-header">
+          <div>
+            <h2>📧 Candidate Email Dispatch Records</h2>
+            <p>Full audit trail of automated interview invitations, scheduling details, and rejection emails sent from <strong>manasvipaliwal317@gmail.com</strong>.</p>
+          </div>
+        </div>
+
+        <div class="email-logs-list" id="email-logs-container">
+          <!-- Dynamic Email Logs -->
+        </div>
+      </section>
+
+      <!-- TAB 4: TALENT ANALYTICS -->
+      <section id="tab-analytics" class="tab-pane">
+        <div class="analytics-grid">
+          <div class="analytics-card">
+            <h3>📊 Pipeline Funnel Distribution</h3>
+            <div class="funnel-display" id="funnel-container">
+              <!-- Visual Funnel Bars -->
+            </div>
+          </div>
+
+          <div class="analytics-card">
+            <h3>🔥 Top Candidate Skills Discovered</h3>
+            <div class="skills-cloud" id="skills-cloud-container">
+              <!-- Dynamic Skill Badges -->
+            </div>
+          </div>
+
+          <div class="analytics-card full-width">
+            <h3>🎯 Applications by Job Role</h3>
+            <div class="roles-breakdown-list" id="roles-breakdown-container">
+              <!-- Role Breakdown -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 5: SETTINGS -->
+      <section id="tab-settings" class="tab-pane">
+        <div class="settings-layout">
+          <div class="settings-card">
+            <h2>⚙️ System Configuration & Credentials</h2>
+            <p>Manage your Gmail mailbox settings, Gemini API keys, and selection score thresholds.</p>
+
+            <form id="settings-form" class="settings-form">
+              <div class="form-group">
+                <label>Recruiter Mailbox Address</label>
+                <input type="email" id="setting-hr-email" value="manasvipaliwal317@gmail.com" required>
+                <small>The Gmail address where candidates send their resumes.</small>
+              </div>
+
+              <div class="form-group app-password-box">
+                <div class="label-row">
+                  <label for="setting-app-password">Google App Password (16-character code)</label>
+                  <a href="https://myaccount.google.com/apppasswords" target="_blank" class="app-pw-link">
+                    🔗 Generate App Password on Google ↗
+                  </a>
+                </div>
+                <input type="password" id="setting-app-password" placeholder="e.g. abcd efgh ijkl mnop">
+                <div class="app-pw-guide">
+                  <strong>How to get your App Password in 30 seconds:</strong>
+                  <ol>
+                    <li>Click the link above to open <a href="https://myaccount.google.com/apppasswords" target="_blank">Google App Passwords</a>.</li>
+                    <li>Sign in with <code>manasvipaliwal317@gmail.com</code> (Ensure 2-Step Verification is ON).</li>
+                    <li>Enter App Name (e.g. <em>n8n HR Automation</em>) and click <strong>Create</strong>.</li>
+                    <li>Copy the 16-character code and paste it above.</li>
+                  </ol>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Google Gemini API Key</label>
+                <input type="password" id="setting-gemini-key" placeholder="YOUR_GEMINI_API_KEY">
+                <small>Using high-speed <strong>Gemini 3.6 Flash</strong> engine.</small>
+              </div>
+
+              <div class="form-group">
+                <label>Selection Score Threshold: <strong id="threshold-val-label">70%</strong></label>
+                <input type="range" id="setting-threshold" min="50" max="90" value="70" class="slider">
+                <small>Candidates scoring at or above this score are marked <strong>SELECTED</strong> and receive interview invitations.</small>
+              </div>
+
+              <div class="form-group checkbox-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="setting-auto-email" checked>
+                  <span>Automatically send candidate selection & rejection emails immediately upon scan</span>
+                </label>
+              </div>
+
+              <div class="form-group">
+                <label>Company / Organization Name</label>
+                <input type="text" id="setting-company-name" value="Tech Innovations Inc.">
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="btn-primary" id="btn-save-settings">Save Settings</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="settings-sidebar">
+            <div class="info-card">
+              <h3>⚡ n8n Workflow Status</h3>
+              <p>The HR automation workflow is imported in your local n8n instance:</p>
+              <div class="key-value-list">
+                <div class="kv-item"><span>Status:</span> <span class="badge-status-active">Imported & Ready</span></div>
+                <div class="kv-item"><span>Workflow ID:</span> <code>hr-recruitment-pipeline-01</code></div>
+                <div class="kv-item"><span>n8n Editor:</span> <a href="http://localhost:5678" target="_blank">http://localhost:5678 ↗</a></div>
+              </div>
+              <button class="btn-secondary btn-full" id="btn-open-n8n-editor">
+                Open n8n Workflow Editor
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- CANDIDATE DETAIL MODAL -->
+    <div class="modal-overlay" id="candidate-modal" style="display:none;">
+      <div class="modal-card">
+        <div class="modal-header">
+          <div class="modal-header-left">
+            <div class="candidate-avatar-large" id="modal-avatar">SJ</div>
+            <div>
+              <div class="modal-name-row">
+                <h2 id="modal-name">Sarah Jenkins</h2>
+                <span class="decision-badge" id="modal-decision">SELECTED</span>
+                <span class="status-badge" id="modal-status">INTERVIEW_SCHEDULED</span>
+              </div>
+              <p class="modal-subtext" id="modal-role-meta">Senior Full Stack Engineer &bull; sarah.jenkins.dev@gmail.com</p>
+            </div>
+          </div>
+          <button class="btn-close-modal" id="btn-close-modal">&times;</button>
+        </div>
+
+        <div class="modal-body">
+          <div class="modal-grid">
+            <!-- Left Column: AI Evaluation -->
+            <div class="modal-col">
+              <div class="score-breakdown-card">
+                <div class="score-radial-wrap">
+                  <div class="score-circle" id="modal-score-circle">
+                    <span class="score-num" id="modal-score-num">94</span>
+                    <span class="score-lbl">MATCH</span>
+                  </div>
+                </div>
+                <div class="score-details-list">
+                  <div class="score-meta-item"><span>Experience:</span> <strong id="modal-exp">5+ Years</strong></div>
+                  <div class="score-meta-item"><span>Education:</span> <strong id="modal-edu">B.S. in Software Engineering</strong></div>
+                  <div class="score-meta-item"><span>Application Source:</span> <span id="modal-source">Gmail Attachment</span></div>
+                </div>
+              </div>
+
+              <div class="detail-section">
+                <h3>🤖 Recruiter AI Evaluation</h3>
+                <p class="evaluation-text" id="modal-evaluation-summary">...</p>
+              </div>
+
+              <div class="detail-section">
+                <h3>🌟 Key Candidate Strengths</h3>
+                <ul class="bullet-list positive-list" id="modal-strengths-list"></ul>
+              </div>
+
+              <div class="detail-section">
+                <h3>🔍 Areas for Growth / Notes</h3>
+                <ul class="bullet-list warning-list" id="modal-improvements-list"></ul>
+              </div>
+
+              <div class="detail-section">
+                <h3>🛠️ Extracted Top Skills</h3>
+                <div class="skills-tags" id="modal-skills-tags"></div>
+              </div>
+            </div>
+
+            <!-- Right Column: Interview & Communication -->
+            <div class="modal-col">
+              <div class="interview-questions-card">
+                <div class="card-title-row">
+                  <h3>🎯 Tailored Interview Questions (Generated by AI)</h3>
+                  <button class="btn-icon-text" id="btn-copy-questions" title="Copy all interview questions">
+                    📋 Copy Questions
+                  </button>
+                </div>
+                <ol class="questions-list" id="modal-interview-questions"></ol>
+              </div>
+
+              <div class="pipeline-action-card">
+                <h3>⚡ Candidate Management</h3>
+                <div class="form-group">
+                  <label>Update Pipeline Status</label>
+                  <select id="modal-update-status" class="select-styled">
+                    <option value="SHORTLISTED">Shortlisted</option>
+                    <option value="INTERVIEW_SCHEDULED">Interview Scheduled</option>
+                    <option value="INTERVIEW_COMPLETED">Interview Completed</option>
+                    <option value="OFFER_EXTENDED">Offer Extended</option>
+                    <option value="HIRED">Hired</option>
+                    <option value="REJECTED">Rejected</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label>Proposed Interview Slot / Notes</label>
+                  <input type="text" id="modal-interview-slot" placeholder="e.g. Tuesday at 2:00 PM EST">
+                </div>
+
+                <button class="btn-primary btn-full" id="btn-save-candidate-status">
+                  Save Pipeline Status
+                </button>
+              </div>
+
+              <div class="email-preview-card">
+                <div class="card-title-row">
+                  <h3>✉️ Email Sent to Candidate</h3>
+                  <button class="btn-icon-text" id="btn-resend-email">
+                    🔄 Resend Email
+                  </button>
+                </div>
+                <div class="email-preview-box">
+                  <div class="email-preview-header">
+                    <strong>Subject:</strong> <span id="modal-email-subject">...</span>
+                  </div>
+                  <div class="email-preview-body" id="modal-email-body">...</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

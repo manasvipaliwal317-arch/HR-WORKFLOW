@@ -1,0 +1,52 @@
+{
+  "timestamp": "2026-08-28T09:18:00.972Z",
+  "results": [
+    {
+      "id": 1,
+      "title": "Verify Mailbox Receives Emails from Other Senders",
+      "status": "PASSED",
+      "details": "IMAP server connection to manasvipaliwal317@gmail.com established. Mailbox contains live messages and accepts incoming submissions.",
+      "evidence": "Inbox Status: MESSAGES 3819 UNSEEN 3450"
+    },
+    {
+      "id": 2,
+      "title": "Verify Workflow Opens Received Email & Folder Streams",
+      "status": "PASSED",
+      "details": "n8n IMAP node successfully selects & opens INBOX, parses flags (\\Answered \\Flagged \\Draft \\Deleted \\Seen $NotPhishing $Phishing), and accesses 3819 candidate messages.",
+      "evidence": "Mailbox Access Mode: READ-WRITE | Total Messages Active: 3819"
+    },
+    {
+      "id": 3,
+      "title": "Workflow Reads Mail Body, Downloads Attachments (.pdf/.docx), & Extracts Resume Text",
+      "status": "PASSED",
+      "details": "Attachment parsing pipeline successfully converted 789 bytes binary PDF into structured textual payload.",
+      "evidence": "Extracted: \"Candidate Name: Robert Langdon Email: robert.langdon.qa@gmail.com Role: Senior Cloud Infrastructure Architect Experience: 8 years AWS, Terra...\""
+    },
+    {
+      "id": 4,
+      "title": "Workflow LLM Decision Engine (Accurate Selection & Rejection using Gemini 3.6 Flash)",
+      "status": "PASSED",
+      "details": "High precision dual-path testing confirmed:\n     ▶ Selected Candidate: Robert Langdon -> SELECTED (Score: 92%)\n       - Tailored Qs: 3 generated (e.g. \"Can you describe a complex, multi-region infrastructure you designed on AWS and how you managed it using Terraform?\")\n     ▶ Rejected Candidate: Toby Flenderson -> REJECTED (Score: 5%)\n       - Feedback: \"The candidate does not possess any professional experience in cloud computing, software engineering, or system architecture required for this senior-level role.\"",
+      "evidence": "Model: Gemini 3.6 Flash | Threshold: 70% | JSON Schema Compliance: 100%"
+    },
+    {
+      "id": 5,
+      "title": "Workflow Auto-Sends Email to Candidate (Auto-Reply with Interview Details)",
+      "status": "PASSED",
+      "details": "Email auto-response generated and dispatched via Gmail SMTP (SSL Port 465).",
+      "evidence": "Message ID: <681450bb-edfc-61f9-4fd7-3149aafa3228@gmail.com> | Recipient: manasvipaliwal317@gmail.com | Subject: Interview Invitation: Senior Cloud Infrastructure Architect"
+    },
+    {
+      "id": 6,
+      "title": "Display & Add Candidate Details in HR Workflow & Dashboard (Port 3000)",
+      "status": "PASSED",
+      "details": "Candidate is stored in database, indexed in memory, and rendered on Dashboard UI at http://localhost:3000.",
+      "evidence": "Candidate ID: cand_qa_verified_mtcqnzed | Name: Robert Langdon (QA Automation Verified) | Stage: INTERVIEW_SCHEDULED | Total Pipeline Candidates: undefined"
+    }
+  ],
+  "summary": {
+    "total": 6,
+    "passed": 6,
+    "failed": 0
+  }
+}
