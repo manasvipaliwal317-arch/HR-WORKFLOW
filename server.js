@@ -23,6 +23,7 @@ const PORT = process.env.PORT || 3000;
 const DB_FILE = path.join(__dirname, 'candidates_db.json');
 const CONFIG_FILE = path.join(__dirname, 'config.json');
 const PROCESSED_UIDS_FILE = path.join(__dirname, 'processed_email_uids.json');
+const JOB_ROLES_FILE = path.join(__dirname, 'job_roles.json');
 
 // Ensure directories exist
 const UPLOAD_DIR = path.join(__dirname, 'uploads');
@@ -76,6 +77,121 @@ if (process.env.COMPANY_NAME) appConfig.companyName = process.env.COMPANY_NAME.t
 
 function saveConfig() {
   fs.writeFileSync(CONFIG_FILE, JSON.stringify(appConfig, null, 2), 'utf8');
+}
+
+// ----------------- DYNAMIC JOB OPENINGS & ROLES MANAGER ----------------- //
+const DEFAULT_JOB_ROLES = [
+  {
+    id: "role_fullstack",
+    title: "Full Stack Developer",
+    department: "Engineering",
+    isActive: true,
+    requiredSkills: ["React", "Node.js", "Express", "PostgreSQL", "REST APIs", "TypeScript", "Git", "System Architecture"],
+    minExperience: "2+ Years",
+    description: "Designing and developing full-stack web applications, RESTful APIs, responsive frontends, and database architectures."
+  },
+  {
+    id: "role_marketing",
+    title: "Digital Marketing Specialist",
+    department: "Growth & Marketing",
+    isActive: true,
+    requiredSkills: ["SEO", "SEM", "Google Ads", "Meta Ads Manager", "GA4", "Content Strategy", "Conversion Funnels", "Campaign Optimization"],
+    minExperience: "1+ Years",
+    description: "Managing paid acquisition campaigns, search engine optimization (SEO), performance marketing funnels, and growth analytics."
+  },
+  {
+    id: "role_frontend",
+    title: "Frontend React Developer",
+    department: "Engineering",
+    isActive: false,
+    requiredSkills: ["React", "JavaScript (ES6+)", "HTML5/CSS3", "Tailwind CSS", "Next.js", "State Management", "Responsive UI"],
+    minExperience: "2+ Years",
+    description: "Crafting intuitive, pixel-perfect, responsive user interfaces and modern web applications using React."
+  },
+  {
+    id: "role_ai_ml",
+    title: "AI / ML Engineer",
+    department: "AI Research",
+    isActive: false,
+    requiredSkills: ["Python", "TensorFlow", "PyTorch", "LLMs", "RAG Pipelines", "Prompt Engineering", "Embeddings", "FastAPI"],
+    minExperience: "2+ Years",
+    description: "Designing and deploying machine learning models, LLM-powered applications, retrieval-augmented generation (RAG), and AI workflows."
+  },
+  {
+    id: "role_ui_ux",
+    title: "UI/UX Product Designer",
+    department: "Product & Design",
+    isActive: false,
+    requiredSkills: ["Figma", "Design Systems", "User Research", "Wireframing", "Interactive Prototyping", "Usability Testing"],
+    minExperience: "1+ Years",
+    description: "Creating user-centric product designs, intuitive workflows, design system components, and interactive prototypes."
+  },
+  {
+    id: "role_backend",
+    title: "Backend Systems Engineer",
+    department: "Engineering",
+    isActive: false,
+    requiredSkills: ["Node.js", "Go", "Python", "PostgreSQL", "Redis", "Microservices", "Docker", "Kafka / RabbitMQ"],
+    minExperience: "3+ Years",
+    description: "Architecting resilient, high-throughput backend services, distributed systems, caching layers, and database schemas."
+  }
+];
+
+function getJobRoles() {
+  try {
+    if (!fs.existsSync(JOB_ROLES_FILE)) {
+      fs.writeFileSync(JOB_ROLES_FILE, JSON.stringify(DEFAULT_JOB_ROLES, null, 2), 'utf8');
+      return DEFAULT_JOB_ROLES;
+    }
+    return JSON.parse(fs.readFileSync(JOB_ROLES_FILE, 'utf8'));
+  } catch (e) {
+    console.error("Job roles read error:", e);
+    return DEFAULT_JOB_ROLES;
+  }
+}
+
+function saveJobRoles(roles) {
+  fs.writeFileSync(JOB_ROLES_FILE, JSON.stringify(roles, null, 2), 'utf8');
+}
+
+function getActiveJobRoles() {
+  const roles = getJobRoles();
+  const active = roles.filter(r => r.isActive);
+  return active.length > 0 ? active : roles; // Fallback to all if none explicitly active
+}
+
+function buildRolePromptInstructions() {
+  const activeRoles = getActiveJobRoles();
+  const roleNames = activeRoles.map(r => `"${r.title}"`).join(', ');
+  
+  let instructions = `🎯 COMPANY HIRING POLICY & CURRENT ACTIVE OPENINGS:\n`;
+  instructions += `Our company currently has hiring openings ONLY for the following ${activeRoles.length} active role(s):\n`;
+  activeRoles.forEach((r, idx) => {
+    instructions += `${idx + 1}. "${r.title}" (${r.department || 'General'})\n`;
+    if (r.requiredSkills && r.requiredSkills.length > 0) {
+      instructions += `   - Key Required Skills: ${r.requiredSkills.join(', ')}\n`;
+    }
+    if (r.minExperience) {
+      instructions += `   - Minimum Experience: ${r.minExperience}\n`;
+    }
+    if (r.description) {
+      instructions += `   - Role Scope: ${r.description}\n`;
+    }
+  });
+
+  instructions += `\nRole & Evaluation Rules:\n`;
+  instructions += `1. Evaluate the candidate SOLELY against the ${activeRoles.length} active opening(s) listed above: ${roleNames}.\n`;
+  instructions += `2. Best Match Determination:\n`;
+  instructions += `   - Map the applicant's experience, skills, and background to the most relevant OPEN role among: ${roleNames}.\n`;
+  instructions += `   - Set "appliedRole" to that exact matched active role.\n`;
+  instructions += `   - If the candidate's skills or targeted position do NOT match any of our active opening(s) (${roleNames}), set decision to 'REJECTED' with an explanation that hiring is currently open only for: ${roleNames}.\n`;
+  instructions += `3. Score Calculation:\n`;
+  instructions += `   - If matchScore >= ${appConfig.selectionScoreThreshold}, decision = 'SELECTED'.\n`;
+  instructions += `   - If matchScore < ${appConfig.selectionScoreThreshold}, decision = 'REJECTED'.\n`;
+  instructions += `4. If SELECTED: generate 4-5 domain interview questions tailored to the matched active role and proposed interview schedule.\n`;
+  instructions += `5. If REJECTED: generate constructive feedback referencing our current openings: ${roleNames}.\n`;
+
+  return { instructions, activeRoles, roleNames };
 }
 
 // Helper: read candidates
@@ -140,34 +256,22 @@ async function extractTextFromDoc(filePath, originalName) {
 
 // Multi-Model Gemini Evaluator with Automatic Retry & Failover
 async function callGeminiEvaluation({ candidateName, candidateEmail, appliedRole, resumeText, emailBody, fileName }) {
+  const { instructions: roleInstructions, activeRoles, roleNames } = buildRolePromptInstructions();
+
   const systemInstruction = `
 You are an expert Senior Technical Recruiter & Hiring Director for ${appConfig.hrEmail} at ${appConfig.companyName}.
 Carefully analyze the candidate's resume content, skills, experience, and application details.
 
-🎯 COMPANY HIRING POLICY (STRICT):
-Our company currently has openings ONLY for the following TWO roles:
-1. "Full Stack Developer"
-2. "Digital Marketing Specialist"
+${roleInstructions}
 
-Role & Evaluation Instructions:
-1. Role Identification & Mapping:
-   - Determine which of the two active roles the candidate is applying for or best qualified for: "Full Stack Developer" or "Digital Marketing Specialist".
-   - If the applicant is targeting or applying for an unrelated position (or has non-transferable experience outside tech/marketing), evaluate whether they have transferable skills for either role. If not, set decision to 'REJECTED' with an explanation that openings are currently limited to Full Stack Developer and Digital Marketing Specialist.
-2. Extract actual candidate name, contact email, phone (prioritize details found inside the resume text).
-3. Role-Specific Evaluation Standards:
-   - For "Full Stack Developer": Evaluate proficiency in Frontend (React/Vue/Angular, HTML/CSS, JavaScript/TypeScript), Backend (Node.js, Python, Java, APIs), Database management (SQL/NoSQL), Git, system architecture, and modern web development practices.
-   - For "Digital Marketing Specialist": Evaluate expertise in SEO/SEM, Paid Advertising (Google Ads, Meta Ads), Social Media Marketing, Content Strategy, Web Analytics/GA4, Lead Generation, ROI optimization, and Campaign Management.
-   - If matchScore >= ${appConfig.selectionScoreThreshold}, decision = 'SELECTED'.
-   - If matchScore < ${appConfig.selectionScoreThreshold}, decision = 'REJECTED'.
-4. For SELECTED: generate 4-5 tailored domain interview questions & an interview invitation email with proposed schedule slots for the matched role.
-5. For REJECTED: generate constructive growth recommendations & a respectful rejection email referencing our current openings for Full Stack Developer and Digital Marketing Specialist.
+Candidate Target / Preferred Hint: "${appliedRole || 'Auto-Detect Best Active Open Role'}"
 
 RETURN STRICT JSON ONLY (no markdown formatting, no code fences):
 {
   "candidateName": "Extracted Full Name",
   "candidateEmail": "${candidateEmail || 'Extracted Email'}",
   "candidatePhone": "Extracted Phone or N/A",
-  "appliedRole": "${appliedRole || 'Target Role'}",
+  "appliedRole": "Exact matched active role from [${roleNames}]",
   "decision": "SELECTED" or "REJECTED",
   "matchScore": number (0 to 100),
   "yearsOfExperience": "Years of experience (e.g. '3 years' or 'Fresher')",
@@ -178,7 +282,7 @@ RETURN STRICT JSON ONLY (no markdown formatting, no code fences):
   "evaluationSummary": "Comprehensive 2-3 paragraph professional recruiter assessment",
   "rejectionReason": "Specific constructive reason if REJECTED, otherwise null",
   "interviewQuestions": ["Question 1", "Question 2", "Question 3", "Question 4"],
-  "proposedInterviewDate": "Suggested date (e.g. 'Next Wednesday at 2:00 PM EST')",
+  "proposedInterviewDate": "Suggested upcoming date",
   "emailSubject": "Personalized subject line for candidate",
   "emailBody": "Personalized, warm and professional email message text (invitation if SELECTED, polite rejection if REJECTED)"
 }
@@ -656,29 +760,24 @@ async function processCandidateEmailRecord(parsed, uid) {
     }
   }
 
-  // Infer Target Role (Strictly Full Stack Developer or Digital Marketing Specialist)
-  let appliedRole = 'Full Stack Developer';
+  // Dynamically Infer Target Role from currently active openings
+  const activeRoles = getActiveJobRoles();
+  let appliedRole = activeRoles[0] ? activeRoles[0].title : 'Full Stack Developer';
   const combined = (subject + ' ' + textBody + ' ' + resumeText).toLowerCase();
-  if (
-    combined.includes('digital marketing') ||
-    combined.includes('marketing') ||
-    combined.includes('seo') ||
-    combined.includes('sem') ||
-    combined.includes('social media') ||
-    combined.includes('content strategist') ||
-    combined.includes('growth marketing') ||
-    combined.includes('google ads') ||
-    combined.includes('meta ads') ||
-    combined.includes('campaign') ||
-    combined.includes('copywriting') ||
-    combined.includes('performance marketing')
-  ) {
-    appliedRole = 'Digital Marketing Specialist';
-  } else {
-    appliedRole = 'Full Stack Developer';
+  let highestMatchCount = -1;
+
+  for (const r of activeRoles) {
+    let count = 0;
+    const titleWords = r.title.toLowerCase().split(' ').filter(w => w.length > 2);
+    titleWords.forEach(tw => { if (combined.includes(tw)) count += 3; });
+    (r.requiredSkills || []).forEach(sk => { if (combined.includes(sk.toLowerCase())) count += 1; });
+    if (count > highestMatchCount) {
+      highestMatchCount = count;
+      appliedRole = r.title;
+    }
   }
 
-  // Call Gemini Evaluation
+  // Call Gemini Evaluation with dynamic active roles
   const evaluation = await callGeminiEvaluation({
     candidateName: fromName,
     candidateEmail: fromAddr,
@@ -688,15 +787,16 @@ async function processCandidateEmailRecord(parsed, uid) {
     fileName
   });
 
-  console.log(`   🎯 Decision: ${evaluation.candidateName} -> ${evaluation.decision} (${evaluation.matchScore}%)`);
+  console.log(`   🎯 Decision: ${evaluation.candidateName} -> ${evaluation.decision} (${evaluation.matchScore}%) for Role: ${evaluation.appliedRole || appliedRole}`);
 
   const targetEmail = evaluation.candidateEmail || fromAddr;
   const now = new Date().toISOString();
   const candId = 'cand_auto_' + Date.now().toString(36) + '_' + Math.random().toString(36).substring(2, 6);
   const meetingLink = generateGoogleMeetLink(candId);
+  const matchedRole = evaluation.appliedRole || appliedRole;
   const interviewDate = evaluation.proposedInterviewDate || getFormattedInterviewDate(3);
   const interviewTime = '2:30 PM - 3:15 PM IST (45 Minutes)';
-  const interviewRound = (appliedRole === 'Digital Marketing Specialist')
+  const interviewRound = (matchedRole.toLowerCase().includes('marketing'))
     ? 'Round 1: Marketing Strategy & Portfolio Review'
     : 'Round 1: Technical & System Architecture Deep-Dive';
   const interviewerName = `${appConfig.companyName} Technical Hiring Panel`;
@@ -1325,6 +1425,112 @@ app.post('/api/settings', (req, res) => {
 
   saveConfig();
   res.json({ success: true, message: "Settings updated successfully", config: appConfig });
+});
+
+// 12. Job Roles & Active Openings Management Endpoints
+app.get('/api/job-roles', (req, res) => {
+  const roles = getJobRoles();
+  const activeRoles = getActiveJobRoles();
+  res.json({
+    success: true,
+    roles,
+    activeCount: activeRoles.length,
+    activeRoleTitles: activeRoles.map(r => r.title)
+  });
+});
+
+app.put('/api/job-roles/active', (req, res) => {
+  try {
+    const { activeRoleIds } = req.body;
+    if (!Array.isArray(activeRoleIds)) {
+      return res.status(400).json({ success: false, error: "activeRoleIds must be an array of role IDs" });
+    }
+    const roles = getJobRoles();
+    roles.forEach(r => {
+      r.isActive = activeRoleIds.includes(r.id);
+    });
+    saveJobRoles(roles);
+    
+    const active = roles.filter(r => r.isActive);
+    broadcastSSE('job_roles_updated', { roles, activeCount: active.length });
+    
+    res.json({
+      success: true,
+      message: `Active hiring openings updated (${active.length} active roles)`,
+      roles,
+      activeRoles: active
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.post('/api/job-roles', (req, res) => {
+  try {
+    const { title, department, requiredSkills, minExperience, description, isActive } = req.body;
+    if (!title || !title.trim()) {
+      return res.status(400).json({ success: false, error: "Role title is required" });
+    }
+    const roles = getJobRoles();
+    const newId = 'role_custom_' + Date.now().toString(36) + '_' + Math.random().toString(36).substring(2, 6);
+    
+    const newRole = {
+      id: newId,
+      title: title.trim(),
+      department: department ? department.trim() : 'General',
+      isActive: isActive !== undefined ? Boolean(isActive) : true,
+      requiredSkills: Array.isArray(requiredSkills) ? requiredSkills : (requiredSkills ? requiredSkills.split(',').map(s => s.trim()).filter(Boolean) : []),
+      minExperience: minExperience ? minExperience.trim() : '1+ Years',
+      description: description ? description.trim() : ''
+    };
+
+    roles.push(newRole);
+    saveJobRoles(roles);
+    
+    broadcastSSE('job_roles_updated', { roles });
+    res.json({ success: true, message: `Role "${newRole.title}" created successfully`, role: newRole, roles });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.put('/api/job-roles/:id', (req, res) => {
+  try {
+    const { title, department, requiredSkills, minExperience, description, isActive } = req.body;
+    const roles = getJobRoles();
+    const index = roles.findIndex(r => r.id === req.params.id);
+    if (index === -1) return res.status(404).json({ success: false, error: "Role not found" });
+
+    if (title) roles[index].title = title.trim();
+    if (department) roles[index].department = department.trim();
+    if (requiredSkills !== undefined) {
+      roles[index].requiredSkills = Array.isArray(requiredSkills) ? requiredSkills : (requiredSkills ? requiredSkills.split(',').map(s => s.trim()).filter(Boolean) : []);
+    }
+    if (minExperience) roles[index].minExperience = minExperience.trim();
+    if (description) roles[index].description = description.trim();
+    if (isActive !== undefined) roles[index].isActive = Boolean(isActive);
+
+    saveJobRoles(roles);
+    broadcastSSE('job_roles_updated', { roles });
+    res.json({ success: true, message: "Role updated successfully", role: roles[index], roles });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.delete('/api/job-roles/:id', (req, res) => {
+  try {
+    let roles = getJobRoles();
+    const target = roles.find(r => r.id === req.params.id);
+    if (!target) return res.status(404).json({ success: false, error: "Role not found" });
+
+    roles = roles.filter(r => r.id !== req.params.id);
+    saveJobRoles(roles);
+    broadcastSSE('job_roles_updated', { roles });
+    res.json({ success: true, message: `Role "${target.title}" removed successfully`, roles });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
 // Start Server and Automated Background Loop

@@ -1,54 +1,52 @@
 [
   {
-    "id": "cand_auto_mth17q1x_kvz0",
+    "id": "cand_mth4drp2_cnnl",
     "name": "Sneha Verma",
-    "email": "sneha.verma.marketing@email.com",
-    "phone": "+91 98111 22334",
+    "email": "sneha.verma.mkt@example.com",
+    "phone": "N/A",
     "role": "Digital Marketing Specialist",
     "decision": "SELECTED",
-    "matchScore": 95,
-    "status": "HIRED",
-    "yearsOfExperience": "5 years",
+    "matchScore": 92,
+    "status": "INTERVIEW_SCHEDULED",
+    "yearsOfExperience": "4+ years",
     "topSkills": [
-      "Google & Meta Ads Manager",
-      "Technical & On-Page SEO",
-      "Google Analytics 4 & GTM",
-      "Looker Studio & Mixpanel",
-      "HubSpot & Email Automation"
+      "Google Ads",
+      "Meta Ads",
+      "SEO",
+      "GA4",
+      "Performance Marketing"
     ],
-    "education": "MBA in Marketing — Narsee Monjee Institute of Management Studies (NMIMS)",
+    "education": "Not specified",
     "strengths": [
-      "Demonstrated ability to manage substantial ad budgets (₹18 Lakh/month) while increasing blended ROAS to 4.2x.",
-      "Strong balance of both paid performance marketing and technical SEO strategy (65% YoY growth).",
-      "Expertise in modern marketing analytics stacks including GA4, Google Tag Manager, Looker Studio, and Mixpanel."
+      "Over 4 years of solid experience in performance marketing and paid acquisition.",
+      "Strong hands-on expertise in key platforms: Google Ads, Meta Ads, and GA4 analytics.",
+      "Proven capability in search engine optimization (SEO) alongside paid campaigns."
     ],
     "areasForImprovement": [
-      "Could expand on cross-channel programmatic display advertising beyond standard Google/Meta/LinkedIn networks.",
-      "Further integration of advanced marketing automation workflows with basic Zapier tools."
+      "Resume could detail specific content strategy experience or email marketing familiarity.",
+      "Quantitative achievements (such as specific ROI or ROAS percentages) are not highlighted in the summary."
     ],
-    "evaluationSummary": "Sneha Verma is an exemplary candidate for our Digital Marketing Specialist role, presenting a robust 5-year background in digital growth strategies. Her experience spans scaling organic traffic, managing high-volume paid media accounts, and running structured A/B tests to maximize conversion rates. Her impressive work at Bloomcart and Northgate showcases deep metrics-driven capabilities that directly align with our core performance marketing goals.\n\nHer academic pedigree with an MBA in Marketing from NMIMS combined with her extensive hand-on certifications (Google, HubSpot, Meta) highlights her dedication to both academic rigor and current industry-specific tools. We are highly confident in her ability to add immediate value to our digital initiatives.",
+    "evaluationSummary": "Sneha Verma is an outstanding candidate for the Digital Marketing Specialist position. Her profile showcases over four years of specialized experience as a Senior Performance Marketing Lead, directly mapping to our requirements. She possesses practical skills in search engine optimization (SEO), Google Ads (SEM), Meta Ads, and advanced analytics with GA4. Given her solid background in campaign execution and optimization, she is exceptionally prepared to manage our paid acquisition and search strategy. We are highly enthusiastic about her background and recommend immediately moving her to the interview stage.",
     "rejectionReason": null,
     "interviewQuestions": [
-      "Can you detail your strategy for scaling Bloomcart's organic traffic by 65%? What technical SEO issues did you prioritize first?",
-      "How do you structure and budget campaigns across Meta and Google Ads when managing an ₹18 Lakh monthly spend to ensure ROAS targets are hit?",
-      "Describe a complex tracking scenario you implemented using Google Tag Manager and GA4. How did you troubleshoot and validate the data?",
-      "Can you explain your methodology for setting up conversion rate optimization (CRO) A/B tests on landing pages, and how you measure success?"
+      "Can you describe a high-performing Meta or Google Ads campaign you managed, focusing on your strategy for budget allocation and audience targeting?",
+      "How have you set up custom funnels and event tracking within GA4 to measure conversion optimization?",
+      "Explain your approach to balancing technical SEO improvements with content creation to achieve sustainable organic growth.",
+      "Describe a situation where a campaign's ROAS was declining. What metrics did you analyze first, and how did you pivot the strategy?"
     ],
-    "proposedInterviewDate": "Thursday, September 3, 2026",
-    "interviewStatus": "🎉 Official Job Offer Dispatched",
-    "emailSubject": "🎉 Congratulations! Job Offer for Digital Marketing Specialist at Tech Innovations Inc.",
-    "emailBody": "Dear Sneha,\n\nThank you for your application for the Digital Marketing Specialist role at Tech Innovations Inc. We were incredibly impressed by your background, particularly your experience scaling organic traffic by 65% and your proven ability to drive a 4.2x ROAS with multi-lakh budgets.\n\nWe would love to invite you to a virtual interview to discuss your experience and see how your skillset fits our team's goals. We have tentatively scheduled this for Next Thursday at 3:00 PM IST.\n\nPlease let us know if this time works for you, or feel free to suggest an alternative time slot that suits your schedule.\n\nWe look forward to speaking with you!\n\nBest regards,\n\nManasvi Paliwal\nSenior Technical Recruiter & Hiring Director\nTech Innovations Inc.",
-    "emailSentAt": "2026-08-31T10:07:31.317Z",
-    "createdAt": "2026-08-31T09:24:22.821Z",
-    "updatedAt": "2026-08-31T10:07:20.966Z",
-    "source": "Gmail IMAP (5_Sneha_Verma_Digital_Marketing.docx)",
-    "interviewDate": "Thursday, September 3, 2026",
-    "interviewTime": "3:00 PM - 3:45 PM IST",
-    "meetingLink": "https://meet.google.com/xyz-tech-rec",
-    "interviewRound": "Round 1: Full Stack Architecture Deep-Dive",
-    "hrNotes": "Candidate demonstrated exceptional full stack and problem solving skills.",
-    "joiningDate": "October 1, 2026",
-    "salaryOffer": "Competitive Industry Standard + Performance Bonus"
+    "proposedInterviewDate": "October 26, 2023, at 2:00 PM EST",
+    "interviewDate": "October 26, 2023, at 2:00 PM EST",
+    "interviewTime": "2:30 PM - 3:15 PM IST (45 Minutes)",
+    "interviewRound": "Round 1: Marketing Strategy & Campaign Review",
+    "meetingLink": "https://meet.google.com/can-dmth-4dr",
+    "interviewerName": "Tech Innovations Inc. Technical Hiring Panel",
+    "interviewStatus": "Interview Invitation Dispatched (https://meet.google.com/can-dmth-4dr)",
+    "emailSubject": "📅 Interview Invitation: Digital Marketing Specialist at Tech Innovations Inc.",
+    "emailBody": "Dear Sneha,\n\nThank you for submitting your resume for the Digital Marketing Specialist position at Tech Innovations Inc.\n\nOur recruiting team has reviewed your application, and we are highly impressed by your 4+ years of performance marketing experience, particularly your deep technical expertise with Google Ads, Meta Ads, SEO, and GA4 analytics. Your background aligns perfectly with the growth strategies we are currently scaling.\n\nWe would love to invite you to a 45-minute video interview to discuss your professional experience and how you can make an impact on our marketing initiatives. We have tentatively proposed October 26, 2023, at 2:00 PM EST for the discussion. Please let us know if this timing works for you, or feel free to suggest an alternative.\n\nLooking forward to speaking with you!\n\nBest regards,\n\nHiring Director\nTech Innovations Inc.\nmanasvipaliwal317@gmail.com",
+    "emailSentAt": "2026-08-31T10:53:03.734Z",
+    "createdAt": "2026-08-31T10:53:03.734Z",
+    "updatedAt": "2026-08-31T10:53:03.734Z",
+    "source": "Dashboard Submission"
   },
   {
     "id": "cand_auto_mtgz8rd7_odzp",
@@ -225,7 +223,7 @@
     "role": "Business Development Associate",
     "decision": "SELECTED",
     "matchScore": 74,
-    "status": "INTERVIEW_SCHEDULED",
+    "status": "HIRED",
     "yearsOfExperience": "Fresher",
     "topSkills": [
       "Client Communication",
@@ -253,13 +251,21 @@
       "How would you handle a situation where a potential client repeatedly rejects your outreach or objects to our product pricing?"
     ],
     "proposedInterviewDate": "Next Tuesday at 3:00 PM IST",
-    "interviewStatus": "Interview Invitation Dispatched to sharmavageesha2000@gmail.com",
-    "emailSubject": "Interview Invitation: Business Development Associate at Tech Innovations Inc.",
+    "interviewStatus": "🎉 Official Job Offer Dispatched",
+    "emailSubject": "🎉 Congratulations! Job Offer for Business Development Associate at Tech Innovations Inc.",
     "emailBody": "Dear Vageesha,\n\nThank you for your interest in joining Tech Innovations Inc. We have carefully reviewed your application for the Business Development Associate position.\n\nWe are highly impressed by your academic background as a Gold Medalist in Economics, as well as the practical communication and market research skills you developed during your microeconomic field internship. Your analytical mindset and hands-on experience in engaging with diverse stakeholders make you a compelling candidate for our business development team.\n\nWe would love to invite you for an initial round of interview to discuss your career aspirations, your transition to enterprise sales, and how your skills align with our growth goals. We have proposed a slot for Next Tuesday at 3:00 PM IST. Please let us know if this timing works for you, or if we should coordinate an alternative schedule.\n\nLooking forward to speaking with you!\n\nWarm regards,\n\nManasvi Paliwal\nSenior Technical Recruiter & Hiring Director\nTech Innovations Inc.\nmanasvipaliwal317@gmail.com",
-    "emailSentAt": "2026-08-27T11:49:40.700Z",
+    "emailSentAt": "2026-08-31T10:20:59.364Z",
     "createdAt": "2026-08-27T11:49:40.700Z",
-    "updatedAt": "2026-08-27T11:49:40.700Z",
-    "source": "Gmail IMAP (Vaggesha Sharma                                                                                    .pdf)"
+    "updatedAt": "2026-08-31T10:20:55.799Z",
+    "source": "Gmail IMAP (Vaggesha Sharma                                                                                    .pdf)",
+    "interviewDate": "Next Tuesday at 3:00 PM IST",
+    "interviewTime": "2:30 PM - 3:15 PM IST (45 Mins)",
+    "meetingLink": "https://meet.google.com/nex-auto-meet",
+    "interviewerName": "Tech Innovations Hiring Panel",
+    "interviewRound": "Round 1: Technical & System Architecture",
+    "hrNotes": "",
+    "joiningDate": "Within 2-4 weeks",
+    "salaryOffer": "Competitive Market Rate"
   },
   {
     "id": "cand_auto_mtbgmrlj_ql1c",
@@ -398,7 +404,7 @@
     "role": "Digital Marketing Specialist",
     "decision": "SELECTED",
     "matchScore": 78,
-    "status": "INTERVIEW_SCHEDULED",
+    "status": "HIRED",
     "yearsOfExperience": "1-2 years",
     "topSkills": [
       "Technical SEO",
@@ -426,13 +432,21 @@
       "How do you align keyword research with content strategy to drive higher quality organic conversions?"
     ],
     "proposedInterviewDate": "Next Tuesday at 2:00 PM EST",
-    "interviewStatus": "Invitation Sent to manasvi60487.mbaib22@ipsacademy.org",
-    "emailSubject": "Interview Invitation: Digital Marketing Specialist Role at Tech Innovations Inc.",
+    "interviewStatus": "🎉 Official Job Offer Dispatched",
+    "emailSubject": "🎉 Congratulations! Job Offer for Digital Marketing Specialist at Tech Innovations Inc.",
     "emailBody": "Dear Manasvi,\n\nThank you for applying for the Digital Marketing Specialist position at Tech Innovations Inc. We have reviewed your application and are impressed by your background in Marketing as well as your strong skill set in Technical SEO, GA4, GTM, and Looker Studio.\n\nWe would like to invite you to an interview to discuss your qualifications further and learn more about your experience. Would you be available next Tuesday at 2:00 PM EST for a initial conversation?\n\nPlease let us know if this time works for you or provide a few alternative slots.\n\nBest regards,\n\nSenior Technical Recruiter & HR Director\nTech Innovations Inc.\nmanasvipaliwal317@gmail.com",
-    "emailSentAt": "2026-08-27T10:30:06.075Z",
+    "emailSentAt": "2026-08-31T10:25:01.947Z",
     "createdAt": "2026-08-27T10:30:06.075Z",
-    "updatedAt": "2026-08-27T10:30:06.075Z",
-    "source": "Gmail IMAP (Attachment: 5_Sneha_Verma_Digital_Marketing.docx)"
+    "updatedAt": "2026-08-31T10:24:55.612Z",
+    "source": "Gmail IMAP (Attachment: 5_Sneha_Verma_Digital_Marketing.docx)",
+    "interviewDate": "Next Tuesday at 2:00 PM EST",
+    "interviewTime": "2:30 PM - 3:15 PM IST (45 Mins)",
+    "meetingLink": "https://meet.google.com/nex-auto-meet",
+    "interviewerName": "Tech Innovations Hiring Panel",
+    "interviewRound": "Round 1: Marketing Strategy & Campaign Review",
+    "hrNotes": "",
+    "joiningDate": "Within 2-4 weeks",
+    "salaryOffer": "Competitive Market Rate"
   },
   {
     "id": "cand_mtbbuw2w_ulw5",

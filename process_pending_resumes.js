@@ -7,7 +7,7 @@ const nodemailer = require('nodemailer');
 
 const CONFIG = {
   hrEmail: 'manasvipaliwal317@gmail.com',
-  appPassword: 'YOUR_GMAIL_APP_PASSWORD',
+  appPassword: 'kstnydybbuqmpbyr',
   geminiApiKey: 'YOUR_GEMINI_API_KEY',
   models: ['gemini-3.5-flash', 'gemini-flash-latest', 'gemini-3.6-flash'],
   companyName: 'Tech Innovations Inc.',

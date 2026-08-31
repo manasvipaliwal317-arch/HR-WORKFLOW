@@ -3,6 +3,7 @@
 let allCandidates = [];
 let filteredCandidates = [];
 let selectedCandidate = null;
+let allJobRoles = [];
 let currentSettings = {};
 let activeView = 'cards'; // 'cards' or 'table'
 
@@ -82,12 +83,26 @@ document.addEventListener('DOMContentLoaded', () => {
   initScanner();
   initSettings();
   initModal();
+  initJobRoles();
   initRealtimeScanner();
   
   // Load initial data
+  loadJobRoles();
   loadCandidates();
   loadStats();
   loadSettings();
+
+  // Active Openings Chip Click -> Switch to Settings & scroll to roles
+  const chipOpenings = document.getElementById('chip-active-openings');
+  if (chipOpenings) {
+    chipOpenings.addEventListener('click', () => {
+      switchTab('settings');
+      setTimeout(() => {
+        const target = document.getElementById('roles-manager-list');
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 150);
+    });
+  }
 
   // Sync button
   const syncBtn = document.getElementById('btn-sync-refresh');
@@ -95,9 +110,8 @@ document.addEventListener('DOMContentLoaded', () => {
     syncBtn.addEventListener('click', async () => {
       syncBtn.disabled = true;
       syncBtn.classList.add('loading');
-      await loadCandidates();
-      await loadStats();
-      showToast('Synced with database and backend!', 'success');
+      await Promise.all([loadJobRoles(), loadCandidates(), loadStats()]);
+      showToast('Synced candidates, stats & active job openings!', 'success');
       setTimeout(() => {
         syncBtn.disabled = false;
         syncBtn.classList.remove('loading');
@@ -1372,4 +1386,228 @@ function escapeHtml(str) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
+}
+
+// ----------------- JOB ROLES & ACTIVE OPENINGS MANAGER ----------------- //
+function initJobRoles() {
+  const btnOpenAddModal = document.getElementById('btn-open-add-role-modal');
+  const addModal = document.getElementById('add-role-modal');
+  const btnCloseAddModal = document.getElementById('btn-close-add-role-modal');
+  const btnCancelAdd = document.getElementById('btn-cancel-add-role');
+  const formAddRole = document.getElementById('form-add-role');
+
+  if (btnOpenAddModal && addModal) {
+    btnOpenAddModal.addEventListener('click', () => {
+      addModal.style.display = 'flex';
+      document.getElementById('new-role-title')?.focus();
+    });
+  }
+
+  const closeModal = () => {
+    if (addModal) addModal.style.display = 'none';
+  };
+
+  if (btnCloseAddModal) btnCloseAddModal.addEventListener('click', closeModal);
+  if (btnCancelAdd) btnCancelAdd.addEventListener('click', closeModal);
+  if (addModal) {
+    addModal.addEventListener('click', (e) => {
+      if (e.target === addModal) closeModal();
+    });
+  }
+
+  if (formAddRole) {
+    formAddRole.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const title = document.getElementById('new-role-title')?.value || '';
+      const department = document.getElementById('new-role-dept')?.value || '';
+      const minExperience = document.getElementById('new-role-exp')?.value || '';
+      const skillsStr = document.getElementById('new-role-skills')?.value || '';
+      const description = document.getElementById('new-role-desc')?.value || '';
+      const isActive = document.getElementById('new-role-is-active')?.checked || false;
+
+      const requiredSkills = skillsStr.split(',').map(s => s.trim()).filter(Boolean);
+
+      try {
+        const res = await fetch('/api/job-roles', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            title,
+            department,
+            minExperience,
+            requiredSkills,
+            description,
+            isActive
+          })
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          showToast(`Job role "${title}" created successfully!`, 'success');
+          closeModal();
+          formAddRole.reset();
+          loadJobRoles();
+        } else {
+          showToast(data.error || 'Failed to create job role', 'error');
+        }
+      } catch (err) {
+        showToast('Error creating role: ' + err.message, 'error');
+      }
+    });
+  }
+}
+
+async function loadJobRoles() {
+  try {
+    const res = await fetch('/api/job-roles');
+    const data = await res.json();
+    if (data.success && Array.isArray(data.roles)) {
+      allJobRoles = data.roles;
+      renderJobRolesManager();
+      updateActiveOpeningsBadge();
+      populateScannerAndFilterRoles();
+    }
+  } catch (err) {
+    console.error('Failed to load job roles:', err);
+  }
+}
+
+function updateActiveOpeningsBadge() {
+  const activeRoles = allJobRoles.filter(r => r.isActive);
+  const count = activeRoles.length;
+  const badgeText = document.getElementById('header-active-roles-text');
+  if (badgeText) {
+    badgeText.textContent = `${count} Active Role${count === 1 ? '' : 's'}`;
+  }
+}
+
+function renderJobRolesManager() {
+  const container = document.getElementById('roles-manager-list');
+  if (!container) return;
+
+  if (allJobRoles.length === 0) {
+    container.innerHTML = `<p style="color:var(--text-secondary);">No job roles defined. Click "Add New Job Role" above to create one.</p>`;
+    return;
+  }
+
+  container.innerHTML = allJobRoles.map(r => {
+    const isCustom = r.id && r.id.startsWith('role_custom_');
+    const skillsHtml = (r.requiredSkills || []).slice(0, 5).map(s => `<span class="role-skill-chip">${escapeHtml(s)}</span>`).join('');
+    
+    return `
+      <div class="role-item-card ${r.isActive ? 'is-active' : ''}">
+        <div>
+          <div class="role-item-top">
+            <div>
+              <h4 class="role-item-title">${escapeHtml(r.title)}</h4>
+              <span class="role-dept-tag">${escapeHtml(r.department || 'General')} • ${escapeHtml(r.minExperience || '1+ Yrs')}</span>
+            </div>
+            ${isCustom ? `
+              <button class="btn-delete-role" onclick="deleteCustomRole('${r.id}')" title="Delete custom role">
+                🗑️ Delete
+              </button>
+            ` : ''}
+          </div>
+
+          <p class="role-item-desc">${escapeHtml(r.description || 'Target position for candidate analysis and evaluation.')}</p>
+
+          <div class="role-skills-pill-row">
+            ${skillsHtml}
+          </div>
+        </div>
+
+        <div class="role-item-bottom">
+          <label class="switch-label ${r.isActive ? 'active-label' : 'inactive-label'}">
+            <span class="ios-switch">
+              <input type="checkbox" ${r.isActive ? 'checked' : ''} onchange="toggleRoleActive('${r.id}', this.checked)">
+              <span class="switch-slider"></span>
+            </span>
+            <span>${r.isActive ? '🟢 ACTIVE OPENING' : '⚪ INACTIVE (PAUSED)'}</span>
+          </label>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+async function toggleRoleActive(roleId, isChecked) {
+  const role = allJobRoles.find(r => r.id === roleId);
+  if (role) role.isActive = isChecked;
+
+  const activeRoleIds = allJobRoles.filter(r => r.isActive).map(r => r.id);
+
+  try {
+    const res = await fetch('/api/job-roles/active', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ activeRoleIds })
+    });
+    const data = await res.json();
+    if (data.success) {
+      const activeTitles = allJobRoles.filter(r => r.isActive).map(r => r.title);
+      showToast(`Hiring openings updated! (${activeTitles.length} active roles)`, 'success');
+      renderJobRolesManager();
+      updateActiveOpeningsBadge();
+      populateScannerAndFilterRoles();
+    }
+  } catch (err) {
+    showToast('Failed to update active roles: ' + err.message, 'error');
+  }
+}
+
+async function deleteCustomRole(roleId) {
+  if (!confirm('Are you sure you want to delete this custom job role?')) return;
+
+  try {
+    const res = await fetch(`/api/job-roles/${roleId}`, { method: 'DELETE' });
+    const data = await res.json();
+    if (data.success) {
+      showToast(data.message || 'Role deleted', 'info');
+      loadJobRoles();
+    }
+  } catch (err) {
+    showToast('Failed to delete role: ' + err.message, 'error');
+  }
+}
+
+function populateScannerAndFilterRoles() {
+  const activeRoles = allJobRoles.filter(r => r.isActive);
+  
+  // 1. Scanner dropdown
+  const scanRoleSelect = document.getElementById('scan-applied-role');
+  if (scanRoleSelect) {
+    const currentScanVal = scanRoleSelect.value;
+    let html = `<option value="">🤖 Auto-Detect Best Matching Active Opening</option>`;
+    if (activeRoles.length > 0) {
+      html += `<optgroup label="Active Company Openings (${activeRoles.length})">`;
+      activeRoles.forEach(r => {
+        html += `<option value="${escapeHtml(r.title)}" ${r.title === currentScanVal ? 'selected' : ''}>${escapeHtml(r.title)} (${escapeHtml(r.department)})</option>`;
+      });
+      html += `</optgroup>`;
+    }
+    scanRoleSelect.innerHTML = html;
+  }
+
+  // 2. Filter dropdown in pipeline
+  const filterRoleSelect = document.getElementById('filter-role');
+  if (filterRoleSelect) {
+    const currentFilterVal = filterRoleSelect.value;
+    let html = `<option value="ALL">All Roles</option>`;
+    const allTitles = Array.from(new Set(allJobRoles.map(r => r.title))).sort();
+    allTitles.forEach(t => {
+      html += `<option value="${escapeHtml(t)}" ${t === currentFilterVal ? 'selected' : ''}>${escapeHtml(t)}</option>`;
+    });
+    filterRoleSelect.innerHTML = html;
+  }
+
+  // 3. Modal candidate editor role dropdown
+  const modalRoleSelect = document.getElementById('modal-update-role');
+  if (modalRoleSelect) {
+    const currentModalVal = modalRoleSelect.value;
+    let html = '';
+    allJobRoles.forEach(r => {
+      html += `<option value="${escapeHtml(r.title)}" ${r.title === currentModalVal ? 'selected' : ''}>${escapeHtml(r.title)}</option>`;
+    });
+    modalRoleSelect.innerHTML = html;
+  }
 }

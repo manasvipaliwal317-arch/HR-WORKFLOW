@@ -1,0 +1,123 @@
+[
+  {
+    "id": "role_fullstack",
+    "title": "Full Stack Developer",
+    "department": "Engineering",
+    "isActive": true,
+    "requiredSkills": [
+      "React",
+      "Node.js",
+      "Express",
+      "PostgreSQL",
+      "REST APIs",
+      "TypeScript",
+      "Git",
+      "System Architecture"
+    ],
+    "minExperience": "2+ Years",
+    "description": "Designing and developing full-stack web applications, RESTful APIs, responsive frontends, and database architectures."
+  },
+  {
+    "id": "role_marketing",
+    "title": "Digital Marketing Specialist",
+    "department": "Growth & Marketing",
+    "isActive": true,
+    "requiredSkills": [
+      "SEO",
+      "SEM",
+      "Google Ads",
+      "Meta Ads Manager",
+      "GA4",
+      "Content Strategy",
+      "Conversion Funnels",
+      "Campaign Optimization"
+    ],
+    "minExperience": "1+ Years",
+    "description": "Managing paid acquisition campaigns, search engine optimization (SEO), performance marketing funnels, and growth analytics."
+  },
+  {
+    "id": "role_frontend",
+    "title": "Frontend React Developer",
+    "department": "Engineering",
+    "isActive": false,
+    "requiredSkills": [
+      "React",
+      "JavaScript (ES6+)",
+      "HTML5/CSS3",
+      "Tailwind CSS",
+      "Next.js",
+      "State Management",
+      "Responsive UI"
+    ],
+    "minExperience": "2+ Years",
+    "description": "Crafting intuitive, pixel-perfect, responsive user interfaces and modern web applications using React."
+  },
+  {
+    "id": "role_ai_ml",
+    "title": "AI / ML Engineer",
+    "department": "AI Research",
+    "isActive": false,
+    "requiredSkills": [
+      "Python",
+      "TensorFlow",
+      "PyTorch",
+      "LLMs",
+      "RAG Pipelines",
+      "Prompt Engineering",
+      "Embeddings",
+      "FastAPI"
+    ],
+    "minExperience": "2+ Years",
+    "description": "Designing and deploying machine learning models, LLM-powered applications, retrieval-augmented generation (RAG), and AI workflows."
+  },
+  {
+    "id": "role_ui_ux",
+    "title": "UI/UX Product Designer",
+    "department": "Product & Design",
+    "isActive": false,
+    "requiredSkills": [
+      "Figma",
+      "Design Systems",
+      "User Research",
+      "Wireframing",
+      "Interactive Prototyping",
+      "Usability Testing"
+    ],
+    "minExperience": "1+ Years",
+    "description": "Creating user-centric product designs, intuitive workflows, design system components, and interactive prototypes."
+  },
+  {
+    "id": "role_backend",
+    "title": "Backend Systems Engineer",
+    "department": "Engineering",
+    "isActive": false,
+    "requiredSkills": [
+      "Node.js",
+      "Go",
+      "Python",
+      "PostgreSQL",
+      "Redis",
+      "Microservices",
+      "Docker",
+      "Kafka / RabbitMQ"
+    ],
+    "minExperience": "3+ Years",
+    "description": "Architecting resilient, high-throughput backend services, distributed systems, caching layers, and database schemas."
+  },
+  {
+    "id": "role_custom_mth4de8c_4qrh",
+    "title": "AI & Automation Engineer",
+    "department": "AI Systems",
+    "isActive": false,
+    "requiredSkills": [
+      "LangChain",
+      "Python",
+      "n8n",
+      "OpenAI",
+      "Gemini APIs",
+      "FastAPI"
+    ],
+    "minExperience": "2+ Years",
+    "description": "Developing automated agentic AI workflows and LLM applications."
+  }
+]
