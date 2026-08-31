@@ -119,5 +119,21 @@
     ],
     "minExperience": "2+ Years",
     "description": "Developing automated agentic AI workflows and LLM applications."
+  },
+  {
+    "id": "role_custom_mthd6y3o_yrhu",
+    "title": "AI Solutions Architect",
+    "department": "Enterprise AI & Automation",
+    "isActive": true,
+    "requiredSkills": [
+      "LangChain",
+      "Python",
+      "LLM Fine-tuning",
+      "RAG Pipelines",
+      "Vector Databases",
+      "Cloud Infrastructure"
+    ],
+    "minExperience": "4+ Years",
+    "description": "Designing enterprise-grade autonomous AI agents, LLM pipelines, and automation workflows."
   }
 ]

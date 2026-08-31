@@ -714,6 +714,8 @@
           </div>
         </div>
       </div>
+    </div>
+
     <!-- ADD CUSTOM JOB ROLE MODAL -->
     <div class="modal-overlay" id="add-role-modal" style="display:none;">
       <div class="modal-card modal-card-sm">
@@ -742,6 +744,7 @@
             <div class="form-group">
               <label>Key Required Skills (Comma-separated)</label>
               <input type="text" id="new-role-skills" placeholder="e.g. Docker, Kubernetes, AWS, Terraform, CI/CD, Linux">
+              <small style="color: var(--text-secondary);">AI will match candidate experience directly against these key skills.</small>
             </div>
             <div class="form-group">
               <label>Role Scope & Overview</label>
@@ -750,12 +753,62 @@
             <div class="form-group checkbox-group">
               <label class="checkbox-label">
                 <input type="checkbox" id="new-role-is-active" checked>
-                <span><strong>Activate this opening immediately</strong> (AI will start evaluating applicants for this role)</span>
+                <span><strong>Activate this opening immediately</strong> (AI will evaluate applicants for this role)</span>
               </label>
             </div>
             <div class="form-actions" style="margin-top: 1.5rem; display: flex; justify-content: flex-end; gap: 0.75rem;">
               <button type="button" class="btn-secondary" id="btn-cancel-add-role">Cancel</button>
               <button type="submit" class="btn-primary" id="btn-save-new-role">Create & Activate Role</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- EDIT JOB ROLE REQUIREMENTS MODAL -->
+    <div class="modal-overlay" id="edit-role-modal" style="display:none;">
+      <div class="modal-card modal-card-sm">
+        <div class="modal-header">
+          <div class="modal-header-left">
+            <h2>✏️ Edit Job Role Requirements</h2>
+          </div>
+          <button class="btn-close-modal" id="btn-close-edit-role-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form id="form-edit-role">
+            <input type="hidden" id="edit-role-id">
+            <div class="form-group">
+              <label>Job Role Title <span style="color:#ef4444;">*</span></label>
+              <input type="text" id="edit-role-title" placeholder="e.g. Full Stack Developer" required>
+            </div>
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label>Department</label>
+                <input type="text" id="edit-role-dept" placeholder="e.g. Engineering">
+              </div>
+              <div class="form-group">
+                <label>Minimum Experience</label>
+                <input type="text" id="edit-role-exp" placeholder="e.g. 2+ Years">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Key Required Skills (Comma-separated)</label>
+              <input type="text" id="edit-role-skills" placeholder="e.g. React, Node.js, Express, PostgreSQL, REST APIs">
+              <small style="color: var(--text-secondary);">The Gemini AI engine evaluates candidate suitability strictly against these required skills.</small>
+            </div>
+            <div class="form-group">
+              <label>Role Scope & Overview</label>
+              <textarea id="edit-role-desc" rows="3" placeholder="Summary of responsibilities, technical expectations, and company requirements..."></textarea>
+            </div>
+            <div class="form-group checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="edit-role-is-active">
+                <span><strong>Active Hiring Opening</strong> (AI will evaluate incoming applications for this position)</span>
+              </label>
+            </div>
+            <div class="form-actions" style="margin-top: 1.5rem; display: flex; justify-content: flex-end; gap: 0.75rem;">
+              <button type="button" class="btn-secondary" id="btn-cancel-edit-role">Cancel</button>
+              <button type="submit" class="btn-primary" id="btn-save-edit-role">Save Changes & Update AI</button>
             </div>
           </form>
         </div>

@@ -1390,31 +1390,52 @@ function escapeHtml(str) {
 
 // ----------------- JOB ROLES & ACTIVE OPENINGS MANAGER ----------------- //
 function initJobRoles() {
+  // Add Modal Elements
   const btnOpenAddModal = document.getElementById('btn-open-add-role-modal');
   const addModal = document.getElementById('add-role-modal');
   const btnCloseAddModal = document.getElementById('btn-close-add-role-modal');
   const btnCancelAdd = document.getElementById('btn-cancel-add-role');
   const formAddRole = document.getElementById('form-add-role');
 
+  // Edit Modal Elements
+  const editModal = document.getElementById('edit-role-modal');
+  const btnCloseEditModal = document.getElementById('btn-close-edit-role-modal');
+  const btnCancelEdit = document.getElementById('btn-cancel-edit-role');
+  const formEditRole = document.getElementById('form-edit-role');
+
   if (btnOpenAddModal && addModal) {
     btnOpenAddModal.addEventListener('click', () => {
+      if (formAddRole) formAddRole.reset();
       addModal.style.display = 'flex';
-      document.getElementById('new-role-title')?.focus();
+      setTimeout(() => document.getElementById('new-role-title')?.focus(), 50);
     });
   }
 
-  const closeModal = () => {
+  const closeAddModal = () => {
     if (addModal) addModal.style.display = 'none';
   };
 
-  if (btnCloseAddModal) btnCloseAddModal.addEventListener('click', closeModal);
-  if (btnCancelAdd) btnCancelAdd.addEventListener('click', closeModal);
+  const closeEditModal = () => {
+    if (editModal) editModal.style.display = 'none';
+  };
+
+  if (btnCloseAddModal) btnCloseAddModal.addEventListener('click', closeAddModal);
+  if (btnCancelAdd) btnCancelAdd.addEventListener('click', closeAddModal);
   if (addModal) {
     addModal.addEventListener('click', (e) => {
-      if (e.target === addModal) closeModal();
+      if (e.target === addModal) closeAddModal();
     });
   }
 
+  if (btnCloseEditModal) btnCloseEditModal.addEventListener('click', closeEditModal);
+  if (btnCancelEdit) btnCancelEdit.addEventListener('click', closeEditModal);
+  if (editModal) {
+    editModal.addEventListener('click', (e) => {
+      if (e.target === editModal) closeEditModal();
+    });
+  }
+
+  // Create New Role Form
   if (formAddRole) {
     formAddRole.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -1444,9 +1465,9 @@ function initJobRoles() {
         const data = await res.json();
         if (data.success) {
           showToast(`Job role "${title}" created successfully!`, 'success');
-          closeModal();
+          closeAddModal();
           formAddRole.reset();
-          loadJobRoles();
+          await loadJobRoles();
         } else {
           showToast(data.error || 'Failed to create job role', 'error');
         }
@@ -1455,6 +1476,78 @@ function initJobRoles() {
       }
     });
   }
+
+  // Edit Existing Role Form
+  if (formEditRole) {
+    formEditRole.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const roleId = document.getElementById('edit-role-id')?.value || '';
+      const title = document.getElementById('edit-role-title')?.value || '';
+      const department = document.getElementById('edit-role-dept')?.value || '';
+      const minExperience = document.getElementById('edit-role-exp')?.value || '';
+      const skillsStr = document.getElementById('edit-role-skills')?.value || '';
+      const description = document.getElementById('edit-role-desc')?.value || '';
+      const isActive = document.getElementById('edit-role-is-active')?.checked || false;
+
+      const requiredSkills = skillsStr.split(',').map(s => s.trim()).filter(Boolean);
+
+      try {
+        const res = await fetch(`/api/job-roles/${roleId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            title,
+            department,
+            minExperience,
+            requiredSkills,
+            description,
+            isActive
+          })
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          showToast(`Job opening "${title}" updated successfully!`, 'success');
+          closeEditModal();
+          await loadJobRoles();
+        } else {
+          showToast(data.error || 'Failed to update job role', 'error');
+        }
+      } catch (err) {
+        showToast('Error updating role: ' + err.message, 'error');
+      }
+    });
+  }
+}
+
+function openEditRoleModal(roleId) {
+  const role = allJobRoles.find(r => r.id === roleId);
+  if (!role) {
+    showToast('Role not found', 'error');
+    return;
+  }
+
+  const editModal = document.getElementById('edit-role-modal');
+  if (!editModal) return;
+
+  const idInput = document.getElementById('edit-role-id');
+  const titleInput = document.getElementById('edit-role-title');
+  const deptInput = document.getElementById('edit-role-dept');
+  const expInput = document.getElementById('edit-role-exp');
+  const skillsInput = document.getElementById('edit-role-skills');
+  const descInput = document.getElementById('edit-role-desc');
+  const activeInput = document.getElementById('edit-role-is-active');
+
+  if (idInput) idInput.value = role.id;
+  if (titleInput) titleInput.value = role.title || '';
+  if (deptInput) deptInput.value = role.department || '';
+  if (expInput) expInput.value = role.minExperience || '';
+  if (skillsInput) skillsInput.value = (role.requiredSkills || []).join(', ');
+  if (descInput) descInput.value = role.description || '';
+  if (activeInput) activeInput.checked = !!role.isActive;
+
+  editModal.style.display = 'flex';
+  setTimeout(() => titleInput?.focus(), 50);
 }
 
 async function loadJobRoles() {
@@ -1492,7 +1585,7 @@ function renderJobRolesManager() {
 
   container.innerHTML = allJobRoles.map(r => {
     const isCustom = r.id && r.id.startsWith('role_custom_');
-    const skillsHtml = (r.requiredSkills || []).slice(0, 5).map(s => `<span class="role-skill-chip">${escapeHtml(s)}</span>`).join('');
+    const skillsHtml = (r.requiredSkills || []).slice(0, 6).map(s => `<span class="role-skill-chip">${escapeHtml(s)}</span>`).join('');
     
     return `
       <div class="role-item-card ${r.isActive ? 'is-active' : ''}">
@@ -1502,11 +1595,16 @@ function renderJobRolesManager() {
               <h4 class="role-item-title">${escapeHtml(r.title)}</h4>
               <span class="role-dept-tag">${escapeHtml(r.department || 'General')} • ${escapeHtml(r.minExperience || '1+ Yrs')}</span>
             </div>
-            ${isCustom ? `
-              <button class="btn-delete-role" onclick="deleteCustomRole('${r.id}')" title="Delete custom role">
-                🗑️ Delete
+            <div class="role-actions-group">
+              <button class="btn-edit-role" onclick="openEditRoleModal('${r.id}')" title="Edit role requirements, skills, and experience">
+                ✏️ Edit
               </button>
-            ` : ''}
+              ${isCustom ? `
+                <button class="btn-delete-role" onclick="deleteCustomRole('${r.id}')" title="Delete custom role">
+                  🗑️
+                </button>
+              ` : ''}
+            </div>
           </div>
 
           <p class="role-item-desc">${escapeHtml(r.description || 'Target position for candidate analysis and evaluation.')}</p>
@@ -1611,3 +1709,9 @@ function populateScannerAndFilterRoles() {
     modalRoleSelect.innerHTML = html;
   }
 }
+
+// Attach globally for inline event handlers
+window.openEditRoleModal = openEditRoleModal;
+window.toggleRoleActive = toggleRoleActive;
+window.deleteCustomRole = deleteCustomRole;
+
