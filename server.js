@@ -253,8 +253,275 @@ RETURN STRICT JSON ONLY (no markdown formatting, no code fences):
   throw new Error("All AI models failed or experienced high demand.");
 }
 
-// Nodemailer helper
-async function sendCandidateEmail(toEmail, subject, bodyText) {
+// Helper: Generate persistent, clean Google Meet URL
+function generateGoogleMeetLink(seed = '') {
+  const chars = (seed ? seed.toString().toLowerCase().replace(/[^a-z0-9]/g, '') : '') + Math.random().toString(36).substring(2, 11);
+  const clean = chars.padEnd(10, 'x').substring(0, 10);
+  return `https://meet.google.com/${clean.slice(0, 3)}-${clean.slice(3, 7)}-${clean.slice(7, 10)}`;
+}
+
+// Helper: Formatted upcoming interview date string
+function getFormattedInterviewDate(daysAhead = 3) {
+  const d = new Date();
+  d.setDate(d.getDate() + daysAhead);
+  // Skip weekends if falls on Saturday/Sunday
+  if (d.getDay() === 0) d.setDate(d.getDate() + 1);
+  if (d.getDay() === 6) d.setDate(d.getDate() + 2);
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  return d.toLocaleDateString('en-US', options);
+}
+
+// HTML Email Template: Professional Interview Invitation with Google Meet Button
+function generateInterviewInviteTemplate({ candidate }) {
+  const candidateName = candidate.name || 'Candidate';
+  const role = candidate.role || 'Full Stack Developer';
+  const interviewDate = candidate.proposedInterviewDate || candidate.interviewDate || getFormattedInterviewDate(3);
+  const interviewTime = candidate.interviewTime || '2:30 PM - 3:15 PM IST (45 Minutes)';
+  const meetingLink = candidate.meetingLink || generateGoogleMeetLink(candidate.id || candidate.name);
+  const interviewRound = candidate.interviewRound || (role === 'Digital Marketing Specialist' ? 'Round 1: Marketing Strategy & Campaign Review' : 'Round 1: Technical & System Architecture Deep-Dive');
+  const interviewer = candidate.interviewerName || `${appConfig.companyName} Technical Hiring Panel`;
+
+  const questionsList = (candidate.interviewQuestions || []).slice(0, 4).map(q => `<li style="margin-bottom: 8px; color: #475569;">${q}</li>`).join('');
+
+  return `
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Invitation - ${appConfig.companyName}</title>
+  </head>
+  <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f1f5f9; color: #1e293b;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed; background-color: #f1f5f9; padding: 30px 10px;">
+      <tr>
+        <td align="center">
+          <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 620px; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.06); border: 1px solid #e2e8f0;">
+            
+            <!-- HEADER -->
+            <tr>
+              <td style="padding: 36px 32px 30px; background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); text-align: center; color: #ffffff;">
+                <span style="display: inline-block; padding: 6px 14px; background: rgba(255,255,255,0.2); border-radius: 50px; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px;">Interview Invitation</span>
+                <h1 style="margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -0.5px;">${appConfig.companyName}</h1>
+                <p style="margin: 8px 0 0; font-size: 15px; opacity: 0.9;">Target Position: <strong>${role}</strong></p>
+              </td>
+            </tr>
+
+            <!-- BODY CONTENT -->
+            <tr>
+              <td style="padding: 32px;">
+                <p style="font-size: 16px; line-height: 1.6; margin-top: 0; color: #334155;">
+                  Dear <strong>${candidateName}</strong>,
+                </p>
+                <p style="font-size: 15px; line-height: 1.6; color: #475569;">
+                  Thank you for applying for the <strong>${role}</strong> position at ${appConfig.companyName}. We have reviewed your credentials, and our hiring team is pleased to invite you for a virtual interview session.
+                </p>
+
+                <!-- INTERVIEW DETAILS CARD -->
+                <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 22px; margin: 26px 0;">
+                  <h3 style="margin-top: 0; margin-bottom: 16px; font-size: 16px; color: #1e293b; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
+                    📅 Schedule & Meeting Details
+                  </h3>
+                  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tr>
+                      <td style="padding: 6px 0; font-size: 14px; color: #64748b; width: 120px;"><strong>Date:</strong></td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #0f172a; font-weight: 600;">${interviewDate}</td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 6px 0; font-size: 14px; color: #64748b;"><strong>Time:</strong></td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #0f172a; font-weight: 600;">${interviewTime}</td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 6px 0; font-size: 14px; color: #64748b;"><strong>Format:</strong></td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #0f172a;">${interviewRound}</td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 6px 0; font-size: 14px; color: #64748b;"><strong>Platform:</strong></td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #0f172a;">Google Meet (Video Conference)</td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 6px 0; font-size: 14px; color: #64748b;"><strong>Interviewer:</strong></td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #0f172a;">${interviewer}</td>
+                    </tr>
+                  </table>
+
+                  <!-- JOIN BUTTON -->
+                  <div style="text-align: center; margin-top: 22px;">
+                    <a href="${meetingLink}" target="_blank" style="display: inline-block; background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%); color: #ffffff; text-decoration: none; font-size: 15px; font-weight: 700; padding: 13px 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);">
+                      🎥 Join Google Meet Interview
+                    </a>
+                    <div style="margin-top: 10px;">
+                      <a href="${meetingLink}" style="font-size: 12px; color: #6366f1; text-decoration: underline; word-break: break-all;">${meetingLink}</a>
+                    </div>
+                  </div>
+                </div>
+
+                ${questionsList ? `
+                <!-- TOPICS / AGENDA -->
+                <div style="margin: 24px 0;">
+                  <h4 style="font-size: 14px; color: #334155; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Topics & Discussion Areas:</h4>
+                  <ul style="padding-left: 20px; margin: 0; font-size: 14px; line-height: 1.6;">
+                    ${questionsList}
+                  </ul>
+                </div>
+                ` : ''}
+
+                <p style="font-size: 14px; line-height: 1.6; color: #64748b;">
+                  💡 <strong>Preparation Tips:</strong> Please ensure your camera and microphone are tested prior to the call and join the meeting link 2-3 minutes early.
+                </p>
+
+                <p style="font-size: 14px; line-height: 1.6; color: #64748b;">
+                  If you need to request an alternative time slot or have any questions, simply reply directly to this email at <a href="mailto:${appConfig.hrEmail}" style="color: #4f46e5; text-decoration: none;">${appConfig.hrEmail}</a>.
+                </p>
+
+                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 28px 0 20px;">
+
+                <!-- SIGNATURE -->
+                <p style="font-size: 14px; color: #334155; margin: 0; line-height: 1.5;">
+                  Warm regards,<br>
+                  <strong>Recruitment & Talent Acquisition Team</strong><br>
+                  ${appConfig.companyName}<br>
+                  <span style="color: #64748b; font-size: 13px;">Direct Contact: ${appConfig.hrEmail}</span>
+                </p>
+              </td>
+            </tr>
+
+            <!-- FOOTER -->
+            <tr>
+              <td style="padding: 20px; background-color: #f8fafc; border-top: 1px solid #e2e8f0; text-align: center; font-size: 12px; color: #94a3b8;">
+                © ${new Date().getFullYear()} ${appConfig.companyName}. All rights reserved.<br>
+                Dispatched automatically via Nexus HR Automation Platform.
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+  </html>
+  `;
+}
+
+// HTML Email Template: Official Hiring & Offer Letter
+function generateHiringOfferTemplate({ candidate, joiningDate, salaryOffer, customNotes }) {
+  const candidateName = candidate.name || 'Candidate';
+  const role = candidate.role || 'Full Stack Developer';
+  const startDate = joiningDate || candidate.joiningDate || 'Within 2-4 weeks (To be mutually confirmed)';
+  const compDetails = salaryOffer || candidate.salaryOffer || 'Competitive Compensation Package (As finalized during interview)';
+
+  return `
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Official Job Offer - ${appConfig.companyName}</title>
+  </head>
+  <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f1f5f9; color: #1e293b;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed; background-color: #f1f5f9; padding: 30px 10px;">
+      <tr>
+        <td align="center">
+          <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 620px; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.06); border: 1px solid #e2e8f0;">
+            
+            <!-- HEADER -->
+            <tr>
+              <td style="padding: 36px 32px 30px; background: linear-gradient(135deg, #059669 0%, #10b981 100%); text-align: center; color: #ffffff;">
+                <span style="display: inline-block; padding: 6px 14px; background: rgba(255,255,255,0.25); border-radius: 50px; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px;">🎉 Congratulations!</span>
+                <h1 style="margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -0.5px;">Official Job Offer</h1>
+                <p style="margin: 8px 0 0; font-size: 15px; opacity: 0.95;">Welcome to <strong>${appConfig.companyName}</strong></p>
+              </td>
+            </tr>
+
+            <!-- BODY CONTENT -->
+            <tr>
+              <td style="padding: 32px;">
+                <p style="font-size: 16px; line-height: 1.6; margin-top: 0; color: #334155;">
+                  Dear <strong>${candidateName}</strong>,
+                </p>
+                <p style="font-size: 15px; line-height: 1.6; color: #475569;">
+                  On behalf of <strong>${appConfig.companyName}</strong>, we are thrilled to extend to you a formal offer of employment for the position of <strong>${role}</strong>!
+                </p>
+                <p style="font-size: 15px; line-height: 1.6; color: #475569;">
+                  Our evaluation team was exceptionally impressed by your background, domain proficiency, and problem-solving approach during the recruitment rounds. We believe you will make a significant impact on our products and team culture.
+                </p>
+
+                <!-- OFFER DETAILS CARD -->
+                <div style="background-color: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 12px; padding: 22px; margin: 26px 0;">
+                  <h3 style="margin-top: 0; margin-bottom: 14px; font-size: 16px; color: #065f46; border-bottom: 1px solid #a7f3d0; padding-bottom: 8px;">
+                    📋 Offer Summary & Next Steps
+                  </h3>
+                  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tr>
+                      <td style="padding: 6px 0; font-size: 14px; color: #047857; width: 140px;"><strong>Offered Role:</strong></td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #064e3b; font-weight: 700;">${role}</td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 6px 0; font-size: 14px; color: #047857;"><strong>Organization:</strong></td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #064e3b; font-weight: 600;">${appConfig.companyName}</td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 6px 0; font-size: 14px; color: #047857;"><strong>Target Start Date:</strong></td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #064e3b; font-weight: 600;">${startDate}</td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 6px 0; font-size: 14px; color: #047857;"><strong>Compensation:</strong></td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #064e3b;">${compDetails}</td>
+                    </tr>
+                  </table>
+                </div>
+
+                ${customNotes ? `
+                <div style="background-color: #f8fafc; border-left: 4px solid #10b981; padding: 14px 18px; margin-bottom: 24px; border-radius: 4px;">
+                  <strong style="color: #334155; font-size: 13px; text-transform: uppercase;">Note from Hiring Manager:</strong>
+                  <p style="margin: 6px 0 0; font-size: 14px; color: #475569; line-height: 1.5;">${customNotes}</p>
+                </div>
+                ` : ''}
+
+                <!-- NEXT STEPS INSTRUCTIONS -->
+                <h4 style="font-size: 15px; color: #1e293b; margin-top: 24px; margin-bottom: 10px;">👉 What Happens Next:</h4>
+                <ol style="padding-left: 20px; margin: 0 0 24px; font-size: 14px; color: #475569; line-height: 1.6;">
+                  <li><strong>Acceptance Confirmation:</strong> Please reply directly to this email to confirm your acceptance of this offer.</li>
+                  <li><strong>Documentation & Onboarding:</strong> Our HR department will issue your official appointment agreement and onboarding paperwork.</li>
+                  <li><strong>Equipment & Workspace Setup:</strong> We will coordinate software access, credentials, and welcome briefing before your first day.</li>
+                </ol>
+
+                <!-- ACCEPTANCE CTA -->
+                <div style="text-align: center; margin: 30px 0 10px;">
+                  <a href="mailto:${appConfig.hrEmail}?subject=Acceptance%20of%20Offer%20-%20${encodeURIComponent(role)}%20-%20${encodeURIComponent(candidateName)}" style="display: inline-block; background: linear-gradient(135deg, #059669 0%, #10b981 100%); color: #ffffff; text-decoration: none; font-size: 15px; font-weight: 700; padding: 14px 34px; border-radius: 8px; box-shadow: 0 4px 14px rgba(5, 150, 105, 0.3);">
+                    ✉️ Reply to Confirm Acceptance
+                  </a>
+                </div>
+
+                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 28px 0 20px;">
+
+                <!-- SIGNATURE -->
+                <p style="font-size: 14px; color: #334155; margin: 0; line-height: 1.5;">
+                  With warm congratulations and best regards,<br>
+                  <strong>Manasvi Paliwal</strong><br>
+                  Hiring Director & Talent Acquisition<br>
+                  <strong>${appConfig.companyName}</strong><br>
+                  <span style="color: #64748b; font-size: 13px;">Email: ${appConfig.hrEmail}</span>
+                </p>
+              </td>
+            </tr>
+
+            <!-- FOOTER -->
+            <tr>
+              <td style="padding: 20px; background-color: #f8fafc; border-top: 1px solid #e2e8f0; text-align: center; font-size: 12px; color: #94a3b8;">
+                © ${new Date().getFullYear()} ${appConfig.companyName}. All rights reserved.<br>
+                Official Employment Offer Document • Confidential
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+  </html>
+  `;
+}
+
+// Nodemailer custom HTML helper
+async function sendCandidateCustomEmail(toEmail, subject, htmlContent, textFallback = '') {
   const cleanPassword = (appConfig.gmailAppPassword || '').replace(/\s+/g, '');
   if (!cleanPassword) {
     console.log(`[Email Skipped] No app password configured`);
@@ -273,28 +540,33 @@ async function sendCandidateEmail(toEmail, subject, bodyText) {
     from: `"${appConfig.companyName} Recruitment Team" <${appConfig.hrEmail}>`,
     to: toEmail,
     subject: subject,
-    text: bodyText,
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 620px; line-height: 1.6; color: #333; padding: 20px; border: 1px solid #e2e8f0; border-radius: 10px;">
-        <h3 style="color: #6366f1; margin-top: 0;">${appConfig.companyName} — Application Status</h3>
-        <p style="white-space: pre-line;">${bodyText}</p>
-        <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;">
-        <p style="font-size: 12px; color: #64748b;">
-          Processed and dispatched automatically by our HR Automation System.<br>
-          Recruiter Inbox: <strong>${appConfig.hrEmail}</strong>
-        </p>
-      </div>
-    `
+    text: textFallback || "Please view this email in an HTML-compatible client.",
+    html: htmlContent
   };
 
   try {
     const info = await transporter.sendMail(mailOptions);
-    console.log(`✉️ [Live Email Sent] ID: ${info.messageId} to ${toEmail}`);
+    console.log(`✉️ [Live Custom Email Sent] ID: ${info.messageId} to ${toEmail} (${subject})`);
     return { success: true, messageId: info.messageId };
   } catch (err) {
-    console.error("❌ [Email Dispatch Error]:", err.message);
+    console.error("❌ [Custom Email Dispatch Error]:", err.message);
     return { success: false, error: err.message };
   }
+}
+
+// Default Nodemailer helper
+async function sendCandidateEmail(toEmail, subject, bodyText) {
+  return sendCandidateCustomEmail(toEmail, subject, `
+    <div style="font-family: Arial, sans-serif; max-width: 620px; line-height: 1.6; color: #333; padding: 20px; border: 1px solid #e2e8f0; border-radius: 10px;">
+      <h3 style="color: #6366f1; margin-top: 0;">${appConfig.companyName} — Application Status</h3>
+      <p style="white-space: pre-line;">${bodyText}</p>
+      <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;">
+      <p style="font-size: 12px; color: #64748b;">
+        Processed and dispatched automatically by our HR Automation System.<br>
+        Recruiter Inbox: <strong>${appConfig.hrEmail}</strong>
+      </p>
+    </div>
+  `, bodyText);
 }
 
 // ----------------- SERVER-SENT EVENTS (SSE) FOR INSTANT DASHBOARD UPDATES ----------------- //
@@ -418,15 +690,19 @@ async function processCandidateEmailRecord(parsed, uid) {
 
   console.log(`   🎯 Decision: ${evaluation.candidateName} -> ${evaluation.decision} (${evaluation.matchScore}%)`);
 
-  // Target Email: prefer extracted email if found, fallback to sender
   const targetEmail = evaluation.candidateEmail || fromAddr;
-  await sendCandidateEmail(targetEmail, evaluation.emailSubject, evaluation.emailBody);
-
-  // Save Candidate
-  let candidates = getCandidates();
   const now = new Date().toISOString();
+  const candId = 'cand_auto_' + Date.now().toString(36) + '_' + Math.random().toString(36).substring(2, 6);
+  const meetingLink = generateGoogleMeetLink(candId);
+  const interviewDate = evaluation.proposedInterviewDate || getFormattedInterviewDate(3);
+  const interviewTime = '2:30 PM - 3:15 PM IST (45 Minutes)';
+  const interviewRound = (appliedRole === 'Digital Marketing Specialist')
+    ? 'Round 1: Marketing Strategy & Portfolio Review'
+    : 'Round 1: Technical & System Architecture Deep-Dive';
+  const interviewerName = `${appConfig.companyName} Technical Hiring Panel`;
+
   const candidateRecord = {
-    id: 'cand_auto_' + Date.now().toString(36) + '_' + Math.random().toString(36).substring(2, 6),
+    id: candId,
     name: evaluation.candidateName || fromName,
     email: targetEmail,
     phone: evaluation.candidatePhone || 'N/A',
@@ -442,9 +718,16 @@ async function processCandidateEmailRecord(parsed, uid) {
     evaluationSummary: evaluation.evaluationSummary || '',
     rejectionReason: evaluation.rejectionReason,
     interviewQuestions: evaluation.interviewQuestions || [],
-    proposedInterviewDate: evaluation.proposedInterviewDate || 'Upcoming Week',
-    interviewStatus: evaluation.decision === 'SELECTED' ? `Interview Invitation Dispatched to ${targetEmail}` : 'N/A',
-    emailSubject: evaluation.emailSubject,
+    proposedInterviewDate: interviewDate,
+    interviewDate: interviewDate,
+    interviewTime: interviewTime,
+    interviewRound: interviewRound,
+    meetingLink: meetingLink,
+    interviewerName: interviewerName,
+    interviewStatus: evaluation.decision === 'SELECTED' ? `Interview Invitation Dispatched (${meetingLink})` : 'N/A',
+    emailSubject: evaluation.decision === 'SELECTED' 
+      ? `📅 Interview Invitation: ${evaluation.appliedRole || appliedRole} at ${appConfig.companyName}` 
+      : evaluation.emailSubject,
     emailBody: evaluation.emailBody,
     emailSentAt: now,
     createdAt: now,
@@ -452,6 +735,18 @@ async function processCandidateEmailRecord(parsed, uid) {
     source: `Gmail IMAP (${fileName})`
   };
 
+  // Dispatch Email
+  if (appConfig.autoSendEmails && targetEmail && targetEmail.includes('@')) {
+    if (evaluation.decision === 'SELECTED') {
+      const inviteHtml = generateInterviewInviteTemplate({ candidate: candidateRecord });
+      await sendCandidateCustomEmail(targetEmail, candidateRecord.emailSubject, inviteHtml, evaluation.emailBody);
+    } else {
+      await sendCandidateEmail(targetEmail, candidateRecord.emailSubject, evaluation.emailBody);
+    }
+  }
+
+  // Save Candidate
+  let candidates = getCandidates();
   candidates = candidates.filter(c => c.name !== candidateRecord.name || c.role !== candidateRecord.role);
   candidates.unshift(candidateRecord);
   saveCandidates(candidates);
@@ -704,12 +999,22 @@ async function handleEvaluationRequest(req, res) {
     });
 
     const now = new Date().toISOString();
+    const candId = 'cand_' + Date.now().toString(36) + '_' + Math.random().toString(36).substring(2, 6);
+    const meetingLink = generateGoogleMeetLink(candId);
+    const targetRole = appliedRole || evaluation.appliedRole || 'Full Stack Developer';
+    const interviewDate = evaluation.proposedInterviewDate || getFormattedInterviewDate(3);
+    const interviewTime = '2:30 PM - 3:15 PM IST (45 Minutes)';
+    const interviewRound = (targetRole === 'Digital Marketing Specialist')
+      ? 'Round 1: Marketing Strategy & Campaign Review'
+      : 'Round 1: Technical & System Architecture Deep-Dive';
+    const interviewerName = `${appConfig.companyName} Technical Hiring Panel`;
+
     const candidateRecord = {
-      id: 'cand_' + Date.now().toString(36) + '_' + Math.random().toString(36).substring(2, 6),
+      id: candId,
       name: evaluation.candidateName || candidateName || 'Candidate',
       email: candidateEmail || evaluation.candidateEmail || 'N/A',
       phone: evaluation.candidatePhone || 'N/A',
-      role: appliedRole || evaluation.appliedRole || 'Software Engineer',
+      role: targetRole,
       decision: evaluation.decision,
       matchScore: evaluation.matchScore,
       status: evaluation.decision === 'SELECTED' ? 'INTERVIEW_SCHEDULED' : 'REJECTED',
@@ -721,9 +1026,16 @@ async function handleEvaluationRequest(req, res) {
       evaluationSummary: evaluation.evaluationSummary || '',
       rejectionReason: evaluation.rejectionReason,
       interviewQuestions: evaluation.interviewQuestions || [],
-      proposedInterviewDate: evaluation.proposedInterviewDate || 'Next Week',
-      interviewStatus: evaluation.decision === 'SELECTED' ? 'Invitation Sent' : 'N/A',
-      emailSubject: evaluation.emailSubject,
+      proposedInterviewDate: interviewDate,
+      interviewDate: interviewDate,
+      interviewTime: interviewTime,
+      interviewRound: interviewRound,
+      meetingLink: meetingLink,
+      interviewerName: interviewerName,
+      interviewStatus: evaluation.decision === 'SELECTED' ? `Interview Invitation Dispatched (${meetingLink})` : 'N/A',
+      emailSubject: evaluation.decision === 'SELECTED' 
+        ? `📅 Interview Invitation: ${targetRole} at ${appConfig.companyName}` 
+        : (evaluation.emailSubject || `Application Update: ${targetRole}`),
       emailBody: evaluation.emailBody,
       emailSentAt: now,
       createdAt: now,
@@ -732,7 +1044,12 @@ async function handleEvaluationRequest(req, res) {
     };
 
     if (candidateEmail && candidateEmail.includes('@') && appConfig.autoSendEmails) {
-      await sendCandidateEmail(candidateEmail, evaluation.emailSubject, evaluation.emailBody);
+      if (evaluation.decision === 'SELECTED') {
+        const inviteHtml = generateInterviewInviteTemplate({ candidate: candidateRecord });
+        await sendCandidateCustomEmail(candidateEmail, candidateRecord.emailSubject, inviteHtml, evaluation.emailBody);
+      } else {
+        await sendCandidateEmail(candidateEmail, candidateRecord.emailSubject, evaluation.emailBody);
+      }
     }
 
     let candidates = getCandidates();
@@ -752,25 +1069,131 @@ async function handleEvaluationRequest(req, res) {
 app.post('/api/evaluate-resume', uploadFields, handleEvaluationRequest);
 app.post('/api/evaluate', uploadFields, handleEvaluationRequest);
 
-// 6. Update candidate status (Supports both PATCH and PUT)
-function handleCandidateStatusUpdate(req, res) {
-  const { status, interviewStatus, interviewDate } = req.body;
-  const list = getCandidates();
-  const index = list.findIndex(c => c.id === req.params.id);
-  if (index === -1) return res.status(404).json({ success: false, error: 'Candidate not found' });
+// 6. Update candidate status & full profile (Supports both PATCH and PUT)
+async function handleCandidateStatusUpdate(req, res) {
+  try {
+    const {
+      status,
+      decision,
+      name,
+      email,
+      phone,
+      role,
+      matchScore,
+      interviewDate,
+      interviewTime,
+      proposedInterviewDate,
+      meetingLink,
+      interviewerName,
+      interviewRound,
+      interviewStatus,
+      hrNotes,
+      joiningDate,
+      salaryOffer,
+      sendUpdateEmail,
+      customEmailSubject,
+      customEmailBody
+    } = req.body;
 
-  if (status) list[index].status = status;
-  if (interviewStatus) list[index].interviewStatus = interviewStatus;
-  if (interviewDate) list[index].proposedInterviewDate = interviewDate;
-  list[index].updatedAt = new Date().toISOString();
+    const list = getCandidates();
+    const index = list.findIndex(c => c.id === req.params.id);
+    if (index === -1) return res.status(404).json({ success: false, error: 'Candidate not found' });
 
-  saveCandidates(list);
-  broadcastSSE('candidate_updated', { candidate: list[index] });
-  res.json({ success: true, candidate: list[index] });
+    const prevStatus = list[index].status;
+    const candidate = list[index];
+
+    // Update fields
+    if (name) candidate.name = name;
+    if (email) candidate.email = email;
+    if (phone) candidate.phone = phone;
+    if (role) candidate.role = role;
+    if (status) candidate.status = status;
+    if (decision) candidate.decision = decision;
+    if (matchScore !== undefined) candidate.matchScore = Number(matchScore);
+    if (interviewDate || proposedInterviewDate) candidate.proposedInterviewDate = interviewDate || proposedInterviewDate;
+    if (interviewDate) candidate.interviewDate = interviewDate;
+    if (interviewTime) candidate.interviewTime = interviewTime;
+    if (meetingLink) candidate.meetingLink = meetingLink;
+    if (interviewerName) candidate.interviewerName = interviewerName;
+    if (interviewRound) candidate.interviewRound = interviewRound;
+    if (interviewStatus) candidate.interviewStatus = interviewStatus;
+    if (hrNotes !== undefined) candidate.hrNotes = hrNotes;
+    if (joiningDate) candidate.joiningDate = joiningDate;
+    if (salaryOffer) candidate.salaryOffer = salaryOffer;
+
+    candidate.updatedAt = new Date().toISOString();
+
+    let emailSentResult = null;
+
+    // 🎯 AUTOMATION 1: If marked as HIRED (or OFFER_EXTENDED), automatically dispatch formal Job Offer Email!
+    if (status === 'HIRED' || (status === 'OFFER_EXTENDED' && prevStatus !== 'OFFER_EXTENDED') || (status === 'HIRED' && prevStatus !== 'HIRED')) {
+      candidate.decision = 'SELECTED';
+      candidate.interviewStatus = '🎉 Official Job Offer Dispatched';
+      
+      const offerSubject = customEmailSubject || `🎉 Congratulations! Job Offer for ${candidate.role} at ${appConfig.companyName}`;
+      const offerHtml = generateHiringOfferTemplate({
+        candidate,
+        joiningDate: joiningDate || candidate.joiningDate || 'Within 2-4 weeks',
+        salaryOffer: salaryOffer || candidate.salaryOffer || 'As discussed during the final interview round',
+        customNotes: hrNotes || ''
+      });
+
+      console.log(`🚀 [Auto-Hiring Dispatch] Candidate ${candidate.name} updated to ${status}. Sending offer email to ${candidate.email}...`);
+      if (candidate.email && candidate.email.includes('@') && appConfig.autoSendEmails) {
+        emailSentResult = await sendCandidateCustomEmail(candidate.email, offerSubject, offerHtml);
+        if (emailSentResult.success) {
+          candidate.emailSubject = offerSubject;
+          candidate.emailSentAt = new Date().toISOString();
+        }
+      }
+    } 
+    // 🎯 AUTOMATION 2: If status updated to INTERVIEW_SCHEDULED and email requested
+    else if (status === 'INTERVIEW_SCHEDULED' && (prevStatus !== 'INTERVIEW_SCHEDULED' || sendUpdateEmail)) {
+      if (!candidate.meetingLink) {
+        candidate.meetingLink = generateGoogleMeetLink(candidate.id || candidate.name);
+      }
+      const inviteSubject = customEmailSubject || `📅 Interview Scheduled: ${candidate.role} at ${appConfig.companyName}`;
+      const inviteHtml = generateInterviewInviteTemplate({ candidate });
+
+      console.log(`📅 [Auto-Interview Dispatch] Sending updated interview invitation to ${candidate.email}...`);
+      if (candidate.email && candidate.email.includes('@') && appConfig.autoSendEmails) {
+        emailSentResult = await sendCandidateCustomEmail(candidate.email, inviteSubject, inviteHtml);
+        if (emailSentResult.success) {
+          candidate.emailSubject = inviteSubject;
+          candidate.emailSentAt = new Date().toISOString();
+          candidate.interviewStatus = `Interview Invitation Dispatched (${candidate.meetingLink})`;
+        }
+      }
+    } 
+    // 🎯 AUTOMATION 3: Manual custom email dispatch if requested
+    else if (sendUpdateEmail && customEmailSubject && customEmailBody && candidate.email && candidate.email.includes('@')) {
+      emailSentResult = await sendCandidateEmail(candidate.email, customEmailSubject, customEmailBody);
+      if (emailSentResult && emailSentResult.success) {
+        candidate.emailSubject = customEmailSubject;
+        candidate.emailSentAt = new Date().toISOString();
+      }
+    }
+
+    saveCandidates(list);
+    broadcastSSE('candidate_updated', { candidate, emailSent: emailSentResult });
+
+    res.json({
+      success: true,
+      candidate,
+      emailSent: emailSentResult ? emailSentResult.success : false,
+      message: status === 'HIRED'
+        ? 'Candidate marked as HIRED and official Job Offer email dispatched automatically!'
+        : 'Candidate details and pipeline status updated successfully.'
+    });
+  } catch (err) {
+    console.error("Candidate status update error:", err);
+    res.status(500).json({ success: false, error: err.message });
+  }
 }
 
 app.patch('/api/candidates/:id/status', handleCandidateStatusUpdate);
 app.put('/api/candidates/:id/status', handleCandidateStatusUpdate);
+app.put('/api/candidates/:id', handleCandidateStatusUpdate);
 
 // 7. Delete candidate
 app.delete('/api/candidates/:id', (req, res) => {

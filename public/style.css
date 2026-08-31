@@ -1679,3 +1679,114 @@ body {
 .btn-scan-now:active {
   transform: translateY(0);
 }
+
+/* Form Grid & Interview Scheduling UI */
+.form-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+@media (max-width: 600px) {
+  .form-grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.input-with-action {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.input-with-action input {
+  flex: 1;
+}
+
+.btn-action-sm {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  border-radius: 6px;
+  padding: 0.45rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-action-sm:hover {
+  background: var(--accent-primary);
+  color: white;
+  border-color: var(--accent-primary);
+  transform: translateY(-1px);
+}
+
+/* Automated Hiring Offer Panel */
+.hiring-offer-card {
+  background: rgba(16, 185, 129, 0.06);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  border-radius: 10px;
+  padding: 1rem;
+  margin-top: 0.85rem;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.hiring-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.hiring-card-header h4 {
+  margin: 0;
+  color: #34d399;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.hiring-card-notice {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}
+
+.badge-emerald {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+/* Status Badges */
+.status-badge.status-hired,
+.status-hired {
+  background: rgba(16, 185, 129, 0.18) !important;
+  color: #34d399 !important;
+  border: 1px solid rgba(16, 185, 129, 0.4) !important;
+  font-weight: 700 !important;
+}
+
+.status-badge.status-interview_scheduled,
+.status-interview_scheduled {
+  background: rgba(99, 102, 241, 0.18) !important;
+  color: #a5b4fc !important;
+  border: 1px solid rgba(99, 102, 241, 0.4) !important;
+  font-weight: 700 !important;
+}
+
+.status-badge.status-shortlisted,
+.status-shortlisted {
+  background: rgba(6, 182, 212, 0.18) !important;
+  color: #67e8f9 !important;
+  border: 1px solid rgba(6, 182, 212, 0.4) !important;
+  font-weight: 700 !important;
+}
+

@@ -907,6 +907,48 @@ function initModal() {
     });
   }
 
+  // Copy Google Meet link
+  const copyMeetBtn = document.getElementById('btn-copy-meet-link');
+  if (copyMeetBtn) {
+    copyMeetBtn.addEventListener('click', () => {
+      const link = document.getElementById('modal-meeting-link')?.value;
+      if (!link) {
+        showToast('No meeting link available', 'warning');
+        return;
+      }
+      navigator.clipboard.writeText(link).then(() => {
+        showToast('Google Meet link copied to clipboard: ' + link, 'success');
+      });
+    });
+  }
+
+  // Open Meet Link
+  const openMeetBtn = document.getElementById('btn-open-meet');
+  if (openMeetBtn) {
+    openMeetBtn.addEventListener('click', () => {
+      const link = document.getElementById('modal-meeting-link')?.value;
+      if (link && link.startsWith('http')) {
+        window.open(link, '_blank');
+      } else {
+        showToast('Please enter a valid meeting URL (e.g. https://meet.google.com/...)', 'warning');
+      }
+    });
+  }
+
+  // Generate New Meet Link
+  const genMeetBtn = document.getElementById('btn-generate-meet');
+  if (genMeetBtn) {
+    genMeetBtn.addEventListener('click', () => {
+      const rand1 = Math.random().toString(36).substring(2, 5);
+      const rand2 = Math.random().toString(36).substring(2, 6);
+      const rand3 = Math.random().toString(36).substring(2, 5);
+      const newLink = `https://meet.google.com/${rand1}-${rand2}-${rand3}`;
+      const input = document.getElementById('modal-meeting-link');
+      if (input) input.value = newLink;
+      showToast('Generated new Google Meet link: ' + newLink, 'info');
+    });
+  }
+
   // Copy interview questions
   const copyBtn = document.getElementById('btn-copy-questions');
   if (copyBtn) {
@@ -919,40 +961,146 @@ function initModal() {
     });
   }
 
-  // Save candidate status update
+  // Dynamic Hiring Box Visibility on Status Change
+  const updateStatusSelect = document.getElementById('modal-update-status');
+  const hiringBox = document.getElementById('modal-hiring-box');
+  if (updateStatusSelect && hiringBox) {
+    updateStatusSelect.addEventListener('change', () => {
+      const val = updateStatusSelect.value;
+      if (val === 'HIRED' || val === 'OFFER_EXTENDED') {
+        hiringBox.style.display = 'block';
+      } else {
+        hiringBox.style.display = 'none';
+      }
+    });
+  }
+
+  // Dispatch / Resend Interview Invitation Email with Google Meet Link
+  const dispatchInviteBtn = document.getElementById('btn-dispatch-interview-invite');
+  if (dispatchInviteBtn) {
+    dispatchInviteBtn.addEventListener('click', async () => {
+      if (!selectedCandidate) return;
+      
+      const interviewDate = document.getElementById('modal-interview-date')?.value;
+      const interviewTime = document.getElementById('modal-interview-time')?.value;
+      const meetingLink = document.getElementById('modal-meeting-link')?.value;
+      const interviewRound = document.getElementById('modal-interview-round')?.value;
+      const interviewerName = document.getElementById('modal-interviewer')?.value;
+
+      dispatchInviteBtn.disabled = true;
+      dispatchInviteBtn.textContent = '⏳ Dispatching Interview Invitation...';
+
+      try {
+        const res = await fetch(`/api/candidates/${selectedCandidate.id}/status`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            status: 'INTERVIEW_SCHEDULED',
+            interviewDate,
+            interviewTime,
+            meetingLink,
+            interviewRound,
+            interviewerName,
+            sendUpdateEmail: true
+          })
+        });
+
+        const data = await res.json();
+        if (data.success && data.candidate) {
+          selectedCandidate = data.candidate;
+          const idx = allCandidates.findIndex(c => c.id === selectedCandidate.id);
+          if (idx !== -1) allCandidates[idx] = selectedCandidate;
+
+          showToast(`Interview invitation with Google Meet link dispatched to ${selectedCandidate.email}!`, 'success');
+          
+          const modalStatus = document.getElementById('modal-status');
+          if (modalStatus) modalStatus.textContent = 'INTERVIEW_SCHEDULED';
+
+          updateMetrics(allCandidates);
+          applyFilters();
+        } else {
+          showToast(data.error || 'Failed to dispatch interview email', 'error');
+        }
+      } catch (err) {
+        showToast('Error dispatching invitation: ' + err.message, 'error');
+      } finally {
+        dispatchInviteBtn.disabled = false;
+        dispatchInviteBtn.textContent = '✉️ Send / Resend Interview Invitation Email with Google Meet Link';
+      }
+    });
+  }
+
+  // Save full candidate status update
   const saveStatusBtn = document.getElementById('btn-save-candidate-status');
   if (saveStatusBtn) {
     saveStatusBtn.addEventListener('click', async () => {
       if (!selectedCandidate) return;
+      
       const newStatus = document.getElementById('modal-update-status')?.value;
-      const slot = document.getElementById('modal-interview-slot')?.value;
+      const newRole = document.getElementById('modal-update-role')?.value;
+      const interviewDate = document.getElementById('modal-interview-date')?.value;
+      const interviewTime = document.getElementById('modal-interview-time')?.value;
+      const meetingLink = document.getElementById('modal-meeting-link')?.value;
+      const interviewRound = document.getElementById('modal-interview-round')?.value;
+      const interviewerName = document.getElementById('modal-interviewer')?.value;
+      const joiningDate = document.getElementById('modal-joining-date')?.value;
+      const salaryOffer = document.getElementById('modal-salary-offer')?.value;
+      const hrNotes = document.getElementById('modal-hr-notes')?.value;
+
+      saveStatusBtn.disabled = true;
+      saveStatusBtn.textContent = '⏳ Saving & Processing Automation...';
 
       try {
         const res = await fetch(`/api/candidates/${selectedCandidate.id}/status`, {
-          method: 'PATCH',
+          method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             status: newStatus,
-            interviewStatus: newStatus === 'INTERVIEW_SCHEDULED' ? `Scheduled (${slot})` : formatStatus(newStatus),
-            interviewDate: slot
+            role: newRole,
+            interviewDate,
+            interviewTime,
+            meetingLink,
+            interviewRound,
+            interviewerName,
+            joiningDate,
+            salaryOffer,
+            hrNotes
           })
         });
+
         const data = await res.json();
         if (data.success && data.candidate) {
           selectedCandidate = data.candidate;
-          // Update candidate in local array
           const idx = allCandidates.findIndex(c => c.id === selectedCandidate.id);
           if (idx !== -1) allCandidates[idx] = selectedCandidate;
 
-          showToast('Candidate pipeline stage updated!', 'success');
+          if (newStatus === 'HIRED') {
+            showToast(`🎉 SUCCESS: Candidate HIRED! Formal Offer Letter dispatched automatically to ${selectedCandidate.email}!`, 'success');
+          } else {
+            showToast(data.message || 'Candidate updated successfully!', 'success');
+          }
+
           const modalStatus = document.getElementById('modal-status');
-          if (modalStatus) modalStatus.textContent = newStatus;
+          if (modalStatus) {
+            modalStatus.textContent = newStatus;
+            modalStatus.className = `status-badge status-${newStatus.toLowerCase()}`;
+          }
+
+          const modalRole = document.getElementById('modal-role-meta');
+          if (modalRole) {
+            modalRole.textContent = `${selectedCandidate.role} • ${selectedCandidate.email} • ${selectedCandidate.phone || 'No phone'}`;
+          }
 
           updateMetrics(allCandidates);
           applyFilters();
+        } else {
+          showToast(data.error || 'Failed to update candidate', 'error');
         }
       } catch (err) {
         showToast(`Update error: ${err.message}`, 'error');
+      } finally {
+        saveStatusBtn.disabled = false;
+        saveStatusBtn.textContent = '💾 Save Changes & Update Candidate Status';
       }
     });
   }
@@ -989,6 +1137,7 @@ function initModal() {
 function openCandidateModal(cand) {
   selectedCandidate = cand;
   const isSelected = cand.decision === 'SELECTED';
+  const isHired = cand.status === 'HIRED' || cand.status === 'OFFER_EXTENDED';
   const initials = (cand.name || 'Candidate').split(' ').filter(Boolean).map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'CD';
 
   const elAvatar = document.getElementById('modal-avatar');
@@ -1007,7 +1156,10 @@ function openCandidateModal(cand) {
   }
 
   const statusBadge = document.getElementById('modal-status');
-  if (statusBadge) statusBadge.textContent = cand.status || 'NEW';
+  if (statusBadge) {
+    statusBadge.textContent = formatStatus(cand.status || 'APPLICATION_RECEIVED');
+    statusBadge.className = `status-badge status-${(cand.status || 'new').toLowerCase()}`;
+  }
 
   // Score circle
   const scoreCircle = document.getElementById('modal-score-circle');
@@ -1047,6 +1199,34 @@ function openCandidateModal(cand) {
     skillsTags.innerHTML = (cand.topSkills || []).map(s => `<span>${escapeHtml(s)}</span>`).join('') || '<span>General Skills</span>';
   }
 
+  // Interview Schedule & Google Meet Fields
+  const interviewDateInput = document.getElementById('modal-interview-date');
+  if (interviewDateInput) {
+    interviewDateInput.value = cand.interviewDate || cand.proposedInterviewDate || 'Thursday, September 3, 2026';
+  }
+
+  const interviewTimeInput = document.getElementById('modal-interview-time');
+  if (interviewTimeInput) {
+    interviewTimeInput.value = cand.interviewTime || '2:30 PM - 3:15 PM IST (45 Mins)';
+  }
+
+  const meetingLinkInput = document.getElementById('modal-meeting-link');
+  if (meetingLinkInput) {
+    meetingLinkInput.value = cand.meetingLink || `https://meet.google.com/nex-${(cand.id || 'abc').substring(5, 9)}-meet`;
+  }
+
+  const interviewRoundInput = document.getElementById('modal-interview-round');
+  if (interviewRoundInput) {
+    interviewRoundInput.value = cand.interviewRound || (cand.role === 'Digital Marketing Specialist' 
+      ? 'Round 1: Marketing Strategy & Campaign Review' 
+      : 'Round 1: Technical & System Architecture');
+  }
+
+  const interviewerInput = document.getElementById('modal-interviewer');
+  if (interviewerInput) {
+    interviewerInput.value = cand.interviewerName || 'Tech Innovations Hiring Panel';
+  }
+
   // Questions
   const questionsOl = document.getElementById('modal-interview-questions');
   if (questionsOl) {
@@ -1057,12 +1237,27 @@ function openCandidateModal(cand) {
     }
   }
 
-  // Pipeline update select
+  // Status & Role Form Fields
   const updateStatusSelect = document.getElementById('modal-update-status');
   if (updateStatusSelect) updateStatusSelect.value = cand.status || 'INTERVIEW_SCHEDULED';
 
-  const interviewSlotInput = document.getElementById('modal-interview-slot');
-  if (interviewSlotInput) interviewSlotInput.value = cand.proposedInterviewDate || '';
+  const updateRoleSelect = document.getElementById('modal-update-role');
+  if (updateRoleSelect) updateRoleSelect.value = cand.role || 'Full Stack Developer';
+
+  // Hiring Offer Fields
+  const hiringBox = document.getElementById('modal-hiring-box');
+  if (hiringBox) {
+    hiringBox.style.display = isHired ? 'block' : 'none';
+  }
+
+  const joiningDateInput = document.getElementById('modal-joining-date');
+  if (joiningDateInput) joiningDateInput.value = cand.joiningDate || 'Within 2-4 weeks';
+
+  const salaryOfferInput = document.getElementById('modal-salary-offer');
+  if (salaryOfferInput) salaryOfferInput.value = cand.salaryOffer || 'Competitive Market Rate';
+
+  const hrNotesInput = document.getElementById('modal-hr-notes');
+  if (hrNotesInput) hrNotesInput.value = cand.hrNotes || '';
 
   // Email Preview
   const emailSubj = document.getElementById('modal-email-subject');
