@@ -1411,9 +1411,32 @@ app.post('/api/test-n8n', (req, res) => {
   }
 });
 
-// 11. Settings
+// 11. Settings & Config
 app.get('/api/settings', (req, res) => {
   res.json({ success: true, config: appConfig });
+});
+
+app.get('/api/config', (req, res) => {
+  res.json({
+    success: true,
+    companyName: appConfig.companyName,
+    hrEmail: appConfig.hrEmail,
+    selectionScoreThreshold: appConfig.selectionScoreThreshold,
+    autoSendEmails: appConfig.autoSendEmails,
+    models: appConfig.models
+  });
+});
+
+// 12. Health Check
+app.get('/api/health', (req, res) => {
+  res.json({
+    status: 'healthy',
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString(),
+    service: 'Tech Innovations Inc. - Nexus HR Recruitment Pipeline',
+    inboxWatcher: scannerStats.status,
+    activeRolesCount: getActiveJobRoles().length
+  });
 });
 
 app.post('/api/settings', (req, res) => {
