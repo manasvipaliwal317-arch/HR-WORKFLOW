@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth dark">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tech Innovations Inc. | Cybersecurity & IT Solutions | Khandwa, MP, India</title>
-  <meta name="description" content="Tech Innovations Inc. delivers modern cybersecurity and IT security solutions designed to protect businesses, startups, and institutions in Khandwa, Madhya Pradesh, India.">
-  <meta name="keywords" content="Cybersecurity Khandwa, IT Security Solutions, Vulnerability Assessment, Network Security, Data Protection, Tech Innovations Inc.">
-  <meta property="og:title" content="Tech Innovations Inc. | Cybersecurity & IT Solutions">
-  <meta property="og:description" content="Secure Your Digital Future With Confidence. Enterprise Cybersecurity & Threat Protection based in Khandwa, MP.">
+  <title>Tech Innovations Inc. | Cybersecurity & IT Security Solutions</title>
+  <meta name="description" content="Tech Innovations Inc. delivers modern cybersecurity and IT security solutions designed to protect businesses, startups, and institutions from evolving digital threats. Based in Khandwa, Madhya Pradesh, India.">
+  <meta name="keywords" content="cybersecurity, IT security, network security, vulnerability assessment, web application security, threat protection, Khandwa Madhya Pradesh, Tech Innovations Inc.">
+  <meta property="og:title" content="Tech Innovations Inc. | Cybersecurity & IT Security Solutions">
+  <meta property="og:description" content="Secure Your Digital Future With Confidence. Modern cybersecurity solutions engineered for resilience and trust.">
   <meta property="og:type" content="website">
 
   <!-- Tailwind CSS CDN -->
@@ -19,35 +19,40 @@
         extend: {
           colors: {
             cyber: {
-              dark: '#070a13',
-              card: '#0f172a',
-              cyan: '#06b6d4',
-              cyanLight: '#22d3ee',
-              blue: '#3b82f6',
+              950: '#070b14',
+              900: '#0c1322',
+              850: '#111a30',
+              800: '#1e293b',
+              accent: '#00f0ff',
+              blue: '#38bdf8',
+              indigo: '#6366f1',
               emerald: '#10b981'
             }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
           }
         }
       }
     }
   </script>
 
-  <!-- Custom Styles -->
+  <!-- Custom Stylesheet -->
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="bg-[#070a13] text-slate-200 cyber-grid-bg antialiased selection:bg-cyan-500 selection:text-white">
+<body class="cyber-grid-bg text-slate-100 flex flex-col min-h-screen">
 
-  <!-- STICKY HEADER -->
-  <header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent">
+  <!-- ==================== HEADER / STICKY NAVBAR ==================== -->
+  <header id="site-header" class="fixed top-0 left-0 right-0 z-50 glass-nav transition-all duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
       
       <!-- Brand Logo -->
-      <a href="index.html" class="flex items-center gap-3 group">
-        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 p-0.5 shadow-lg shadow-cyan-500/20 group-hover:shadow-cyan-500/40 transition-all">
-          <div class="w-full h-full bg-slate-950 rounded-[7px] flex items-center justify-center">
-            <svg class="w-5 h-5 text-cyan-400 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-              <path d="M9 12l2 2 4-4"/>
+      <a href="index.html" class="flex items-center gap-3 group text-decoration-none">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 via-sky-500 to-indigo-600 p-0.5 shadow-lg shadow-cyan-500/20 group-hover:shadow-cyan-400/40 transition-all">
+          <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
+            <svg class="w-5 h-5 text-cyan-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
             </svg>
           </div>
         </div>
@@ -55,436 +60,523 @@
           <span class="text-lg font-bold tracking-tight text-white flex items-center gap-1.5">
             Tech Innovations <span class="text-cyan-400">Inc.</span>
           </span>
-          <span class="text-[10px] text-slate-400 block tracking-wider uppercase font-medium">Cybersecurity & IT Solutions</span>
+          <span class="block text-[10px] font-mono tracking-widest text-slate-400 uppercase">Cybersecurity & IT Solutions</span>
         </div>
       </a>
 
-      <!-- Desktop Navigation Links -->
-      <nav class="hidden lg:flex items-center gap-7 text-sm font-medium">
-        <a href="index.html" class="text-slate-300 hover:text-cyan-400 transition-colors">Home</a>
-        <a href="about.html" class="text-slate-300 hover:text-cyan-400 transition-colors">About</a>
-        <a href="services.html" class="text-slate-300 hover:text-cyan-400 transition-colors">Services</a>
-        <a href="solutions.html" class="text-slate-300 hover:text-cyan-400 transition-colors">Solutions</a>
-        <a href="industries.html" class="text-slate-300 hover:text-cyan-400 transition-colors">Industries</a>
-        <a href="why-us.html" class="text-slate-300 hover:text-cyan-400 transition-colors">Why Us</a>
-        <a href="careers.html" class="text-slate-300 hover:text-cyan-400 transition-colors relative flex items-center gap-1.5">
+      <!-- Desktop Navigation -->
+      <nav class="hidden lg:flex items-center gap-7">
+        <a href="index.html" class="nav-link-item text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors">Home</a>
+        <a href="about.html" class="nav-link-item text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors">About</a>
+        <a href="services.html" class="nav-link-item text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors">Services</a>
+        <a href="solutions.html" class="nav-link-item text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors">Solutions</a>
+        <a href="industries.html" class="nav-link-item text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors">Industries</a>
+        <a href="why-us.html" class="nav-link-item text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors">Why Us</a>
+        <a href="careers.html" class="nav-link-item text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors inline-flex items-center gap-1.5">
           Careers
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          <span class="px-1.5 py-0.5 text-[10px] font-bold rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 animate-pulse">Hiring</span>
         </a>
-        <a href="contact.html" class="text-slate-300 hover:text-cyan-400 transition-colors">Contact</a>
+        <a href="contact.html" class="nav-link-item text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors">Contact</a>
       </nav>
 
-      <!-- CTA Button -->
-      <div class="hidden lg:flex items-center gap-4">
-        <a href="contact.html" class="btn-cyber-primary text-xs uppercase tracking-wider">
+      <!-- CTA Button & Mobile Toggle -->
+      <div class="flex items-center gap-3">
+        <a href="contact.html" class="hidden sm:inline-flex btn-cyber-primary text-xs sm:text-sm py-2.5 px-4">
           Get a Security Consultation
         </a>
-      </div>
 
-      <!-- Mobile Hamburger Button -->
-      <button id="mobile-menu-btn" class="lg:hidden p-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 focus:outline-none" aria-label="Open Menu">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
-        </svg>
-      </button>
+        <!-- Mobile Hamburger Button -->
+        <button id="mobile-menu-btn" class="lg:hidden p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-cyan-400 focus:outline-none" aria-label="Toggle mobile menu">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-menu-drawer" class="hidden lg:hidden glass-nav border-t border-slate-800/80 px-4 pt-4 pb-6 space-y-3">
+      <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:bg-slate-800/60 hover:text-cyan-400">Home</a>
+      <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:bg-slate-800/60 hover:text-cyan-400">About Us</a>
+      <a href="services.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:bg-slate-800/60 hover:text-cyan-400">Services</a>
+      <a href="solutions.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:bg-slate-800/60 hover:text-cyan-400">Cybersecurity Solutions</a>
+      <a href="industries.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:bg-slate-800/60 hover:text-cyan-400">Industries</a>
+      <a href="why-us.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:bg-slate-800/60 hover:text-cyan-400">Why Choose Us</a>
+      <a href="careers.html" class="block px-3 py-2 rounded-md text-base font-medium text-emerald-400 hover:bg-slate-800/60">Careers & Openings 🟢</a>
+      <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:bg-slate-800/60 hover:text-cyan-400">Contact Us</a>
+      <div class="pt-2">
+        <a href="contact.html" class="w-full btn-cyber-primary text-center">Get a Security Consultation</a>
+      </div>
     </div>
   </header>
 
-  <!-- MOBILE MENU DRAWER -->
-  <div id="mobile-menu" class="hidden fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-xl p-6 flex flex-col justify-between overflow-y-auto">
-    <div>
-      <div class="flex items-center justify-between pb-6 border-b border-slate-800">
-        <div class="flex items-center gap-2.5">
-          <div class="w-8 h-8 rounded bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-400 font-bold">🛡️</div>
-          <span class="text-base font-bold text-white">Tech Innovations Inc.</span>
+  <!-- ==================== HERO SECTION ==================== -->
+  <section class="relative pt-36 pb-20 md:pt-44 md:pb-28 overflow-hidden">
+    <!-- Particle Canvas -->
+    <canvas id="hero-particle-canvas"></canvas>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Left Hero Content -->
+        <div class="lg:col-span-7 space-y-6 text-center lg:text-left reveal-on-scroll">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-semibold tracking-wide">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+            Khandwa, Madhya Pradesh, India • Enterprise Cybersecurity
+          </div>
+
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
+            Secure Your <br>
+            <span class="gradient-text-cyan">Digital Future</span> <br>
+            With Confidence
+          </h1>
+
+          <p class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+            Tech Innovations Inc. delivers modern cybersecurity and IT security solutions engineered to protect businesses, startups, and institutions from evolving digital threats.
+          </p>
+
+          <div class="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-4">
+            <a href="contact.html" class="btn-cyber-primary text-sm sm:text-base py-3 px-6">
+              Get a Security Consultation ➔
+            </a>
+            <a href="services.html" class="btn-cyber-secondary text-sm sm:text-base py-3 px-6">
+              Explore Our Services
+            </a>
+          </div>
+
+          <!-- Secondary Trust Message -->
+          <div class="pt-6 flex items-center justify-center lg:justify-start gap-3 text-xs sm:text-sm font-mono text-slate-400 tracking-wider">
+            <span class="text-cyan-400 font-bold">PROTECT.</span>
+            <span>DETECT.</span>
+            <span class="text-sky-400 font-bold">RESPOND.</span>
+            <span>INNOVATE.</span>
+          </div>
         </div>
-        <button id="mobile-menu-close" class="p-2 text-slate-400 hover:text-white" aria-label="Close Menu">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-        </button>
-      </div>
 
-      <nav class="flex flex-col gap-4 text-base font-medium mt-8">
-        <a href="index.html" class="text-slate-200 hover:text-cyan-400 py-2 border-b border-slate-900">Home</a>
-        <a href="about.html" class="text-slate-200 hover:text-cyan-400 py-2 border-b border-slate-900">About Us</a>
-        <a href="services.html" class="text-slate-200 hover:text-cyan-400 py-2 border-b border-slate-900">Services</a>
-        <a href="solutions.html" class="text-slate-200 hover:text-cyan-400 py-2 border-b border-slate-900">Solutions</a>
-        <a href="industries.html" class="text-slate-200 hover:text-cyan-400 py-2 border-b border-slate-900">Industries</a>
-        <a href="why-us.html" class="text-slate-200 hover:text-cyan-400 py-2 border-b border-slate-900">Why Choose Us</a>
-        <a href="careers.html" class="text-cyan-400 font-semibold py-2 border-b border-slate-900 flex items-center justify-between">
-          Careers & Openings
-          <span class="text-xs px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-500/30">Hiring</span>
-        </a>
-        <a href="contact.html" class="text-slate-200 hover:text-cyan-400 py-2">Contact Us</a>
-      </nav>
-    </div>
-
-    <div class="pt-6 border-t border-slate-800">
-      <a href="contact.html" class="btn-cyber-primary w-full text-center text-sm py-3 mb-3">Get a Security Consultation</a>
-      <p class="text-center text-xs text-slate-500">Khandwa, Madhya Pradesh, India</p>
-    </div>
-  </div>
-
-  <main>
-    <!-- HERO SECTION -->
-    <section class="relative min-h-[90vh] pt-32 pb-20 flex items-center cyber-radial-glow overflow-hidden">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
-          <!-- Left Column Content -->
-          <div class="lg:col-span-7 space-y-6 text-left reveal-on-scroll">
+        <!-- Right Hero Cyber Visual -->
+        <div class="lg:col-span-5 reveal-on-scroll">
+          <div class="relative mx-auto max-w-md lg:max-w-none">
             
-            <div class="flex flex-wrap items-center gap-3">
-              <span class="cyber-badge">
-                <span class="pulse-radar-dot"></span>
-                Cybersecurity & IT Solutions
-              </span>
-              <span class="text-xs text-slate-400 flex items-center gap-1">
-                📍 Khandwa, Madhya Pradesh, India
-              </span>
-            </div>
-
-            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
-              Secure Your <span class="text-gradient-cyan">Digital Future</span> With Confidence.
-            </h1>
-
-            <p class="text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl font-normal">
-              Tech Innovations Inc. delivers modern cybersecurity and IT security solutions designed to protect businesses, startups, and enterprises from evolving digital threats.
-            </p>
-
-            <div class="p-4 rounded-xl glass-panel border-l-4 border-cyan-500 flex items-center gap-3">
-              <span class="text-2xl">🛡️</span>
-              <p class="text-xs sm:text-sm text-cyan-200 font-medium">
-                <strong>Our Core Promise:</strong> Protect. Detect. Respond. Innovate.
-              </p>
-            </div>
-
-            <!-- CTA Buttons -->
-            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
-              <a href="contact.html" class="btn-cyber-primary text-sm !py-3.5 !px-6">
-                Get a Security Consultation
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-              </a>
-              <a href="services.html" class="btn-cyber-secondary text-sm !py-3.5 !px-6">
-                Explore Our Services ➔
-              </a>
-            </div>
-
-          </div>
-
-          <!-- Right Column: Animated Cyber Shield & Security Visual -->
-          <div class="lg:col-span-5 flex justify-center reveal-on-scroll">
-            <div class="relative w-full max-w-md">
-              <!-- Background Ambient Glow -->
-              <div class="absolute -inset-4 bg-gradient-to-r from-cyan-500/20 to-blue-600/20 rounded-3xl blur-2xl opacity-75"></div>
+            <!-- Cyber Shield Interactive Card -->
+            <div class="glass-panel p-6 sm:p-8 relative overflow-hidden border-cyan-500/30 glow-cyan">
               
-              <!-- Main Holographic Card -->
-              <div class="relative glass-panel rounded-2xl p-6 border border-cyan-500/30 overflow-hidden">
-                <div class="flex items-center justify-between pb-4 border-b border-slate-800">
-                  <div class="flex items-center gap-2">
-                    <div class="w-3 h-3 rounded-full bg-rose-500"></div>
-                    <div class="w-3 h-3 rounded-full bg-amber-500"></div>
-                    <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
+              <!-- Background Radar Pulse Rings -->
+              <div class="absolute -right-12 -top-12 w-64 h-64 pulse-radar-ring pointer-events-none"></div>
+              <div class="absolute -right-12 -top-12 w-96 h-96 pulse-radar-ring pointer-events-none" style="animation-delay: 1.5s;"></div>
+
+              <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-6">
+                <div class="flex items-center gap-2.5">
+                  <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                  <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                  <div class="w-3 h-3 rounded-full bg-emerald-500/80"></div>
+                  <span class="text-xs font-mono text-slate-400 ml-2">TECH-DEFENSE-NODE-01</span>
+                </div>
+                <span class="text-[11px] font-mono text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-500/30">
+                  SHIELD ACTIVE
+                </span>
+              </div>
+
+              <!-- Main Central Graphic -->
+              <div class="my-6 text-center">
+                <div class="w-24 h-24 mx-auto mb-4 rounded-2xl bg-gradient-to-tr from-cyan-500/20 via-sky-500/20 to-indigo-500/20 border border-cyan-400/40 flex items-center justify-center relative shadow-inner">
+                  <svg class="w-12 h-12 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                  </svg>
+                  <div class="absolute -bottom-2 -right-2 px-2 py-0.5 bg-emerald-900/90 text-emerald-300 text-[10px] font-mono rounded border border-emerald-500/40">
+                    24/7 GUARD
                   </div>
-                  <span class="text-[11px] font-mono text-cyan-400 uppercase tracking-wider">SEC_SYSTEM://LIVE</span>
                 </div>
 
-                <!-- Animated Shield Visual -->
-                <div class="py-8 flex flex-col items-center justify-center text-center">
-                  <div class="w-28 h-28 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-blue-500/10 border border-cyan-400/40 flex items-center justify-center mb-4 animate-shield shadow-lg shadow-cyan-500/20">
-                    <svg class="w-14 h-14 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                      <path d="M9 12l2 2 4-4"/>
-                    </svg>
-                  </div>
-                  <h3 class="text-lg font-bold text-white">Active Defense Architecture</h3>
-                  <p class="text-xs text-slate-400 mt-1 max-w-xs">Continuous Threat Prevention & Multi-Layer System Hardening</p>
-                </div>
+                <h3 class="text-lg font-bold text-white mb-1">Adaptive Threat Protection</h3>
+                <p class="text-xs text-slate-400">Continuous vulnerability mitigation & infrastructure defense.</p>
+              </div>
 
-                <!-- Live Metrics Pills -->
-                <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800 text-left font-mono">
-                  <div class="p-2.5 rounded-lg bg-slate-950/80 border border-slate-800">
-                    <span class="text-[10px] text-slate-500 block">ENCRYPTION</span>
-                    <span class="text-xs text-emerald-400 font-bold">AES-256 / SHA3</span>
-                  </div>
-                  <div class="p-2.5 rounded-lg bg-slate-950/80 border border-slate-800">
-                    <span class="text-[10px] text-slate-500 block">SURVEILLANCE</span>
-                    <span class="text-xs text-cyan-400 font-bold">24/7 SOC Mindset</span>
-                  </div>
+              <!-- Metric Grid in Card -->
+              <div class="grid grid-cols-2 gap-3 pt-4 border-t border-slate-800 text-left">
+                <div class="bg-slate-900/70 p-3 rounded-lg border border-slate-800">
+                  <span class="text-[10px] text-slate-400 font-mono block">DEFENSE POSTURE</span>
+                  <span class="text-sm font-bold text-cyan-400 font-mono">100% HARDENED</span>
+                </div>
+                <div class="bg-slate-900/70 p-3 rounded-lg border border-slate-800">
+                  <span class="text-[10px] text-slate-400 font-mono block">SECURITY PROTOCOL</span>
+                  <span class="text-sm font-bold text-emerald-400 font-mono">ZERO TRUST</span>
                 </div>
               </div>
+
             </div>
           </div>
-
         </div>
+
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- TRUST & KEY METRICS STRIP -->
-    <section class="py-12 border-y border-slate-800 bg-slate-950/60 relative z-20">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-          
-          <div class="glass-panel p-6 rounded-xl reveal-on-scroll">
-            <span class="text-3xl font-extrabold text-gradient-cyan counter-value" data-target="24" data-suffix="/7">24/7</span>
-            <p class="text-xs uppercase tracking-wider text-slate-400 font-semibold mt-1">Security Mindset</p>
-          </div>
-
-          <div class="glass-panel p-6 rounded-xl reveal-on-scroll">
-            <span class="text-3xl font-extrabold text-gradient-blue counter-value" data-target="100" data-suffix="%">100%</span>
-            <p class="text-xs uppercase tracking-wider text-slate-400 font-semibold mt-1">Proactive Protection</p>
-          </div>
-
-          <div class="glass-panel p-6 rounded-xl reveal-on-scroll">
-            <span class="text-3xl font-extrabold text-gradient-cyan counter-value" data-target="10" data-suffix="+">10+</span>
-            <p class="text-xs uppercase tracking-wider text-slate-400 font-semibold mt-1">Security Domains</p>
-          </div>
-
-          <div class="glass-panel p-6 rounded-xl reveal-on-scroll">
-            <span class="text-3xl font-extrabold text-gradient-emerald counter-value" data-target="360" data-suffix="°">360°</span>
-            <p class="text-xs uppercase tracking-wider text-slate-400 font-semibold mt-1">Threat Defense</p>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- FEATURED SERVICES PREVIEW -->
-    <section class="py-20 relative">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <!-- ==================== TRUST / STATS SECTION ==================== -->
+  <section class="py-12 border-y border-slate-800/80 bg-slate-950/60 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 text-center">
         
-        <div class="text-center max-w-3xl mx-auto mb-16 reveal-on-scroll">
-          <span class="cyber-badge mb-3">Enterprise Defense Portfolio</span>
-          <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Comprehensive Cybersecurity Solutions</h2>
-          <p class="text-slate-400 text-sm sm:text-base mt-3">
-            Custom-tailored security assessments, architecture hardening, and resilience consulting for modern enterprises.
-          </p>
+        <div class="p-6 glass-panel reveal-on-scroll">
+          <div class="text-3xl sm:text-4xl font-extrabold text-cyan-400 font-mono mb-2 stat-counter" data-target="24" data-suffix="/7">24/7</div>
+          <h4 class="text-sm font-bold text-white">Security Mindset</h4>
+          <p class="text-xs text-slate-400 mt-1">Continuous awareness & threat mitigation</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          
-          <!-- Service Card 1 -->
-          <div class="glass-panel rounded-2xl p-7 flex flex-col justify-between reveal-on-scroll">
-            <div>
-              <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-2xl mb-5">
-                🔍
-              </div>
-              <h3 class="text-xl font-bold text-white mb-2.5">Cybersecurity & Vulnerability Assessment</h3>
-              <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-6">
-                Systematic evaluation of digital assets, vulnerability scanning, and risk prioritization to uncover security gaps before attackers do.
-              </p>
-            </div>
-            <a href="services.html" class="text-cyan-400 text-xs font-semibold hover:text-cyan-300 inline-flex items-center gap-1.5">
-              Learn More Details ➔
-            </a>
-          </div>
-
-          <!-- Service Card 2 -->
-          <div class="glass-panel rounded-2xl p-7 flex flex-col justify-between reveal-on-scroll">
-            <div>
-              <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 text-2xl mb-5">
-                🌐
-              </div>
-              <h3 class="text-xl font-bold text-white mb-2.5">Network & Cloud Infrastructure Security</h3>
-              <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-6">
-                Zero Trust network architecture, firewall policies, cloud configuration audits, and perimeter defense against unauthorized access.
-              </p>
-            </div>
-            <a href="services.html" class="text-cyan-400 text-xs font-semibold hover:text-cyan-300 inline-flex items-center gap-1.5">
-              Learn More Details ➔
-            </a>
-          </div>
-
-          <!-- Service Card 3 -->
-          <div class="glass-panel rounded-2xl p-7 flex flex-col justify-between reveal-on-scroll">
-            <div>
-              <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-2xl mb-5">
-                🔐
-              </div>
-              <h3 class="text-xl font-bold text-white mb-2.5">Data Protection & Cryptographic Controls</h3>
-              <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-6">
-                End-to-end encryption frameworks, data loss prevention (DLP), compliance governance, and secure access management policies.
-              </p>
-            </div>
-            <a href="services.html" class="text-cyan-400 text-xs font-semibold hover:text-cyan-300 inline-flex items-center gap-1.5">
-              Learn More Details ➔
-            </a>
-          </div>
-
+        <div class="p-6 glass-panel reveal-on-scroll" style="transition-delay: 100ms;">
+          <div class="text-3xl sm:text-4xl font-extrabold text-sky-400 font-mono mb-2 stat-counter" data-target="100" data-suffix="%">100%</div>
+          <h4 class="text-sm font-bold text-white">Proactive Protection</h4>
+          <p class="text-xs text-slate-400 mt-1">Security-first architecture from day one</p>
         </div>
 
-        <div class="text-center mt-12">
-          <a href="services.html" class="btn-cyber-secondary text-sm">View All 10 Cybersecurity Services ➔</a>
+        <div class="p-6 glass-panel reveal-on-scroll" style="transition-delay: 200ms;">
+          <div class="text-3xl sm:text-4xl font-extrabold text-indigo-400 font-mono mb-2 stat-counter" data-target="10" data-suffix="+ Domains">10+ Domains</div>
+          <h4 class="text-sm font-bold text-white">Modern Security Practices</h4>
+          <p class="text-xs text-slate-400 mt-1">Network, cloud, endpoint & web security</p>
+        </div>
+
+        <div class="p-6 glass-panel reveal-on-scroll" style="transition-delay: 300ms;">
+          <div class="text-3xl sm:text-4xl font-extrabold text-emerald-400 font-mono mb-2">B2B & SMB</div>
+          <h4 class="text-sm font-bold text-white">Business-Focused</h4>
+          <p class="text-xs text-slate-400 mt-1">Tailored for organizations in Khandwa & beyond</p>
         </div>
 
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- 6-STEP SECURITY PROCESS TEASER -->
-    <section class="py-20 bg-slate-950/80 border-t border-slate-800">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <!-- ==================== ABOUT & MISSION PREVIEW ==================== -->
+  <section class="py-20 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         
-        <div class="text-center max-w-3xl mx-auto mb-14 reveal-on-scroll">
-          <span class="cyber-badge mb-3">Structured Methodology</span>
-          <h2 class="text-3xl sm:text-4xl font-extrabold text-white">How We Secure Your Organization</h2>
-          <p class="text-slate-400 text-sm mt-3">
-            A battle-tested cyclical framework designed to establish continuous protection and resilience.
+        <div class="lg:col-span-6 space-y-6 reveal-on-scroll">
+          <span class="badge-cyber">ABOUT OUR ORGANIZATION</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-white leading-snug">
+            Empowering Organizations with Resilient Cyber Defenses
+          </h2>
+          <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+            Headquartered in <strong>Khandwa, Madhya Pradesh, India</strong>, Tech Innovations Inc. is dedicated to helping businesses, startups, and institutions navigate the complex cybersecurity landscape with confidence.
           </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+            <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+              <h4 class="text-sm font-bold text-cyan-400 mb-1">🎯 Our Mission</h4>
+              <p class="text-xs text-slate-400 leading-relaxed">
+                To help organizations build safer, smarter, and more resilient digital environments through proactive security.
+              </p>
+            </div>
+            <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+              <h4 class="text-sm font-bold text-emerald-400 mb-1">👁️ Our Vision</h4>
+              <p class="text-xs text-slate-400 leading-relaxed">
+                To become a trusted technology and cybersecurity partner for organizations navigating the modern digital world.
+              </p>
+            </div>
+          </div>
+
+          <div class="pt-2">
+            <a href="about.html" class="btn-cyber-secondary text-sm">Read Full Company Overview ➔</a>
+          </div>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 text-center">
-          
-          <div class="glass-panel p-5 rounded-xl reveal-on-scroll">
-            <span class="text-xs font-mono text-cyan-400 block mb-1">STEP 01</span>
-            <h4 class="text-sm font-bold text-white">Understand</h4>
-            <p class="text-[11px] text-slate-400 mt-1">Objectives & Assets</p>
-          </div>
+        <div class="lg:col-span-6 reveal-on-scroll">
+          <div class="glass-panel p-6 sm:p-8 space-y-6">
+            <h3 class="text-lg font-bold text-white border-b border-slate-800 pb-3">Core Principles of Tech Innovations Inc.</h3>
+            
+            <div class="space-y-4 text-sm text-slate-300">
+              <div class="flex items-start gap-3.5">
+                <span class="w-6 h-6 rounded-md bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">01</span>
+                <div>
+                  <strong class="text-white block">Security by Design:</strong>
+                  Security is integrated into every phase of technology planning and architecture.
+                </div>
+              </div>
 
-          <div class="glass-panel p-5 rounded-xl reveal-on-scroll">
-            <span class="text-xs font-mono text-cyan-400 block mb-1">STEP 02</span>
-            <h4 class="text-sm font-bold text-white">Assess</h4>
-            <p class="text-[11px] text-slate-400 mt-1">Identify Risks</p>
-          </div>
+              <div class="flex items-start gap-3.5">
+                <span class="w-6 h-6 rounded-md bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">02</span>
+                <div>
+                  <strong class="text-white block">Actionable Risk Reduction:</strong>
+                  We provide practical, prioritized recommendations rather than overwhelming jargon.
+                </div>
+              </div>
 
-          <div class="glass-panel p-5 rounded-xl reveal-on-scroll">
-            <span class="text-xs font-mono text-cyan-400 block mb-1">STEP 03</span>
-            <h4 class="text-sm font-bold text-white">Protect</h4>
-            <p class="text-[11px] text-slate-400 mt-1">Deploy Controls</p>
+              <div class="flex items-start gap-3.5">
+                <span class="w-6 h-6 rounded-md bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">03</span>
+                <div>
+                  <strong class="text-white block">Local Touch, Global Standards:</strong>
+                  Providing accessible IT security expertise in Madhya Pradesh built on global standards.
+                </div>
+              </div>
+            </div>
           </div>
-
-          <div class="glass-panel p-5 rounded-xl reveal-on-scroll">
-            <span class="text-xs font-mono text-cyan-400 block mb-1">STEP 04</span>
-            <h4 class="text-sm font-bold text-white">Monitor</h4>
-            <p class="text-[11px] text-slate-400 mt-1">24/7 Awareness</p>
-          </div>
-
-          <div class="glass-panel p-5 rounded-xl reveal-on-scroll">
-            <span class="text-xs font-mono text-cyan-400 block mb-1">STEP 05</span>
-            <h4 class="text-sm font-bold text-white">Respond</h4>
-            <p class="text-[11px] text-slate-400 mt-1">Rapid Mitigation</p>
-          </div>
-
-          <div class="glass-panel p-5 rounded-xl reveal-on-scroll">
-            <span class="text-xs font-mono text-cyan-400 block mb-1">STEP 06</span>
-            <h4 class="text-sm font-bold text-white">Improve</h4>
-            <p class="text-[11px] text-slate-400 mt-1">Posture Evolution</p>
-          </div>
-
         </div>
 
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- LIVE CAREER HIGHLIGHT STRIP (Connected to HR Workflow) -->
-    <section class="py-16 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border-y border-cyan-500/20">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="glass-panel p-8 sm:p-10 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-6 border-cyan-500/30">
-          <div class="space-y-2 text-left">
-            <div class="flex items-center gap-2">
-              <span class="pulse-radar-dot"></span>
-              <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider font-mono">Live Recruitment Pipeline Active</span>
+  <!-- ==================== CORE SERVICES GRID ==================== -->
+  <section class="py-20 bg-slate-950/70 border-t border-slate-800/80 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16 space-y-4 reveal-on-scroll">
+        <span class="badge-cyber">COMPREHENSIVE SERVICES</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white">
+          Cybersecurity & IT Security Services
+        </h2>
+        <p class="text-slate-300 text-sm sm:text-base">
+          Holistic security assessments, technical hardening, and consulting designed to protect your assets across every layer.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- Service 1 -->
+        <div class="glass-panel p-6 sm:p-7 flex flex-col justify-between reveal-on-scroll group">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 mb-5 group-hover:scale-110 transition-transform">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
             </div>
-            <h3 class="text-2xl sm:text-3xl font-extrabold text-white">We Are Hiring! Join Tech Innovations Inc.</h3>
-            <p class="text-slate-300 text-xs sm:text-sm max-w-xl">
-              Explore our current job openings (Full Stack Developer, Digital Marketing Specialist, and more). Apply directly online or send your resume to our automated recruiter inbox.
+            <h3 class="text-lg font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">1. Cybersecurity Assessment</h3>
+            <p class="text-slate-400 text-xs sm:text-sm leading-relaxed mb-4">
+              Comprehensive evaluation to identify security weaknesses, structural risks, and actionable improvement opportunities.
             </p>
           </div>
-          <div class="flex items-center gap-3 shrink-0">
-            <a href="careers.html" class="btn-cyber-primary text-sm !py-3 !px-6">View Open Positions ➔</a>
+          <a href="services.html#assessment" class="text-xs font-semibold text-cyan-400 hover:text-cyan-300 inline-flex items-center gap-1">Learn More ➔</a>
+        </div>
+
+        <!-- Service 2 -->
+        <div class="glass-panel p-6 sm:p-7 flex flex-col justify-between reveal-on-scroll group" style="transition-delay: 100ms;">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-400 mb-5 group-hover:scale-110 transition-transform">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">2. Vulnerability Assessment</h3>
+            <p class="text-slate-400 text-xs sm:text-sm leading-relaxed mb-4">
+              Scanning and analyzing systems, applications, and networks to identify unpatched flaws and misconfigurations.
+            </p>
           </div>
+          <a href="services.html#vulnerability" class="text-xs font-semibold text-cyan-400 hover:text-cyan-300 inline-flex items-center gap-1">Learn More ➔</a>
         </div>
-      </div>
-    </section>
 
-    <!-- CALL TO ACTION SECTION -->
-    <section class="py-20 text-center relative overflow-hidden">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-6 reveal-on-scroll">
-        <span class="cyber-badge">Ready to Strengthen Your Posture?</span>
-        <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-          Protect What Matters Most to Your Business
-        </h2>
-        <p class="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
-          Let's discuss how Tech Innovations Inc. can help evaluate, harden, and continuously monitor your organization's cybersecurity environment.
-        </p>
-        <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a href="contact.html" class="btn-cyber-primary text-sm !py-3.5 !px-8">
-            Request a Consultation
-          </a>
-          <a href="about.html" class="btn-cyber-secondary text-sm !py-3.5 !px-8">
-            About Our Company
-          </a>
+        <!-- Service 3 -->
+        <div class="glass-panel p-6 sm:p-7 flex flex-col justify-between reveal-on-scroll group" style="transition-delay: 200ms;">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 mb-5 group-hover:scale-110 transition-transform">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">3. Network Security</h3>
+            <p class="text-slate-400 text-xs sm:text-sm leading-relaxed mb-4">
+              Designing secure network architectures, segmentation, firewall governance, and defensive routing policies.
+            </p>
+          </div>
+          <a href="services.html#network" class="text-xs font-semibold text-cyan-400 hover:text-cyan-300 inline-flex items-center gap-1">Learn More ➔</a>
         </div>
-      </div>
-    </section>
-  </main>
 
-  <!-- PROFESSIONAL FOOTER -->
-  <footer class="bg-slate-950 border-t border-slate-800 text-slate-400 text-xs py-14">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-10">
-      
-      <!-- Company Column -->
-      <div class="space-y-3.5">
-        <div class="flex items-center gap-2">
-          <div class="w-7 h-7 rounded bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-400 font-bold">🛡️</div>
-          <span class="text-sm font-bold text-white">Tech Innovations Inc.</span>
+        <!-- Service 4 -->
+        <div class="glass-panel p-6 sm:p-7 flex flex-col justify-between reveal-on-scroll group">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 mb-5 group-hover:scale-110 transition-transform">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">4. Endpoint Security</h3>
+            <p class="text-slate-400 text-xs sm:text-sm leading-relaxed mb-4">
+              Hardening workstations, mobile devices, and server endpoints against unauthorized access and malware threats.
+            </p>
+          </div>
+          <a href="services.html#endpoint" class="text-xs font-semibold text-cyan-400 hover:text-cyan-300 inline-flex items-center gap-1">Learn More ➔</a>
         </div>
-        <p class="leading-relaxed">
-          Delivering modern cybersecurity, threat protection, vulnerability assessments, and technology solutions.
-        </p>
-        <p class="text-[11px] text-slate-500">
-          📍 Khandwa, Madhya Pradesh, India
-        </p>
-      </div>
 
-      <!-- Quick Navigation -->
-      <div class="space-y-2.5">
-        <h4 class="text-sm font-semibold text-white uppercase tracking-wider">Company</h4>
-        <ul class="space-y-1.5">
-          <li><a href="about.html" class="hover:text-cyan-400 transition-colors">About Us</a></li>
-          <li><a href="why-us.html" class="hover:text-cyan-400 transition-colors">Why Choose Us</a></li>
-          <li><a href="careers.html" class="hover:text-cyan-400 transition-colors flex items-center gap-1.5">Careers <span class="text-[10px] px-1.5 py-0.2 bg-emerald-950 text-emerald-400 rounded">Hiring</span></a></li>
-          <li><a href="industries.html" class="hover:text-cyan-400 transition-colors">Industries Served</a></li>
-          <li><a href="contact.html" class="hover:text-cyan-400 transition-colors">Contact Us</a></li>
-        </ul>
-      </div>
-
-      <!-- Core Services -->
-      <div class="space-y-2.5">
-        <h4 class="text-sm font-semibold text-white uppercase tracking-wider">Key Services</h4>
-        <ul class="space-y-1.5">
-          <li><a href="services.html" class="hover:text-cyan-400 transition-colors">Cybersecurity Assessment</a></li>
-          <li><a href="services.html" class="hover:text-cyan-400 transition-colors">Vulnerability Assessment</a></li>
-          <li><a href="services.html" class="hover:text-cyan-400 transition-colors">Network & Cloud Security</a></li>
-          <li><a href="services.html" class="hover:text-cyan-400 transition-colors">Data Protection & Encryption</a></li>
-          <li><a href="services.html" class="hover:text-cyan-400 transition-colors">Security Awareness Training</a></li>
-        </ul>
-      </div>
-
-      <!-- Connect & Recruiter Info -->
-      <div class="space-y-2.5">
-        <h4 class="text-sm font-semibold text-white uppercase tracking-wider">Contact & Inquiries</h4>
-        <p>Inquiries: <a href="mailto:info@techinnovations.example" class="hover:text-cyan-400">info@techinnovations.example</a></p>
-        <p>Recruitment: <a href="mailto:manasvipaliwal317@gmail.com" class="text-cyan-400 hover:underline">manasvipaliwal317@gmail.com</a></p>
-        <p>Phone: +91 XXXXX XXXXX</p>
-        <div class="pt-2 flex items-center gap-3">
-          <span class="w-7 h-7 rounded bg-slate-900 border border-slate-800 flex items-center justify-center hover:border-cyan-500 cursor-pointer">🔗</span>
-          <span class="w-7 h-7 rounded bg-slate-900 border border-slate-800 flex items-center justify-center hover:border-cyan-500 cursor-pointer">🌐</span>
-          <span class="w-7 h-7 rounded bg-slate-900 border border-slate-800 flex items-center justify-center hover:border-cyan-500 cursor-pointer">✉️</span>
+        <!-- Service 5 -->
+        <div class="glass-panel p-6 sm:p-7 flex flex-col justify-between reveal-on-scroll group" style="transition-delay: 100ms;">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-400 mb-5 group-hover:scale-110 transition-transform">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">5. Web Application Security</h3>
+            <p class="text-slate-400 text-xs sm:text-sm leading-relaxed mb-4">
+              Assessment and protection strategies for modern web apps following OWASP standards and secure API practices.
+            </p>
+          </div>
+          <a href="services.html#webapp" class="text-xs font-semibold text-cyan-400 hover:text-cyan-300 inline-flex items-center gap-1">Learn More ➔</a>
         </div>
+
+        <!-- Service 6 -->
+        <div class="glass-panel p-6 sm:p-7 flex flex-col justify-between reveal-on-scroll group" style="transition-delay: 200ms;">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-5 group-hover:scale-110 transition-transform">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">6. Data Protection</h3>
+            <p class="text-slate-400 text-xs sm:text-sm leading-relaxed mb-4">
+              Helping businesses implement responsible data governance, encryption standards, and sensitive data access controls.
+            </p>
+          </div>
+          <a href="services.html#dataprotection" class="text-xs font-semibold text-cyan-400 hover:text-cyan-300 inline-flex items-center gap-1">Learn More ➔</a>
+        </div>
+
+      </div>
+
+      <div class="mt-12 text-center">
+        <a href="services.html" class="btn-cyber-primary text-sm py-3 px-8">
+          View All 10 Cybersecurity Services ➔
+        </a>
       </div>
 
     </div>
+  </section>
 
-    <!-- Sub-Footer -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 mt-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
-      <p>© 2026 Tech Innovations Inc. All Rights Reserved. Khandwa, Madhya Pradesh, India.</p>
-      <div class="flex items-center gap-5">
-        <a href="privacy-policy.html" class="hover:text-slate-400 transition-colors">Privacy Policy</a>
-        <a href="terms.html" class="hover:text-slate-400 transition-colors">Terms of Use</a>
+  <!-- ==================== 6-STEP DEFENSE PROCESS ==================== -->
+  <section class="py-20 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16 space-y-3 reveal-on-scroll">
+        <span class="badge-cyber">METHODICAL DEFENSE</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Our 6-Step Cybersecurity Lifecycle</h2>
+        <p class="text-slate-300 text-sm">
+          A structured, continuous methodology designed to understand, secure, and evolve organizational defenses.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <div class="glass-panel p-6 reveal-on-scroll">
+          <span class="text-xs font-mono text-cyan-400 font-bold block mb-1">STEP 01</span>
+          <h4 class="text-base font-bold text-white mb-2">Understand</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">Understand business operations, data flows, compliance boundaries, and security objectives.</p>
+        </div>
+
+        <div class="glass-panel p-6 reveal-on-scroll" style="transition-delay: 100ms;">
+          <span class="text-xs font-mono text-cyan-400 font-bold block mb-1">STEP 02</span>
+          <h4 class="text-base font-bold text-white mb-2">Assess</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">Identify existing vulnerabilities, misconfigurations, and exposure across endpoints and networks.</p>
+        </div>
+
+        <div class="glass-panel p-6 reveal-on-scroll" style="transition-delay: 200ms;">
+          <span class="text-xs font-mono text-cyan-400 font-bold block mb-1">STEP 03</span>
+          <h4 class="text-base font-bold text-white mb-2">Protect</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">Recommend and implement appropriate defensive controls, policies, and architectural hardening.</p>
+        </div>
+
+        <div class="glass-panel p-6 reveal-on-scroll" style="transition-delay: 300ms;">
+          <span class="text-xs font-mono text-cyan-400 font-bold block mb-1">STEP 04</span>
+          <h4 class="text-base font-bold text-white mb-2">Monitor</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">Encourage continuous security awareness, event logging, and proactive threat detection practices.</p>
+        </div>
+
+        <div class="glass-panel p-6 reveal-on-scroll" style="transition-delay: 400ms;">
+          <span class="text-xs font-mono text-cyan-400 font-bold block mb-1">STEP 05</span>
+          <h4 class="text-base font-bold text-white mb-2">Respond</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">Develop structured incident handling plans to contain and remediate potential security events.</p>
+        </div>
+
+        <div class="glass-panel p-6 reveal-on-scroll" style="transition-delay: 500ms;">
+          <span class="text-xs font-mono text-cyan-400 font-bold block mb-1">STEP 06</span>
+          <h4 class="text-base font-bold text-white mb-2">Improve</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">Continuously strengthen and adapt defenses against evolving threat vectors and business growth.</p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== CALL TO ACTION SECTION ==================== -->
+  <section class="py-20 bg-gradient-to-b from-slate-950 to-slate-900 border-t border-slate-800">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal-on-scroll">
+      <div class="glass-panel p-8 sm:p-12 border-cyan-500/40 glow-cyan">
+        <span class="badge-cyber mb-4">READY TO PROTECT WHAT MATTERS?</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-4">
+          Ready to Strengthen Your Security Posture?
+        </h2>
+        <p class="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto mb-8 leading-relaxed">
+          Let's discuss how Tech Innovations Inc. can help protect your digital infrastructure, secure sensitive data, and build long-term organizational resilience.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="contact.html" class="btn-cyber-primary text-sm sm:text-base py-3 px-8">
+            Request a Consultation ➔
+          </a>
+          <a href="careers.html" class="btn-cyber-secondary text-sm sm:text-base py-3 px-8">
+            Join Our Team (Careers)
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="bg-slate-950 border-t border-slate-800 pt-16 pb-12 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-slate-800/80">
+        
+        <!-- Col 1: Brand Info -->
+        <div class="lg:col-span-2 space-y-4">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg bg-cyan-400 flex items-center justify-center text-slate-950 font-bold">
+              🛡️
+            </div>
+            <span class="text-lg font-bold text-white">Tech Innovations Inc.</span>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-400 max-w-sm leading-relaxed">
+            Delivering modern cybersecurity, technical hardening, vulnerability assessments, and security consulting for businesses, startups, and institutions.
+          </p>
+          <div class="text-xs text-slate-400 space-y-1 font-mono">
+            <div>📍 Khandwa, Madhya Pradesh, India</div>
+            <div>📧 recruitment / contact: <a href="mailto:manasvipaliwal317@gmail.com" class="text-cyan-400 hover:underline">manasvipaliwal317@gmail.com</a></div>
+          </div>
+        </div>
+
+        <!-- Col 2: Navigation Links -->
+        <div>
+          <h4 class="text-xs font-bold font-mono tracking-wider text-slate-300 uppercase mb-4">Company</h4>
+          <ul class="space-y-2.5 text-xs sm:text-sm text-slate-400">
+            <li><a href="about.html" class="hover:text-cyan-400 transition-colors">About Us</a></li>
+            <li><a href="why-us.html" class="hover:text-cyan-400 transition-colors">Why Choose Us</a></li>
+            <li><a href="careers.html" class="hover:text-cyan-400 transition-colors">Careers & Openings 🟢</a></li>
+            <li><a href="contact.html" class="hover:text-cyan-400 transition-colors">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Services -->
+        <div>
+          <h4 class="text-xs font-bold font-mono tracking-wider text-slate-300 uppercase mb-4">Key Services</h4>
+          <ul class="space-y-2.5 text-xs sm:text-sm text-slate-400">
+            <li><a href="services.html#assessment" class="hover:text-cyan-400 transition-colors">Cyber Assessment</a></li>
+            <li><a href="services.html#vulnerability" class="hover:text-cyan-400 transition-colors">Vulnerability Audit</a></li>
+            <li><a href="services.html#network" class="hover:text-cyan-400 transition-colors">Network Defense</a></li>
+            <li><a href="services.html#webapp" class="hover:text-cyan-400 transition-colors">Web App Security</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Solutions -->
+        <div>
+          <h4 class="text-xs font-bold font-mono tracking-wider text-slate-300 uppercase mb-4">Solutions</h4>
+          <ul class="space-y-2.5 text-xs sm:text-sm text-slate-400">
+            <li><a href="solutions.html#threat" class="hover:text-cyan-400 transition-colors">Threat Protection</a></li>
+            <li><a href="solutions.html#risk" class="hover:text-cyan-400 transition-colors">Risk Management</a></li>
+            <li><a href="solutions.html#data" class="hover:text-cyan-400 transition-colors">Data Security</a></li>
+            <li><a href="industries.html" class="hover:text-cyan-400 transition-colors">Industries Served</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+        <div>
+          © 2026 Tech Innovations Inc. All Rights Reserved. Khandwa, Madhya Pradesh, India.
+        </div>
+        <div class="flex items-center gap-6">
+          <a href="privacy-policy.html" class="hover:text-slate-300 transition-colors">Privacy Policy</a>
+          <a href="terms.html" class="hover:text-slate-300 transition-colors">Terms of Use</a>
+        </div>
       </div>
     </div>
   </footer>
 
-  <!-- Scripts -->
+  <!-- Toast Notification Container -->
+  <div id="site-toast-container"></div>
+
+  <!-- Main JavaScript Engine -->
   <script src="js/main.js"></script>
 </body>
 </html>

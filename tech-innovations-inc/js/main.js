@@ -1,55 +1,89 @@
 /**
- * Tech Innovations Inc. — Core Website Client Logic
- * Mobile Nav, Sticky Header, Scroll Reveal, Contact Validation,
- * and Live HR Workflow Careers API Integration.
+ * Tech Innovations Inc. — Corporate Website JavaScript Engine
+ * Cyber Theme, Interactive Particle Canvas, Dynamic Careers API, and Form Validation
  */
 
-// Configuration for Live HR Recruitment Workflow Endpoint
-const HR_WORKFLOW_API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-  ? 'http://localhost:3000'
-  : 'https://nexus-hr-workflow.onrender.com';
+// Production & Local HR Workflow API configuration
+const HR_WORKFLOW_API_URLS = [
+  'https://nexus-hr-workflow.onrender.com/api/job-roles',
+  'http://localhost:3000/api/job-roles'
+];
 
-const HR_RECRUITER_EMAIL = 'manasvipaliwal317@gmail.com';
+const HR_CONTACT_EMAIL = 'manasvipaliwal317@gmail.com';
+
+// Fallback Job Roles in case network is offline
+const FALLBACK_JOB_ROLES = [
+  {
+    id: "role_fullstack",
+    title: "Full Stack Developer",
+    department: "Engineering & Platform Security",
+    isActive: true,
+    requiredSkills: ["React", "Node.js", "Express", "PostgreSQL", "REST APIs", "TypeScript", "Git", "System Architecture"],
+    minExperience: "2+ Years",
+    description: "Designing and developing full-stack web applications, RESTful APIs, responsive frontends, and database architectures for secure enterprise systems."
+  },
+  {
+    id: "role_marketing",
+    title: "Digital Marketing Specialist",
+    department: "Growth & Digital Acquisition",
+    isActive: true,
+    requiredSkills: ["SEO", "SEM", "Google Ads", "Meta Ads Manager", "GA4", "Content Strategy", "Conversion Funnels", "Campaign Optimization"],
+    minExperience: "1+ Years",
+    description: "Leading multi-channel digital acquisition, B2B cybersecurity content strategy, search optimization (SEO), and performance marketing campaigns."
+  },
+  {
+    id: "role_cyber_analyst",
+    title: "Cybersecurity Security Analyst",
+    department: "Security Operations & Defense",
+    isActive: true,
+    requiredSkills: ["Vulnerability Assessment", "Network Defense", "SIEM Monitoring", "Incident Response", "OWASP Top 10", "Linux Security"],
+    minExperience: "2+ Years",
+    description: "Performing vulnerability assessments, monitoring security event streams, evaluating client infrastructure, and hardening network defense controls."
+  }
+];
 
 document.addEventListener('DOMContentLoaded', () => {
-  initNavigation();
+  initNavbar();
   initStickyHeader();
-  initScrollReveal();
-  initStatCounters();
+  initScrollAnimations();
+  initParticleCanvas();
+  initCounterAnimations();
   initContactForm();
-  initCareersSystem();
+  initCareersDynamicFeed();
 });
 
-/* ----------------- 1. NAVIGATION & MOBILE MENU ----------------- */
-function initNavigation() {
-  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-  const mobileMenu = document.getElementById('mobile-menu');
-  const mobileMenuClose = document.getElementById('mobile-menu-close');
+/* ==========================================================================
+   1. Navigation & Mobile Drawer
+   ========================================================================== */
+function initNavbar() {
+  const mobileToggle = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu-drawer');
+  const mobileClose = document.getElementById('mobile-menu-close');
 
-  if (mobileMenuBtn && mobileMenu) {
-    mobileMenuBtn.addEventListener('click', () => {
-      const isHidden = mobileMenu.classList.contains('hidden');
-      if (isHidden) {
-        mobileMenu.classList.remove('hidden');
-        document.body.classList.add('overflow-hidden');
-      } else {
-        mobileMenu.classList.add('hidden');
-        document.body.classList.remove('overflow-hidden');
-      }
+  if (mobileToggle && mobileMenu) {
+    mobileToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
     });
   }
 
-  if (mobileMenuClose && mobileMenu) {
-    mobileMenuClose.addEventListener('click', () => {
+  if (mobileClose && mobileMenu) {
+    mobileClose.addEventListener('click', () => {
       mobileMenu.classList.add('hidden');
-      document.body.classList.remove('overflow-hidden');
     });
   }
 
-  // Active Link Highlight
-  const currentPath = window.location.pathname.split('/').pop() || 'index.html';
-  const navLinks = document.querySelectorAll('nav a, #mobile-menu a');
+  // Close mobile drawer on link click
+  const navLinks = document.querySelectorAll('#mobile-menu-drawer a');
   navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      if (mobileMenu) mobileMenu.classList.add('hidden');
+    });
+  });
+
+  // Highlight active link based on current path
+  const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+  const allNavLinks = document.querySelectorAll('.nav-link-item');
+  allNavLinks.forEach(link => {
     const href = link.getAttribute('href');
     if (href === currentPath || (currentPath === '' && href === 'index.html')) {
       link.classList.add('text-cyan-400', 'font-semibold');
@@ -58,94 +92,309 @@ function initNavigation() {
   });
 }
 
-/* ----------------- 2. STICKY HEADER ----------------- */
 function initStickyHeader() {
-  const header = document.getElementById('main-header');
+  const header = document.getElementById('site-header');
   if (!header) return;
 
-  const handleScroll = () => {
-    if (window.scrollY > 20) {
-      header.classList.add('bg-slate-950/90', 'backdrop-blur-md', 'shadow-lg', 'border-b', 'border-cyan-500/20');
-      header.classList.remove('bg-transparent');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 25) {
+      header.classList.add('scrolled');
     } else {
-      header.classList.remove('bg-slate-950/90', 'shadow-lg', 'border-b', 'border-cyan-500/20');
-      header.classList.add('bg-transparent');
+      header.classList.remove('scrolled');
     }
-  };
-
-  window.addEventListener('scroll', handleScroll, { passive: true });
-  handleScroll();
+  });
 }
 
-/* ----------------- 3. SCROLL REVEAL (INTERSECTION OBSERVER) ----------------- */
-function initScrollReveal() {
-  const reveals = document.querySelectorAll('.reveal-on-scroll');
-  if (!reveals.length) return;
+/* ==========================================================================
+   2. Scroll Reveal Animations (Intersection Observer)
+   ========================================================================== */
+function initScrollAnimations() {
+  const elements = document.querySelectorAll('.reveal-on-scroll');
+  if (!elements.length) return;
 
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver((entries, obs) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-revealed');
-          obs.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12 });
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -40px 0px'
+  });
 
-    reveals.forEach(el => observer.observe(el));
-  } else {
-    reveals.forEach(el => el.classList.add('is-revealed'));
+  elements.forEach(el => observer.observe(el));
+}
+
+/* ==========================================================================
+   3. Interactive Cybersecurity Particle Canvas
+   ========================================================================== */
+function initParticleCanvas() {
+  const canvas = document.getElementById('hero-particle-canvas');
+  if (!canvas) return;
+
+  const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (isReducedMotion) return;
+
+  const ctx = canvas.getContext('2d');
+  let width, height;
+  let particles = [];
+  const particleCount = 45;
+  const maxDistance = 120;
+
+  function resize() {
+    width = canvas.width = canvas.parentElement.offsetWidth;
+    height = canvas.height = canvas.parentElement.offsetHeight;
   }
+
+  window.addEventListener('resize', resize);
+  resize();
+
+  class Particle {
+    constructor() {
+      this.x = Math.random() * width;
+      this.y = Math.random() * height;
+      this.vx = (Math.random() - 0.5) * 0.8;
+      this.vy = (Math.random() - 0.5) * 0.8;
+      this.radius = Math.random() * 2 + 1;
+      this.color = Math.random() > 0.4 ? '#00f0ff' : '#38bdf8';
+    }
+
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+
+      if (this.x < 0 || this.x > width) this.vx = -this.vx;
+      if (this.y < 0 || this.y > height) this.vy = -this.vy;
+    }
+
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fillStyle = this.color;
+      ctx.shadowBlur = 8;
+      ctx.shadowColor = '#00f0ff';
+      ctx.fill();
+    }
+  }
+
+  for (let i = 0; i < particleCount; i++) {
+    particles.push(new Particle());
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, width, height);
+
+    for (let i = 0; i < particles.length; i++) {
+      particles[i].update();
+      particles[i].draw();
+
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < maxDistance) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(0, 240, 255, ${0.18 * (1 - dist / maxDistance)})`;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      }
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
 }
 
-/* ----------------- 4. STAT COUNTERS ANIMATION ----------------- */
-function initStatCounters() {
-  const counters = document.querySelectorAll('.counter-value');
+/* ==========================================================================
+   4. Animated Stat Counters
+   ========================================================================== */
+function initCounterAnimations() {
+  const counters = document.querySelectorAll('.stat-counter');
   if (!counters.length) return;
 
-  const startCount = (el) => {
-    const target = parseInt(el.getAttribute('data-target') || el.textContent, 10);
-    const suffix = el.getAttribute('data-suffix') || '';
-    if (isNaN(target)) return;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const target = parseInt(el.getAttribute('data-target') || '100', 10);
+        const prefix = el.getAttribute('data-prefix') || '';
+        const suffix = el.getAttribute('data-suffix') || '';
+        let start = 0;
+        const duration = 1600;
+        const stepTime = 25;
+        const totalSteps = duration / stepTime;
+        const increment = target / totalSteps;
 
-    let count = 0;
-    const duration = 1800; // ms
-    const stepTime = 20;
-    const totalSteps = duration / stepTime;
-    const increment = target / totalSteps;
+        const timer = setInterval(() => {
+          start += increment;
+          if (start >= target) {
+            el.textContent = `${prefix}${target}${suffix}`;
+            clearInterval(timer);
+          } else {
+            el.textContent = `${prefix}${Math.floor(start)}${suffix}`;
+          }
+        }, stepTime);
 
-    const timer = setInterval(() => {
-      count += increment;
-      if (count >= target) {
-        el.textContent = target + suffix;
-        clearInterval(timer);
-      } else {
-        el.textContent = Math.floor(count) + suffix;
+        observer.unobserve(el);
       }
-    }, stepTime);
-  };
+    });
+  }, { threshold: 0.3 });
 
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver((entries, obs) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          startCount(entry.target);
-          obs.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.5 });
-
-    counters.forEach(c => observer.observe(c));
-  } else {
-    counters.forEach(c => startCount(c));
-  }
+  counters.forEach(counter => observer.observe(counter));
 }
 
-/* ----------------- 5. CONTACT FORM VALIDATION ----------------- */
+/* ==========================================================================
+   5. Dynamic Careers Feed (Direct Live Sync with HR Recruitment Workflow)
+   ========================================================================== */
+async function initCareersDynamicFeed() {
+  const container = document.getElementById('dynamic-job-openings-grid');
+  if (!container) return;
+
+  const statusBadge = document.getElementById('careers-live-status');
+  if (statusBadge) {
+    statusBadge.innerHTML = `<span class="inline-block w-2 h-2 rounded-full bg-cyan-400 animate-ping mr-2"></span> Connecting to live HR Recruitment Workflow...`;
+  }
+
+  let jobRoles = [];
+
+  // Try fetching from production workflow API, then local, then fallback
+  for (const url of HR_WORKFLOW_API_URLS) {
+    try {
+      const response = await fetch(url, { method: 'GET', headers: { 'Accept': 'application/json' } });
+      if (response.ok) {
+        const data = await response.json();
+        if (data && Array.isArray(data.roles)) {
+          jobRoles = data.roles;
+          console.log(`✅ Loaded ${jobRoles.length} job roles from HR workflow: ${url}`);
+          break;
+        }
+      }
+    } catch (e) {
+      // Continue to next URL
+    }
+  }
+
+  if (!jobRoles.length) {
+    jobRoles = FALLBACK_JOB_ROLES;
+    console.log('ℹ️ Loaded built-in cybersecurity job openings fallback.');
+  }
+
+  renderCareers(jobRoles, container, statusBadge);
+}
+
+function renderCareers(roles, container, statusBadge) {
+  // Filter for currently active job openings
+  const activeRoles = roles.filter(r => r.isActive !== false);
+
+  if (statusBadge) {
+    statusBadge.innerHTML = `
+      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        ${activeRoles.length} Active Job Opening${activeRoles.length === 1 ? '' : 's'} Currently Available
+      </span>
+    `;
+  }
+
+  if (activeRoles.length === 0) {
+    container.innerHTML = `
+      <div class="col-span-full text-center py-12 glass-panel p-8">
+        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-cyan-500/10 flex items-center justify-center text-cyan-400 text-2xl">
+          💼
+        </div>
+        <h3 class="text-xl font-bold text-white mb-2">No Active Openings Right Now</h3>
+        <p class="text-slate-400 max-w-md mx-auto mb-6">
+          Our team is currently at full capacity, but we always welcome talented cybersecurity professionals and engineers. Send your resume for future opportunities.
+        </p>
+        <a href="mailto:${HR_CONTACT_EMAIL}?subject=General Application - Future Opportunities" class="btn-cyber-primary">
+          Send General Resume to HR Desk
+        </a>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = activeRoles.map((role) => {
+    const skillsList = (role.requiredSkills || []).map(skill => 
+      `<span class="text-xs px-2.5 py-1 rounded bg-slate-800/80 border border-slate-700 text-cyan-300 font-mono">${escapeHtml(skill)}</span>`
+    ).join('');
+
+    const emailSubject = encodeURIComponent(`Application for ${role.title} - [Your Full Name]`);
+    const emailBody = encodeURIComponent(`Dear Tech Innovations Inc. HR Team,\n\nI am excited to apply for the position of "${role.title}". Please find my attached resume (.pdf/.docx) for your review.\n\nThank you,\n[Your Name]\n[Phone Number]`);
+    const mailtoLink = `mailto:${HR_CONTACT_EMAIL}?subject=${emailSubject}&body=${emailBody}`;
+
+    return `
+      <div class="glass-panel p-6 sm:p-8 flex flex-col justify-between hover:border-cyan-400/40 transition-all duration-300 group">
+        <div>
+          <div class="flex flex-wrap items-start justify-between gap-3 mb-4">
+            <div>
+              <span class="text-xs font-semibold px-2.5 py-1 rounded bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 uppercase tracking-wider">
+                ${escapeHtml(role.department || 'Cybersecurity & Engineering')}
+              </span>
+              <h3 class="text-xl sm:text-2xl font-bold text-white mt-2 group-hover:text-cyan-300 transition-colors">
+                ${escapeHtml(role.title)}
+              </h3>
+            </div>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/15 border border-emerald-500/30 text-emerald-400">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Active Opening
+            </span>
+          </div>
+
+          <div class="flex items-center gap-4 text-xs text-slate-400 mb-4 pb-4 border-b border-slate-800">
+            <span class="flex items-center gap-1.5">
+              <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              ${escapeHtml(role.minExperience || '1+ Years')} Experience
+            </span>
+            <span class="flex items-center gap-1.5">
+              <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              Khandwa, MP / Hybrid
+            </span>
+          </div>
+
+          <p class="text-slate-300 text-sm leading-relaxed mb-6">
+            ${escapeHtml(role.description || 'Join our cybersecurity team to build secure architectures and protect enterprise client infrastructure.')}
+          </p>
+
+          <div class="mb-6">
+            <h4 class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2.5">Key Required Competencies</h4>
+            <div class="flex flex-wrap gap-1.5">
+              ${skillsList}
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-5 border-t border-slate-800/80 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+          <div class="text-xs text-slate-400">
+            <span class="text-slate-500">Recruitment Desk:</span> <span class="text-slate-300 font-mono">${HR_CONTACT_EMAIL}</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="copyHREmail('${role.title}')" class="btn-cyber-secondary text-xs py-2 px-3" title="Copy HR application email address">
+              📋 Copy Email
+            </button>
+            <a href="${mailtoLink}" class="btn-cyber-primary text-xs py-2 px-4">
+              ✉️ Apply via Email ➔
+            </a>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+/* ==========================================================================
+   6. Contact Form Validation & Submission
+   ========================================================================== */
 function initContactForm() {
-  const form = document.getElementById('contact-form');
-  const alertBox = document.getElementById('contact-alert');
+  const form = document.getElementById('consultation-contact-form');
   if (!form) return;
+
+  const statusMsg = document.getElementById('contact-form-status');
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -156,291 +405,99 @@ function initContactForm() {
     const service = document.getElementById('contact-service')?.value;
     const message = document.getElementById('contact-message')?.value.trim();
 
-    if (!name || !email || !service || !message) {
-      showContactAlert('Please fill in all required fields marked with *', 'error');
+    // Validations
+    if (!name || name.length < 2) {
+      showFormAlert(statusMsg, 'Please enter your full name (minimum 2 characters).', 'error');
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      showContactAlert('Please enter a valid email address.', 'error');
+    if (!email || !emailRegex.test(email)) {
+      showFormAlert(statusMsg, 'Please provide a valid business or personal email address.', 'error');
       return;
     }
 
-    // Static Demo Success Notice
-    showContactAlert(
-      `✓ Thank you, ${name}! Your security consultation request for "${service}" has been recorded. Our Khandwa security team will contact you at ${email} shortly.`,
+    if (!phone || phone.length < 8) {
+      showFormAlert(statusMsg, 'Please enter a valid phone or mobile number.', 'error');
+      return;
+    }
+
+    if (!service) {
+      showFormAlert(statusMsg, 'Please select the security service or domain required.', 'error');
+      return;
+    }
+
+    if (!message || message.length < 10) {
+      showFormAlert(statusMsg, 'Please provide brief details of your security requirements (at least 10 characters).', 'error');
+      return;
+    }
+
+    // Success State
+    showFormAlert(
+      statusMsg, 
+      `🛡️ Thank you, ${name}! Your security consultation request for "${service}" has been recorded in this demo interface. For live production inquiries, please reach our team directly at ${HR_CONTACT_EMAIL}.`, 
       'success'
     );
+
     form.reset();
   });
-
-  function showContactAlert(msg, type) {
-    if (!alertBox) {
-      alert(msg);
-      return;
-    }
-    alertBox.className = `p-4 rounded-lg mb-6 border text-sm ${
-      type === 'success' 
-        ? 'bg-emerald-950/60 border-emerald-500/50 text-emerald-300' 
-        : 'bg-rose-950/60 border-rose-500/50 text-rose-300'
-    }`;
-    alertBox.innerHTML = msg;
-    alertBox.classList.remove('hidden');
-    alertBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
 }
 
-/* ----------------- 6. DYNAMIC CAREERS & HR WORKFLOW INTEGRATION ----------------- */
-let activeJobOpenings = [];
-
-async function initCareersSystem() {
-  const container = document.getElementById('careers-openings-grid');
-  const countBadge = document.getElementById('careers-active-count');
+function showFormAlert(container, message, type) {
   if (!container) return;
+  container.classList.remove('hidden', 'bg-red-500/10', 'border-red-500/30', 'text-red-400', 'bg-emerald-500/10', 'border-emerald-500/30', 'text-emerald-400');
 
-  // Fallback data if workflow server is offline
-  const fallbackRoles = [
-    {
-      id: "role_fullstack",
-      title: "Full Stack Developer",
-      department: "Engineering",
-      isActive: true,
-      minExperience: "2+ Years",
-      requiredSkills: ["React", "Node.js", "Express", "PostgreSQL", "REST APIs", "TypeScript", "Git"],
-      description: "Designing and developing scalable web applications, secure RESTful APIs, modern frontend dashboards, and resilient cloud architectures."
-    },
-    {
-      id: "role_marketing",
-      title: "Digital Marketing Specialist",
-      department: "Growth & Marketing",
-      isActive: true,
-      minExperience: "1+ Years",
-      requiredSkills: ["SEO", "SEM", "Google Ads", "Meta Ads Manager", "GA4", "Content Strategy", "Performance Funnels"],
-      description: "Leading multi-channel growth campaigns, paid advertising strategies, technical SEO audits, and conversion rate optimization."
-    }
-  ];
-
-  try {
-    container.innerHTML = `
-      <div class="col-span-full text-center py-12">
-        <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-cyan-400 mb-3"></div>
-        <p class="text-slate-400 text-sm">Connecting to Live HR Recruitment Workflow & fetching active openings...</p>
-      </div>
-    `;
-
-    const res = await fetch(`${HR_WORKFLOW_API_URL}/api/job-roles`, { timeout: 5000 }).catch(() => null);
-    
-    if (res && res.ok) {
-      const data = await res.json();
-      if (data && data.roles && Array.isArray(data.roles)) {
-        activeJobOpenings = data.roles.filter(r => r.isActive);
-      }
-    }
-
-    // Use fallback if API returned no active roles or failed
-    if (!activeJobOpenings || activeJobOpenings.length === 0) {
-      activeJobOpenings = fallbackRoles;
-    }
-
-    renderCareersGrid(activeJobOpenings, container);
-    if (countBadge) {
-      countBadge.textContent = `${activeJobOpenings.length} Active Opening${activeJobOpenings.length === 1 ? '' : 's'}`;
-    }
-  } catch (err) {
-    console.warn('Using fallback job roles:', err);
-    activeJobOpenings = fallbackRoles;
-    renderCareersGrid(activeJobOpenings, container);
+  if (type === 'error') {
+    container.classList.add('bg-red-500/10', 'border', 'border-red-500/30', 'text-red-400');
+  } else {
+    container.classList.add('bg-emerald-500/10', 'border', 'border-emerald-500/30', 'text-emerald-400');
   }
 
-  initApplicationModal();
+  container.textContent = message;
+  container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
-function renderCareersGrid(roles, container) {
-  if (!roles || roles.length === 0) {
-    container.innerHTML = `
-      <div class="col-span-full glass-panel p-8 text-center rounded-xl">
-        <span class="text-3xl mb-2 block">💼</span>
-        <h3 class="text-lg font-bold text-white mb-1">No Active Openings at this moment</h3>
-        <p class="text-slate-400 text-sm max-w-md mx-auto mb-4">We are currently not hiring for new positions. However, you can send your open application to our HR inbox.</p>
-        <a href="mailto:${HR_RECRUITER_EMAIL}" class="btn-cyber-primary text-xs">📧 Email General Resume</a>
-      </div>
-    `;
-    return;
-  }
-
-  container.innerHTML = roles.map(r => {
-    const skillsChips = (r.requiredSkills || []).map(s => 
-      `<span class="text-[11px] px-2.5 py-0.5 rounded bg-cyan-950/70 border border-cyan-500/30 text-cyan-300">${escapeHtml(s)}</span>`
-    ).join(' ');
-
-    return `
-      <div class="glass-panel rounded-xl p-6 flex flex-col justify-between hover:border-cyan-400/60 transition-all">
-        <div>
-          <div class="flex items-start justify-between gap-2 mb-3">
-            <div>
-              <span class="text-xs font-semibold px-2.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">${escapeHtml(r.department || 'General')}</span>
-              <h3 class="text-lg font-bold text-white mt-2">${escapeHtml(r.title)}</h3>
-            </div>
-            <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-950/80 text-emerald-400 border border-emerald-500/30 whitespace-nowrap">
-              🟢 HIRING OPEN
-            </span>
-          </div>
-
-          <p class="text-slate-300 text-xs leading-relaxed mb-4">
-            ${escapeHtml(r.description || 'Join Tech Innovations Inc. in building secure, cutting-edge software and IT solutions.')}
-          </p>
-
-          <div class="mb-4">
-            <div class="text-[11px] text-slate-400 font-semibold uppercase tracking-wider mb-2">Required Skills & Tech:</div>
-            <div class="flex flex-wrap gap-1.5">
-              ${skillsChips}
-            </div>
-          </div>
-        </div>
-
-        <div class="pt-4 border-t border-slate-800 flex items-center justify-between mt-auto">
-          <span class="text-xs text-slate-400">
-            ⏳ Exp: <strong class="text-slate-200">${escapeHtml(r.minExperience || '1+ Yrs')}</strong>
-          </span>
-          <button 
-            onclick="openApplyModal('${escapeHtml(r.title)}', '${r.id}')"
-            class="btn-cyber-primary text-xs !py-1.5 !px-3.5"
-          >
-            Apply Now ➔
-          </button>
-        </div>
-      </div>
-    `;
-  }).join('');
-}
-
-/* ----------------- 7. CAREER APPLICATION MODAL & WORKFLOW DISPATCH ----------------- */
-function initApplicationModal() {
-  const modal = document.getElementById('apply-modal');
-  const closeBtn = document.getElementById('close-apply-modal');
-  const form = document.getElementById('apply-form');
-
-  if (closeBtn && modal) {
-    closeBtn.addEventListener('click', () => {
-      modal.classList.add('hidden');
-      document.body.classList.remove('overflow-hidden');
-    });
-  }
-
-  if (modal) {
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        modal.classList.add('hidden');
-        document.body.classList.remove('overflow-hidden');
-      }
-    });
-  }
-
-  if (form) {
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const submitBtn = document.getElementById('btn-submit-application');
-      const feedback = document.getElementById('apply-feedback');
-
-      const name = document.getElementById('apply-name')?.value.trim();
-      const email = document.getElementById('apply-email')?.value.trim();
-      const phone = document.getElementById('apply-phone')?.value.trim();
-      const role = document.getElementById('apply-role')?.value.trim();
-      const resumeText = document.getElementById('apply-resume-text')?.value.trim();
-      const notes = document.getElementById('apply-notes')?.value.trim();
-
-      if (!name || !email || !resumeText) {
-        if (feedback) {
-          feedback.className = 'p-3 rounded text-xs bg-rose-950/80 border border-rose-500/40 text-rose-300 mb-3';
-          feedback.textContent = 'Please provide your Full Name, Email, and Resume Summary / Text.';
-          feedback.classList.remove('hidden');
-        }
-        return;
-      }
-
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = `🔄 Submitting to AI Workflow...`;
-      }
-
-      try {
-        // Dispatch directly to live HR workflow evaluation endpoint
-        const res = await fetch(`${HR_WORKFLOW_API_URL}/api/evaluate-resume`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            candidateName: name,
-            candidateEmail: email,
-            candidatePhone: phone,
-            appliedRole: role,
-            resumeText: `${resumeText}\n\nAdditional Applicant Notes: ${notes}`,
-            fileName: 'Direct Website Career Portal Submission'
-          })
-        });
-
-        const data = await res.json();
-        
-        if (feedback) {
-          feedback.className = 'p-3 rounded text-xs bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 mb-3';
-          feedback.innerHTML = `
-            🎉 <strong>Application Submitted Successfully!</strong><br>
-            Your resume has been registered in the Tech Innovations Inc. HR Recruitment Workflow. Our AI evaluation engine has analyzed your profile for <em>${role}</em>. Check your email (<strong>${email}</strong>) for subsequent interview updates!
-          `;
-          feedback.classList.remove('hidden');
-        }
-
-        form.reset();
-        setTimeout(() => {
-          if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = `Submit Application`;
-          }
-        }, 3000);
-      } catch (err) {
-        // Fallback simulated submission for demo if server is offline
-        if (feedback) {
-          feedback.className = 'p-3 rounded text-xs bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 mb-3';
-          feedback.innerHTML = `
-            ✓ <strong>Application Recorded (Demo Mode)</strong><br>
-            Thank you, ${name}. Your profile has been sent to our recruiter inbox (<strong>${HR_RECRUITER_EMAIL}</strong>).
-          `;
-          feedback.classList.remove('hidden');
-        }
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = `Submit Application`;
-        }
-      }
-    });
-  }
-}
-
-function openApplyModal(roleTitle, roleId) {
-  const modal = document.getElementById('apply-modal');
-  const roleInput = document.getElementById('apply-role');
-  const roleDisplay = document.getElementById('apply-role-display');
-  const feedback = document.getElementById('apply-feedback');
-
-  if (feedback) feedback.classList.add('hidden');
-  if (roleInput) roleInput.value = roleTitle;
-  if (roleDisplay) roleDisplay.textContent = roleTitle;
-
-  if (modal) {
-    modal.classList.remove('hidden');
-    document.body.classList.add('overflow-hidden');
-  }
-}
-
-function copyRecruiterEmail() {
-  navigator.clipboard.writeText(HR_RECRUITER_EMAIL).then(() => {
-    alert(`Copied HR email (${HR_RECRUITER_EMAIL}) to clipboard! Send your resume directly from your email client.`);
+/* ==========================================================================
+   7. Helper Functions
+   ========================================================================== */
+function copyHREmail(roleTitle = 'Position') {
+  navigator.clipboard.writeText(HR_CONTACT_EMAIL).then(() => {
+    showToast(`Copied ${HR_CONTACT_EMAIL} to clipboard! Email your resume with subject: "Application for ${roleTitle}".`, 'success');
   }).catch(() => {
-    alert(`Recruiter email: ${HR_RECRUITER_EMAIL}`);
+    showToast(`HR Email: ${HR_CONTACT_EMAIL}`, 'info');
   });
 }
 
-// Helpers
+function showToast(message, type = 'info') {
+  let toastContainer = document.getElementById('site-toast-container');
+  if (!toastContainer) {
+    toastContainer = document.createElement('div');
+    toastContainer.id = 'site-toast-container';
+    toastContainer.className = 'fixed bottom-6 right-6 z-50 flex flex-col gap-2 max-w-sm';
+    document.body.appendChild(toastContainer);
+  }
+
+  const toast = document.createElement('div');
+  const bgClass = type === 'success' ? 'bg-emerald-950/90 border-emerald-500/50 text-emerald-300' : 'bg-slate-900/90 border-cyan-500/50 text-cyan-300';
+  
+  toast.className = `p-4 rounded-xl border backdrop-blur-md shadow-2xl text-xs font-medium transition-all duration-300 transform translate-y-2 opacity-0 flex items-start gap-3 ${bgClass}`;
+  toast.innerHTML = `
+    <span class="text-base">${type === 'success' ? '✅' : 'ℹ️'}</span>
+    <div class="flex-1">${escapeHtml(message)}</div>
+  `;
+
+  toastContainer.appendChild(toast);
+
+  setTimeout(() => {
+    toast.classList.remove('translate-y-2', 'opacity-0');
+  }, 10);
+
+  setTimeout(() => {
+    toast.classList.add('opacity-0', 'translate-y-2');
+    setTimeout(() => toast.remove(), 300);
+  }, 4500);
+}
+
 function escapeHtml(str) {
   if (!str) return '';
   return String(str)
@@ -451,6 +508,6 @@ function escapeHtml(str) {
     .replace(/'/g, '&#039;');
 }
 
-// Attach globally
-window.openApplyModal = openApplyModal;
-window.copyRecruiterEmail = copyRecruiterEmail;
+// Make functions globally available
+window.copyHREmail = copyHREmail;
+window.showToast = showToast;

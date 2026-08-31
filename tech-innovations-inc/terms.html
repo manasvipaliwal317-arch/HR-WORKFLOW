@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth dark">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Terms of Use | Tech Innovations Inc. | Khandwa, MP</title>
-  <meta name="description" content="Terms of Use and conditions for Tech Innovations Inc. website and cybersecurity services.">
-  
+  <title>Terms of Use | Tech Innovations Inc.</title>
+  <meta name="description" content="Terms of Use for Tech Innovations Inc. Guidelines and terms governing the use of our corporate website and digital assets.">
+
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -14,13 +15,19 @@
         extend: {
           colors: {
             cyber: {
-              dark: '#070a13',
-              card: '#0f172a',
-              cyan: '#06b6d4',
-              cyanLight: '#22d3ee',
-              blue: '#3b82f6',
+              950: '#070b14',
+              900: '#0c1322',
+              850: '#111a30',
+              800: '#1e293b',
+              accent: '#00f0ff',
+              blue: '#38bdf8',
+              indigo: '#6366f1',
               emerald: '#10b981'
             }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
           }
         }
       }
@@ -28,87 +35,53 @@
   </script>
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="bg-[#070a13] text-slate-200 cyber-grid-bg antialiased selection:bg-cyan-500 selection:text-white">
+<body class="cyber-grid-bg text-slate-100 flex flex-col min-h-screen">
 
-  <!-- HEADER -->
-  <header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent">
+  <header id="site-header" class="fixed top-0 left-0 right-0 z-50 glass-nav transition-all duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-      <a href="index.html" class="flex items-center gap-3 group">
-        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 p-0.5 shadow-lg shadow-cyan-500/20 group-hover:shadow-cyan-500/40 transition-all">
-          <div class="w-full h-full bg-slate-950 rounded-[7px] flex items-center justify-center">
-            <svg class="w-5 h-5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+      <a href="index.html" class="flex items-center gap-3 group text-decoration-none">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 via-sky-500 to-indigo-600 p-0.5 shadow-lg shadow-cyan-500/20">
+          <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
+            <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
           </div>
         </div>
         <div>
           <span class="text-lg font-bold tracking-tight text-white">Tech Innovations <span class="text-cyan-400">Inc.</span></span>
-          <span class="text-[10px] text-slate-400 block tracking-wider uppercase font-medium">Cybersecurity & IT Solutions</span>
+          <span class="block text-[10px] font-mono tracking-widest text-slate-400 uppercase">Cybersecurity & IT Solutions</span>
         </div>
       </a>
-
-      <nav class="hidden lg:flex items-center gap-7 text-sm font-medium">
-        <a href="index.html" class="text-slate-300 hover:text-cyan-400">Home</a>
-        <a href="about.html" class="text-slate-300 hover:text-cyan-400">About</a>
-        <a href="services.html" class="text-slate-300 hover:text-cyan-400">Services</a>
-        <a href="solutions.html" class="text-slate-300 hover:text-cyan-400">Solutions</a>
-        <a href="industries.html" class="text-slate-300 hover:text-cyan-400">Industries</a>
-        <a href="why-us.html" class="text-slate-300 hover:text-cyan-400">Why Us</a>
-        <a href="careers.html" class="text-slate-300 hover:text-cyan-400">Careers</a>
-        <a href="contact.html" class="text-slate-300 hover:text-cyan-400">Contact</a>
-      </nav>
-
-      <div class="hidden lg:flex items-center gap-4">
-        <a href="contact.html" class="btn-cyber-primary text-xs uppercase tracking-wider">Get a Security Consultation</a>
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="text-sm font-medium text-slate-300 hover:text-cyan-400">Back to Home ➔</a>
       </div>
     </div>
   </header>
 
-  <main class="pt-32 pb-20">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="glass-panel p-8 sm:p-12 rounded-2xl border-slate-800 space-y-6 text-left">
-        <span class="cyber-badge">Terms of Service</span>
-        <h1 class="text-3xl sm:text-4xl font-extrabold text-white">Terms of Use</h1>
-        <p class="text-xs text-slate-400">Last Updated: August 2026 • Tech Innovations Inc., Khandwa, MP, India</p>
+  <main class="pt-36 pb-20 max-w-4xl mx-auto px-4 sm:px-6 flex-1">
+    <div class="glass-panel p-8 sm:p-12 space-y-6">
+      <h1 class="text-3xl font-extrabold text-white">Terms of Use</h1>
+      <p class="text-xs text-slate-400 font-mono">Last Updated: August 2026 • Tech Innovations Inc. (Khandwa, MP, India)</p>
 
-        <hr class="border-slate-800">
+      <div class="space-y-4 text-sm text-slate-300 leading-relaxed pt-4 border-t border-slate-800">
+        <h2 class="text-base font-bold text-white">1. Acceptance of Terms</h2>
+        <p>By accessing or browsing the Tech Innovations Inc. website, you agree to comply with and be bound by these Terms of Use and all applicable laws and regulations.</p>
 
-        <div class="space-y-4 text-xs sm:text-sm text-slate-300 leading-relaxed">
-          <h3 class="text-base font-bold text-white">1. Acceptance of Terms</h3>
-          <p>
-            By accessing or using the website of Tech Innovations Inc., you agree to comply with and be bound by these Terms of Use. If you do not agree with these terms, please do not use this website.
-          </p>
+        <h2 class="text-base font-bold text-white">2. Defensive Security Purpose</h2>
+        <p>All materials, technical insights, and service descriptions provided on this website are intended solely for lawful defensive security, educational awareness, and professional consulting purposes.</p>
 
-          <h3 class="text-base font-bold text-white">2. Scope of Services & Informational Purpose</h3>
-          <p>
-            The content provided on this website is for informational and consulting inquiry purposes. Formal security assessments, penetration testing, and IT consulting engagements are governed by separate Master Services Agreements (MSAs) and explicit Rules of Engagement (RoE).
-          </p>
+        <h2 class="text-base font-bold text-white">3. Intellectual Property</h2>
+        <p>All website content, trademarks, logos, and visual designs are the proprietary property of Tech Innovations Inc. and protected under applicable copyright and intellectual property laws.</p>
 
-          <h3 class="text-base font-bold text-white">3. Authorized & Responsible Use</h3>
-          <p>
-            You agree not to misuse this website, attempt unauthorized penetration or denial-of-service tests against our infrastructure, reverse-engineer proprietary application logic, or submit malicious payloads via application forms.
-          </p>
+        <h2 class="text-base font-bold text-white">4. Limitation of Liability</h2>
+        <p>Tech Innovations Inc. provides the information on this website on an "as is" basis without warranties of any kind, whether express or implied.</p>
 
-          <h3 class="text-base font-bold text-white">4. Intellectual Property</h3>
-          <p>
-            All brand trademarks, logos, methodology frameworks, and visual assets are the intellectual property of Tech Innovations Inc.
-          </p>
-
-          <h3 class="text-base font-bold text-white">5. Governing Law</h3>
-          <p>
-            These terms are governed by the laws of India, under the jurisdiction of the courts of Madhya Pradesh.
-          </p>
-        </div>
-
-        <div class="pt-4">
-          <a href="index.html" class="text-cyan-400 text-xs font-semibold hover:underline">➔ Return to Home</a>
-        </div>
+        <h2 class="text-base font-bold text-white">5. Governing Law</h2>
+        <p>These terms shall be governed by and construed in accordance with the laws of India, with jurisdiction in Khandwa, Madhya Pradesh.</p>
       </div>
     </div>
   </main>
 
-  <footer class="bg-slate-950 border-t border-slate-800 text-slate-500 text-[11px] py-8 text-center">
-    <p>© 2026 Tech Innovations Inc. All Rights Reserved. Khandwa, Madhya Pradesh, India.</p>
+  <footer class="bg-slate-950 border-t border-slate-800 py-6 text-center text-xs text-slate-500">
+    © 2026 Tech Innovations Inc. All Rights Reserved. Khandwa, Madhya Pradesh, India.
   </footer>
-
-  <script src="js/main.js"></script>
 </body>
 </html>

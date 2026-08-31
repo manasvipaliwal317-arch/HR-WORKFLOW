@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth dark">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact Us | Tech Innovations Inc. | Khandwa, MP, India</title>
-  <meta name="description" content="Get in touch with Tech Innovations Inc. for cybersecurity consultations, vulnerability assessments, and enterprise IT security solutions in Khandwa, Madhya Pradesh.">
-  
+  <title>Contact Us | Tech Innovations Inc. - Security Consultation</title>
+  <meta name="description" content="Get in touch with Tech Innovations Inc. for cybersecurity assessments, IT security consulting, or recruitment inquiries. Located in Khandwa, Madhya Pradesh, India.">
+  <meta name="keywords" content="contact Tech Innovations Inc., cybersecurity consultation, Khandwa Madhya Pradesh IT security contact">
+
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -14,264 +16,307 @@
         extend: {
           colors: {
             cyber: {
-              dark: '#070a13',
-              card: '#0f172a',
-              cyan: '#06b6d4',
-              cyanLight: '#22d3ee',
-              blue: '#3b82f6',
+              950: '#070b14',
+              900: '#0c1322',
+              850: '#111a30',
+              800: '#1e293b',
+              accent: '#00f0ff',
+              blue: '#38bdf8',
+              indigo: '#6366f1',
               emerald: '#10b981'
             }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
           }
         }
       }
     }
   </script>
+
+  <!-- Custom Stylesheet -->
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="bg-[#070a13] text-slate-200 cyber-grid-bg antialiased selection:bg-cyan-500 selection:text-white">
+<body class="cyber-grid-bg text-slate-100 flex flex-col min-h-screen">
 
-  <!-- HEADER -->
-  <header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent">
+  <!-- ==================== HEADER ==================== -->
+  <header id="site-header" class="fixed top-0 left-0 right-0 z-50 glass-nav transition-all duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-      <a href="index.html" class="flex items-center gap-3 group">
-        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 p-0.5 shadow-lg shadow-cyan-500/20 group-hover:shadow-cyan-500/40 transition-all">
-          <div class="w-full h-full bg-slate-950 rounded-[7px] flex items-center justify-center">
-            <svg class="w-5 h-5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+      
+      <a href="index.html" class="flex items-center gap-3 group text-decoration-none">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 via-sky-500 to-indigo-600 p-0.5 shadow-lg shadow-cyan-500/20 group-hover:shadow-cyan-400/40 transition-all">
+          <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
+            <svg class="w-5 h-5 text-cyan-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
           </div>
         </div>
         <div>
-          <span class="text-lg font-bold tracking-tight text-white">Tech Innovations <span class="text-cyan-400">Inc.</span></span>
-          <span class="text-[10px] text-slate-400 block tracking-wider uppercase font-medium">Cybersecurity & IT Solutions</span>
+          <span class="text-lg font-bold tracking-tight text-white flex items-center gap-1.5">
+            Tech Innovations <span class="text-cyan-400">Inc.</span>
+          </span>
+          <span class="block text-[10px] font-mono tracking-widest text-slate-400 uppercase">Cybersecurity & IT Solutions</span>
         </div>
       </a>
 
-      <nav class="hidden lg:flex items-center gap-7 text-sm font-medium">
-        <a href="index.html" class="text-slate-300 hover:text-cyan-400 transition-colors">Home</a>
-        <a href="about.html" class="text-slate-300 hover:text-cyan-400 transition-colors">About</a>
-        <a href="services.html" class="text-slate-300 hover:text-cyan-400 transition-colors">Services</a>
-        <a href="solutions.html" class="text-slate-300 hover:text-cyan-400 transition-colors">Solutions</a>
-        <a href="industries.html" class="text-slate-300 hover:text-cyan-400 transition-colors">Industries</a>
-        <a href="why-us.html" class="text-slate-300 hover:text-cyan-400 transition-colors">Why Us</a>
-        <a href="careers.html" class="text-slate-300 hover:text-cyan-400 transition-colors flex items-center gap-1.5">Careers <span class="w-2 h-2 rounded-full bg-emerald-400"></span></a>
-        <a href="contact.html" class="text-cyan-400 font-semibold transition-colors">Contact</a>
+      <nav class="hidden lg:flex items-center gap-7">
+        <a href="index.html" class="nav-link-item text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors">Home</a>
+        <a href="about.html" class="nav-link-item text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors">About</a>
+        <a href="services.html" class="nav-link-item text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors">Services</a>
+        <a href="solutions.html" class="nav-link-item text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors">Solutions</a>
+        <a href="industries.html" class="nav-link-item text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors">Industries</a>
+        <a href="why-us.html" class="nav-link-item text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors">Why Us</a>
+        <a href="careers.html" class="nav-link-item text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors inline-flex items-center gap-1.5">
+          Careers
+          <span class="px-1.5 py-0.5 text-[10px] font-bold rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Hiring</span>
+        </a>
+        <a href="contact.html" class="nav-link-item text-sm font-medium text-cyan-400 font-semibold transition-colors">Contact</a>
       </nav>
 
-      <div class="hidden lg:flex items-center gap-4">
-        <a href="contact.html" class="btn-cyber-primary text-xs uppercase tracking-wider">Get a Security Consultation</a>
-      </div>
+      <div class="flex items-center gap-3">
+        <a href="contact.html" class="hidden sm:inline-flex btn-cyber-primary text-xs sm:text-sm py-2.5 px-4">
+          Get a Security Consultation
+        </a>
 
-      <button id="mobile-menu-btn" class="lg:hidden p-2 text-slate-300 hover:text-white" aria-label="Open Menu">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
-      </button>
+        <button id="mobile-menu-btn" class="lg:hidden p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-cyan-400" aria-label="Toggle mobile menu">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-menu-drawer" class="hidden lg:hidden glass-nav border-t border-slate-800/80 px-4 pt-4 pb-6 space-y-3">
+      <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:text-cyan-400">Home</a>
+      <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:text-cyan-400">About Us</a>
+      <a href="services.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:text-cyan-400">Services</a>
+      <a href="solutions.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:text-cyan-400">Solutions</a>
+      <a href="industries.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:text-cyan-400">Industries</a>
+      <a href="why-us.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:text-cyan-400">Why Choose Us</a>
+      <a href="careers.html" class="block px-3 py-2 rounded-md text-base font-medium text-emerald-400">Careers & Openings 🟢</a>
+      <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium text-cyan-400 font-bold">Contact Us</a>
     </div>
   </header>
 
-  <!-- MOBILE MENU -->
-  <div id="mobile-menu" class="hidden fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-xl p-6 flex flex-col justify-between overflow-y-auto">
-    <div>
-      <div class="flex items-center justify-between pb-6 border-b border-slate-800">
-        <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold">🛡️</div>
-          <span class="text-base font-bold text-white">Tech Innovations Inc.</span>
-        </div>
-        <button id="mobile-menu-close" class="p-2 text-slate-400 hover:text-white" aria-label="Close Menu">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-        </button>
-      </div>
-      <nav class="flex flex-col gap-4 text-base font-medium mt-8">
-        <a href="index.html" class="text-slate-200 hover:text-cyan-400 py-2 border-b border-slate-900">Home</a>
-        <a href="about.html" class="text-slate-200 hover:text-cyan-400 py-2 border-b border-slate-900">About Us</a>
-        <a href="services.html" class="text-slate-200 hover:text-cyan-400 py-2 border-b border-slate-900">Services</a>
-        <a href="solutions.html" class="text-slate-200 hover:text-cyan-400 py-2 border-b border-slate-900">Solutions</a>
-        <a href="industries.html" class="text-slate-200 hover:text-cyan-400 py-2 border-b border-slate-900">Industries</a>
-        <a href="why-us.html" class="text-slate-200 hover:text-cyan-400 py-2 border-b border-slate-900">Why Choose Us</a>
-        <a href="careers.html" class="text-slate-200 hover:text-cyan-400 py-2 border-b border-slate-900">Careers</a>
-        <a href="contact.html" class="text-cyan-400 font-semibold py-2">Contact Us</a>
-      </nav>
+  <!-- ==================== HERO ==================== -->
+  <section class="relative pt-36 pb-16 md:pt-44 md:pb-20 border-b border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4 reveal-on-scroll">
+      <span class="badge-cyber">CONNECT WITH OUR SECURITY TEAM</span>
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight">
+        Request a <span class="gradient-text-cyan">Security Consultation</span>
+      </h1>
+      <p class="text-slate-300 text-base sm:text-lg max-w-3xl mx-auto leading-relaxed">
+        Have a question about protecting your applications, networks, or digital assets? Reach out to our technical team in Khandwa, Madhya Pradesh.
+      </p>
     </div>
-    <div class="pt-6 border-t border-slate-800">
-      <a href="contact.html" class="btn-cyber-primary w-full text-center text-sm py-3 mb-3">Get a Security Consultation</a>
-      <p class="text-center text-xs text-slate-500">Khandwa, Madhya Pradesh, India</p>
-    </div>
-  </div>
+  </section>
 
-  <main class="pt-28">
-    <!-- HERO -->
-    <section class="py-16 cyber-radial-glow relative border-b border-slate-800">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4 reveal-on-scroll">
-        <span class="cyber-badge">Direct Communication</span>
-        <h1 class="text-4xl sm:text-5xl font-extrabold text-white">Contact <span class="text-gradient-cyan">Tech Innovations Inc.</span></h1>
-        <p class="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto">
-          Request a security assessment, inquire about IT defense consulting, or connect directly with our engineering team in Khandwa, Madhya Pradesh.
-        </p>
-      </div>
-    </section>
-
-    <!-- CONTACT FORM & INFO -->
-    <section class="py-20">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          
-          <!-- Contact Form (7 cols) -->
-          <div class="lg:col-span-7 glass-panel p-8 sm:p-10 rounded-2xl border-cyan-500/30 reveal-on-scroll">
-            <h2 class="text-2xl font-bold text-white mb-2">Request a Security Consultation</h2>
-            <p class="text-xs sm:text-sm text-slate-400 mb-6">
-              Complete the form below to receive a consultation overview from our cybersecurity engineers.
+  <!-- ==================== CONTACT FORM & DETAILS ==================== -->
+  <section class="py-20 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        
+        <!-- Left: Form -->
+        <div class="lg:col-span-7">
+          <div class="glass-panel p-6 sm:p-10 border-cyan-500/30">
+            <h2 class="text-2xl font-bold text-white mb-2">Send an Inquiry</h2>
+            <p class="text-xs sm:text-sm text-slate-400 mb-8">
+              Fill in your details below and our security engineers will review your requirements.
             </p>
 
-            <div id="contact-alert" class="hidden"></div>
+            <!-- Status Alert Box -->
+            <div id="contact-form-status" class="hidden mb-6 p-4 rounded-xl text-xs sm:text-sm leading-relaxed"></div>
 
-            <form id="contact-form" class="space-y-4">
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <form id="consultation-contact-form" class="space-y-5">
+              
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
-                  <label class="block text-xs font-semibold text-slate-300 mb-1">Full Name <span class="text-rose-500">*</span></label>
-                  <input type="text" id="contact-name" placeholder="e.g. Rahul Sharma" required class="w-full px-4 py-2.5 rounded-lg bg-slate-950 border border-slate-700 text-sm text-white focus:border-cyan-500 focus:outline-none">
+                  <label for="contact-name" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Full Name <span class="text-red-400">*</span></label>
+                  <input type="text" id="contact-name" class="w-full px-4 py-3 rounded-lg bg-slate-900/90 border border-slate-700 text-white text-sm focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition" placeholder="e.g. Rahul Sharma" required>
                 </div>
                 <div>
-                  <label class="block text-xs font-semibold text-slate-300 mb-1">Email Address <span class="text-rose-500">*</span></label>
-                  <input type="email" id="contact-email" placeholder="e.g. rahul@company.com" required class="w-full px-4 py-2.5 rounded-lg bg-slate-950 border border-slate-700 text-sm text-white focus:border-cyan-500 focus:outline-none">
+                  <label for="contact-email" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Email Address <span class="text-red-400">*</span></label>
+                  <input type="email" id="contact-email" class="w-full px-4 py-3 rounded-lg bg-slate-900/90 border border-slate-700 text-white text-sm focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition" placeholder="e.g. rahul@example.com" required>
                 </div>
               </div>
 
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
-                  <label class="block text-xs font-semibold text-slate-300 mb-1">Phone Number</label>
-                  <input type="tel" id="contact-phone" placeholder="e.g. +91 98765 43210" class="w-full px-4 py-2.5 rounded-lg bg-slate-950 border border-slate-700 text-sm text-white focus:border-cyan-500 focus:outline-none">
+                  <label for="contact-phone" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Phone Number <span class="text-red-400">*</span></label>
+                  <input type="tel" id="contact-phone" class="w-full px-4 py-3 rounded-lg bg-slate-900/90 border border-slate-700 text-white text-sm focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition" placeholder="e.g. +91 98765 43210" required>
                 </div>
                 <div>
-                  <label class="block text-xs font-semibold text-slate-300 mb-1">Company / Organization</label>
-                  <input type="text" id="contact-company" placeholder="e.g. Apex Enterprises" class="w-full px-4 py-2.5 rounded-lg bg-slate-950 border border-slate-700 text-sm text-white focus:border-cyan-500 focus:outline-none">
+                  <label for="contact-company" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Company / Organization</label>
+                  <input type="text" id="contact-company" class="w-full px-4 py-3 rounded-lg bg-slate-900/90 border border-slate-700 text-white text-sm focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition" placeholder="e.g. Apex Tech Solutions">
                 </div>
               </div>
 
               <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Service Required <span class="text-rose-500">*</span></label>
-                <select id="contact-service" required class="w-full px-4 py-2.5 rounded-lg bg-slate-950 border border-slate-700 text-sm text-white focus:border-cyan-500 focus:outline-none">
-                  <option value="">Select a security discipline...</option>
+                <label for="contact-service" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Service Required <span class="text-red-400">*</span></label>
+                <select id="contact-service" class="w-full px-4 py-3 rounded-lg bg-slate-900/90 border border-slate-700 text-white text-sm focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition" required>
+                  <option value="">Select a security service...</option>
                   <option value="Cybersecurity Assessment">Cybersecurity Assessment</option>
                   <option value="Vulnerability Assessment">Vulnerability Assessment</option>
-                  <option value="Network Security">Network Security & Firewalls</option>
-                  <option value="Web Security">Web & API Application Security</option>
-                  <option value="IT Security Consulting">IT Security Consulting & Compliance</option>
-                  <option value="Security Awareness">Security Awareness Training</option>
-                  <option value="Data Protection">Data Protection & Cryptography</option>
-                  <option value="Other">Other Cybersecurity Inquiries</option>
+                  <option value="Network Security">Network Security & Defense</option>
+                  <option value="Endpoint Security">Endpoint Security Hardening</option>
+                  <option value="Web Application Security">Web Application Security</option>
+                  <option value="Data Protection">Data Protection & Privacy</option>
+                  <option value="Security Monitoring">Security Monitoring</option>
+                  <option value="IT Security Consulting">IT Security Consulting</option>
+                  <option value="Security Awareness Training">Security Awareness Training</option>
+                  <option value="Incident Response Guidance">Incident Response Guidance</option>
+                  <option value="Other Inquiries">Other Inquiries</option>
                 </select>
               </div>
 
               <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Your Requirements / Message <span class="text-rose-500">*</span></label>
-                <textarea id="contact-message" rows="4" placeholder="Briefly describe your environment, current security challenges, or specific assessment scope..." required class="w-full px-4 py-2.5 rounded-lg bg-slate-950 border border-slate-700 text-sm text-white focus:border-cyan-500 focus:outline-none"></textarea>
+                <label for="contact-message" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Message / Requirement Details <span class="text-red-400">*</span></label>
+                <textarea id="contact-message" rows="4" class="w-full px-4 py-3 rounded-lg bg-slate-900/90 border border-slate-700 text-white text-sm focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition" placeholder="Please describe your current systems, objectives, or security concerns..." required></textarea>
               </div>
 
               <div class="pt-2">
-                <button type="submit" class="btn-cyber-primary w-full sm:w-auto text-sm !py-3 !px-8">
+                <button type="submit" class="w-full btn-cyber-primary py-3.5 text-sm sm:text-base">
                   Request Security Consultation ➔
                 </button>
+                <p class="text-[11px] text-slate-400 text-center mt-2.5">
+                  Static demo form verification active. For live direct inquiries, email us at <strong class="text-slate-300">manasvipaliwal317@gmail.com</strong>.
+                </p>
               </div>
+
             </form>
           </div>
+        </div>
 
-          <!-- Contact Information & Company Details (5 cols) -->
-          <div class="lg:col-span-5 space-y-6 reveal-on-scroll">
+        <!-- Right: Contact Information & Location -->
+        <div class="lg:col-span-5 space-y-6">
+          
+          <div class="glass-panel p-6 sm:p-8 space-y-6">
+            <h3 class="text-lg font-bold text-white border-b border-slate-800 pb-3">Company Details</h3>
             
-            <div class="glass-panel p-8 rounded-2xl border-slate-800">
-              <h3 class="text-lg font-bold text-white mb-4">Company Location</h3>
-              <div class="space-y-3 text-xs sm:text-sm text-slate-300">
-                <p class="flex items-start gap-3">
-                  <span class="text-cyan-400 text-base">📍</span>
-                  <span>
-                    <strong>Tech Innovations Inc.</strong><br>
-                    Khandwa, Madhya Pradesh, India
-                  </span>
-                </p>
-                <p class="flex items-center gap-3">
-                  <span class="text-cyan-400 text-base">📧</span>
-                  <span>info@techinnovations.example</span>
-                </p>
-                <p class="flex items-center gap-3">
-                  <span class="text-cyan-400 text-base">📞</span>
-                  <span>+91 XXXXX XXXXX</span>
-                </p>
+            <div class="space-y-4 text-xs sm:text-sm text-slate-300">
+              <div class="flex items-start gap-3.5">
+                <span class="text-xl shrink-0">📍</span>
+                <div>
+                  <strong class="text-white block">Office Location:</strong>
+                  <span>Khandwa, Madhya Pradesh, India</span>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3.5">
+                <span class="text-xl shrink-0">📧</span>
+                <div>
+                  <strong class="text-white block">Email Address:</strong>
+                  <a href="mailto:manasvipaliwal317@gmail.com" class="text-cyan-400 hover:underline font-mono">manasvipaliwal317@gmail.com</a>
+                  <span class="block text-[11px] text-slate-400 mt-0.5">Corporate: info@techinnovations.example</span>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3.5">
+                <span class="text-xl shrink-0">📞</span>
+                <div>
+                  <strong class="text-white block">Phone Support:</strong>
+                  <span class="font-mono text-slate-300">+91 XXXXX XXXXX (Contact via Email)</span>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3.5">
+                <span class="text-xl shrink-0">⏰</span>
+                <div>
+                  <strong class="text-white block">Consultation Hours:</strong>
+                  <span>Monday – Friday: 9:30 AM – 6:30 PM IST</span>
+                </div>
               </div>
             </div>
+          </div>
 
-            <!-- Recruitment Direct Mail Box -->
-            <div class="glass-panel p-8 rounded-2xl border-emerald-500/30">
-              <div class="flex items-center gap-2 mb-2">
-                <span class="pulse-radar-dot"></span>
-                <span class="text-xs font-bold text-emerald-400 uppercase font-mono">HR Recruitment Mailbox</span>
-              </div>
-              <h4 class="text-base font-bold text-white mb-2">Looking for a Job or Internship?</h4>
-              <p class="text-xs text-slate-300 leading-relaxed mb-4">
-                You can send your resume directly to our active recruitment pipeline:
-              </p>
-              <code class="block p-2.5 rounded bg-slate-950 border border-slate-800 font-mono text-xs text-cyan-400 mb-3 select-all">
-                manasvipaliwal317@gmail.com
-              </code>
-              <a href="careers.html" class="text-cyan-400 text-xs font-semibold hover:underline inline-flex items-center gap-1">
-                View Live Job Openings ➔
-              </a>
+          <!-- Careers Callout Card -->
+          <div class="glass-panel p-6 sm:p-8 border-emerald-500/30">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-xl">💼</span>
+              <h4 class="text-base font-bold text-emerald-400">Looking for Job Openings?</h4>
             </div>
-
-            <div class="p-6 rounded-2xl bg-slate-950/80 border border-slate-800 text-xs text-slate-400 space-y-2">
-              <span class="font-bold text-white block uppercase font-mono">Consultation Policy:</span>
-              <p>✓ All inquiries are treated with strict confidentiality.</p>
-              <p>✓ Initial scoping calls are conducted by senior engineers.</p>
-              <p>✓ Response time: Within 1 business day.</p>
-            </div>
-
+            <p class="text-xs text-slate-300 leading-relaxed mb-4">
+              Explore our live open positions (Full Stack Developer, Digital Marketing Specialist, Security Analyst) on our dynamic careers page.
+            </p>
+            <a href="careers.html" class="btn-cyber-secondary text-xs py-2 px-4 inline-flex items-center gap-1.5 text-emerald-400 border-emerald-500/30">
+              View Active Openings 🟢 ➔
+            </a>
           </div>
 
         </div>
-      </div>
-    </section>
-  </main>
 
-  <!-- FOOTER -->
-  <footer class="bg-slate-950 border-t border-slate-800 text-slate-400 text-xs py-14">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-10">
-      <div class="space-y-3.5">
-        <div class="flex items-center gap-2">
-          <div class="w-7 h-7 rounded bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold">🛡️</div>
-          <span class="text-sm font-bold text-white">Tech Innovations Inc.</span>
-        </div>
-        <p class="leading-relaxed">Delivering modern cybersecurity, threat protection, vulnerability assessments, and technology solutions.</p>
-        <p class="text-[11px] text-slate-500">📍 Khandwa, Madhya Pradesh, India</p>
-      </div>
-      <div class="space-y-2.5">
-        <h4 class="text-sm font-semibold text-white uppercase tracking-wider">Company</h4>
-        <ul class="space-y-1.5">
-          <li><a href="about.html" class="hover:text-cyan-400">About Us</a></li>
-          <li><a href="why-us.html" class="hover:text-cyan-400">Why Choose Us</a></li>
-          <li><a href="careers.html" class="hover:text-cyan-400">Careers</a></li>
-          <li><a href="contact.html" class="text-cyan-400">Contact Us</a></li>
-        </ul>
-      </div>
-      <div class="space-y-2.5">
-        <h4 class="text-sm font-semibold text-white uppercase tracking-wider">Key Services</h4>
-        <ul class="space-y-1.5">
-          <li><a href="services.html" class="hover:text-cyan-400">Cybersecurity Assessment</a></li>
-          <li><a href="services.html" class="hover:text-cyan-400">Vulnerability Assessment</a></li>
-          <li><a href="services.html" class="hover:text-cyan-400">Network Security</a></li>
-        </ul>
-      </div>
-      <div class="space-y-2.5">
-        <h4 class="text-sm font-semibold text-white uppercase tracking-wider">Contact</h4>
-        <p>Email: <a href="mailto:info@techinnovations.example" class="hover:text-cyan-400">info@techinnovations.example</a></p>
-        <p>Careers: <a href="mailto:manasvipaliwal317@gmail.com" class="text-cyan-400">manasvipaliwal317@gmail.com</a></p>
-        <p>Location: Khandwa, MP, India</p>
       </div>
     </div>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 mt-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
-      <p>© 2026 Tech Innovations Inc. All Rights Reserved.</p>
-      <div class="flex items-center gap-5">
-        <a href="privacy-policy.html" class="hover:text-slate-400">Privacy Policy</a>
-        <a href="terms.html" class="hover:text-slate-400">Terms of Use</a>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="bg-slate-950 border-t border-slate-800 pt-16 pb-12 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-slate-800/80">
+        
+        <div class="lg:col-span-2 space-y-4">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg bg-cyan-400 flex items-center justify-center text-slate-950 font-bold">
+              🛡️
+            </div>
+            <span class="text-lg font-bold text-white">Tech Innovations Inc.</span>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-400 max-w-sm leading-relaxed">
+            Delivering modern cybersecurity, technical hardening, vulnerability assessments, and security consulting for businesses, startups, and institutions.
+          </p>
+          <div class="text-xs text-slate-400 space-y-1 font-mono">
+            <div>📍 Khandwa, Madhya Pradesh, India</div>
+            <div>📧 recruitment: <a href="mailto:manasvipaliwal317@gmail.com" class="text-cyan-400 hover:underline">manasvipaliwal317@gmail.com</a></div>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="text-xs font-bold font-mono tracking-wider text-slate-300 uppercase mb-4">Company</h4>
+          <ul class="space-y-2.5 text-xs sm:text-sm text-slate-400">
+            <li><a href="about.html" class="hover:text-cyan-400 transition-colors">About Us</a></li>
+            <li><a href="why-us.html" class="hover:text-cyan-400 transition-colors">Why Choose Us</a></li>
+            <li><a href="careers.html" class="hover:text-cyan-400 transition-colors">Careers & Openings 🟢</a></li>
+            <li><a href="contact.html" class="text-cyan-400 font-semibold">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-xs font-bold font-mono tracking-wider text-slate-300 uppercase mb-4">Key Services</h4>
+          <ul class="space-y-2.5 text-xs sm:text-sm text-slate-400">
+            <li><a href="services.html#assessment" class="hover:text-cyan-400 transition-colors">Cyber Assessment</a></li>
+            <li><a href="services.html#vulnerability" class="hover:text-cyan-400 transition-colors">Vulnerability Audit</a></li>
+            <li><a href="services.html#network" class="hover:text-cyan-400 transition-colors">Network Defense</a></li>
+            <li><a href="services.html#webapp" class="hover:text-cyan-400 transition-colors">Web App Security</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-xs font-bold font-mono tracking-wider text-slate-300 uppercase mb-4">Solutions</h4>
+          <ul class="space-y-2.5 text-xs sm:text-sm text-slate-400">
+            <li><a href="solutions.html#threat" class="hover:text-cyan-400 transition-colors">Threat Protection</a></li>
+            <li><a href="solutions.html#risk" class="hover:text-cyan-400 transition-colors">Risk Management</a></li>
+            <li><a href="solutions.html#data" class="hover:text-cyan-400 transition-colors">Data Security</a></li>
+            <li><a href="industries.html" class="hover:text-cyan-400 transition-colors">Industries Served</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+        <div>
+          © 2026 Tech Innovations Inc. All Rights Reserved. Khandwa, Madhya Pradesh, India.
+        </div>
+        <div class="flex items-center gap-6">
+          <a href="privacy-policy.html" class="hover:text-slate-300 transition-colors">Privacy Policy</a>
+          <a href="terms.html" class="hover:text-slate-300 transition-colors">Terms of Use</a>
+        </div>
       </div>
     </div>
   </footer>
 
+  <div id="site-toast-container"></div>
   <script src="js/main.js"></script>
 </body>
 </html>

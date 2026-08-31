@@ -48,7 +48,8 @@ app.use(cors());
 app.use(express.json({ limit: '25mb' }));
 app.use(express.urlencoded({ extended: true, limit: '25mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/website', express.static(path.join(__dirname, 'tech-innovations-inc')));
+app.use('/site', express.static(path.join(__dirname, 'tech-innovations-inc')));
+app.use('/company', express.static(path.join(__dirname, 'tech-innovations-inc')));
 
 // Default Config
 let appConfig = {

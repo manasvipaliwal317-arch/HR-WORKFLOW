@@ -1,111 +1,94 @@
-# Tech Innovations Inc. — Official Static Corporate Website
+# Tech Innovations Inc. — Corporate Cybersecurity Website
 
-A complete, modern, responsive static corporate website for **Tech Innovations Inc.** (Cybersecurity & IT Solutions company based in Khandwa, Madhya Pradesh, India), featuring a real-time **Careers Portal** connected to the company's automated AI HR Recruitment Workflow.
+A modern, high-performance, responsive static corporate website built for **Tech Innovations Inc.** (Cybersecurity & IT Solutions, based in Khandwa, Madhya Pradesh, India).
+
+The website includes a live-integrated **Careers & Openings** page (`careers.html`) directly connected to the **Nexus HR Automated Recruitment Workflow** to fetch live active job openings, requirements, and streamline applicant intake.
 
 ---
 
-## 🌟 Key Highlights & Features
+## 🛡️ Project Overview
 
-1. **Cybersecurity-Inspired Aesthetics**:
-   - Deep cyber dark theme (`#070a13`), electric cyan (`#06b6d4`), neon blue (`#3b82f6`), and emerald accents.
-   - Glassmorphism panels, glowing borders, circuit accents, and responsive layout.
-2. **100% Static & Lightweight**:
-   - Built exclusively with **HTML5**, **CSS3**, **Vanilla JavaScript**, and **Tailwind CSS (via CDN)**.
-   - No build steps, no Node.js/PHP runtime required for the website itself — open `index.html` directly in any web browser!
-3. **Live HR Recruitment Workflow Integration (`careers.html`)**:
-   - **Dynamic Role Synchronization**: Fetches live active job openings from the HR workflow API (`https://nexus-hr-workflow.onrender.com/api/job-roles`).
-   - **Interactive Apply Modal**: Candidates can submit their application directly to `POST /api/evaluate-resume`, immediately registering on the HR Recruitment Dashboard with automated Gemini AI evaluation and email dispatch!
-   - **Direct Mailbox Trigger**: Displays the HR recruiter email (`manasvipaliwal317@gmail.com`) for candidates submitting resumes by email to trigger the automated mailbox scanner.
-4. **Complete Multi-Page Structure**:
-   - `index.html` — Homepage with animated hero, statistics, services preview, and process flow.
-   - `about.html` — Mission, Vision, and 4 Core Strategic Pillars.
-   - `services.html` — 10 Comprehensive Cybersecurity Disciplines.
-   - `solutions.html` — 6 Enterprise Solution Areas and Assurance Pipeline.
-   - `industries.html` — Defense models for 9 Key Industry Sectors.
-   - `why-us.html` — 6 Pillars of Excellence and 6-Step Implementation Lifecycle.
-   - `careers.html` — Real-time Job Openings and Online Application Portal.
-   - `contact.html` — Security Consultation Request form with frontend validation.
-   - `privacy-policy.html` — Comprehensive Privacy Policy.
-   - `terms.html` — Terms of Use.
-   - `404.html` — Custom Cybersecurity 404 Error Page.
+- **Company Name**: Tech Innovations Inc.
+- **Industry**: Cybersecurity & IT Security Solutions
+- **Location**: Khandwa, Madhya Pradesh, India
+- **Website Type**: Multi-Page Responsive Static Corporate Website
+- **Aesthetic**: Premium Dark Cybersecurity Theme (Deep navy/black `#070b14`, electric cyan `#00f0ff`, sky blue `#38bdf8`, glassmorphism, glowing micro-animations, interactive cyber particle canvas)
+- **Zero Heavy Dependencies**: Pure HTML5, CSS3, Tailwind CSS (via CDN), and Vanilla JavaScript. Works immediately by opening files directly in any browser.
+
+---
+
+## ⚡ Live HR Recruitment Workflow Integration
+
+The **Careers Page (`careers.html`)** connects directly to the backend HR Workflow API:
+- **Production Endpoint**: `https://nexus-hr-workflow.onrender.com/api/job-roles`
+- **Local Fallback Endpoint**: `http://localhost:3000/api/job-roles`
+- **Dynamic Synchronization**: When the HR manager adds, edits, or activates job positions on the HR Dashboard, the website's Careers page automatically updates its listings, required skill tags, and experience thresholds.
+- **Direct Mailto Action**: Each job card generates a 1-click `mailto:manasvipaliwal317@gmail.com` link pre-populated with the exact job title in the subject line, routing resumes directly into the automated AI screening and interview scheduling pipeline.
 
 ---
 
 ## 📁 Folder Structure
 
-```
+```text
 tech-innovations-inc/
-├── index.html
-├── about.html
-├── services.html
-├── solutions.html
-├── industries.html
-├── why-us.html
-├── careers.html
-├── contact.html
-├── privacy-policy.html
-├── terms.html
-├── 404.html
+├── index.html              # Homepage with cyber hero, live stats & service highlights
+├── about.html              # Company background, Mission & Vision, Core Principles
+├── services.html           # 10 comprehensive cybersecurity services
+├── solutions.html          # 6 enterprise solution areas & 6-step defense pipeline
+├── industries.html         # 9 targeted industry sectors (SMBs, Healthcare, Fintech, etc.)
+├── why-us.html             # 6 value pillars & vendor comparison matrix
+├── careers.html            # Dynamic job openings synced with HR workflow & direct apply
+├── contact.html            # Consultation inquiry form with client-side validation
+├── privacy-policy.html     # Static privacy policy
+├── terms.html              # Terms of use
+├── 404.html                # Custom cyber-themed 404 page
 │
 ├── css/
-│   └── style.css
+│   └── style.css           # Custom cyber glow, grid patterns, glassmorphism & animations
 │
 ├── js/
-│   └── main.js
+│   └── main.js             # Sticky header, mobile nav, particle canvas, dynamic careers feed
 │
-├── README.md
-└── render.yaml
+├── render.yaml             # Render Static Site deployment blueprint
+└── README.md               # Project documentation
 ```
 
 ---
 
-## 💻 How to Run Locally
-
-You can run the static site locally using any of the following methods:
+## 🚀 How to Run Locally
 
 ### Option 1: Direct File Open
-Double click `index.html` in your file explorer to open it in Chrome, Edge, Firefox, or Safari.
+Simply double-click `index.html` (or right-click and choose **Open with Chrome / Edge / Firefox**).
 
-### Option 2: Using Any Lightweight HTTP Server
+### Option 2: Local HTTP Server
+Using `npx serve` or Python's built-in HTTP server:
 ```bash
-# Python 3
-cd "tech-innovations-inc"
-python -m http.server 8080
-
-# Or Node.js npx serve
+# In the tech-innovations-inc directory:
 npx serve .
+# Or using Python 3:
+python -m http.server 8080
 ```
-Open `http://localhost:8080` in your browser.
+Then visit `http://localhost:8080` in your web browser.
 
 ---
 
-## 🚀 How to Deploy on Render (Static Site)
+## ☁️ How to Deploy on Render (Static Site)
 
-1. **Create a New Static Site on Render**:
-   - Navigate to [https://dashboard.render.com/new](https://dashboard.render.com/new).
-   - Choose **Static Site**.
-2. **Connect your GitHub Repository**:
-   - Select `manasvipaliwal317-arch/HR-WORKFLOW`.
-3. **Configure Settings**:
+1. **Push to GitHub**: Ensure the `tech-innovations-inc` directory or repository is pushed to your GitHub account (e.g. `manasvipaliwal317-arch/HR-WORKFLOW`).
+2. **Go to Render Dashboard**: [https://dashboard.render.com/new](https://dashboard.render.com/new)
+3. **Select "Static Site"**:
    - **Name**: `tech-innovations-inc`
    - **Branch**: `main`
-   - **Root Directory**: `tech-innovations-inc`
+   - **Root Directory**: `tech-innovations-inc` (or `.` if repo root)
    - **Build Command**: *(leave empty)*
-   - **Publish Directory**: `.`
-4. **Deploy**:
-   - Click **Create Static Site**.
-   - Your website will be live in seconds at `https://tech-innovations-inc.onrender.com`!
+   - **Publish Directory**: `.` (or `tech-innovations-inc`)
+4. **Deploy**: Click **Create Static Site**. Render will provision a live HTTPS URL (e.g., `https://tech-innovations-inc.onrender.com`).
 
 ---
 
-## 🔗 Separate URLs for Workflow vs Website
+## 📝 Placeholder Information Note
 
-- 🛠️ **HR Recruitment & AI Workflow**: `https://nexus-hr-workflow.onrender.com`
-- 🌐 **Corporate Static Website**: `https://tech-innovations-inc.onrender.com`
-
----
-
-## 📝 Placeholder Content Notice
-The following information is currently placeholder content and should be customized with your final production details:
-- Contact email: `info@techinnovations.example`
-- Phone number: `+91 XXXXX XXXXX`
+The following business contact details are currently template placeholders and can be updated as needed:
+- **Corporate Inquiry Email**: `info@techinnovations.example` (Recruitment email is actively mapped to `manasvipaliwal317@gmail.com`)
+- **Phone Number**: `+91 XXXXX XXXXX`
+- **Office Address**: Khandwa, Madhya Pradesh, India

@@ -1,7 +1,10 @@
 services:
   - type: web
-    name: tech-innovations-inc-site
+    name: tech-innovations-inc
     runtime: static
     buildCommand: ""
     staticPublishPath: .
-    pullRequestPreviewsEnabled: false
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
