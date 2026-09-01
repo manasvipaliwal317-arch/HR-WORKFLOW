@@ -1,5 +1,6 @@
 /* ==========================================================================
    Tech Innovations Inc. — Modern Premium Light & Vibrant Enterprise Design System
+   Rich Micro-interactions, 3D Tilt Cards, Magnetic Glow, Ambient Gradients & Responsive FX
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
@@ -33,8 +34,9 @@
 
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-  --shadow-hover: 0 20px 25px -5px rgba(14, 165, 233, 0.1), 0 8px 10px -6px rgba(14, 165, 233, 0.06);
-  --shadow-glow: 0 10px 30px -5px rgba(37, 99, 235, 0.15);
+  --shadow-hover: 0 20px 25px -5px rgba(14, 165, 233, 0.12), 0 8px 10px -6px rgba(14, 165, 233, 0.08);
+  --shadow-glow: 0 10px 30px -5px rgba(37, 99, 235, 0.18);
+  --shadow-emerald: 0 10px 30px -5px rgba(5, 150, 105, 0.2);
 }
 
 /* Base Setup */
@@ -55,127 +57,335 @@ body {
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
+  position: relative;
 }
 
-/* Modern Clean Mesh & Grid Backgrounds */
+/* ========================================================
+   1. READING SCROLL PROGRESS BAR
+======================================================== */
+#scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 3.5px;
+  background: linear-gradient(90deg, #2563eb, #0ea5e9, #4f46e5, #059669);
+  background-size: 300% 100%;
+  animation: gradientFlow 4s ease infinite;
+  box-shadow: 0 0 12px rgba(14, 165, 233, 0.6), 0 0 4px rgba(37, 99, 235, 0.8);
+  z-index: 99999;
+  transition: width 0.1s ease-out;
+}
+
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ========================================================
+   2. AMBIENT ANIMATED GRADIENT BLOBS
+======================================================== */
+.ambient-blob-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ambient-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.38;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.blob-blue {
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.45) 0%, rgba(14, 165, 233, 0.1) 70%, transparent 100%);
+  top: -120px;
+  left: -80px;
+  animation: floatOrb1 18s ease-in-out infinite alternate;
+}
+
+.blob-cyan {
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, rgba(2, 132, 199, 0.4) 0%, rgba(56, 189, 248, 0.1) 70%, transparent 100%);
+  top: 15%;
+  right: -100px;
+  animation: floatOrb2 22s ease-in-out infinite alternate;
+}
+
+.blob-indigo {
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(79, 70, 229, 0.35) 0%, rgba(99, 102, 241, 0.1) 70%, transparent 100%);
+  bottom: 10%;
+  left: 10%;
+  animation: floatOrb3 20s ease-in-out infinite alternate;
+}
+
+@keyframes floatOrb1 {
+  0% { transform: translate(0px, 0px) scale(1); }
+  50% { transform: translate(60px, 40px) scale(1.1); }
+  100% { transform: translate(-30px, 70px) scale(0.95); }
+}
+
+@keyframes floatOrb2 {
+  0% { transform: translate(0px, 0px) scale(1); }
+  50% { transform: translate(-70px, 50px) scale(1.08); }
+  100% { transform: translate(40px, -40px) scale(0.92); }
+}
+
+@keyframes floatOrb3 {
+  0% { transform: translate(0px, 0px) scale(0.95); }
+  50% { transform: translate(50px, -60px) scale(1.12); }
+  100% { transform: translate(-40px, 30px) scale(1); }
+}
+
+/* ========================================================
+   3. MODERN CYBER GRID BACKGROUNDS
+======================================================== */
 .cyber-grid-bg {
   background-color: #f8fafc;
   background-image: 
-    radial-gradient(circle at 50% 0%, rgba(14, 165, 233, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 100% 50%, rgba(99, 102, 241, 0.05) 0%, transparent 40%),
-    linear-gradient(rgba(226, 232, 240, 0.6) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(226, 232, 240, 0.6) 1px, transparent 1px);
-  background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
+    radial-gradient(circle at 50% 0%, rgba(14, 165, 233, 0.09) 0%, transparent 55%),
+    radial-gradient(circle at 100% 50%, rgba(99, 102, 241, 0.06) 0%, transparent 45%),
+    linear-gradient(rgba(226, 232, 240, 0.65) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(226, 232, 240, 0.65) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 44px 44px, 44px 44px;
 }
 
 .cyber-grid-dense {
   background-color: #f8fafc;
   background-image: 
-    radial-gradient(circle at 80% 20%, rgba(37, 99, 235, 0.06) 0%, transparent 50%),
-    linear-gradient(rgba(203, 213, 225, 0.5) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(203, 213, 225, 0.5) 1px, transparent 1px);
+    radial-gradient(circle at 80% 20%, rgba(37, 99, 235, 0.07) 0%, transparent 50%),
+    linear-gradient(rgba(203, 213, 225, 0.55) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(203, 213, 225, 0.55) 1px, transparent 1px);
   background-size: 100% 100%, 28px 28px, 28px 28px;
 }
 
-/* Crisp Cards & Panels */
+/* ========================================================
+   4. 3D INTERACTIVE TILT & GLASS PANELS
+======================================================== */
 .glass-panel {
   background: #ffffff;
   border: 1px solid #e2e8f0;
-  border-radius: 16px;
+  border-radius: 18px;
   box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.25s cubic-bezier(0.2, 0, 0.1, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(14, 165, 233, 0.06), transparent 40%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.glass-panel:hover::before {
+  opacity: 1;
 }
 
 .glass-panel:hover {
-  border-color: #bae6fd;
-  box-shadow: var(--shadow-hover);
-  transform: translateY(-3px);
+  border-color: #7dd3fc;
+  box-shadow: 0 20px 30px -10px rgba(14, 165, 233, 0.15), 0 10px 12px -6px rgba(14, 165, 233, 0.08);
+  transform: translateY(-4px);
 }
 
+/* Active 3D tilt transformation */
+.tilt-card {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  will-change: transform;
+}
+
+.tilt-content {
+  transform: translateZ(20px);
+  transition: transform 0.25s ease;
+}
+
+/* Navigation Bar */
 .glass-nav {
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid #e2e8f0;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .glass-nav.scrolled {
   background: rgba(255, 255, 255, 0.98);
   border-bottom-color: #cbd5e1;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.08);
 }
 
-/* Gradient Text */
+/* Nav link hover underline animation */
+.nav-link-item {
+  position: relative;
+  display: inline-block;
+}
+
+.nav-link-item::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(90deg, #2563eb, #0ea5e9);
+  border-radius: 2px;
+  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-link-item:hover::after,
+.nav-link-item.active::after {
+  width: 100%;
+}
+
+/* ========================================================
+   5. GRADIENT TYPOGRAPHY & TYPING CURSOR
+======================================================== */
 .gradient-text-cyan {
   background: linear-gradient(135deg, #0284c7 0%, #2563eb 50%, #4f46e5 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-size: 200% auto;
+  animation: shineGradient 6s ease infinite alternate;
 }
 
 .gradient-text-emerald {
-  background: linear-gradient(135deg, #059669 0%, #0d9488 100%);
+  background: linear-gradient(135deg, #059669 0%, #0d9488 50%, #0284c7 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-/* Glow Pill Effects */
-.glow-cyan {
-  box-shadow: 0 10px 30px -5px rgba(14, 165, 233, 0.2);
+.gradient-text-amber {
+  background: linear-gradient(135deg, #d97706 0%, #ea580c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-/* Buttons */
+@keyframes shineGradient {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+/* Typing cursor animation */
+.typing-cursor {
+  display: inline-block;
+  width: 3px;
+  height: 1.1em;
+  vertical-align: -0.15em;
+  background: #2563eb;
+  margin-left: 2px;
+  animation: blinkCursor 0.9s infinite;
+  border-radius: 1px;
+}
+
+@keyframes blinkCursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ========================================================
+   6. MAGNETIC & INTERACTIVE BUTTONS
+======================================================== */
 .btn-cyber-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.55rem;
   background: linear-gradient(135deg, #2563eb 0%, #0284c7 100%);
   color: #ffffff !important;
   font-weight: 600;
   font-size: 0.92rem;
-  padding: 0.75rem 1.5rem;
-  border-radius: 10px;
-  border: 1px solid transparent;
-  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0.75rem 1.6rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+  transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
   text-decoration: none;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Shimmer ray across primary buttons */
+.btn-cyber-primary::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 40%;
+  height: 200%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: rotate(30deg);
+  transition: none;
+}
+
+.btn-cyber-primary:hover::after {
+  left: 140%;
+  transition: left 0.75s ease-in-out;
 }
 
 .btn-cyber-primary:hover {
   background: linear-gradient(135deg, #1d4ed8 0%, #0369a1 100%);
-  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.45);
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.45);
   transform: translateY(-2px);
+}
+
+.btn-cyber-primary:active {
+  transform: translateY(0);
 }
 
 .btn-cyber-secondary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.55rem;
   background: #ffffff;
   color: #1e293b !important;
   font-weight: 600;
   font-size: 0.92rem;
-  padding: 0.75rem 1.5rem;
-  border-radius: 10px;
+  padding: 0.75rem 1.6rem;
+  border-radius: 12px;
   border: 1px solid #cbd5e1;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  transition: all 0.25s ease;
+  transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
   text-decoration: none;
   cursor: pointer;
 }
 
 .btn-cyber-secondary:hover {
-  background: #f0fdf4;
+  background: #f0f9ff;
   border-color: #38bdf8;
   color: #0284c7 !important;
-  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
+  box-shadow: 0 6px 18px rgba(14, 165, 233, 0.18);
   transform: translateY(-2px);
 }
 
-/* Badges */
+/* ========================================================
+   7. BADGES & PILL EFFECTS
+======================================================== */
 .badge-cyber {
   display: inline-flex;
   align-items: center;
@@ -184,7 +394,7 @@ body {
   border-radius: 9999px;
   font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.4px;
   background: #e0f2fe;
   border: 1px solid #bae6fd;
   color: #0369a1;
@@ -196,11 +406,25 @@ body {
   color: #047857;
 }
 
-/* Animations for Intersection Observer */
+/* Floating animated badge */
+.float-animation {
+  animation: floatElement 4.5s ease-in-out infinite alternate;
+}
+
+@keyframes floatElement {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-7px); }
+  100% { transform: translateY(0px); }
+}
+
+/* ========================================================
+   8. SCROLL REVEAL & STAGGER ANIMATIONS
+======================================================== */
 .reveal-on-scroll {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
 }
 
 .reveal-on-scroll.is-visible {
@@ -208,20 +432,137 @@ body {
   transform: translateY(0);
 }
 
-/* Pulse radar ring for hero visual */
+.reveal-stagger-1 { transition-delay: 0.08s; }
+.reveal-stagger-2 { transition-delay: 0.16s; }
+.reveal-stagger-3 { transition-delay: 0.24s; }
+.reveal-stagger-4 { transition-delay: 0.32s; }
+
+/* Scale reveal for graphics & cards */
+.scale-on-scroll {
+  opacity: 0;
+  transform: scale(0.93) translateY(20px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scale-on-scroll.is-visible {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+/* ========================================================
+   9. RADAR & CYBER VISUAL FX
+======================================================== */
 .pulse-radar-ring {
   position: absolute;
-  border: 1px solid rgba(14, 165, 233, 0.3);
+  border: 1.5px solid rgba(14, 165, 233, 0.35);
   border-radius: 50%;
-  animation: pulseRadar 3.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+  animation: pulseRadar 3.8s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
 }
 
 @keyframes pulseRadar {
-  0% { transform: scale(0.6); opacity: 0.8; }
-  100% { transform: scale(1.6); opacity: 0; }
+  0% { transform: scale(0.5); opacity: 0.9; }
+  100% { transform: scale(1.65); opacity: 0; }
 }
 
-/* Custom Scrollbar */
+/* ========================================================
+   10. LIVE COUNTER BADGES
+======================================================== */
+.stat-counter-val {
+  font-feature-settings: 'tnum';
+  font-variant-numeric: tabular-nums;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+/* Glow on stats card hover */
+.stat-card:hover .stat-counter-val {
+  transform: scale(1.05);
+}
+
+/* ========================================================
+   11. BACK TO TOP BUTTON WITH CIRCULAR SVG PROGRESS
+======================================================== */
+#btn-back-to-top {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.15), 0 4px 6px -2px rgba(15, 23, 42, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 999;
+  opacity: 0;
+  transform: translateY(20px) scale(0.85);
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.3s ease;
+  pointer-events: none;
+}
+
+#btn-back-to-top.is-active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+#btn-back-to-top:hover {
+  background: #f0f9ff;
+  border-color: #38bdf8;
+  box-shadow: 0 14px 28px -4px rgba(14, 165, 233, 0.3);
+  transform: translateY(-3px) scale(1.05);
+}
+
+#btn-back-to-top svg.progress-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 48px;
+  height: 48px;
+  transform: rotate(-90deg);
+}
+
+#btn-back-to-top circle.progress-circle {
+  stroke-dasharray: 140;
+  stroke-dashoffset: 140;
+  transition: stroke-dashoffset 0.15s ease-out;
+}
+
+/* ========================================================
+   12. LIVE SECURITY TRUST PILL
+======================================================== */
+#live-trust-pill {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  border: 1px solid #bae6fd;
+  border-radius: 9999px;
+  padding: 0.45rem 1rem;
+  box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.18);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #0369a1;
+  z-index: 990;
+  transition: all 0.3s ease;
+  transform: translateY(0);
+}
+
+#live-trust-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px -5px rgba(14, 165, 233, 0.28);
+}
+
+/* ========================================================
+   13. CUSTOM SCROLLBAR & HERO CANVAS
+======================================================== */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -236,7 +577,6 @@ body {
   background: #94a3b8;
 }
 
-/* Hero Canvas */
 #hero-particle-canvas {
   position: absolute;
   top: 0;
@@ -247,7 +587,7 @@ body {
   z-index: 1;
 }
 
-/* Reduced Motion */
+/* Reduced Motion for Accessibility */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
