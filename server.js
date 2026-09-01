@@ -678,14 +678,18 @@ function generateInterviewInviteTemplate({ candidate }) {
 }
 
 // HTML Email Template: Official Hiring & Offer Letter
-function generateHiringOfferTemplate({ candidate, joiningDate, salaryOffer, customNotes }) {
+function generateHiringOfferTemplate({ candidate, joiningDate, salaryOffer, workMode, workLocation, employmentType, department, customNotes }) {
   const candidateName = candidate.name || 'Candidate';
   const role = candidate.role || 'Full Stack Developer';
   const calculatedJoining = getFormattedJoiningDate(3, candidate.interviewDate || candidate.proposedInterviewDate);
   const startDate = (joiningDate && !joiningDate.includes('Within')) 
     ? joiningDate 
     : (candidate.joiningDate && !candidate.joiningDate.includes('Within') ? candidate.joiningDate : calculatedJoining);
-  const compDetails = salaryOffer || candidate.salaryOffer || 'Competitive Compensation Package (As finalized during interview)';
+  const compDetails = salaryOffer || candidate.salaryOffer || 'Competitive Market Rate (As finalized during interview)';
+  const workModeVal = workMode || candidate.workMode || 'Hybrid (3 Days Office / 2 Days Remote)';
+  const workLocationVal = workLocation || candidate.workLocation || `${appConfig.companyName} Campus, Cyber City, Bangalore`;
+  const empType = employmentType || candidate.employmentType || 'Full-Time Permanent';
+  const dept = department || candidate.department || (role.toLowerCase().includes('marketing') ? 'Growth & Digital Marketing' : 'Core Engineering & Technology');
 
   return `
   <!DOCTYPE html>
@@ -726,7 +730,7 @@ function generateHiringOfferTemplate({ candidate, joiningDate, salaryOffer, cust
                 <!-- OFFER DETAILS CARD -->
                 <div style="background-color: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 12px; padding: 22px; margin: 26px 0;">
                   <h3 style="margin-top: 0; margin-bottom: 14px; font-size: 16px; color: #065f46; border-bottom: 1px solid #a7f3d0; padding-bottom: 8px;">
-                    📋 Offer Summary & Next Steps
+                    📋 Official Offer Summary & Terms
                   </h3>
                   <table border="0" cellpadding="0" cellspacing="0" width="100%">
                     <tr>
@@ -738,12 +742,28 @@ function generateHiringOfferTemplate({ candidate, joiningDate, salaryOffer, cust
                       <td style="padding: 6px 0; font-size: 14px; color: #064e3b; font-weight: 600;">${appConfig.companyName}</td>
                     </tr>
                     <tr>
+                      <td style="padding: 6px 0; font-size: 14px; color: #047857;"><strong>Department / Team:</strong></td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #064e3b;">${dept}</td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 6px 0; font-size: 14px; color: #047857;"><strong>Work Mode:</strong></td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #064e3b; font-weight: 600;">🏢 ${workModeVal}</td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 6px 0; font-size: 14px; color: #047857;"><strong>Work Location:</strong></td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #064e3b;">📍 ${workLocationVal}</td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 6px 0; font-size: 14px; color: #047857;"><strong>Employment Type:</strong></td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #064e3b;">${empType}</td>
+                    </tr>
+                    <tr>
                       <td style="padding: 6px 0; font-size: 14px; color: #047857;"><strong>Target Start Date:</strong></td>
-                      <td style="padding: 6px 0; font-size: 14px; color: #064e3b; font-weight: 600;">${startDate}</td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #064e3b; font-weight: 700;">📅 ${startDate}</td>
                     </tr>
                     <tr>
                       <td style="padding: 6px 0; font-size: 14px; color: #047857;"><strong>Compensation:</strong></td>
-                      <td style="padding: 6px 0; font-size: 14px; color: #064e3b;">${compDetails}</td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #064e3b; font-weight: 700;">💰 ${compDetails}</td>
                     </tr>
                   </table>
                 </div>
@@ -1031,6 +1051,12 @@ async function processCandidateEmailRecord(parsed, uid) {
     interviewRound: interviewRound,
     meetingLink: meetingLink,
     interviewerName: interviewerName,
+    workMode: 'Hybrid (3 Days Office / 2 Days Remote)',
+    workLocation: `${appConfig.companyName} Campus, Cyber City, Bangalore`,
+    employmentType: 'Full-Time Permanent',
+    department: (evaluation.appliedRole || appliedRole).toLowerCase().includes('marketing') ? 'Growth & Digital Marketing' : 'Core Engineering & Technology',
+    location: 'Bangalore, India / Open to Relocation',
+    salaryOffer: 'Competitive / Market Standard (Finalized upon Offer)',
     interviewStatus: evaluation.decision === 'SELECTED' ? `Interview Scheduled (${interviewDate})` : 'N/A',
     emailSubject: evaluation.decision === 'SELECTED' 
       ? `📅 Interview Invitation: ${evaluation.appliedRole || appliedRole} at ${appConfig.companyName}` 
@@ -1386,6 +1412,12 @@ async function handleEvaluationRequest(req, res) {
       interviewRound: interviewRound,
       meetingLink: meetingLink,
       interviewerName: interviewerName,
+      workMode: 'Hybrid (3 Days Office / 2 Days Remote)',
+      workLocation: `${appConfig.companyName} Campus, Cyber City, Bangalore`,
+      employmentType: 'Full-Time Permanent',
+      department: targetRole.toLowerCase().includes('marketing') ? 'Growth & Digital Marketing' : 'Core Engineering & Technology',
+      location: 'Bangalore, India / Open to Relocation',
+      salaryOffer: 'Competitive / Market Standard (Finalized upon Offer)',
       interviewStatus: evaluation.decision === 'SELECTED' ? `Interview Scheduled (${interviewDate})` : 'N/A',
       emailSubject: evaluation.decision === 'SELECTED' 
         ? `📅 Interview Invitation: ${targetRole} at ${appConfig.companyName}` 
@@ -1434,6 +1466,13 @@ async function handleCandidateStatusUpdate(req, res) {
       email,
       phone,
       role,
+      location,
+      workMode,
+      workLocation,
+      employmentType,
+      department,
+      yearsOfExperience,
+      education,
       matchScore,
       interviewDate,
       interviewTime,
@@ -1460,7 +1499,14 @@ async function handleCandidateStatusUpdate(req, res) {
     // Update fields
     if (name) candidate.name = name;
     if (email) candidate.email = email;
-    if (phone) candidate.phone = phone;
+    if (phone !== undefined) candidate.phone = phone;
+    if (location !== undefined) candidate.location = location;
+    if (workMode !== undefined) candidate.workMode = workMode;
+    if (workLocation !== undefined) candidate.workLocation = workLocation;
+    if (employmentType !== undefined) candidate.employmentType = employmentType;
+    if (department !== undefined) candidate.department = department;
+    if (yearsOfExperience !== undefined) candidate.yearsOfExperience = yearsOfExperience;
+    if (education !== undefined) candidate.education = education;
     if (role) candidate.role = role;
     if (status) candidate.status = status;
     if (decision) candidate.decision = decision;
@@ -1485,7 +1531,7 @@ async function handleCandidateStatusUpdate(req, res) {
     if (interviewRound) candidate.interviewRound = interviewRound;
     if (interviewStatus) candidate.interviewStatus = interviewStatus;
     if (hrNotes !== undefined) candidate.hrNotes = hrNotes;
-    if (salaryOffer) candidate.salaryOffer = salaryOffer;
+    if (salaryOffer !== undefined) candidate.salaryOffer = salaryOffer;
 
     candidate.updatedAt = new Date().toISOString();
 
@@ -1500,7 +1546,11 @@ async function handleCandidateStatusUpdate(req, res) {
       const offerHtml = generateHiringOfferTemplate({
         candidate,
         joiningDate: resolvedJoiningDate,
-        salaryOffer: salaryOffer || candidate.salaryOffer || 'As discussed during the final interview round',
+        salaryOffer: salaryOffer || candidate.salaryOffer || 'Competitive Market Rate (As finalized during interview)',
+        workMode: workMode || candidate.workMode || 'Hybrid (3 Days Office / 2 Days Remote)',
+        workLocation: workLocation || candidate.workLocation || `${appConfig.companyName} Campus, Cyber City, Bangalore`,
+        employmentType: employmentType || candidate.employmentType || 'Full-Time Permanent',
+        department: department || candidate.department || (candidate.role.toLowerCase().includes('marketing') ? 'Growth & Digital Marketing' : 'Core Engineering & Technology'),
         customNotes: hrNotes || ''
       });
 

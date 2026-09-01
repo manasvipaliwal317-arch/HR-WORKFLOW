@@ -276,6 +276,33 @@
               </tbody>
             </table>
           </div>
+
+          <!-- Modern Interactive Pagination Bar -->
+          <div class="pagination-bar" id="candidate-pagination-container">
+            <div class="pagination-info" id="pagination-info-text">
+              Showing <strong>1-10</strong> of <strong>0</strong> candidates
+            </div>
+            <div class="pagination-controls">
+              <button type="button" class="btn-page-nav" id="btn-page-prev" title="Previous Page">
+                &laquo; Prev
+              </button>
+              <div class="page-numbers" id="pagination-numbers">
+                <!-- Dynamic Page Numbers -->
+              </div>
+              <button type="button" class="btn-page-nav" id="btn-page-next" title="Next Page">
+                Next &raquo;
+              </button>
+            </div>
+            <div class="pagination-page-size">
+              <label for="select-page-size">Per Page:</label>
+              <select id="select-page-size" class="select-styled-sm">
+                <option value="10" selected>10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="ALL">All</option>
+              </select>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -541,8 +568,9 @@
 
         <div class="modal-body">
           <div class="modal-grid">
-            <!-- Left Column: AI Evaluation -->
+            <!-- Left Column: Profile & AI Evaluation -->
             <div class="modal-col">
+              <!-- Score Radial & Summary -->
               <div class="score-breakdown-card">
                 <div class="score-radial-wrap">
                   <div class="score-circle" id="modal-score-circle">
@@ -551,40 +579,87 @@
                   </div>
                 </div>
                 <div class="score-details-list">
+                  <div class="score-meta-item"><span>Target Role:</span> <strong id="modal-meta-role">Full Stack Developer</strong></div>
                   <div class="score-meta-item"><span>Experience:</span> <strong id="modal-exp">5+ Years</strong></div>
-                  <div class="score-meta-item"><span>Education:</span> <strong id="modal-edu">B.S. in Software Engineering</strong></div>
+                  <div class="score-meta-item"><span>Education:</span> <strong id="modal-edu">B.S. in Computer Science</strong></div>
                   <div class="score-meta-item"><span>Application Source:</span> <span id="modal-source">Gmail Attachment</span></div>
+                  <div class="score-meta-item"><span>Submitted:</span> <span id="modal-applied-time">Just now</span></div>
                 </div>
               </div>
 
+              <!-- Rejection Reason Card (Shown only if REJECTED) -->
+              <div class="detail-section rejection-alert-box" id="modal-rejection-reason-box" style="display:none;">
+                <h3>⚠️ Constructive Reason for Rejection</h3>
+                <p id="modal-rejection-reason" style="color: #ef4444; font-weight: 500; margin: 0; line-height: 1.5;"></p>
+              </div>
+
+              <!-- AI Evaluation Summary -->
               <div class="detail-section">
-                <h3>🤖 Recruiter AI Evaluation</h3>
+                <h3>🤖 Recruiter AI Evaluation Assessment</h3>
                 <p class="evaluation-text" id="modal-evaluation-summary">...</p>
               </div>
 
+              <!-- Candidate Strengths -->
               <div class="detail-section">
                 <h3>🌟 Key Candidate Strengths</h3>
                 <ul class="bullet-list positive-list" id="modal-strengths-list"></ul>
               </div>
 
+              <!-- Areas for Improvement -->
               <div class="detail-section">
                 <h3>🔍 Areas for Growth / Notes</h3>
                 <ul class="bullet-list warning-list" id="modal-improvements-list"></ul>
               </div>
 
+              <!-- Top Skills -->
               <div class="detail-section">
                 <h3>🛠️ Extracted Top Skills</h3>
                 <div class="skills-tags" id="modal-skills-tags"></div>
               </div>
+
+              <!-- Systematic Editable Profile Info -->
+              <div class="detail-section" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px;">
+                <h3>👤 Candidate Profile & Contact Info</h3>
+                <div class="form-grid-2">
+                  <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="modal-profile-name" placeholder="Candidate Name">
+                  </div>
+                  <div class="form-group">
+                    <label>Primary Email</label>
+                    <input type="email" id="modal-profile-email" placeholder="candidate@example.com">
+                  </div>
+                </div>
+                <div class="form-grid-2">
+                  <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="text" id="modal-profile-phone" placeholder="+91 98765 43210">
+                  </div>
+                  <div class="form-group">
+                    <label>Current Location / City</label>
+                    <input type="text" id="modal-profile-location" placeholder="Bangalore, India">
+                  </div>
+                </div>
+                <div class="form-grid-2">
+                  <div class="form-group">
+                    <label>Years of Experience</label>
+                    <input type="text" id="modal-profile-exp" placeholder="e.g. 4+ Years">
+                  </div>
+                  <div class="form-group">
+                    <label>Degree / Education</label>
+                    <input type="text" id="modal-profile-edu" placeholder="e.g. B.Tech in CSE">
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <!-- Right Column: Interview & Communication -->
+            <!-- Right Column: Interview, Status & Offer -->
             <div class="modal-col">
               <!-- Interview Scheduling & Google Meet Card -->
               <div class="interview-questions-card">
                 <div class="card-title-row">
-                  <h3>📅 Interview Schedule & Meeting Link</h3>
-                  <button class="btn-icon-text" id="btn-copy-meet-link" title="Copy Google Meet link">
+                  <h3>📅 Interview Schedule & Meeting Details</h3>
+                  <button type="button" class="btn-icon-text" id="btn-copy-meet-link" title="Copy Google Meet link">
                     📋 Copy Meet Link
                   </button>
                 </div>
@@ -592,7 +667,7 @@
                 <div class="form-grid-2">
                   <div class="form-group">
                     <label>Interview Date</label>
-                    <input type="text" id="modal-interview-date" placeholder="e.g. Wednesday, September 3, 2026">
+                    <input type="text" id="modal-interview-date" placeholder="e.g. Friday, September 4, 2026">
                   </div>
                   <div class="form-group">
                     <label>Time & Duration</label>
@@ -601,7 +676,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label>Google Meet Meeting URL</label>
+                  <label>Google Meet URL</label>
                   <div class="input-with-action">
                     <input type="text" id="modal-meeting-link" placeholder="https://meet.google.com/xyz-abcd-efg">
                     <button type="button" class="btn-action-sm" id="btn-open-meet" title="Open Meet in new tab">🚀 Open</button>
@@ -631,7 +706,7 @@
               <div class="interview-questions-card">
                 <div class="card-title-row">
                   <h3>🎯 Tailored Interview Questions (AI Generated)</h3>
-                  <button class="btn-icon-text" id="btn-copy-questions" title="Copy all interview questions">
+                  <button type="button" class="btn-icon-text" id="btn-copy-questions" title="Copy all interview questions">
                     📋 Copy Questions
                   </button>
                 </div>
@@ -666,31 +741,61 @@
                 <!-- Dynamic Hiring / Offer Box -->
                 <div id="modal-hiring-box" class="hiring-offer-card" style="display: none;">
                   <div class="hiring-card-header">
-                    <h4>🎉 Official Employment Offer Details</h4>
+                    <h4>🎉 Official Employment Offer Letter Details</h4>
                     <span class="badge-emerald">AUTOMATED DISPATCH</span>
                   </div>
                   <p class="hiring-card-notice">
-                    Marking this candidate as <strong>HIRED</strong> will automatically generate and send them the official <strong>Offer Letter & Hiring Email</strong> with the details below:
+                    Marking this candidate as <strong>HIRED</strong> will automatically generate and send them the official <strong>Offer Letter & Hiring Email</strong> with all work terms below:
                   </p>
                   <div class="form-grid-2">
                     <div class="form-group">
-                      <label>Target Joining Date</label>
-                      <input type="text" id="modal-joining-date" placeholder="e.g. October 1, 2026 or In 2-3 Weeks">
+                      <label>Target Joining Date *</label>
+                      <input type="text" id="modal-joining-date" placeholder="e.g. Monday, September 28, 2026">
                     </div>
                     <div class="form-group">
-                      <label>Salary / Compensation Terms</label>
-                      <input type="text" id="modal-salary-offer" placeholder="e.g. Competitive / As finalized in interview">
+                      <label>Compensation / CTC Terms *</label>
+                      <input type="text" id="modal-salary-offer" placeholder="e.g. ₹18 LPA - ₹24 LPA + Health Benefits">
+                    </div>
+                  </div>
+                  <div class="form-grid-2">
+                    <div class="form-group">
+                      <label>Work Mode *</label>
+                      <select id="modal-work-mode" class="select-styled">
+                        <option value="Hybrid (3 Days Office / 2 Days Remote)" selected>Hybrid (3 Days Office / 2 Days Remote)</option>
+                        <option value="Fully Remote (Work From Anywhere)">Fully Remote (Work From Anywhere)</option>
+                        <option value="On-site (Corporate Office)">On-site (Corporate Office)</option>
+                        <option value="Flexible / Custom">Flexible / Custom</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label>Work Location / Office *</label>
+                      <input type="text" id="modal-work-location" placeholder="e.g. Tech Innovations Campus, Cyber City, Bangalore">
+                    </div>
+                  </div>
+                  <div class="form-grid-2">
+                    <div class="form-group">
+                      <label>Employment Type</label>
+                      <select id="modal-employment-type" class="select-styled">
+                        <option value="Full-Time Permanent" selected>Full-Time Permanent</option>
+                        <option value="Contract (6-12 Months)">Contract (6-12 Months)</option>
+                        <option value="Internship / Co-op">Internship / Co-op</option>
+                        <option value="Part-Time">Part-Time</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label>Department / Team</label>
+                      <input type="text" id="modal-department" placeholder="e.g. Core Engineering & Technology">
                     </div>
                   </div>
                   <div class="form-group">
                     <label>Welcome Note from Hiring Manager</label>
-                    <textarea id="modal-hr-notes" rows="2" placeholder="e.g. We are excited to welcome you to the Tech Innovations team!"></textarea>
+                    <textarea id="modal-hr-notes" rows="2" placeholder="e.g. We are thrilled to welcome you to the Tech Innovations team!"></textarea>
                   </div>
                 </div>
 
                 <div class="form-group" style="margin-top: 14px;">
-                  <button class="btn-primary btn-full" id="btn-save-candidate-status">
-                    💾 Save Changes & Update Candidate Status
+                  <button type="button" class="btn-primary btn-full" id="btn-save-candidate-status">
+                    💾 Save Changes & Update Candidate Profile
                   </button>
                 </div>
               </div>
@@ -699,7 +804,7 @@
               <div class="email-preview-card">
                 <div class="card-title-row">
                   <h3>✉️ Email Sent to Candidate</h3>
-                  <button class="btn-icon-text" id="btn-resend-email">
+                  <button type="button" class="btn-icon-text" id="btn-resend-email">
                     🔄 Resend Email
                   </button>
                 </div>

@@ -1,5 +1,63 @@
 [
   {
+    "id": "cand_mtifrmoi_pji5",
+    "name": "Aarav Patel",
+    "email": "aarav.patel.dev@gmail.com",
+    "phone": "+91 98765 43210",
+    "role": "Full Stack Developer",
+    "decision": "SELECTED",
+    "matchScore": 96,
+    "status": "HIRED",
+    "yearsOfExperience": "6+ Years",
+    "topSkills": [
+      "React",
+      "Node.js",
+      "TypeScript",
+      "PostgreSQL",
+      "System Architecture",
+      "AWS Certified Solutions Architect"
+    ],
+    "education": "B.Tech in Computer Science",
+    "strengths": [
+      "Strong technical alignment with our core tech stack (React, Node.js, TypeScript, PostgreSQL).",
+      "Over 6 years of valuable industry experience, surpassing our minimum requirement of 2+ years.",
+      "AWS Certified Solutions Architect certification indicating robust capabilities in system architecture and cloud deployments."
+    ],
+    "areasForImprovement": [
+      "Could provide more details regarding frontend state management and specific UI frameworks used.",
+      "No detailed mention of specific CI/CD tools or testing frameworks used in prior projects."
+    ],
+    "evaluationSummary": "Aarav Patel is an exceptional candidate who perfectly matches our requirements for the Senior Full Stack Developer role. With over six years of experience building scalable applications using React, Node.js, TypeScript, and PostgreSQL, he meets and exceeds our hiring benchmarks. His background is further elevated by his credential as an AWS Certified Solutions Architect, demonstrating a strong ability to contribute to system architecture, performance optimization, and robust cloud infrastructure design from day one.",
+    "rejectionReason": null,
+    "interviewQuestions": [
+      "Can you describe a challenging scenario where you had to optimize a PostgreSQL database query for a high-traffic Node.js application?",
+      "How do you implement end-to-end type safety across the frontend (React) and backend (Node.js) using TypeScript?",
+      "Given your AWS Certified Solutions Architect background, how would you design a resilient and auto-scaling architecture for a RESTful API service?",
+      "What strategies do you employ for state management in large-scale React applications, and how do you ensure optimal rendering performance?"
+    ],
+    "proposedInterviewDate": "Friday, September 4, 2026",
+    "interviewDate": "Friday, September 4, 2026",
+    "interviewTime": "2:30 PM - 3:15 PM IST (45 Mins)",
+    "joiningDate": "Monday, September 28, 2026",
+    "interviewRound": "Round 1: Technical & System Architecture Deep-Dive",
+    "meetingLink": "https://meet.google.com/can-dmti-frm",
+    "interviewerName": "Tech Innovations Inc. Technical Hiring Panel",
+    "interviewStatus": "🎉 Official Job Offer Dispatched",
+    "emailSubject": "🎉 Congratulations! Job Offer for Full Stack Developer at Tech Innovations Inc.",
+    "emailBody": "Dear Aarav,\n\nThank you for submitting your application for the Full Stack Developer position at Tech Innovations Inc.\n\nOur team has carefully reviewed your resume and we are incredibly impressed by your 6+ years of experience building scalable applications with React, Node.js, TypeScript, and PostgreSQL, as well as your credentials as an AWS Certified Solutions Architect. Your background aligns perfectly with our technical goals and team vision.\n\nWe would love to invite you to the next stage of our interview process. We have tentatively scheduled your interview for Friday, September 4, 2026 at 2:30 PM - 3:15 PM IST.\n\nPlease confirm if this time works for you, or let us know if you need to propose an alternative slot.\n\nWe look forward to speaking with you and exploring how your skills can drive our architecture forward.\n\nWarm regards,\n\nHiring Director\nTech Innovations Inc.\nmanasvipaliwal317@gmail.com",
+    "emailSentAt": "2026-09-01T09:27:36.629Z",
+    "createdAt": "2026-09-01T08:59:32.370Z",
+    "updatedAt": "2026-09-01T09:27:33.378Z",
+    "source": "Dashboard Submission",
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Core Engineering & Technology",
+    "location": "Bangalore, India",
+    "salaryOffer": "₹22,00,000 LPA + Comprehensive Health Benefits",
+    "hrNotes": "Welcome to the Engineering team, Aarav! We are looking forward to having you onboard."
+  },
+  {
     "id": "cand_auto_mtif5k45_6cvc",
     "name": "Mahima Chouhan",
     "email": "manasvi60487.mbaib22@ipsacademy.org",
@@ -49,7 +107,13 @@
     "createdAt": "2026-09-01T08:42:22.613Z",
     "updatedAt": "2026-09-01T08:42:22.613Z",
     "source": "Gmail INBOX (Mahima Chouhan Resume.docx)",
-    "joiningDate": "Monday, September 28, 2026"
+    "joiningDate": "Monday, September 28, 2026",
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Growth & Digital Marketing",
+    "location": "Bangalore, India",
+    "salaryOffer": "₹18 LPA - ₹24 LPA + Benefits"
   },
   {
     "id": "cand_mtib2p6q_fxzr",
@@ -99,7 +163,13 @@
     "createdAt": "2026-09-01T06:48:10.754Z",
     "updatedAt": "2026-09-01T06:48:10.754Z",
     "source": "Dashboard Submission",
-    "joiningDate": "Monday, September 28, 2026"
+    "joiningDate": "Monday, September 28, 2026",
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Growth & Digital Marketing",
+    "location": "Bangalore, India",
+    "salaryOffer": "₹18 LPA - ₹24 LPA + Benefits"
   },
   {
     "id": "cand_auto_mti9punp_itkm",
@@ -150,7 +220,13 @@
     "createdAt": "2026-09-01T06:10:11.701Z",
     "updatedAt": "2026-09-01T06:10:11.701Z",
     "source": "Gmail IMAP (Khushi Jain Resume.docx)",
-    "joiningDate": "Monday, September 28, 2026"
+    "joiningDate": "Monday, September 28, 2026",
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Growth & Digital Marketing",
+    "location": "Bangalore, India",
+    "salaryOffer": "₹18 LPA - ₹24 LPA + Benefits"
   },
   {
     "id": "cand_auto_mti997jq_99ue",
@@ -196,7 +272,13 @@
     "createdAt": "2026-09-01T05:57:15.254Z",
     "updatedAt": "2026-09-01T05:57:15.254Z",
     "source": "Gmail IMAP (Frontend_Developer_1_3_Years_Resume.pdf)",
-    "joiningDate": "Monday, September 28, 2026"
+    "joiningDate": "Monday, September 28, 2026",
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Core Engineering & Technology",
+    "location": "Bangalore, India",
+    "salaryOffer": "Market Standard"
   },
   {
     "id": "cand_auto_mti8zu3s_jnuf",
@@ -241,7 +323,13 @@
     "createdAt": "2026-09-01T05:49:57.928Z",
     "updatedAt": "2026-09-01T05:49:57.928Z",
     "source": "Gmail IMAP (Manasvi Paliwal Resume (1).pdf.pdf)",
-    "joiningDate": "Monday, September 28, 2026"
+    "joiningDate": "Monday, September 28, 2026",
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Core Engineering & Technology",
+    "location": "Bangalore, India",
+    "salaryOffer": "Market Standard"
   },
   {
     "id": "cand_auto_mti8zh1v_2et3",
@@ -286,7 +374,13 @@
     "createdAt": "2026-09-01T05:49:41.011Z",
     "updatedAt": "2026-09-01T05:49:41.011Z",
     "source": "Gmail IMAP (Manasvi Paliwal-Resume.pdf)",
-    "joiningDate": "Monday, September 28, 2026"
+    "joiningDate": "Monday, September 28, 2026",
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Growth & Digital Marketing",
+    "location": "Bangalore, India",
+    "salaryOffer": "Market Standard"
   },
   {
     "id": "cand_mth4drp2_cnnl",
@@ -296,7 +390,7 @@
     "role": "Digital Marketing Specialist",
     "decision": "SELECTED",
     "matchScore": 92,
-    "status": "INTERVIEW_SCHEDULED",
+    "status": "HIRED",
     "yearsOfExperience": "4+ years",
     "topSkills": [
       "Google Ads",
@@ -329,14 +423,21 @@
     "interviewRound": "Round 1: Marketing Strategy & Campaign Review",
     "meetingLink": "https://meet.google.com/can-dmth-4dr",
     "interviewerName": "Tech Innovations Inc. Technical Hiring Panel",
-    "interviewStatus": "Interview Invitation Dispatched (https://meet.google.com/can-dmth-4dr)",
-    "emailSubject": "📅 Interview Invitation: Digital Marketing Specialist at Tech Innovations Inc.",
+    "interviewStatus": "🎉 Official Job Offer Dispatched",
+    "emailSubject": "🎉 Congratulations! Job Offer for Digital Marketing Specialist at Tech Innovations Inc.",
     "emailBody": "Dear Sneha,\n\nThank you for submitting your resume for the Digital Marketing Specialist position at Tech Innovations Inc.\n\nOur recruiting team has reviewed your application, and we are highly impressed by your 4+ years of performance marketing experience, particularly your deep technical expertise with Google Ads, Meta Ads, SEO, and GA4 analytics. Your background aligns perfectly with the growth strategies we are currently scaling.\n\nWe would love to invite you to a 45-minute video interview to discuss your professional experience and how you can make an impact on our marketing initiatives. We have tentatively proposed Friday, September 4, 2026, at 2:00 PM EST for the discussion. Please let us know if this timing works for you, or feel free to suggest an alternative.\n\nLooking forward to speaking with you!\n\nBest regards,\n\nHiring Director\nTech Innovations Inc.\nmanasvipaliwal317@gmail.com",
-    "emailSentAt": "2026-08-31T10:53:03.734Z",
+    "emailSentAt": "2026-09-01T09:07:26.787Z",
     "createdAt": "2026-08-31T10:53:03.734Z",
-    "updatedAt": "2026-08-31T10:53:03.734Z",
+    "updatedAt": "2026-09-01T09:07:23.007Z",
     "source": "Dashboard Submission",
-    "joiningDate": "Monday, September 28, 2026"
+    "joiningDate": "Monday, September 28, 2026",
+    "hrNotes": "",
+    "salaryOffer": "Competitive Market Rate",
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Growth & Digital Marketing",
+    "location": "Bangalore, India"
   },
   {
     "id": "cand_auto_mtgz8rd7_odzp",
@@ -382,7 +483,13 @@
     "updatedAt": "2026-08-31T08:29:11.947Z",
     "source": "Gmail IMAP (Vaggesha Sharma                                                                                    .pdf)",
     "interviewDate": "Friday, September 4, 2026",
-    "joiningDate": "Monday, September 28, 2026"
+    "joiningDate": "Monday, September 28, 2026",
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Growth & Digital Marketing",
+    "location": "Bangalore, India",
+    "salaryOffer": "Market Standard"
   },
   {
     "id": "cand_mtgz46lr_qdno",
@@ -423,7 +530,13 @@
     "updatedAt": "2026-08-31T08:25:38.415Z",
     "source": "Dashboard Submission",
     "interviewDate": "Friday, September 4, 2026",
-    "joiningDate": "Monday, September 28, 2026"
+    "joiningDate": "Monday, September 28, 2026",
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Core Engineering & Technology",
+    "location": "Bangalore, India",
+    "salaryOffer": "Market Standard"
   },
   {
     "id": "cand_qa_verified_mtcqnzed",
@@ -465,7 +578,13 @@
     "updatedAt": "2026-08-28T09:18:00.963Z",
     "source": "Automated QA Pipeline",
     "interviewDate": "Friday, September 4, 2026",
-    "joiningDate": "Monday, September 28, 2026"
+    "joiningDate": "Monday, September 28, 2026",
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Core Engineering & Technology",
+    "location": "Bangalore, India",
+    "salaryOffer": "₹18 LPA - ₹24 LPA + Benefits"
   },
   {
     "id": "cand_auto_mtcpvy1q_lwms",
@@ -511,7 +630,13 @@
     "updatedAt": "2026-08-28T08:56:12.830Z",
     "source": "Gmail IMAP (FASHION CV.pdf)",
     "interviewDate": "Friday, September 4, 2026",
-    "joiningDate": "Monday, September 28, 2026"
+    "joiningDate": "Monday, September 28, 2026",
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Core Engineering & Technology",
+    "location": "Bangalore, India",
+    "salaryOffer": "₹18 LPA - ₹24 LPA + Benefits"
   },
   {
     "id": "cand_auto_mtbgn658_lgnv",
@@ -563,7 +688,12 @@
     "interviewRound": "Round 1: Technical & System Architecture",
     "hrNotes": "",
     "joiningDate": "Monday, September 28, 2026",
-    "salaryOffer": "Competitive Market Rate"
+    "salaryOffer": "Competitive Market Rate",
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Core Engineering & Technology",
+    "location": "Bangalore, India"
   },
   {
     "id": "cand_auto_mtbgmrlj_ql1c",
@@ -609,7 +739,13 @@
     "updatedAt": "2026-08-27T11:49:21.847Z",
     "source": "Gmail IMAP (4_Kabir_Singh_AI_Prompt_Engineer_Fresher (1).pdf)",
     "interviewDate": "Friday, September 4, 2026",
-    "joiningDate": "Monday, September 28, 2026"
+    "joiningDate": "Monday, September 28, 2026",
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Core Engineering & Technology",
+    "location": "Bangalore, India",
+    "salaryOffer": "₹18 LPA - ₹24 LPA + Benefits"
   },
   {
     "id": "cand_res_mtbfodof_rqzt",
@@ -656,7 +792,13 @@
     "updatedAt": "2026-08-27T11:22:37.503Z",
     "source": "Gmail Attachment (5_Sneha_Verma_Digital_Marketing.docx)",
     "interviewDate": "Friday, September 4, 2026",
-    "joiningDate": "Monday, September 28, 2026"
+    "joiningDate": "Monday, September 28, 2026",
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Growth & Digital Marketing",
+    "location": "Bangalore, India",
+    "salaryOffer": "₹18 LPA - ₹24 LPA + Benefits"
   },
   {
     "id": "cand_mtbbuw2w_ulw5",
@@ -702,7 +844,13 @@
     "updatedAt": "2026-08-27T09:35:42.824Z",
     "source": "Dashboard Text Submission",
     "interviewDate": "Friday, September 4, 2026",
-    "joiningDate": "Monday, September 28, 2026"
+    "joiningDate": "Monday, September 28, 2026",
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Core Engineering & Technology",
+    "location": "Bangalore, India",
+    "salaryOffer": "₹18 LPA - ₹24 LPA + Benefits"
   },
   {
     "id": "cand_mtbblvhx_ksxz",
@@ -748,7 +896,13 @@
     "updatedAt": "2026-08-27T09:28:42.165Z",
     "source": "Dashboard Text Submission",
     "interviewDate": "Friday, September 4, 2026",
-    "joiningDate": "Monday, September 28, 2026"
+    "joiningDate": "Monday, September 28, 2026",
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Core Engineering & Technology",
+    "location": "Bangalore, India",
+    "salaryOffer": "₹18 LPA - ₹24 LPA + Benefits"
   },
   {
     "id": "cand_m89a1b2c_001",
@@ -795,7 +949,13 @@
     "updatedAt": "2026-08-27T10:15:00.000Z",
     "source": "Gmail Email Attachment (resume_sarah_jenkins.pdf)",
     "interviewDate": "Friday, September 4, 2026",
-    "joiningDate": "Monday, September 28, 2026"
+    "joiningDate": "Monday, September 28, 2026",
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Core Engineering & Technology",
+    "location": "Bangalore, India",
+    "salaryOffer": "₹18 LPA - ₹24 LPA + Benefits"
   },
   {
     "id": "cand_m89a1b2c_002",
@@ -841,7 +1001,13 @@
     "updatedAt": "2026-08-27T11:00:00.000Z",
     "source": "Gmail Email Attachment (Devin_Reynolds_CV.pdf)",
     "interviewDate": "Friday, September 4, 2026",
-    "joiningDate": "Monday, September 28, 2026"
+    "joiningDate": "Monday, September 28, 2026",
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Core Engineering & Technology",
+    "location": "Bangalore, India",
+    "salaryOffer": "₹18 LPA - ₹24 LPA + Benefits"
   },
   {
     "id": "cand_m89a1b2c_003",
@@ -881,7 +1047,13 @@
     "updatedAt": "2026-08-27T11:30:00.000Z",
     "source": "Gmail Email Attachment (Marcus_Vance_Resume.docx)",
     "interviewDate": "Friday, September 4, 2026",
-    "joiningDate": "Monday, September 28, 2026"
+    "joiningDate": "Monday, September 28, 2026",
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Core Engineering & Technology",
+    "location": "Bangalore, India",
+    "salaryOffer": "Market Standard"
   },
   {
     "id": "cand_m89a1b2c_004",
@@ -926,7 +1098,13 @@
     "updatedAt": "2026-08-27T12:00:00.000Z",
     "source": "Gmail Email Attachment (Priya_Sharma_Resume.pdf)",
     "interviewDate": "Friday, September 4, 2026",
-    "joiningDate": "Monday, September 28, 2026"
+    "joiningDate": "Monday, September 28, 2026",
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Core Engineering & Technology",
+    "location": "Bangalore, India",
+    "salaryOffer": "₹18 LPA - ₹24 LPA + Benefits"
   },
   {
     "id": "cand_m89a1b2c_005",
@@ -966,6 +1144,12 @@
     "updatedAt": "2026-08-27T12:30:00.000Z",
     "source": "Gmail Email Attachment (David_Cooper_Portfolio.pdf)",
     "interviewDate": "Friday, September 4, 2026",
-    "joiningDate": "Monday, September 28, 2026"
+    "joiningDate": "Monday, September 28, 2026",
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Core Engineering & Technology",
+    "location": "Bangalore, India",
+    "salaryOffer": "Market Standard"
   }
 ]

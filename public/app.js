@@ -446,6 +446,98 @@ async function loadCandidates() {
   }
 }
 
+// Pagination State (10 Candidates Per Page)
+let currentPage = 1;
+let pageSize = 10;
+
+function renderPagination(totalCount) {
+  const container = document.getElementById('candidate-pagination-container');
+  const infoText = document.getElementById('pagination-info-text');
+  const numbersContainer = document.getElementById('pagination-numbers');
+  const prevBtn = document.getElementById('btn-page-prev');
+  const nextBtn = document.getElementById('btn-page-next');
+  const pageSizeSelect = document.getElementById('select-page-size');
+
+  if (!container) return;
+
+  if (totalCount === 0) {
+    container.style.display = 'none';
+    return;
+  }
+
+  container.style.display = 'flex';
+
+  const effectivePageSize = pageSize === 'ALL' ? totalCount : Number(pageSize);
+  const totalPages = Math.ceil(totalCount / effectivePageSize) || 1;
+
+  if (currentPage > totalPages) currentPage = totalPages;
+  if (currentPage < 1) currentPage = 1;
+
+  const startIdx = (currentPage - 1) * effectivePageSize + 1;
+  const endIdx = Math.min(currentPage * effectivePageSize, totalCount);
+
+  if (infoText) {
+    infoText.innerHTML = `Showing <strong>${startIdx}-${endIdx}</strong> of <strong>${totalCount}</strong> candidates`;
+  }
+
+  if (prevBtn) {
+    prevBtn.disabled = currentPage <= 1;
+    prevBtn.onclick = () => {
+      if (currentPage > 1) {
+        currentPage--;
+        renderCandidates(filteredCandidates);
+        scrollToPipelineTop();
+      }
+    };
+  }
+
+  if (nextBtn) {
+    nextBtn.disabled = currentPage >= totalPages;
+    nextBtn.onclick = () => {
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderCandidates(filteredCandidates);
+        scrollToPipelineTop();
+      }
+    };
+  }
+
+  if (pageSizeSelect) {
+    pageSizeSelect.value = String(pageSize);
+    pageSizeSelect.onchange = () => {
+      const val = pageSizeSelect.value;
+      pageSize = val === 'ALL' ? 'ALL' : Number(val);
+      currentPage = 1;
+      renderCandidates(filteredCandidates);
+    };
+  }
+
+  if (numbersContainer) {
+    numbersContainer.innerHTML = '';
+    if (pageSize !== 'ALL' && totalPages > 1) {
+      for (let p = 1; p <= totalPages; p++) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `btn-page-num ${p === currentPage ? 'active' : ''}`;
+        btn.textContent = p;
+        btn.onclick = () => {
+          currentPage = p;
+          renderCandidates(filteredCandidates);
+          scrollToPipelineTop();
+        };
+        numbersContainer.appendChild(btn);
+      }
+    }
+  }
+}
+
+function scrollToPipelineTop() {
+  const container = document.querySelector('.pipeline-container');
+  if (container) {
+    container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
 // Instant Filter Application
 function applyFilters() {
   const searchInput = document.getElementById('pipeline-search');
@@ -498,6 +590,7 @@ function applyFilters() {
     countDisplay.textContent = filteredCandidates.length;
   }
 
+  currentPage = 1;
   renderCandidates(filteredCandidates);
 }
 
@@ -525,7 +618,7 @@ function initFilters() {
   }
 }
 
-// Render Candidate Cards & Table
+// Render Candidate Cards & Table with Pagination
 function renderCandidates(candidates) {
   const grid = document.getElementById('candidate-grid-container');
   const tbody = document.getElementById('candidate-table-body');
@@ -534,7 +627,9 @@ function renderCandidates(candidates) {
   grid.innerHTML = '';
   tbody.innerHTML = '';
 
-  if (candidates.length === 0) {
+  const totalCount = candidates.length;
+
+  if (totalCount === 0) {
     grid.innerHTML = `
       <div style="grid-column: 1/-1; text-align: center; padding: 3rem; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border-color);">
         <p style="color: var(--text-secondary); font-size: 1rem; margin-bottom: 1rem;">No candidates match your current search/filter criteria.</p>
@@ -548,10 +643,20 @@ function renderCandidates(candidates) {
         </td>
       </tr>
     `;
+    renderPagination(0);
     return;
   }
 
-  candidates.forEach(cand => {
+  const effectivePageSize = pageSize === 'ALL' ? totalCount : Number(pageSize);
+  const totalPages = Math.ceil(totalCount / effectivePageSize) || 1;
+  if (currentPage > totalPages) currentPage = totalPages;
+  if (currentPage < 1) currentPage = 1;
+
+  const pageCandidates = pageSize === 'ALL'
+    ? candidates
+    : candidates.slice((currentPage - 1) * effectivePageSize, currentPage * effectivePageSize);
+
+  pageCandidates.forEach(cand => {
     const isSelected = cand.decision === 'SELECTED';
     const initials = (cand.name || 'Candidate').split(' ').filter(Boolean).map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'CD';
     const scoreClass = cand.matchScore >= 70 ? 'high' : 'low';
@@ -631,6 +736,8 @@ function renderCandidates(candidates) {
     tr.addEventListener('click', () => openCandidateModal(cand));
     tbody.appendChild(tr);
   });
+
+  renderPagination(totalCount);
 }
 
 function resetFilters() {
@@ -1239,25 +1346,43 @@ function formatFutureJoiningDate(weeksAhead = 3, fromInterviewDateStr = null) {
     saveStatusBtn.addEventListener('click', async () => {
       if (!selectedCandidate) return;
       
-      const newStatus = document.getElementById('modal-update-status')?.value;
-      const newRole = document.getElementById('modal-update-role')?.value;
+      const newName = document.getElementById('modal-profile-name')?.value || selectedCandidate.name;
+      const newEmail = document.getElementById('modal-profile-email')?.value || selectedCandidate.email;
+      const newPhone = document.getElementById('modal-profile-phone')?.value || selectedCandidate.phone;
+      const newLocation = document.getElementById('modal-profile-location')?.value || selectedCandidate.location;
+      const newExp = document.getElementById('modal-profile-exp')?.value || selectedCandidate.yearsOfExperience;
+      const newEdu = document.getElementById('modal-profile-edu')?.value || selectedCandidate.education;
+
+      const newStatus = document.getElementById('modal-update-status')?.value || selectedCandidate.status;
+      const newRole = document.getElementById('modal-update-role')?.value || selectedCandidate.role;
       const interviewDate = document.getElementById('modal-interview-date')?.value;
       const interviewTime = document.getElementById('modal-interview-time')?.value;
       const meetingLink = document.getElementById('modal-meeting-link')?.value;
       const interviewRound = document.getElementById('modal-interview-round')?.value;
       const interviewerName = document.getElementById('modal-interviewer')?.value;
+
       const joiningDate = document.getElementById('modal-joining-date')?.value;
       const salaryOffer = document.getElementById('modal-salary-offer')?.value;
+      const workMode = document.getElementById('modal-work-mode')?.value;
+      const workLocation = document.getElementById('modal-work-location')?.value;
+      const employmentType = document.getElementById('modal-employment-type')?.value;
+      const department = document.getElementById('modal-department')?.value;
       const hrNotes = document.getElementById('modal-hr-notes')?.value;
 
       saveStatusBtn.disabled = true;
-      saveStatusBtn.textContent = '⏳ Saving & Processing Automation...';
+      saveStatusBtn.textContent = '⏳ Saving & Updating Candidate...';
 
       try {
         const res = await fetch(`/api/candidates/${selectedCandidate.id}/status`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
+            name: newName,
+            email: newEmail,
+            phone: newPhone,
+            location: newLocation,
+            yearsOfExperience: newExp,
+            education: newEdu,
             status: newStatus,
             role: newRole,
             interviewDate,
@@ -1267,6 +1392,10 @@ function formatFutureJoiningDate(weeksAhead = 3, fromInterviewDateStr = null) {
             interviewerName,
             joiningDate,
             salaryOffer,
+            workMode,
+            workLocation,
+            employmentType,
+            department,
             hrNotes
           })
         });
@@ -1277,15 +1406,18 @@ function formatFutureJoiningDate(weeksAhead = 3, fromInterviewDateStr = null) {
           const idx = allCandidates.findIndex(c => c.id === selectedCandidate.id);
           if (idx !== -1) allCandidates[idx] = selectedCandidate;
 
-          if (newStatus === 'HIRED') {
-            showToast(`🎉 SUCCESS: Candidate HIRED! Formal Offer Letter dispatched automatically to ${selectedCandidate.email}!`, 'success');
+          if (newStatus === 'HIRED' || newStatus === 'OFFER_EXTENDED') {
+            showToast(`🎉 SUCCESS: Candidate HIRED! Formal Offer Letter (${workMode} • ${workLocation}) dispatched automatically to ${selectedCandidate.email}!`, 'success');
           } else {
-            showToast(data.message || 'Candidate updated successfully!', 'success');
+            showToast(data.message || 'Candidate profile & status updated successfully!', 'success');
           }
+
+          const modalName = document.getElementById('modal-name');
+          if (modalName) modalName.textContent = selectedCandidate.name;
 
           const modalStatus = document.getElementById('modal-status');
           if (modalStatus) {
-            modalStatus.textContent = newStatus;
+            modalStatus.textContent = formatStatus(newStatus);
             modalStatus.className = `status-badge status-${newStatus.toLowerCase()}`;
           }
 
@@ -1303,7 +1435,7 @@ function formatFutureJoiningDate(weeksAhead = 3, fromInterviewDateStr = null) {
         showToast(`Update error: ${err.message}`, 'error');
       } finally {
         saveStatusBtn.disabled = false;
-        saveStatusBtn.textContent = '💾 Save Changes & Update Candidate Status';
+        saveStatusBtn.textContent = '💾 Save Changes & Update Candidate Profile';
       }
     });
   }
@@ -1343,6 +1475,7 @@ function openCandidateModal(cand) {
   const isHired = cand.status === 'HIRED' || cand.status === 'OFFER_EXTENDED';
   const initials = (cand.name || 'Candidate').split(' ').filter(Boolean).map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'CD';
 
+  // Header Elements
   const elAvatar = document.getElementById('modal-avatar');
   if (elAvatar) elAvatar.textContent = initials;
 
@@ -1350,7 +1483,7 @@ function openCandidateModal(cand) {
   if (elName) elName.textContent = cand.name;
 
   const elRoleMeta = document.getElementById('modal-role-meta');
-  if (elRoleMeta) elRoleMeta.textContent = `${cand.role} • ${cand.email} • ${cand.phone || 'No phone'}`;
+  if (elRoleMeta) elRoleMeta.textContent = `${cand.role} • ${cand.email || 'No email'} • ${cand.phone || 'No phone'}`;
 
   const decisionBadge = document.getElementById('modal-decision');
   if (decisionBadge) {
@@ -1364,7 +1497,7 @@ function openCandidateModal(cand) {
     statusBadge.className = `status-badge status-${(cand.status || 'new').toLowerCase()}`;
   }
 
-  // Score circle
+  // Score Radial Circle
   const scoreCircle = document.getElementById('modal-score-circle');
   if (scoreCircle) {
     scoreCircle.className = `score-circle ${isSelected ? 'selected' : 'rejected'}`;
@@ -1372,22 +1505,42 @@ function openCandidateModal(cand) {
     if (elScoreNum) elScoreNum.textContent = cand.matchScore;
   }
 
+  // Meta Info in Left Card
+  const elMetaRole = document.getElementById('modal-meta-role');
+  if (elMetaRole) elMetaRole.textContent = cand.role || 'Full Stack Developer';
+
   const elExp = document.getElementById('modal-exp');
-  if (elExp) elExp.textContent = cand.yearsOfExperience || 'N/A';
+  if (elExp) elExp.textContent = cand.yearsOfExperience || '1+ Years';
 
   const elEdu = document.getElementById('modal-edu');
-  if (elEdu) elEdu.textContent = cand.education || 'N/A';
+  if (elEdu) elEdu.textContent = cand.education || 'Graduate';
 
   const elSource = document.getElementById('modal-source');
   if (elSource) elSource.textContent = cand.source || 'Direct Submission';
 
+  const elAppliedTime = document.getElementById('modal-applied-time');
+  if (elAppliedTime) elAppliedTime.textContent = cand.createdAt ? new Date(cand.createdAt).toLocaleString('en-US') : 'Today';
+
+  // Rejection Reason Box
+  const rejBox = document.getElementById('modal-rejection-reason-box');
+  const rejText = document.getElementById('modal-rejection-reason');
+  if (rejBox && rejText) {
+    if (!isSelected || cand.rejectionReason) {
+      rejBox.style.display = 'block';
+      rejText.textContent = cand.rejectionReason || 'Candidate qualifications did not meet the role requirements score threshold (≥70%).';
+    } else {
+      rejBox.style.display = 'none';
+    }
+  }
+
+  // AI Evaluation Summary
   const elSummary = document.getElementById('modal-evaluation-summary');
-  if (elSummary) elSummary.textContent = cand.evaluationSummary || 'No summary available.';
+  if (elSummary) elSummary.textContent = cand.evaluationSummary || 'No evaluation summary recorded.';
 
   // Strengths
   const strengthsUl = document.getElementById('modal-strengths-list');
   if (strengthsUl) {
-    strengthsUl.innerHTML = (cand.strengths || []).map(s => `<li>${escapeHtml(s)}</li>`).join('') || '<li>Standard qualifications.</li>';
+    strengthsUl.innerHTML = (cand.strengths || []).map(s => `<li>${escapeHtml(s)}</li>`).join('') || '<li>Domain proficiency and strong resume qualifications.</li>';
   }
 
   // Improvements
@@ -1396,11 +1549,30 @@ function openCandidateModal(cand) {
     improvementsUl.innerHTML = (cand.areasForImprovement || []).map(s => `<li>${escapeHtml(s)}</li>`).join('') || '<li>None noted.</li>';
   }
 
-  // Skills
+  // Skills Tags
   const skillsTags = document.getElementById('modal-skills-tags');
   if (skillsTags) {
     skillsTags.innerHTML = (cand.topSkills || []).map(s => `<span>${escapeHtml(s)}</span>`).join('') || '<span>General Skills</span>';
   }
+
+  // Structured Editable Profile Inputs
+  const inputProfName = document.getElementById('modal-profile-name');
+  if (inputProfName) inputProfName.value = cand.name || '';
+
+  const inputProfEmail = document.getElementById('modal-profile-email');
+  if (inputProfEmail) inputProfEmail.value = cand.email || cand.resumeEmail || '';
+
+  const inputProfPhone = document.getElementById('modal-profile-phone');
+  if (inputProfPhone) inputProfPhone.value = cand.phone || '';
+
+  const inputProfLoc = document.getElementById('modal-profile-location');
+  if (inputProfLoc) inputProfLoc.value = cand.location || 'Bangalore, India';
+
+  const inputProfExp = document.getElementById('modal-profile-exp');
+  if (inputProfExp) inputProfExp.value = cand.yearsOfExperience || '2+ Years';
+
+  const inputProfEdu = document.getElementById('modal-profile-edu');
+  if (inputProfEdu) inputProfEdu.value = cand.education || 'B.Tech in Computer Science';
 
   // Interview Schedule & Google Meet Fields
   const defaultIntDate = formatFutureInterviewDate(3);
@@ -1421,7 +1593,7 @@ function openCandidateModal(cand) {
 
   const interviewRoundInput = document.getElementById('modal-interview-round');
   if (interviewRoundInput) {
-    interviewRoundInput.value = cand.interviewRound || (cand.role === 'Digital Marketing Specialist' 
+    interviewRoundInput.value = cand.interviewRound || (cand.role && cand.role.includes('Marketing') 
       ? 'Round 1: Marketing Strategy & Campaign Review' 
       : 'Round 1: Technical & System Architecture');
   }
@@ -1431,7 +1603,7 @@ function openCandidateModal(cand) {
     interviewerInput.value = cand.interviewerName || 'Tech Innovations Hiring Panel';
   }
 
-  // Questions
+  // Questions List
   const questionsOl = document.getElementById('modal-interview-questions');
   if (questionsOl) {
     if (cand.interviewQuestions && cand.interviewQuestions.length > 0) {
@@ -1448,7 +1620,7 @@ function openCandidateModal(cand) {
   const updateRoleSelect = document.getElementById('modal-update-role');
   if (updateRoleSelect) updateRoleSelect.value = cand.role || 'Full Stack Developer';
 
-  // Hiring Offer Fields
+  // Hiring Offer Fields (Work Mode, Location, Joining Date, CTC)
   const hiringBox = document.getElementById('modal-hiring-box');
   if (hiringBox) {
     hiringBox.style.display = isHired ? 'block' : 'none';
@@ -1462,7 +1634,27 @@ function openCandidateModal(cand) {
   }
 
   const salaryOfferInput = document.getElementById('modal-salary-offer');
-  if (salaryOfferInput) salaryOfferInput.value = cand.salaryOffer || 'Competitive Market Rate';
+  if (salaryOfferInput) salaryOfferInput.value = cand.salaryOffer || 'Competitive Market Rate (₹18 LPA - ₹24 LPA)';
+
+  const workModeSelect = document.getElementById('modal-work-mode');
+  if (workModeSelect) {
+    workModeSelect.value = cand.workMode || 'Hybrid (3 Days Office / 2 Days Remote)';
+  }
+
+  const workLocationInput = document.getElementById('modal-work-location');
+  if (workLocationInput) {
+    workLocationInput.value = cand.workLocation || 'Tech Innovations Campus, Cyber City, Bangalore';
+  }
+
+  const empTypeSelect = document.getElementById('modal-employment-type');
+  if (empTypeSelect) {
+    empTypeSelect.value = cand.employmentType || 'Full-Time Permanent';
+  }
+
+  const deptInput = document.getElementById('modal-department');
+  if (deptInput) {
+    deptInput.value = cand.department || (cand.role && cand.role.toLowerCase().includes('marketing') ? 'Growth & Digital Marketing' : 'Core Engineering & Technology');
+  }
 
   const hrNotesInput = document.getElementById('modal-hr-notes');
   if (hrNotesInput) hrNotesInput.value = cand.hrNotes || '';
