@@ -306,6 +306,33 @@ async function syncAllCandidatesToCloud() {
   } catch (e) {}
 }
 
+// ☁️ Forward candidate deletion to Render.com cloud instance
+async function deleteCandidateOnCloud(candidateId) {
+  if (process.env.RENDER || process.env.PORT === '10000') return;
+  if (!candidateId) return;
+
+  try {
+    const parsedUrl = new URL(`${CLOUD_RENDER_URL}/api/candidates/${candidateId}`);
+    const client = parsedUrl.protocol === 'https:' ? https : require('http');
+
+    const req = client.request({
+      hostname: parsedUrl.hostname,
+      port: parsedUrl.port || (parsedUrl.protocol === 'https:' ? 443 : 80),
+      path: parsedUrl.pathname,
+      method: 'DELETE',
+      timeout: 8000
+    }, (res) => {
+      console.log(`☁️ [Render Cloud Delete] Deleted candidate "${candidateId}" on ${CLOUD_RENDER_URL} (Status ${res.statusCode})`);
+    });
+
+    req.on('error', (err) => {
+      console.warn(`☁️ [Render Delete Notice]: ${err.message}`);
+    });
+    req.on('timeout', () => req.destroy());
+    req.end();
+  } catch (e) {}
+}
+
 // Keep Render cloud instance awake 24/7 with a lightweight ping every 2 minutes
 setInterval(() => {
   if (process.env.RENDER || process.env.PORT === '10000') return;
@@ -1282,7 +1309,19 @@ app.post('/api/candidates', (req, res) => {
       rejectionReason: candidateData.rejectionReason || null,
       interviewQuestions: Array.isArray(candidateData.interviewQuestions) ? candidateData.interviewQuestions : [],
       proposedInterviewDate: candidateData.proposedInterviewDate || 'Upcoming Week',
+      interviewDate: candidateData.interviewDate || candidateData.proposedInterviewDate || null,
+      interviewTime: candidateData.interviewTime || '02:00 PM IST (45 Minutes)',
+      meetingLink: candidateData.meetingLink || 'https://meet.google.com/tech-hr-interview',
+      interviewRound: candidateData.interviewRound || 'Technical & System Design Round',
+      interviewerName: candidateData.interviewerName || 'Engineering Hiring Panel',
       interviewStatus: candidateData.interviewStatus || (candidateData.decision === 'SELECTED' ? 'Interview Scheduled' : 'N/A'),
+      joiningDate: candidateData.joiningDate || null,
+      salaryOffer: candidateData.salaryOffer || null,
+      workMode: candidateData.workMode || 'Hybrid (3 Days Office / 2 Days Remote)',
+      workLocation: candidateData.workLocation || 'Tech Innovations Campus, Cyber City, Bangalore',
+      employmentType: candidateData.employmentType || 'Full-Time Permanent',
+      department: candidateData.department || 'Core Engineering & Technology',
+      hrNotes: candidateData.hrNotes || null,
       emailSubject: candidateData.emailSubject || '',
       emailBody: candidateData.emailBody || '',
       emailSentAt: candidateData.emailSentAt || now,
@@ -1616,11 +1655,17 @@ app.put('/api/candidates/:id', handleCandidateStatusUpdate);
 
 // 7. Delete candidate
 app.delete('/api/candidates/:id', (req, res) => {
-  let list = getCandidates();
-  list = list.filter(c => c.id !== req.params.id);
-  saveCandidates(list);
-  broadcastSSE('candidate_deleted', { id: req.params.id, total: list.length });
-  res.json({ success: true, message: 'Candidate deleted' });
+  try {
+    let list = getCandidates();
+    const candToDelete = list.find(c => c.id === req.params.id);
+    list = list.filter(c => c.id !== req.params.id);
+    saveCandidates(list);
+    broadcastSSE('candidate_deleted', { id: req.params.id, candidateId: req.params.id, total: list.length, candidates: list });
+    deleteCandidateOnCloud(req.params.id);
+    res.json({ success: true, message: `Candidate ${candToDelete ? candToDelete.name : req.params.id} deleted successfully`, id: req.params.id, total: list.length });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
 // 8. KPI Analytics & Stats (Supports both /api/analytics and /api/stats)

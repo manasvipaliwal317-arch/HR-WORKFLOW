@@ -662,6 +662,15 @@ function renderCandidates(candidates) {
     const scoreClass = cand.matchScore >= 70 ? 'high' : 'low';
     const dateStr = cand.createdAt ? new Date(cand.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'Today';
 
+    // Schedule & Key Date Badge
+    let scheduleBadgeHtml = '';
+    if (cand.status === 'HIRED' || cand.status === 'OFFER_EXTENDED') {
+      scheduleBadgeHtml = `<div class="date-badge-hired" style="margin: 8px 0 4px;">💼 Joining: <strong>${escapeHtml(cand.joiningDate || 'Confirmed')}</strong></div>`;
+    } else if (cand.status === 'INTERVIEW_SCHEDULED' || isSelected) {
+      const intDate = cand.interviewDate || cand.proposedInterviewDate || 'Upcoming';
+      scheduleBadgeHtml = `<div class="date-badge-interview" style="margin: 8px 0 4px;">📅 Interview: <strong>${escapeHtml(intDate)}</strong></div>`;
+    }
+
     // Card View
     const card = document.createElement('div');
     card.className = `candidate-card ${isSelected ? 'selected' : 'rejected'}`;
@@ -690,6 +699,8 @@ function renderCandidates(candidates) {
           </span>
         </div>
 
+        ${scheduleBadgeHtml}
+
         <p class="card-summary-snippet">
           ${escapeHtml(cand.evaluationSummary || 'Candidate resume scanned and analyzed.')}
         </p>
@@ -702,11 +713,23 @@ function renderCandidates(candidates) {
 
       <div class="card-footer">
         <span>Applied ${dateStr}</span>
-        <button class="btn-card-inspect">View AI Analysis ➔</button>
+        <div style="display: flex; gap: 0.4rem; align-items: center;">
+          <button class="btn-card-inspect" onclick="event.stopPropagation(); openCandidateModalById('${cand.id}')">Inspect ➔</button>
+          <button class="btn-card-delete" onclick="event.stopPropagation(); deleteCandidate('${cand.id}', '${escapeHtml(cand.name).replace(/'/g, "\\'")}')" title="Delete Candidate">🗑️</button>
+        </div>
       </div>
     `;
     card.addEventListener('click', () => openCandidateModal(cand));
     grid.appendChild(card);
+
+    // Table Date Badge
+    let tableDateBadge = '<span style="color:var(--text-muted);">—</span>';
+    if (cand.status === 'HIRED' || cand.status === 'OFFER_EXTENDED') {
+      tableDateBadge = `<span class="date-badge-hired">💼 Joining: <strong>${escapeHtml(cand.joiningDate || 'TBD')}</strong></span>`;
+    } else if (cand.status === 'INTERVIEW_SCHEDULED' || isSelected) {
+      const intDate = cand.interviewDate || cand.proposedInterviewDate || 'Scheduled';
+      tableDateBadge = `<span class="date-badge-interview">📅 Interview: <strong>${escapeHtml(intDate)}</strong></span>`;
+    }
 
     // Table View
     const tr = document.createElement('tr');
@@ -715,7 +738,10 @@ function renderCandidates(candidates) {
         <strong>${escapeHtml(cand.name)}</strong><br>
         <small style="color:var(--text-muted);">${escapeHtml(cand.email)}</small>
       </td>
-      <td>${escapeHtml(cand.role)}</td>
+      <td>
+        <div>${escapeHtml(cand.role)}</div>
+        <small style="color:var(--text-secondary); font-size:0.75rem;">${escapeHtml(cand.workMode || 'Hybrid')}</small>
+      </td>
       <td>
         <span class="badge-decision ${isSelected ? 'selected' : 'rejected'}">
           ${cand.decision}
@@ -725,12 +751,16 @@ function renderCandidates(candidates) {
         <strong style="color: ${cand.matchScore >= 70 ? 'var(--success-text)' : 'var(--danger-text)'}">${cand.matchScore}%</strong>
       </td>
       <td><span class="badge-status">${formatStatus(cand.status)}</span></td>
+      <td>${tableDateBadge}</td>
       <td>
         ${(cand.topSkills || []).slice(0, 3).map(s => `<span class="skill-pill">${escapeHtml(s)}</span>`).join(' ')}
       </td>
       <td>${dateStr}</td>
       <td>
-        <button class="btn-secondary" style="padding:0.3rem 0.6rem; font-size:0.75rem;">Inspect</button>
+        <div class="table-actions-cell">
+          <button class="btn-secondary" style="padding:0.3rem 0.6rem; font-size:0.75rem;" onclick="event.stopPropagation(); openCandidateModalById('${cand.id}')">Inspect</button>
+          <button class="btn-table-delete" onclick="event.stopPropagation(); deleteCandidate('${cand.id}', '${escapeHtml(cand.name).replace(/'/g, "\\'")}')" title="Delete Candidate">🗑️ Delete</button>
+        </div>
       </td>
     `;
     tr.addEventListener('click', () => openCandidateModal(cand));
@@ -1467,7 +1497,57 @@ function formatFutureJoiningDate(weeksAhead = 3, fromInterviewDateStr = null) {
       }
     });
   }
+
+  // Modal Delete Candidate Button
+  const btnModalDelete = document.getElementById('btn-modal-delete-candidate');
+  if (btnModalDelete) {
+    btnModalDelete.addEventListener('click', () => {
+      if (!selectedCandidate) return;
+      deleteCandidate(selectedCandidate.id, selectedCandidate.name);
+    });
+  }
 }
+
+// Global helper to open candidate modal by ID
+function openCandidateModalById(id) {
+  const cand = allCandidates.find(c => String(c.id) === String(id));
+  if (cand) {
+    openCandidateModal(cand);
+  }
+}
+window.openCandidateModalById = openCandidateModalById;
+
+// Global helper to delete candidate with confirmation
+async function deleteCandidate(id, name) {
+  const displayName = name || 'this candidate';
+  if (!confirm(`Are you sure you want to permanently delete "${displayName}" from the database? This candidate will be removed from both the dashboard and database.`)) {
+    return;
+  }
+
+  try {
+    const res = await fetch(`/api/candidates/${id}`, { method: 'DELETE' });
+    const data = await res.json();
+    if (data.success) {
+      showToast(`Candidate "${displayName}" deleted successfully.`, 'info');
+      allCandidates = allCandidates.filter(c => String(c.id) !== String(id));
+      
+      const modal = document.getElementById('candidate-modal');
+      if (modal && modal.style.display !== 'none' && selectedCandidate && String(selectedCandidate.id) === String(id)) {
+        modal.style.display = 'none';
+      }
+
+      updateMetrics(allCandidates);
+      applyFilters();
+      renderEmailLogs();
+      loadStats();
+    } else {
+      showToast(data.error || 'Failed to delete candidate', 'error');
+    }
+  } catch (err) {
+    showToast('Delete error: ' + err.message, 'error');
+  }
+}
+window.deleteCandidate = deleteCandidate;
 
 function openCandidateModal(cand) {
   selectedCandidate = cand;

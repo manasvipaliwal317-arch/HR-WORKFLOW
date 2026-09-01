@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20260901_3">
+  <link rel="stylesheet" href="style.css?v=20260901_4">
 </head>
 <body class="dark-theme">
   <!-- App Container -->
@@ -265,10 +265,11 @@
                   <th>Target Role</th>
                   <th>Decision</th>
                   <th>AI Score</th>
-                  <th>Interview Status</th>
+                  <th>Pipeline Status</th>
+                  <th>Interview / Joining Date</th>
                   <th>Top Skills</th>
                   <th>Applied On</th>
-                  <th>Action</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody id="candidate-table-body">
@@ -793,9 +794,12 @@
                   </div>
                 </div>
 
-                <div class="form-group" style="margin-top: 14px;">
-                  <button type="button" class="btn-primary btn-full" id="btn-save-candidate-status">
+                <div class="form-group" style="margin-top: 14px; display: flex; gap: 0.75rem;">
+                  <button type="button" class="btn-primary" style="flex: 1;" id="btn-save-candidate-status">
                     💾 Save Changes & Update Candidate Profile
+                  </button>
+                  <button type="button" class="btn-danger" id="btn-modal-delete-candidate" title="Permanently delete this candidate">
+                    🗑️ Delete
                   </button>
                 </div>
               </div>
@@ -925,6 +929,6 @@
 
   </div>
 
-  <script src="app.js?v=20260901_3"></script>
+  <script src="app.js?v=20260901_4"></script>
 </body>
 </html>
