@@ -509,10 +509,53 @@ function initLiveSecurityPill() {
 }
 
 /* ==========================================================================
-   11. Careers Dynamic Feed & HR Workflow Sync
+   11. Careers Dynamic Feed & Pre-Formatted "Apply Now" Job Application
    ========================================================================== */
+function generateJobApplicationMailto(role) {
+  const roleTitle = role ? (role.title || 'Specialist') : 'Position';
+  const roleDepartment = role ? (role.department || 'Technology & Cybersecurity') : 'Engineering';
+  const skillsList = (role && role.requiredSkills && role.requiredSkills.length > 0)
+    ? role.requiredSkills.slice(0, 6).join(', ')
+    : 'Full Stack Development, React, Node.js, Cybersecurity, IT Systems';
+
+  const subject = `Job Application: ${roleTitle} - [Your Full Name]`;
+
+  const body = `Dear Tech Innovations Inc. Hiring Team,
+
+I am writing to apply for the position of ${roleTitle} (${roleDepartment}) at Tech Innovations Inc.
+
+Please find my application information below:
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CANDIDATE DETAILS:
+• Full Name: [Your Full Name]
+• Contact Number: [Your Mobile / Phone Number]
+• Email Address: [Your Email Address]
+• Current Location: [City, State / Country]
+• Total Relevant Experience: [e.g., 2+ Years]
+• Key Technical Skills: [e.g., ${skillsList}]
+• Preferred Work Mode: [Remote / Hybrid / On-site]
+• Notice Period / Availability: [e.g., Immediate / 15 Days / 30 Days]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Why I am a strong fit for Tech Innovations Inc.:
+[Please write 2-3 brief lines highlighting your recent project experience, key technical achievements, and why you are interested in this role.]
+
+📎 Resume Attachment:
+I have attached my updated Resume / CV (PDF or DOCX format) to this email for your evaluation.
+
+Thank you for your time and consideration. I look forward to hearing from your recruitment team.
+
+Warm regards,
+[Your Full Name]
+[Your Contact Number]
+[LinkedIn / Portfolio Link - Optional]`;
+
+  return `mailto:${HR_CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
 async function initCareersDynamicFeed() {
-  const container = document.getElementById('dynamic-jobs-container');
+  const container = document.getElementById('dynamic-job-openings-grid') || document.getElementById('dynamic-jobs-container');
   if (!container) return;
 
   container.innerHTML = `
@@ -549,10 +592,25 @@ async function initCareersDynamicFeed() {
 function renderJobRoles(container, roles) {
   container.innerHTML = '';
 
-  roles.filter(r => r.isActive !== false).forEach((role, idx) => {
+  const activeRoles = roles.filter(r => r.isActive !== false);
+
+  // Update live status badge if present
+  const statusBadge = document.getElementById('careers-live-status');
+  if (statusBadge) {
+    statusBadge.innerHTML = `
+      <span class="inline-flex items-center gap-2 px-3 py-1 text-xs font-bold rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        ${activeRoles.length} Active Positions Open
+      </span>
+    `;
+  }
+
+  activeRoles.forEach((role, idx) => {
     const card = document.createElement('div');
     card.className = `glass-panel p-6 sm:p-8 flex flex-col justify-between reveal-on-scroll reveal-stagger-${(idx % 4) + 1}`;
     
+    const mailtoUrl = generateJobApplicationMailto(role);
+
     card.innerHTML = `
       <div>
         <div class="flex items-start justify-between gap-4 mb-4">
@@ -583,9 +641,9 @@ function renderJobRoles(container, roles) {
         </div>
       </div>
 
-      <div class="pt-4 border-t border-slate-100 flex items-center justify-between gap-3">
-        <a href="mailto:${HR_CONTACT_EMAIL}?subject=Application for ${encodeURIComponent(role.title)}" class="btn-cyber-primary text-xs sm:text-sm py-2.5 px-4 w-full text-center">
-          Apply Now (Email Resume) ✉️
+      <div class="pt-4 border-t border-slate-100">
+        <a href="${mailtoUrl}" class="btn-cyber-primary text-sm py-3 px-5 w-full text-center font-bold" onclick="showToast('Opening your email app with pre-filled application format for ${escapeHtml(role.title).replace(/'/g, "\\'")}. Please attach your resume and send!', 'success')">
+          Apply Now ➔
         </a>
       </div>
     `;
