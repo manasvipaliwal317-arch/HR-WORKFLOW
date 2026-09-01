@@ -62,10 +62,32 @@ app.use(express.static(path.join(__dirname, 'public'), {
   lastModified: false,
   maxAge: 0
 }));
-app.use('/site', express.static(path.join(__dirname, 'tech-innovations-inc')));
-app.use('/company', express.static(path.join(__dirname, 'tech-innovations-inc')));
-app.use('/website', express.static(path.join(__dirname, 'tech-innovations-inc')));
-app.use('/tech-innovations-inc', express.static(path.join(__dirname, 'tech-innovations-inc')));
+const websiteDir = path.join(__dirname, 'tech-innovations-inc');
+
+app.get(['/website', '/website/'], (req, res) => {
+  res.sendFile(path.join(websiteDir, 'index.html'));
+});
+app.get(['/site', '/site/'], (req, res) => {
+  res.sendFile(path.join(websiteDir, 'index.html'));
+});
+app.get(['/company', '/company/'], (req, res) => {
+  res.sendFile(path.join(websiteDir, 'index.html'));
+});
+app.get(['/careers', '/careers/'], (req, res) => {
+  res.sendFile(path.join(websiteDir, 'careers.html'));
+});
+
+const staticOptions = {
+  extensions: ['html', 'htm'],
+  etag: false,
+  lastModified: false,
+  maxAge: 0
+};
+
+app.use('/website', express.static(websiteDir, staticOptions));
+app.use('/site', express.static(websiteDir, staticOptions));
+app.use('/company', express.static(websiteDir, staticOptions));
+app.use('/tech-innovations-inc', express.static(websiteDir, staticOptions));
 
 // Default Config
 let appConfig = {
