@@ -196,6 +196,13 @@ function initSSE() {
         const data = JSON.parse(e.data);
         if (data && data.candidate) {
           handleLiveCandidateArrival(data.candidate);
+        } else if (data && Array.isArray(data.candidates)) {
+          allCandidates = data.candidates;
+          updateMetrics(allCandidates);
+          updateRoleDropdown(allCandidates);
+          applyFilters();
+          renderEmailLogs();
+          loadStats();
         } else {
           loadCandidates();
           loadStats();

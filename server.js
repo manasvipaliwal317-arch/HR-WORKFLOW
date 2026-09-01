@@ -226,6 +226,92 @@ function saveCandidates(candidates) {
   fs.writeFileSync(DB_FILE, JSON.stringify(candidates, null, 2), 'utf8');
 }
 
+// ----------------- CLOUD BIDIRECTIONAL SYNC & KEEP-ALIVE ----------------- //
+const CLOUD_RENDER_URL = process.env.CLOUD_RENDER_URL || 'https://nexus-hr-workflow.onrender.com';
+
+// ☁️ Forward candidate update immediately to Render.com cloud instance
+async function syncCandidateToCloud(candidate) {
+  if (process.env.RENDER || process.env.PORT === '10000') return; // Don't loop sync to itself
+  if (!candidate) return;
+
+  try {
+    const payload = JSON.stringify(candidate);
+    const parsedUrl = new URL(CLOUD_RENDER_URL + '/api/candidates');
+    const client = parsedUrl.protocol === 'https:' ? https : require('http');
+
+    const req = client.request({
+      hostname: parsedUrl.hostname,
+      port: parsedUrl.port || (parsedUrl.protocol === 'https:' ? 443 : 80),
+      path: parsedUrl.pathname,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(payload)
+      },
+      timeout: 8000
+    }, (res) => {
+      let respData = '';
+      res.on('data', c => respData += c);
+      res.on('end', () => {
+        console.log(`☁️ [Render Cloud Push] Synced candidate "${candidate.name}" to ${CLOUD_RENDER_URL} (Status ${res.statusCode})`);
+      });
+    });
+
+    req.on('error', (err) => {
+      console.warn(`☁️ [Render Sync Notice]: ${err.message}`);
+    });
+    req.on('timeout', () => req.destroy());
+    req.write(payload);
+    req.end();
+  } catch (e) {}
+}
+
+// ☁️ Forward full database in bulk to Render.com
+async function syncAllCandidatesToCloud() {
+  if (process.env.RENDER || process.env.PORT === '10000') return;
+  const all = getCandidates();
+  if (!all || all.length === 0) return;
+
+  try {
+    const payload = JSON.stringify({ candidates: all });
+    const parsedUrl = new URL(CLOUD_RENDER_URL + '/api/candidates/sync-bulk');
+    const client = parsedUrl.protocol === 'https:' ? https : require('http');
+
+    const req = client.request({
+      hostname: parsedUrl.hostname,
+      port: parsedUrl.port || (parsedUrl.protocol === 'https:' ? 443 : 80),
+      path: parsedUrl.pathname,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(payload)
+      },
+      timeout: 15000
+    }, (res) => {
+      let respData = '';
+      res.on('data', c => respData += c);
+      res.on('end', () => {
+        console.log(`☁️ [Render Cloud Bulk Sync] Pushed ${all.length} candidates to ${CLOUD_RENDER_URL} (Status ${res.statusCode})`);
+      });
+    });
+
+    req.on('error', (err) => {
+      console.warn(`☁️ [Render Bulk Sync Notice]: ${err.message}`);
+    });
+    req.on('timeout', () => req.destroy());
+    req.write(payload);
+    req.end();
+  } catch (e) {}
+}
+
+// Keep Render cloud instance awake 24/7 with a lightweight ping every 2 minutes
+setInterval(() => {
+  if (process.env.RENDER || process.env.PORT === '10000') return;
+  try {
+    https.get(`${CLOUD_RENDER_URL}/api/health`, () => {}).on('error', () => {});
+  } catch(e) {}
+}, 120000);
+
 // Helper: Processed UIDs
 function getProcessedUIDs() {
   try {
@@ -906,7 +992,10 @@ async function processCandidateEmailRecord(parsed, uid) {
     candidates: candidates
   });
 
-  console.log(`   ✅ Candidate broadcasted to Live Dashboard! Total: ${candidates.length}`);
+  // ☁️ Immediately forward evaluated candidate to Render.com cloud instance
+  syncCandidateToCloud(candidateRecord);
+
+  console.log(`   ✅ Candidate broadcasted to Live Dashboard & Synced to Cloud! Total: ${candidates.length}`);
   console.log(`===============================================================\n`);
   return true;
 }
@@ -1098,11 +1187,44 @@ app.post('/api/candidates', (req, res) => {
     candidates.unshift(candidateRecord);
     saveCandidates(candidates);
 
-    broadcastSSE('candidate_added', { candidate: candidateRecord, total: candidates.length });
+    broadcastSSE('candidate_added', { candidate: candidateRecord, total: candidates.length, candidates });
+    syncCandidateToCloud(candidateRecord);
 
     res.json({ success: true, count: candidates.length, candidates: candidates, candidate: candidateRecord });
   } catch (err) {
     console.error("Save candidate error:", err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// 4c. Bulk sync entire candidates array (Used for local <-> Render cloud synchronization)
+app.post('/api/candidates/sync-bulk', (req, res) => {
+  try {
+    const { candidates: incomingList } = req.body;
+    if (!Array.isArray(incomingList)) {
+      return res.status(400).json({ success: false, error: 'candidates must be an array' });
+    }
+    let currentList = getCandidates();
+    let addedCount = 0;
+    
+    incomingList.forEach(cand => {
+      const idx = currentList.findIndex(c => 
+        c.id === cand.id || 
+        (c.email && cand.email && c.email.toLowerCase() === cand.email.toLowerCase() && c.role === cand.role) ||
+        (c.name && cand.name && c.name.toLowerCase() === cand.name.toLowerCase() && c.role === cand.role)
+      );
+      if (idx >= 0) {
+        currentList[idx] = { ...currentList[idx], ...cand };
+      } else {
+        currentList.unshift(cand);
+        addedCount++;
+      }
+    });
+
+    saveCandidates(currentList);
+    broadcastSSE('candidate_added', { total: currentList.length, candidates: currentList });
+    res.json({ success: true, count: currentList.length, addedCount, message: `Synced ${incomingList.length} candidates` });
+  } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
 });
@@ -1202,7 +1324,8 @@ async function handleEvaluationRequest(req, res) {
     candidates.unshift(candidateRecord);
     saveCandidates(candidates);
 
-    broadcastSSE('candidate_added', { candidate: candidateRecord, total: candidates.length });
+    broadcastSSE('candidate_added', { candidate: candidateRecord, total: candidates.length, candidates });
+    syncCandidateToCloud(candidateRecord);
 
     res.json({ success: true, candidate: candidateRecord, evaluation });
   } catch (err) {
@@ -1321,6 +1444,7 @@ async function handleCandidateStatusUpdate(req, res) {
 
     saveCandidates(list);
     broadcastSSE('candidate_updated', { candidate, emailSent: emailSentResult });
+    syncCandidateToCloud(candidate);
 
     res.json({
       success: true,
@@ -1614,6 +1738,9 @@ app.listen(PORT, () => {
 
   // Initial Scan on startup
   scanInboxNow();
+
+  // Initial Full Sync to Cloud
+  setTimeout(syncAllCandidatesToCloud, 1500);
 
   // Run automated scan every 5 seconds continuously
   setInterval(scanInboxNow, 5000);
