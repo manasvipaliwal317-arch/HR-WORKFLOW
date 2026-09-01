@@ -64,6 +64,8 @@ app.use(express.static(path.join(__dirname, 'public'), {
 }));
 app.use('/site', express.static(path.join(__dirname, 'tech-innovations-inc')));
 app.use('/company', express.static(path.join(__dirname, 'tech-innovations-inc')));
+app.use('/website', express.static(path.join(__dirname, 'tech-innovations-inc')));
+app.use('/tech-innovations-inc', express.static(path.join(__dirname, 'tech-innovations-inc')));
 
 // Default Config
 let appConfig = {
