@@ -73,8 +73,70 @@ function shouldIgnoreSender(fromAddr) {
   return IGNORE_DOMAINS.some(domain => lower.includes(domain));
 }
 
+// ----------------- CALENDAR & SCHEDULING DATE ENGINE ----------------- //
+
+function getFormattedInterviewDate(daysAhead = 3, fromDate = new Date()) {
+  const d = new Date(fromDate);
+  let added = 0;
+  while (added < daysAhead) {
+    d.setDate(d.getDate() + 1);
+    if (d.getDay() !== 0 && d.getDay() !== 6) {
+      added++;
+    }
+  }
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  return d.toLocaleDateString('en-US', options);
+}
+
+function getFormattedJoiningDate(weeksAhead = 3, fromInterviewDateStr = null) {
+  let baseDate = new Date();
+  if (fromInterviewDateStr) {
+    const parsed = new Date(fromInterviewDateStr);
+    if (!isNaN(parsed.getTime())) {
+      baseDate = parsed;
+    }
+  }
+  const d = new Date(baseDate);
+  d.setDate(d.getDate() + (weeksAhead * 7));
+  const day = d.getDay();
+  if (day === 0) d.setDate(d.getDate() + 1);
+  else if (day !== 1) d.setDate(d.getDate() + (8 - day));
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  return d.toLocaleDateString('en-US', options);
+}
+
+function validateAndSanitizeInterviewDate(proposedDateStr, fromDate = new Date()) {
+  const futureCalculated = getFormattedInterviewDate(3, fromDate);
+  if (!proposedDateStr || typeof proposedDateStr !== 'string') {
+    return futureCalculated;
+  }
+  const parsed = new Date(proposedDateStr);
+  const today = new Date(fromDate);
+  today.setHours(0, 0, 0, 0);
+  if (isNaN(parsed.getTime()) || parsed < today) {
+    return futureCalculated;
+  }
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  return parsed.toLocaleDateString('en-US', options);
+}
+
+function sanitizeEmailBodyDates(bodyText, validInterviewDateStr) {
+  if (!bodyText) return '';
+  let sanitized = bodyText;
+  sanitized = sanitized.replace(/\b(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2},?\s+202[0-5]\b/gi, validInterviewDateStr);
+  sanitized = sanitized.replace(/\b\d{1,2}\s+(January|February|March|April|May|June|July|August|September|October|November|December),?\s+202[0-5]\b/gi, validInterviewDateStr);
+  sanitized = sanitized.replace(/\b202[0-5]-\d{2}-\d{2}\b/g, validInterviewDateStr);
+  return sanitized;
+}
+
 // Multi-Model Gemini Evaluator
 async function callGeminiEvaluation(resumeText, fileName, senderEmail, senderName, emailSubject) {
+  const nowObj = new Date();
+  const todayDateStr = nowObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  const currentYear = nowObj.getFullYear();
+  const defaultInterviewDate = getFormattedInterviewDate(3, nowObj);
+  const defaultJoiningDate = getFormattedJoiningDate(3, defaultInterviewDate);
+
   const systemInstruction = `
 You are an expert Senior Technical Recruiter & Hiring Director for ${CONFIG.companyName}.
 Carefully analyze the resume and application content below.
@@ -83,6 +145,14 @@ Carefully analyze the resume and application content below.
 Our company currently has openings ONLY for the following TWO roles:
 1. "Full Stack Developer"
 2. "Digital Marketing Specialist"
+
+⏰ REAL-TIME CALENDAR & SCHEDULING CONTEXT (STRICT ENFORCEMENT):
+1. TODAY'S APPLICATION DATE: Exactly "${todayDateStr}" (Current Year: ${currentYear}).
+2. The candidate is submitting their application TODAY (${todayDateStr}).
+3. PROPOSED INTERVIEW DATE: Must be scheduled strictly in the FUTURE. Set "proposedInterviewDate" to EXACTLY: "${defaultInterviewDate}".
+4. ESTIMATED JOINING DATE: Must be scheduled approximately 3 weeks after the interview. Set to: "${defaultJoiningDate}".
+5. STRICTLY PROHIBITED: NEVER generate or mention dates in past years (such as 2024 or 2025). Any reference to interview schedule or candidate application must reference ${currentYear} and the proposed date "${defaultInterviewDate}".
+6. In "emailBody", if decision is SELECTED, invite them specifically for "${defaultInterviewDate} at 2:30 PM - 3:15 PM IST".
 
 Role & Evaluation Instructions:
 1. Infer which of the two active roles the candidate is applying for or best suited for: either "Full Stack Developer" or "Digital Marketing Specialist".
@@ -110,9 +180,9 @@ RETURN STRICT JSON ONLY:
   "evaluationSummary": "Comprehensive 2-3 paragraphs recruiter assessment",
   "rejectionReason": "Specific constructive reason if REJECTED, otherwise null",
   "interviewQuestions": ["Question 1", "Question 2", "Question 3", "Question 4"],
-  "proposedInterviewDate": "Suggested date (e.g. 'Next Wednesday at 2:00 PM EST')",
+  "proposedInterviewDate": "${defaultInterviewDate}",
   "emailSubject": "Personalized subject line",
-  "emailBody": "Personalized professional email text"
+  "emailBody": "Personalized professional email text (invitation for ${defaultInterviewDate} if SELECTED, polite rejection if REJECTED)"
 }
 `;
 
@@ -281,9 +351,14 @@ async function processCandidateEmail(buffer, uid) {
     console.log(`   🎯 Result: ${evaluation.candidateName} -> ${evaluation.decision} (Score: ${evaluation.matchScore}%)`);
     console.log(`   💼 Role:   ${evaluation.appliedRole}`);
 
+    // Calculate verified, future-guaranteed interview & joining dates
+    const interviewDate = validateAndSanitizeInterviewDate(evaluation.proposedInterviewDate, new Date());
+    const joiningDate = getFormattedJoiningDate(3, interviewDate);
+    const cleanEmailBody = sanitizeEmailBodyDates(evaluation.emailBody, interviewDate);
+
     // Auto-Reply Target Email
     const targetEmail = evaluation.candidateEmail || fromAddr;
-    await sendCandidateAutoReply(targetEmail, evaluation.emailSubject, evaluation.emailBody);
+    await sendCandidateAutoReply(targetEmail, evaluation.emailSubject, cleanEmailBody);
 
     // Save to Database
     let candidates = [];
@@ -309,10 +384,12 @@ async function processCandidateEmail(buffer, uid) {
       evaluationSummary: evaluation.evaluationSummary || '',
       rejectionReason: evaluation.rejectionReason,
       interviewQuestions: evaluation.interviewQuestions || [],
-      proposedInterviewDate: evaluation.proposedInterviewDate || 'Upcoming Week',
-      interviewStatus: evaluation.decision === 'SELECTED' ? `Interview Invitation Dispatched to ${targetEmail}` : 'N/A',
+      proposedInterviewDate: interviewDate,
+      interviewDate: interviewDate,
+      joiningDate: joiningDate,
+      interviewStatus: evaluation.decision === 'SELECTED' ? `Interview Scheduled (${interviewDate})` : 'N/A',
       emailSubject: evaluation.emailSubject,
-      emailBody: evaluation.emailBody,
+      emailBody: cleanEmailBody,
       emailSentAt: now,
       createdAt: now,
       updatedAt: now,

@@ -1118,14 +1118,60 @@ function initModal() {
     });
   }
 
-  // Dynamic Hiring Box Visibility on Status Change
+// Helper: Dynamic calendar calculation for future interview dates
+function formatFutureInterviewDate(daysAhead = 3, fromDate = new Date()) {
+  const d = new Date(fromDate);
+  let added = 0;
+  while (added < daysAhead) {
+    d.setDate(d.getDate() + 1);
+    if (d.getDay() !== 0 && d.getDay() !== 6) {
+      added++;
+    }
+  }
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  return d.toLocaleDateString('en-US', options);
+}
+
+// Helper: Dynamic calendar calculation for joining dates (3 weeks after interview on a Monday)
+function formatFutureJoiningDate(weeksAhead = 3, fromInterviewDateStr = null) {
+  let baseDate = new Date();
+  if (fromInterviewDateStr) {
+    const parsed = new Date(fromInterviewDateStr);
+    if (!isNaN(parsed.getTime())) {
+      baseDate = parsed;
+    }
+  }
+  const d = new Date(baseDate);
+  d.setDate(d.getDate() + (weeksAhead * 7));
+  const day = d.getDay();
+  if (day === 0) d.setDate(d.getDate() + 1);
+  else if (day !== 1) d.setDate(d.getDate() + (8 - day));
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  return d.toLocaleDateString('en-US', options);
+}
+
+  // Dynamic Hiring Box Visibility & Auto-Joining Date on Status Change
   const updateStatusSelect = document.getElementById('modal-update-status');
   const hiringBox = document.getElementById('modal-hiring-box');
+  const modalInterviewDateInput = document.getElementById('modal-interview-date');
+  const modalJoiningDateInput = document.getElementById('modal-joining-date');
+
+  if (modalInterviewDateInput && modalJoiningDateInput) {
+    modalInterviewDateInput.addEventListener('change', () => {
+      if (!modalJoiningDateInput.value || modalJoiningDateInput.value.includes('Within')) {
+        modalJoiningDateInput.value = formatFutureJoiningDate(3, modalInterviewDateInput.value);
+      }
+    });
+  }
+
   if (updateStatusSelect && hiringBox) {
     updateStatusSelect.addEventListener('change', () => {
       const val = updateStatusSelect.value;
       if (val === 'HIRED' || val === 'OFFER_EXTENDED') {
         hiringBox.style.display = 'block';
+        if (modalJoiningDateInput && (!modalJoiningDateInput.value || modalJoiningDateInput.value.includes('Within'))) {
+          modalJoiningDateInput.value = formatFutureJoiningDate(3, modalInterviewDateInput?.value);
+        }
       } else {
         hiringBox.style.display = 'none';
       }
@@ -1357,9 +1403,10 @@ function openCandidateModal(cand) {
   }
 
   // Interview Schedule & Google Meet Fields
+  const defaultIntDate = formatFutureInterviewDate(3);
   const interviewDateInput = document.getElementById('modal-interview-date');
   if (interviewDateInput) {
-    interviewDateInput.value = cand.interviewDate || cand.proposedInterviewDate || 'Thursday, September 3, 2026';
+    interviewDateInput.value = cand.interviewDate || cand.proposedInterviewDate || defaultIntDate;
   }
 
   const interviewTimeInput = document.getElementById('modal-interview-time');
@@ -1408,7 +1455,11 @@ function openCandidateModal(cand) {
   }
 
   const joiningDateInput = document.getElementById('modal-joining-date');
-  if (joiningDateInput) joiningDateInput.value = cand.joiningDate || 'Within 2-4 weeks';
+  if (joiningDateInput) {
+    joiningDateInput.value = (cand.joiningDate && !cand.joiningDate.includes('Within')) 
+      ? cand.joiningDate 
+      : formatFutureJoiningDate(3, interviewDateInput?.value || defaultIntDate);
+  }
 
   const salaryOfferInput = document.getElementById('modal-salary-offer');
   if (salaryOfferInput) salaryOfferInput.value = cand.salaryOffer || 'Competitive Market Rate';

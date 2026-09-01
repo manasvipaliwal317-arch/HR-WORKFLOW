@@ -1,5 +1,107 @@
 [
   {
+    "id": "cand_auto_mtif5k45_6cvc",
+    "name": "Mahima Chouhan",
+    "email": "manasvi60487.mbaib22@ipsacademy.org",
+    "resumeEmail": "manasvi60487.mbaib22@ipsacademy.org",
+    "phone": "+91-XXXXXXXXXX",
+    "role": "Digital Marketing Specialist",
+    "decision": "SELECTED",
+    "matchScore": 95,
+    "status": "INTERVIEW_SCHEDULED",
+    "yearsOfExperience": "3 years",
+    "topSkills": [
+      "SEO",
+      "Google Ads",
+      "Meta Ads Manager",
+      "GA4",
+      "Conversion Rate Optimization (CRO)"
+    ],
+    "education": "Bachelor of Technology (B.Tech), Gujarat Technological University",
+    "strengths": [
+      "Strong record of managing scale marketing budgets (₹40L+ annual) with solid ROAS achievements (3.8x)",
+      "Deep technical SEO knowledge and ability to implement advanced tracking (GTM server-side, GA4, UTM analytics)",
+      "Analytical engineering mindset (B.Tech) that helps bridge marketing metrics with technical tracking implementation"
+    ],
+    "areasForImprovement": [
+      "Further development in marketing automation using advanced Python and SQL queries",
+      "Expansion into Enterprise-level Account-Based Marketing (ABM) strategies"
+    ],
+    "evaluationSummary": "Mahima Chouhan is an exceptional fit for the Digital Marketing Specialist role. She has demonstrated solid experience scaling acquisition channels, optimizing multi-channel funnels, and managing significant performance budgets. Her resume showcases precise analytical achievements, such as lifting site conversion rates from 1.8% to 3.2% and reducing customer acquisition costs by 28%. Given her analytical B.Tech background and certifications in Google Ads, Meta, and GA4, she possesses the exact core skills required to drive our growth and performance marketing initiatives. We highly recommend moving her forward to the technical and strategic interview loop.",
+    "rejectionReason": null,
+    "interviewQuestions": [
+      "Can you detail a campaign where you successfully reduced CAC by 28%? What tactical adjustments made the biggest impact?",
+      "Explain your setup process for server-side tracking using Google Tag Manager and GA4. How do you deal with attribution discrepancies?",
+      "How do you prioritize SEO keyword opportunities when targeting high-intent but high-difficulty B2B search terms?",
+      "Suppose we have a newly launched enterprise-level AI automation feature. How would you distribute our initial marketing budget between Google Search, Performance Max, and Meta Ads?",
+      "Describe a time you used Looker Studio to visualize conversion funnel bottlenecks. How did you present this data to stakeholders?"
+    ],
+    "proposedInterviewDate": "Friday, September 4, 2026",
+    "interviewDate": "Friday, September 4, 2026",
+    "interviewTime": "2:30 PM - 3:15 PM IST (45 Minutes)",
+    "interviewRound": "Round 1: Marketing Strategy & Portfolio Review",
+    "meetingLink": "https://meet.google.com/can-daut-omt",
+    "interviewerName": "Tech Innovations Inc. Technical Hiring Panel",
+    "interviewStatus": "Interview Invitation Dispatched (https://meet.google.com/can-daut-omt)",
+    "emailSubject": "📅 Interview Invitation: Digital Marketing Specialist at Tech Innovations Inc.",
+    "emailBody": "Dear Mahima,\n\nThank you for applying for the Digital Marketing Specialist position at Tech Innovations Inc. We reviewed your resume and were incredibly impressed by your background in managing high-ROI paid campaigns, your technical SEO expertise, and your strong conversion analytics metrics.\n\nWe would love to invite you to a 45-minute technical and strategic interview with our Growth & Marketing team to discuss your experience and see how your skills align with our current objectives.\n\nWe have tentatively proposed your interview for Friday, September 4, 2026. Please let us know if this date works for you or if we should coordinate an alternative time.\n\nWe look forward to speaking with you!\n\nBest regards,\n\nManasvi Paliwal\nSenior Technical Recruiter & Hiring Director\nTech Innovations Inc.",
+    "emailSentAt": "2026-09-01T08:42:22.613Z",
+    "createdAt": "2026-09-01T08:42:22.613Z",
+    "updatedAt": "2026-09-01T08:42:22.613Z",
+    "source": "Gmail INBOX (Mahima Chouhan Resume.docx)",
+    "joiningDate": "Monday, September 28, 2026"
+  },
+  {
+    "id": "cand_mtib2p6q_fxzr",
+    "name": "Vageesha Sharma",
+    "email": "vageesha.sharma@example.com",
+    "phone": "N/A",
+    "role": "Digital Marketing Specialist",
+    "decision": "SELECTED",
+    "matchScore": 95,
+    "status": "INTERVIEW_SCHEDULED",
+    "yearsOfExperience": "5 years",
+    "topSkills": [
+      "SEO",
+      "Google Ads",
+      "Meta Ads Manager",
+      "GA4",
+      "Content Strategy"
+    ],
+    "education": "Not Specified in Resume",
+    "strengths": [
+      "5 years of dedicated digital marketing experience",
+      "Proven track record with 4.5x ROAS",
+      "GA4 certified with strong analytics background"
+    ],
+    "areasForImprovement": [
+      "Include detailed multi-channel campaign case studies",
+      "Highlight specific conversion funnel optimization milestones"
+    ],
+    "evaluationSummary": "Vageesha Sharma presents a very strong profile that aligns exceptionally well with our Digital Marketing Specialist opening. With 5 years of hands-on experience, GA4 certification, and demonstrated success achieving a 4.5x ROAS, she possesses the core technical and strategic capabilities required for managing our performance marketing and paid acquisition funnels.",
+    "rejectionReason": null,
+    "interviewQuestions": [
+      "Can you walk us through a specific campaign where you achieved a high ROAS, detailing your targeting and budget allocation strategies?",
+      "How do you approach GA4 event tracking setup and attribution modeling for multi-channel acquisition funnels?",
+      "What is your methodology for conducting keyword research and technical SEO audits for enterprise websites?",
+      "How do you handle scaling Meta and Google Ads campaigns while maintaining cost-efficiency and positive conversion rates?"
+    ],
+    "proposedInterviewDate": "Friday, September 4, 2026",
+    "interviewDate": "Friday, September 4, 2026",
+    "interviewTime": "2:30 PM - 3:15 PM IST (45 Minutes)",
+    "interviewRound": "Round 1: Marketing Strategy & Campaign Review",
+    "meetingLink": "https://meet.google.com/can-dmti-b2p",
+    "interviewerName": "Tech Innovations Inc. Technical Hiring Panel",
+    "interviewStatus": "Interview Invitation Dispatched (https://meet.google.com/can-dmti-b2p)",
+    "emailSubject": "📅 Interview Invitation: Digital Marketing Specialist at Tech Innovations Inc.",
+    "emailBody": "Dear Vageesha, Thank you for applying for the Digital Marketing Specialist position at Tech Innovations Inc. We were thoroughly impressed by your 5 years of digital marketing experience, GA4 certification, and your impressive 4.5x ROAS track record. We would love to invite you for a domain interview on Friday, September 4, 2026 at 10:00 AM EST to discuss your expertise in paid acquisition and growth analytics further. Please confirm your availability or let us know if another time works better. Best regards, Hiring Team, Tech Innovations Inc.",
+    "emailSentAt": "2026-09-01T06:48:10.754Z",
+    "createdAt": "2026-09-01T06:48:10.754Z",
+    "updatedAt": "2026-09-01T06:48:10.754Z",
+    "source": "Dashboard Submission",
+    "joiningDate": "Monday, September 28, 2026"
+  },
+  {
     "id": "cand_auto_mti9punp_itkm",
     "name": "Khushi Jain",
     "email": "Khushijain12@email.com",
@@ -35,19 +137,20 @@
       "What is your approach to designing a high-converting landing page A/B test? Share an example of a hypothesis you formulated that led to a significant conversion lift.",
       "How do you stay updated with continuous changes in privacy regulations and cookie deprecation, and how does this affect your campaign optimization strategy?"
     ],
-    "proposedInterviewDate": "November 14, 2024 at 11:30 AM IST",
-    "interviewDate": "November 14, 2024 at 11:30 AM IST",
+    "proposedInterviewDate": "Friday, September 4, 2026",
+    "interviewDate": "Friday, September 4, 2026",
     "interviewTime": "2:30 PM - 3:15 PM IST (45 Minutes)",
     "interviewRound": "Round 1: Marketing Strategy & Portfolio Review",
     "meetingLink": "https://meet.google.com/can-daut-omt",
     "interviewerName": "Tech Innovations Inc. Technical Hiring Panel",
     "interviewStatus": "Interview Invitation Dispatched (https://meet.google.com/can-daut-omt)",
     "emailSubject": "📅 Interview Invitation: Digital Marketing Specialist at Tech Innovations Inc.",
-    "emailBody": "Dear Khushi,\n\nThank you for applying for the Digital Marketing Specialist position at Tech Innovations Inc.\n\nWe thoroughly reviewed your resume and cover letter, and we are highly impressed by your 5 years of rich experience across both performance marketing and technical SEO. Your success in scaling organic traffic by 65% and driving a blended 4.2x ROAS on high-volume budgets perfectly aligns with our growth and performance marketing objectives.\n\nWe would love to invite you to an initial technical interview with our Growth & Marketing team to discuss your background in detail and explore how your skills fit our roadmap.\n\nWe would like to propose the following time slot for our conversation:\n- Date: November 14, 2024\n- Time: 11:30 AM IST\n\nPlease let us know if this schedule works for you, or if we should suggest an alternative time. We look forward to speaking with you!\n\nBest regards,\n\nManasvi Paliwal\nSenior Technical Recruiter & Hiring Director\nTech Innovations Inc.\nmanasvipaliwal317@gmail.com",
+    "emailBody": "Dear Khushi,\n\nThank you for applying for the Digital Marketing Specialist position at Tech Innovations Inc.\n\nWe thoroughly reviewed your resume and cover letter, and we are highly impressed by your 5 years of rich experience across both performance marketing and technical SEO. Your success in scaling organic traffic by 65% and driving a blended 4.2x ROAS on high-volume budgets perfectly aligns with our growth and performance marketing objectives.\n\nWe would love to invite you to an initial technical interview with our Growth & Marketing team to discuss your background in detail and explore how your skills fit our roadmap.\n\nWe would like to propose the following time slot for our conversation:\n- Date: Friday, September 4, 2026\n- Time: 11:30 AM IST\n\nPlease let us know if this schedule works for you, or if we should suggest an alternative time. We look forward to speaking with you!\n\nBest regards,\n\nManasvi Paliwal\nSenior Technical Recruiter & Hiring Director\nTech Innovations Inc.\nmanasvipaliwal317@gmail.com",
     "emailSentAt": "2026-09-01T06:10:11.701Z",
     "createdAt": "2026-09-01T06:10:11.701Z",
     "updatedAt": "2026-09-01T06:10:11.701Z",
-    "source": "Gmail IMAP (Khushi Jain Resume.docx)"
+    "source": "Gmail IMAP (Khushi Jain Resume.docx)",
+    "joiningDate": "Monday, September 28, 2026"
   },
   {
     "id": "cand_auto_mti997jq_99ue",
@@ -92,7 +195,8 @@
     "emailSentAt": "2026-09-01T05:57:15.254Z",
     "createdAt": "2026-09-01T05:57:15.254Z",
     "updatedAt": "2026-09-01T05:57:15.254Z",
-    "source": "Gmail IMAP (Frontend_Developer_1_3_Years_Resume.pdf)"
+    "source": "Gmail IMAP (Frontend_Developer_1_3_Years_Resume.pdf)",
+    "joiningDate": "Monday, September 28, 2026"
   },
   {
     "id": "cand_auto_mti8zu3s_jnuf",
@@ -124,8 +228,8 @@
     "evaluationSummary": "The candidate, Manasvi Paliwal, is an MBA graduate in International Business from IPS Academy. They have expressed interest in the Full Stack Developer position at Tech Innovations Inc. However, their academic background and skillset are strictly non-technical, focusing primarily on administration, business management, and humanities. There is no evidence of coding capability, system architecture experience, or software engineering practices.\n\nOur current hiring strategy is tightly constrained to three active positions: Full Stack Developer, Digital Marketing Specialist, and AI Solutions Architect. Because the candidate's skills do not align with any of these high-tech roles, and specifically lack the 2+ years of software development experience required for the Full Stack Developer role, we must respectfully decline their application at this stage.",
     "rejectionReason": "The candidate does not possess the technical skills (React, Node.js, databases) or the minimum 2+ years of software development experience required for the Full Stack Developer role. Our active hiring is currently limited to Full Stack Developer, Digital Marketing Specialist, and AI Solutions Architect positions.",
     "interviewQuestions": [],
-    "proposedInterviewDate": "N/A",
-    "interviewDate": "N/A",
+    "proposedInterviewDate": "Friday, September 4, 2026",
+    "interviewDate": "Friday, September 4, 2026",
     "interviewTime": "2:30 PM - 3:15 PM IST (45 Minutes)",
     "interviewRound": "Round 1: Technical & System Architecture Deep-Dive",
     "meetingLink": "https://meet.google.com/can-daut-omt",
@@ -136,7 +240,8 @@
     "emailSentAt": "2026-09-01T05:49:57.928Z",
     "createdAt": "2026-09-01T05:49:57.928Z",
     "updatedAt": "2026-09-01T05:49:57.928Z",
-    "source": "Gmail IMAP (Manasvi Paliwal Resume (1).pdf.pdf)"
+    "source": "Gmail IMAP (Manasvi Paliwal Resume (1).pdf.pdf)",
+    "joiningDate": "Monday, September 28, 2026"
   },
   {
     "id": "cand_auto_mti8zh1v_2et3",
@@ -168,8 +273,8 @@
     "evaluationSummary": "Manasvi Paliwal's profile shows a solid academic foundation in International Business along with early-stage experience in finance and marketing operations. In her cover note, she expressed interest in the Full Stack Developer role; however, her resume contains no technical software development skills, programming languages, or framework experience required for engineering roles.\n\nHer background is a closer potential fit for marketing, specifically our Digital Marketing Specialist opening. However, she does not yet possess the required 1+ years of dedicated experience or hands-on mastery of critical growth tools like Google Ads, Meta Ads, and Google Analytics (GA4). Her marketing capabilities are currently at an introductory and theoretical level. Consequently, we cannot move forward with her application at this time.",
     "rejectionReason": "The candidate lacks the software engineering background required for the Full Stack Developer role and does not meet the minimum 1+ years of hands-on campaign management experience and technical platform skills required for the Digital Marketing Specialist role. Tech Innovations Inc. is currently hiring only for Full Stack Developer, Digital Marketing Specialist, and AI Solutions Architect.",
     "interviewQuestions": [],
-    "proposedInterviewDate": "N/A",
-    "interviewDate": "N/A",
+    "proposedInterviewDate": "Friday, September 4, 2026",
+    "interviewDate": "Friday, September 4, 2026",
     "interviewTime": "2:30 PM - 3:15 PM IST (45 Minutes)",
     "interviewRound": "Round 1: Marketing Strategy & Portfolio Review",
     "meetingLink": "https://meet.google.com/can-daut-omt",
@@ -180,7 +285,8 @@
     "emailSentAt": "2026-09-01T05:49:41.011Z",
     "createdAt": "2026-09-01T05:49:41.011Z",
     "updatedAt": "2026-09-01T05:49:41.011Z",
-    "source": "Gmail IMAP (Manasvi Paliwal-Resume.pdf)"
+    "source": "Gmail IMAP (Manasvi Paliwal-Resume.pdf)",
+    "joiningDate": "Monday, September 28, 2026"
   },
   {
     "id": "cand_mth4drp2_cnnl",
@@ -217,19 +323,20 @@
       "Explain your approach to balancing technical SEO improvements with content creation to achieve sustainable organic growth.",
       "Describe a situation where a campaign's ROAS was declining. What metrics did you analyze first, and how did you pivot the strategy?"
     ],
-    "proposedInterviewDate": "October 26, 2023, at 2:00 PM EST",
-    "interviewDate": "October 26, 2023, at 2:00 PM EST",
+    "proposedInterviewDate": "Friday, September 4, 2026",
+    "interviewDate": "Friday, September 4, 2026",
     "interviewTime": "2:30 PM - 3:15 PM IST (45 Minutes)",
     "interviewRound": "Round 1: Marketing Strategy & Campaign Review",
     "meetingLink": "https://meet.google.com/can-dmth-4dr",
     "interviewerName": "Tech Innovations Inc. Technical Hiring Panel",
     "interviewStatus": "Interview Invitation Dispatched (https://meet.google.com/can-dmth-4dr)",
     "emailSubject": "📅 Interview Invitation: Digital Marketing Specialist at Tech Innovations Inc.",
-    "emailBody": "Dear Sneha,\n\nThank you for submitting your resume for the Digital Marketing Specialist position at Tech Innovations Inc.\n\nOur recruiting team has reviewed your application, and we are highly impressed by your 4+ years of performance marketing experience, particularly your deep technical expertise with Google Ads, Meta Ads, SEO, and GA4 analytics. Your background aligns perfectly with the growth strategies we are currently scaling.\n\nWe would love to invite you to a 45-minute video interview to discuss your professional experience and how you can make an impact on our marketing initiatives. We have tentatively proposed October 26, 2023, at 2:00 PM EST for the discussion. Please let us know if this timing works for you, or feel free to suggest an alternative.\n\nLooking forward to speaking with you!\n\nBest regards,\n\nHiring Director\nTech Innovations Inc.\nmanasvipaliwal317@gmail.com",
+    "emailBody": "Dear Sneha,\n\nThank you for submitting your resume for the Digital Marketing Specialist position at Tech Innovations Inc.\n\nOur recruiting team has reviewed your application, and we are highly impressed by your 4+ years of performance marketing experience, particularly your deep technical expertise with Google Ads, Meta Ads, SEO, and GA4 analytics. Your background aligns perfectly with the growth strategies we are currently scaling.\n\nWe would love to invite you to a 45-minute video interview to discuss your professional experience and how you can make an impact on our marketing initiatives. We have tentatively proposed Friday, September 4, 2026, at 2:00 PM EST for the discussion. Please let us know if this timing works for you, or feel free to suggest an alternative.\n\nLooking forward to speaking with you!\n\nBest regards,\n\nHiring Director\nTech Innovations Inc.\nmanasvipaliwal317@gmail.com",
     "emailSentAt": "2026-08-31T10:53:03.734Z",
     "createdAt": "2026-08-31T10:53:03.734Z",
     "updatedAt": "2026-08-31T10:53:03.734Z",
-    "source": "Dashboard Submission"
+    "source": "Dashboard Submission",
+    "joiningDate": "Monday, September 28, 2026"
   },
   {
     "id": "cand_auto_mtgz8rd7_odzp",
@@ -266,14 +373,16 @@
       "How would you design a structured test to compare the conversion rate of two different promotional email headlines?",
       "Can you explain how you would leverage tools like Google Sheets or Microsoft Excel to clean and analyze traffic data from a website?"
     ],
-    "proposedInterviewDate": "N/A",
+    "proposedInterviewDate": "Friday, September 4, 2026",
     "interviewStatus": "N/A",
     "emailSubject": "Application Update from Tech Innovations Inc.",
     "emailBody": "Dear Vaggesha,\n\nThank you for reaching out and sharing your resume with us. We appreciate your interest in exploring career opportunities at Tech Innovations Inc.\n\nWe were highly impressed by your outstanding academic achievements, particularly your status as a Gold Medalist in your Master's in Economics program, along with your experience in economic research and field data analysis. \n\nAt this time, our hiring is strictly limited to two active roles: Full Stack Developer and Digital Marketing Specialist. Because your professional training is centered around economic analysis, market research, and business development rather than hands-on technical web development or digital marketing practices (such as SEO/SEM, GA4, and ad campaign management), we are unable to move forward with your application for our current vacancies.\n\nYour analytical mindset and communication skills are excellent assets, and we strongly encourage you to explore roles in Business Analysis, Market Intelligence, or Enterprise Sales. Should you wish to pivot into digital marketing, acquiring industry-recognized credentials in Google Ads, Meta Blueprint, and SEO analytics would be a great next step.\n\nThank you again for your time, and we wish you the very best of success in your future professional endeavors.\n\nWarm regards,\n\nManasvi Paliwal\nSenior Technical Recruiter & Hiring Director\nTech Innovations Inc.",
     "emailSentAt": "2026-08-31T08:29:11.947Z",
     "createdAt": "2026-08-31T08:29:11.947Z",
     "updatedAt": "2026-08-31T08:29:11.947Z",
-    "source": "Gmail IMAP (Vaggesha Sharma                                                                                    .pdf)"
+    "source": "Gmail IMAP (Vaggesha Sharma                                                                                    .pdf)",
+    "interviewDate": "Friday, September 4, 2026",
+    "joiningDate": "Monday, September 28, 2026"
   },
   {
     "id": "cand_mtgz46lr_qdno",
@@ -305,14 +414,16 @@
     "evaluationSummary": "The candidate, Bob Vance, has a strong and successful 10-year career history in B2B industrial refrigeration sales. However, Tech Innovations Inc. is currently hiring exclusively for Full Stack Developer and Digital Marketing Specialist roles. Bob's profile does not contain any of the technical programming languages or web development architectures needed for our developer role, nor does it showcase any specialized digital advertising, paid media, or content marketing skills for our marketing vacancy. Consequently, there are no suitable transferrable skills for our active openings.",
     "rejectionReason": "Our active hiring is strictly limited to Full Stack Developer and Digital Marketing Specialist roles. Your 10 years of experience in industrial refrigeration sales, while highly impressive, does not align with the technical or marketing competencies required for these specific positions.",
     "interviewQuestions": [],
-    "proposedInterviewDate": "N/A",
+    "proposedInterviewDate": "Friday, September 4, 2026",
     "interviewStatus": "N/A",
     "emailSubject": "Your Application to Tech Innovations Inc.",
     "emailBody": "Dear Bob,\n\nThank you for your interest in Tech Innovations Inc. and for sharing your background. We thoroughly reviewed your resume and were highly impressed by your successful 10-year tenure in B2B industrial commercial refrigeration sales.\n\nAt present, our hiring is strictly limited to two active openings: Full Stack Developer and Digital Marketing Specialist. Unfortunately, because your professional experience does not align with the software engineering or modern digital advertising requirements of these roles, we are unable to move forward with your application at this time.\n\nWe appreciate the time you took to apply and wish you the absolute best in your future endeavors in industrial sales.\n\nWarm regards,\n\nHiring Director\nTech Innovations Inc.",
     "emailSentAt": "2026-08-31T08:25:38.415Z",
     "createdAt": "2026-08-31T08:25:38.415Z",
     "updatedAt": "2026-08-31T08:25:38.415Z",
-    "source": "Dashboard Submission"
+    "source": "Dashboard Submission",
+    "interviewDate": "Friday, September 4, 2026",
+    "joiningDate": "Monday, September 28, 2026"
   },
   {
     "id": "cand_qa_verified_mtcqnzed",
@@ -345,14 +456,16 @@
       "How do you manage zero-downtime database failovers across AWS regions?",
       "Describe your Kubernetes cluster autoscaling strategy under volatile traffic loads."
     ],
-    "proposedInterviewDate": "Friday, 3:00 PM EST (Google Meet)",
+    "proposedInterviewDate": "Friday, September 4, 2026",
     "interviewStatus": "Interview Invitation Dispatched",
     "emailSubject": "Interview Invitation: Senior Cloud Infrastructure Architect",
     "emailBody": "Dear Robert, congratulations on being shortlisted for an interview!",
     "emailSentAt": "2026-08-28T09:18:00.963Z",
     "createdAt": "2026-08-28T09:18:00.949Z",
     "updatedAt": "2026-08-28T09:18:00.963Z",
-    "source": "Automated QA Pipeline"
+    "source": "Automated QA Pipeline",
+    "interviewDate": "Friday, September 4, 2026",
+    "joiningDate": "Monday, September 28, 2026"
   },
   {
     "id": "cand_auto_mtcpvy1q_lwms",
@@ -389,14 +502,16 @@
       "Can you describe a challenging creative project you worked on during your studies and how you overcame any design roadblocks?",
       "How do you stay updated with current global fashion, styling, and aesthetic trends, and how do you implement them in your work?"
     ],
-    "proposedInterviewDate": "Next Thursday at 11:00 AM EST",
+    "proposedInterviewDate": "Friday, September 4, 2026",
     "interviewStatus": "Interview Invitation Dispatched to vanshitapaliwal47@gmail.com",
     "emailSubject": "Interview Invitation: Creative Design Intern role at Tech Innovations Inc.",
     "emailBody": "Dear Vanshita,\n\nThank you for reaching out and sharing your application with Tech Innovations Inc. We reviewed your background and were highly impressed by your creative drive, sketching skills, and passion for fashion design.\n\nWe would love to invite you for an introductory virtual interview to discuss your academic portfolio, creative interests, and how you can contribute to our design initiatives. The interview will take approximately 30 minutes.\n\nWe have proposed the following time slot for the conversation:\n- Next Thursday at 11:00 AM EST\n\nPlease let us know if this time works for you, or if we need to suggest an alternative schedule. We look forward to connecting with you soon!\n\nWarm regards,\n\nSenior Technical Recruiter & Hiring Director\nTech Innovations Inc.",
     "emailSentAt": "2026-08-28T08:56:12.830Z",
     "createdAt": "2026-08-28T08:56:12.830Z",
     "updatedAt": "2026-08-28T08:56:12.830Z",
-    "source": "Gmail IMAP (FASHION CV.pdf)"
+    "source": "Gmail IMAP (FASHION CV.pdf)",
+    "interviewDate": "Friday, September 4, 2026",
+    "joiningDate": "Monday, September 28, 2026"
   },
   {
     "id": "cand_auto_mtbgn658_lgnv",
@@ -433,7 +548,7 @@
       "What motivates you to transition from an academic/research path in Economics into a high-intensity career in Corporate Business Development?",
       "How would you handle a situation where a potential client repeatedly rejects your outreach or objects to our product pricing?"
     ],
-    "proposedInterviewDate": "Next Tuesday at 3:00 PM IST",
+    "proposedInterviewDate": "Friday, September 4, 2026",
     "interviewStatus": "🎉 Official Job Offer Dispatched",
     "emailSubject": "🎉 Congratulations! Job Offer for Business Development Associate at Tech Innovations Inc.",
     "emailBody": "Dear Vageesha,\n\nThank you for your interest in joining Tech Innovations Inc. We have carefully reviewed your application for the Business Development Associate position.\n\nWe are highly impressed by your academic background as a Gold Medalist in Economics, as well as the practical communication and market research skills you developed during your microeconomic field internship. Your analytical mindset and hands-on experience in engaging with diverse stakeholders make you a compelling candidate for our business development team.\n\nWe would love to invite you for an initial round of interview to discuss your career aspirations, your transition to enterprise sales, and how your skills align with our growth goals. We have proposed a slot for Next Tuesday at 3:00 PM IST. Please let us know if this timing works for you, or if we should coordinate an alternative schedule.\n\nLooking forward to speaking with you!\n\nWarm regards,\n\nManasvi Paliwal\nSenior Technical Recruiter & Hiring Director\nTech Innovations Inc.\nmanasvipaliwal317@gmail.com",
@@ -441,13 +556,13 @@
     "createdAt": "2026-08-27T11:49:40.700Z",
     "updatedAt": "2026-08-31T10:20:55.799Z",
     "source": "Gmail IMAP (Vaggesha Sharma                                                                                    .pdf)",
-    "interviewDate": "Next Tuesday at 3:00 PM IST",
+    "interviewDate": "Friday, September 4, 2026",
     "interviewTime": "2:30 PM - 3:15 PM IST (45 Mins)",
     "meetingLink": "https://meet.google.com/nex-auto-meet",
     "interviewerName": "Tech Innovations Hiring Panel",
     "interviewRound": "Round 1: Technical & System Architecture",
     "hrNotes": "",
-    "joiningDate": "Within 2-4 weeks",
+    "joiningDate": "Monday, September 28, 2026",
     "salaryOffer": "Competitive Market Rate"
   },
   {
@@ -485,14 +600,16 @@
       "How do you approach prompt chaining for complex, multi-step tasks? Describe a scenario where you had to pass output from one LLM call as context to another.",
       "How do you design prompts to remain robust and performant across different model updates or when switching from GPT models to Claude?"
     ],
-    "proposedInterviewDate": "Next Thursday at 3:00 PM IST",
+    "proposedInterviewDate": "Friday, September 4, 2026",
     "interviewStatus": "Interview Invitation Dispatched to kabir.singh.ai@email.com",
     "emailSubject": "Interview Invitation: AI Prompt Engineer at Tech Innovations Inc.",
     "emailBody": "Dear Kabir,\n\nThank you for applying for the AI Prompt Engineer position at Tech Innovations Inc. We have reviewed your resume and were highly impressed by your academic credentials from Delhi Technological University, your DeepLearning.AI certifications, and your practical experience during your internship at Sparkline Analytics.\n\nYour systematic approach to constructing prompt-evaluation harnesses and optimizing RAG pipelines directly aligns with the technical standards of our AI products. We are keen to learn more about your technical portfolio and your perspective on model alignment.\n\nWe would like to invite you for a 45-minute technical interview to discuss your projects, prompt-design philosophies, and technical skills. We propose scheduling this next Thursday at 3:00 PM IST via Google Meet. \n\nPlease let us know if this slot works for you, or feel free to suggest 2-3 alternative times.\n\nWarm regards,\n\nManasvi Paliwal\nHiring Director\nTech Innovations Inc.\nmanasvipaliwal317@gmail.com",
     "emailSentAt": "2026-08-27T11:49:21.847Z",
     "createdAt": "2026-08-27T11:49:21.847Z",
     "updatedAt": "2026-08-27T11:49:21.847Z",
-    "source": "Gmail IMAP (4_Kabir_Singh_AI_Prompt_Engineer_Fresher (1).pdf)"
+    "source": "Gmail IMAP (4_Kabir_Singh_AI_Prompt_Engineer_Fresher (1).pdf)",
+    "interviewDate": "Friday, September 4, 2026",
+    "joiningDate": "Monday, September 28, 2026"
   },
   {
     "id": "cand_res_mtbfodof_rqzt",
@@ -530,66 +647,16 @@
       "How do you approach setting up multi-touch attribution and event tracking pipelines using Google Tag Manager and GA4?",
       "As a leader of a 3-person team, what framework did you use during your weekly performance reviews to identify and cut 15% of wasted ad spend?"
     ],
-    "proposedInterviewDate": "Next Wednesday at 3:00 PM IST",
+    "proposedInterviewDate": "Friday, September 4, 2026",
     "interviewStatus": "Interview Invitation Sent to sneha.verma.marketing@email.com",
     "emailSubject": "Interview Invitation: Digital Marketing Manager at Tech Innovations Inc.",
     "emailBody": "Dear Sneha,\n\nI hope this email finds you well.\n\nMy name is the Hiring Director at Tech Innovations Inc. We recently reviewed your application for the Digital Marketing Manager position, and we were incredibly impressed by your background. Your track record of driving a 4.2x blended ROAS at Bloomcart and scaling organic traffic by 65% YoY aligns perfectly with our upcoming growth initiatives.\n\nWe would love to invite you to a 45-minute technical and strategic interview to discuss your experience in more depth. This will also be a great opportunity for you to learn more about our team, our culture, and the impactful campaigns we have planned.\n\nWe would like to propose scheduling this session on Next Wednesday at 3:00 PM IST. If this time does not work for you, please let us know a few alternative slots that suit your availability next week.\n\nLooking forward to speaking with you soon!\n\nBest regards,\n\nSenior Technical Recruiter & Hiring Director\nTech Innovations Inc.",
     "emailSentAt": "2026-08-27T11:22:37.503Z",
     "createdAt": "2026-08-27T11:22:37.503Z",
     "updatedAt": "2026-08-27T11:22:37.503Z",
-    "source": "Gmail Attachment (5_Sneha_Verma_Digital_Marketing.docx)"
-  },
-  {
-    "id": "cand_auto_mtbdsu0r",
-    "name": "MANASVI PALIWAL",
-    "email": "manasvi60487.mbaib22@ipsacademy.org",
-    "phone": "N/A",
-    "role": "Digital Marketing Specialist",
-    "decision": "SELECTED",
-    "matchScore": 78,
-    "status": "HIRED",
-    "yearsOfExperience": "1-2 years",
-    "topSkills": [
-      "Technical SEO",
-      "Google Analytics 4 (GA4)",
-      "Google Tag Manager",
-      "Looker Studio",
-      "Content Strategy"
-    ],
-    "education": "MBA in Marketing, IPS Academy",
-    "strengths": [
-      "Proficiency with modern analytics and tracking tools (GA4, GTM, Looker Studio, Mixpanel)",
-      "Solid core capabilities in Technical SEO and on-page optimization",
-      "Relevant post-graduate education in Marketing"
-    ],
-    "areasForImprovement": [
-      "Include detailed campaign ROI metrics and specific project achievements in resume content",
-      "Ensure documentation and metadata match candidate profile details consistently"
-    ],
-    "evaluationSummary": "Manasvi brings a relevant academic background with an MBA in Marketing along with a tech-forward skill set crucial for modern digital marketing roles. The candidate highlights hands-on experience in Technical SEO, Google Analytics 4, Google Tag Manager, Looker Studio, and Mixpanel, which are key assets for data-driven campaign management and website optimization.\n\nOverall, the technical profile meets standard industry expectations for a Digital Marketing Specialist role focused on SEO and web analytics. We recommend advancing Manasvi to an interview round to assess hands-on execution experience and communication skills.",
-    "rejectionReason": null,
-    "interviewQuestions": [
-      "Can you explain your process for setting up event tracking and custom parameters using Google Tag Manager and GA4?",
-      "How do you conduct a technical SEO audit, and what key metrics do you prioritize when fixing site health issues?",
-      "Can you describe a Looker Studio or Mixpanel dashboard you created and how it influenced marketing decisions?",
-      "How do you align keyword research with content strategy to drive higher quality organic conversions?"
-    ],
-    "proposedInterviewDate": "Next Tuesday at 2:00 PM EST",
-    "interviewStatus": "🎉 Official Job Offer Dispatched",
-    "emailSubject": "🎉 Congratulations! Job Offer for Digital Marketing Specialist at Tech Innovations Inc.",
-    "emailBody": "Dear Manasvi,\n\nThank you for applying for the Digital Marketing Specialist position at Tech Innovations Inc. We have reviewed your application and are impressed by your background in Marketing as well as your strong skill set in Technical SEO, GA4, GTM, and Looker Studio.\n\nWe would like to invite you to an interview to discuss your qualifications further and learn more about your experience. Would you be available next Tuesday at 2:00 PM EST for a initial conversation?\n\nPlease let us know if this time works for you or provide a few alternative slots.\n\nBest regards,\n\nSenior Technical Recruiter & HR Director\nTech Innovations Inc.\nmanasvipaliwal317@gmail.com",
-    "emailSentAt": "2026-08-31T10:25:01.947Z",
-    "createdAt": "2026-08-27T10:30:06.075Z",
-    "updatedAt": "2026-08-31T10:24:55.612Z",
-    "source": "Gmail IMAP (Attachment: 5_Sneha_Verma_Digital_Marketing.docx)",
-    "interviewDate": "Next Tuesday at 2:00 PM EST",
-    "interviewTime": "2:30 PM - 3:15 PM IST (45 Mins)",
-    "meetingLink": "https://meet.google.com/nex-auto-meet",
-    "interviewerName": "Tech Innovations Hiring Panel",
-    "interviewRound": "Round 1: Marketing Strategy & Campaign Review",
-    "hrNotes": "",
-    "joiningDate": "Within 2-4 weeks",
-    "salaryOffer": "Competitive Market Rate"
+    "source": "Gmail Attachment (5_Sneha_Verma_Digital_Marketing.docx)",
+    "interviewDate": "Friday, September 4, 2026",
+    "joiningDate": "Monday, September 28, 2026"
   },
   {
     "id": "cand_mtbbuw2w_ulw5",
@@ -626,14 +693,16 @@
       "Describe your hands-on experience configuring AWS infrastructure and Docker containerization for automated deployment pipelines.",
       "As a Lead Engineer, how do you balance managing technical debt, conducting code reviews, and delivering feature roadmaps on time?"
     ],
-    "proposedInterviewDate": "Next Thursday at 2:00 PM EST",
+    "proposedInterviewDate": "Friday, September 4, 2026",
     "interviewStatus": "Invitation Sent - Awaiting Confirmation",
     "emailSubject": "Interview Invitation: Senior Full Stack Engineer Role at Tech Innovations Inc.",
     "emailBody": "Hi Marcus,\n\nThank you for submitting your application for the Senior Full Stack Engineer position at Tech Innovations Inc. We reviewed your resume and were thoroughly impressed with your lead engineering experience at CloudNexus, as well as your background from Carnegie Mellon.\n\nWe would love to invite you to an initial 45-minute video interview to discuss your technical expertise, project achievements, and how you might fit with our engineering team.\n\nWe have provisionally reserved Next Thursday at 2:00 PM EST for our conversation. Please let us know if this slot works for you or reply with a few alternative times that fit your schedule.\n\nLooking forward to speaking with you!\n\nBest regards,\n\nTech Innovations Inc. Hiring Team",
     "emailSentAt": "2026-08-27T09:35:42.824Z",
     "createdAt": "2026-08-27T09:35:42.824Z",
     "updatedAt": "2026-08-27T09:35:42.824Z",
-    "source": "Dashboard Text Submission"
+    "source": "Dashboard Text Submission",
+    "interviewDate": "Friday, September 4, 2026",
+    "joiningDate": "Monday, September 28, 2026"
   },
   {
     "id": "cand_mtbblvhx_ksxz",
@@ -670,14 +739,16 @@
       "Which AWS services did you primarily use for hosting and managing your Node.js microservices, and how did you configure CI/CD or monitoring?",
       "Describe a challenging bug or performance bottleneck you encountered in production and the step-by-step approach you took to resolve it."
     ],
-    "proposedInterviewDate": "Next Thursday at 2:00 PM EST",
+    "proposedInterviewDate": "Friday, September 4, 2026",
     "interviewStatus": "Invitation Sent - Awaiting Confirmation",
     "emailSubject": "Interview Invitation: Senior Full Stack Engineer at Tech Innovations Inc.",
     "emailBody": "Hi Samantha,\n\nThank you for applying for the Senior Full Stack Engineer role at Tech Innovations Inc. We reviewed your resume and were thoroughly impressed with your 5 years of experience with React, Node.js, TypeScript, and your work scaling microservices at FinTech Corp.\n\nWe would like to invite you to an initial interview with our engineering team to discuss your technical background and learn more about your past projects.\n\nWe have proposed an initial interview slot for Next Thursday at 2:00 PM EST. Please let us know if this time works for you, or feel free to share a few alternative times that fit your schedule.\n\nLooking forward to speaking with you!\n\nBest regards,\n\nHR Team\nTech Innovations Inc.\nmanasvipaliwal317@gmail.com",
     "emailSentAt": "2026-08-27T09:28:42.165Z",
     "createdAt": "2026-08-27T09:28:42.165Z",
     "updatedAt": "2026-08-27T09:28:42.165Z",
-    "source": "Dashboard Text Submission"
+    "source": "Dashboard Text Submission",
+    "interviewDate": "Friday, September 4, 2026",
+    "joiningDate": "Monday, September 28, 2026"
   },
   {
     "id": "cand_m89a1b2c_001",
@@ -715,14 +786,16 @@
       "Describe a scenario where you resolved a tricky frontend performance bottleneck in React (e.g. re-render cascades or bundle size).",
       "How do you approach code reviews to balance speed of delivery with high code quality?"
     ],
-    "proposedInterviewDate": "Tuesday, 2:00 PM EST (Google Meet)",
+    "proposedInterviewDate": "Friday, September 4, 2026",
     "interviewStatus": "Interview Scheduled - Technical Screen",
     "emailSubject": "Interview Invitation: Senior Full Stack Engineer Role",
     "emailBody": "Dear Sarah,\n\nThank you for applying for the Senior Full Stack Engineer position at our company. We thoroughly reviewed your resume and were incredibly impressed by your strong background in TypeScript, Node.js, and React, as well as your achievements scaling SaaS platforms.\n\nWe would love to invite you to a 45-minute technical interview with our engineering lead to discuss your previous projects and explore our roadmap together.\n\nProposed Slot: Tuesday at 2:00 PM EST (Google Meet)\n\nPlease let us know if this time works for you or reply with a couple of alternative times that suit your schedule.\n\nLooking forward to speaking with you!\n\nBest regards,\nManasvi Paliwal\nTalent Acquisition & Engineering Team",
     "emailSentAt": "2026-08-27T10:15:00.000Z",
     "createdAt": "2026-08-27T10:14:30.000Z",
     "updatedAt": "2026-08-27T10:15:00.000Z",
-    "source": "Gmail Email Attachment (resume_sarah_jenkins.pdf)"
+    "source": "Gmail Email Attachment (resume_sarah_jenkins.pdf)",
+    "interviewDate": "Friday, September 4, 2026",
+    "joiningDate": "Monday, September 28, 2026"
   },
   {
     "id": "cand_m89a1b2c_002",
@@ -759,14 +832,16 @@
       "Can you explain your strategy for state management between local component state and global store in Redux/Zustand?",
       "How do you ensure accessibility (a11y) standards are baked into custom UI components?"
     ],
-    "proposedInterviewDate": "Wednesday, 11:30 AM EST",
+    "proposedInterviewDate": "Friday, September 4, 2026",
     "interviewStatus": "Awaiting Candidate Confirmation",
     "emailSubject": "Interview Invitation: Frontend React Developer Role",
     "emailBody": "Hi Devin,\n\nThanks for submitting your resume for the Frontend React Developer opening. Our review team loved your project portfolio and your strong work with Next.js and Tailwind.\n\nWe would love to set up an introductory video interview this week to discuss your experience.\n\nProposed Time: Wednesday at 11:30 AM EST\n\nPlease let us know if that works or share your preferred availability.\n\nBest regards,\nManasvi Paliwal\nHR & Recruitment",
     "emailSentAt": "2026-08-27T11:00:00.000Z",
     "createdAt": "2026-08-27T10:59:00.000Z",
     "updatedAt": "2026-08-27T11:00:00.000Z",
-    "source": "Gmail Email Attachment (Devin_Reynolds_CV.pdf)"
+    "source": "Gmail Email Attachment (Devin_Reynolds_CV.pdf)",
+    "interviewDate": "Friday, September 4, 2026",
+    "joiningDate": "Monday, September 28, 2026"
   },
   {
     "id": "cand_m89a1b2c_003",
@@ -797,14 +872,16 @@
     "evaluationSummary": "Marcus has a solid background in B2B enterprise sales and customer outreach. However, the Senior Cloud Infrastructure Architect role requires at least 6+ years of deep distributed systems engineering, Infrastructure-as-Code (Terraform), and Kubernetes deployment architecture. Marcus does not meet the minimum technical prerequisites for this senior engineering position.",
     "rejectionReason": "Candidate's professional background is in enterprise sales without the required deep technical experience in cloud infrastructure, Kubernetes, and systems architecture.",
     "interviewQuestions": [],
-    "proposedInterviewDate": null,
+    "proposedInterviewDate": "Friday, September 4, 2026",
     "interviewStatus": "N/A",
     "emailSubject": "Application Status: Senior Cloud Infrastructure Architect",
     "emailBody": "Dear Marcus,\n\nThank you for your interest in the Senior Cloud Infrastructure Architect position with us.\n\nWhile we appreciate your background in enterprise sales and your enthusiasm for technology, this particular position requires extensive senior-level experience in distributed systems, Infrastructure as Code, and production cloud architecture. As such, we have decided not to move forward with your application at this time.\n\nWe encourage you to explore our upcoming openings in Technical Sales and Solutions Consulting, which may align much closer with your skill set.\n\nWe wish you all the best in your career pursuits.\n\nWarm regards,\nManasvi Paliwal\nRecruitment Team",
     "emailSentAt": "2026-08-27T11:30:00.000Z",
     "createdAt": "2026-08-27T11:29:00.000Z",
     "updatedAt": "2026-08-27T11:30:00.000Z",
-    "source": "Gmail Email Attachment (Marcus_Vance_Resume.docx)"
+    "source": "Gmail Email Attachment (Marcus_Vance_Resume.docx)",
+    "interviewDate": "Friday, September 4, 2026",
+    "joiningDate": "Monday, September 28, 2026"
   },
   {
     "id": "cand_m89a1b2c_004",
@@ -840,14 +917,16 @@
       "How do you compare LoRA vs full parameter fine-tuning for domain-specific LLMs in terms of GPU compute and latency?",
       "Walk us through your FastAPI service architecture for serving asynchronous streaming LLM responses."
     ],
-    "proposedInterviewDate": "Completed - Final Round Offer",
+    "proposedInterviewDate": "Friday, September 4, 2026",
     "interviewStatus": "Offer Extended ($145,000 / annum)",
     "emailSubject": "Formal Offer: AI / ML Engineer Position",
     "emailBody": "Dear Priya,\n\nFollowing your outstanding final interview with our team, we are thrilled to extend a formal offer for the AI / ML Engineer position!\n\nYour expertise in LLM architectures and RAG pipelines blew our team away, and we are eager to welcome you aboard.\n\nPlease find attached the official offer letter. We are happy to schedule a call to review the details and answer any questions.\n\nWarmest congratulations,\nManasvi Paliwal\nHead of Talent & Engineering",
     "emailSentAt": "2026-08-27T12:00:00.000Z",
     "createdAt": "2026-08-27T11:45:00.000Z",
     "updatedAt": "2026-08-27T12:00:00.000Z",
-    "source": "Gmail Email Attachment (Priya_Sharma_Resume.pdf)"
+    "source": "Gmail Email Attachment (Priya_Sharma_Resume.pdf)",
+    "interviewDate": "Friday, September 4, 2026",
+    "joiningDate": "Monday, September 28, 2026"
   },
   {
     "id": "cand_m89a1b2c_005",
@@ -878,13 +957,15 @@
     "evaluationSummary": "David is a skilled visual and WordPress designer. However, this opening requires high-throughput Go backend services, distributed systems, and low-latency concurrency programming. David's experience does not align with backend engineering requirements.",
     "rejectionReason": "Candidate does not have experience in Go (Golang), distributed systems, or backend engineering.",
     "interviewQuestions": [],
-    "proposedInterviewDate": null,
+    "proposedInterviewDate": "Friday, September 4, 2026",
     "interviewStatus": "N/A",
     "emailSubject": "Application Update: Backend Go Developer opening",
     "emailBody": "Hi David,\n\nThank you for applying for the Backend Go Developer opening at our company.\n\nAfter reviewing your application, we found that your background is centered primarily around Graphic Design and WordPress, whereas this position requires specialized experience in Go (Golang) microservices and distributed backend systems.\n\nConsequently, we won't be advancing your application for this opening. We will keep your portfolio on file should suitable UI/UX Design positions open up.\n\nThank you again for your time, and we wish you success with your search.\n\nSincerely,\nManasvi Paliwal\nRecruitment Team",
     "emailSentAt": "2026-08-27T12:30:00.000Z",
     "createdAt": "2026-08-27T12:28:00.000Z",
     "updatedAt": "2026-08-27T12:30:00.000Z",
-    "source": "Gmail Email Attachment (David_Cooper_Portfolio.pdf)"
+    "source": "Gmail Email Attachment (David_Cooper_Portfolio.pdf)",
+    "interviewDate": "Friday, September 4, 2026",
+    "joiningDate": "Monday, September 28, 2026"
   }
 ]

@@ -354,9 +354,84 @@ async function extractTextFromDoc(filePath, originalName) {
   }
 }
 
+// ----------------- CALENDAR & SCHEDULING DATE ENGINE ----------------- //
+
+// Helper: Formatted upcoming interview date string (Strictly business days in future)
+function getFormattedInterviewDate(daysAhead = 3, fromDate = new Date()) {
+  const d = new Date(fromDate);
+  let added = 0;
+  while (added < daysAhead) {
+    d.setDate(d.getDate() + 1);
+    // Skip Saturday (6) and Sunday (0)
+    if (d.getDay() !== 0 && d.getDay() !== 6) {
+      added++;
+    }
+  }
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  return d.toLocaleDateString('en-US', options);
+}
+
+// Helper: Formatted upcoming joining date string (Strictly after interview, aligned on a Monday)
+function getFormattedJoiningDate(weeksAhead = 3, fromInterviewDateStr = null) {
+  let baseDate = new Date();
+  if (fromInterviewDateStr) {
+    const parsed = new Date(fromInterviewDateStr);
+    if (!isNaN(parsed.getTime())) {
+      baseDate = parsed;
+    }
+  }
+  const d = new Date(baseDate);
+  d.setDate(d.getDate() + (weeksAhead * 7));
+  
+  // Align to Monday (standard cohort onboarding)
+  const day = d.getDay();
+  if (day === 0) d.setDate(d.getDate() + 1);
+  else if (day !== 1) d.setDate(d.getDate() + (8 - day));
+
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  return d.toLocaleDateString('en-US', options);
+}
+
+// Strict Date Validator & Sanitizer: Enforce that interview date is strictly in the future
+function validateAndSanitizeInterviewDate(proposedDateStr, fromDate = new Date()) {
+  const futureCalculated = getFormattedInterviewDate(3, fromDate);
+  if (!proposedDateStr || typeof proposedDateStr !== 'string') {
+    return futureCalculated;
+  }
+  
+  const parsed = new Date(proposedDateStr);
+  const today = new Date(fromDate);
+  today.setHours(0, 0, 0, 0);
+
+  // If unparseable or date is in the past (e.g. 2024 or 2025), return verified future date
+  if (isNaN(parsed.getTime()) || parsed < today) {
+    return futureCalculated;
+  }
+
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  return parsed.toLocaleDateString('en-US', options);
+}
+
+// Helper: Sanitize email body from any hallucinated past dates
+function sanitizeEmailBodyDates(bodyText, validInterviewDateStr) {
+  if (!bodyText) return '';
+  let sanitized = bodyText;
+  // Replace legacy years (2020-2025) or past date formats with the valid interview date
+  sanitized = sanitized.replace(/\b(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2},?\s+202[0-5]\b/gi, validInterviewDateStr);
+  sanitized = sanitized.replace(/\b\d{1,2}\s+(January|February|March|April|May|June|July|August|September|October|November|December),?\s+202[0-5]\b/gi, validInterviewDateStr);
+  sanitized = sanitized.replace(/\b202[0-5]-\d{2}-\d{2}\b/g, validInterviewDateStr);
+  return sanitized;
+}
+
 // Multi-Model Gemini Evaluator with Automatic Retry & Failover
 async function callGeminiEvaluation({ candidateName, candidateEmail, appliedRole, resumeText, emailBody, fileName }) {
   const { instructions: roleInstructions, activeRoles, roleNames } = buildRolePromptInstructions();
+
+  const nowObj = new Date();
+  const todayDateStr = nowObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  const currentYear = nowObj.getFullYear();
+  const defaultInterviewDate = getFormattedInterviewDate(3, nowObj);
+  const defaultJoiningDate = getFormattedJoiningDate(3, defaultInterviewDate);
 
   const systemInstruction = `
 You are an expert Senior Technical Recruiter & Hiring Director for ${appConfig.hrEmail} at ${appConfig.companyName}.
@@ -365,6 +440,14 @@ Carefully analyze the candidate's resume content, skills, experience, and applic
 ${roleInstructions}
 
 Candidate Target / Preferred Hint: "${appliedRole || 'Auto-Detect Best Active Open Role'}"
+
+⏰ REAL-TIME CALENDAR & SCHEDULING CONTEXT (STRICT ENFORCEMENT):
+1. TODAY'S APPLICATION DATE: Exactly "${todayDateStr}" (Current Year: ${currentYear}).
+2. The candidate is submitting their application TODAY (${todayDateStr}).
+3. PROPOSED INTERVIEW DATE: Must be scheduled strictly in the FUTURE. Set "proposedInterviewDate" to EXACTLY: "${defaultInterviewDate}".
+4. ESTIMATED JOINING DATE: Must be scheduled approximately 3 weeks after the interview. Set to: "${defaultJoiningDate}".
+5. STRICTLY PROHIBITED: NEVER generate or mention dates in past years (such as 2024 or 2025). Any reference to interview schedule or candidate application must reference ${currentYear} and the proposed date "${defaultInterviewDate}".
+6. In "emailBody", if decision is SELECTED, invite them specifically for "${defaultInterviewDate} at 2:30 PM - 3:15 PM IST".
 
 RETURN STRICT JSON ONLY (no markdown formatting, no code fences):
 {
@@ -382,9 +465,9 @@ RETURN STRICT JSON ONLY (no markdown formatting, no code fences):
   "evaluationSummary": "Comprehensive 2-3 paragraph professional recruiter assessment",
   "rejectionReason": "Specific constructive reason if REJECTED, otherwise null",
   "interviewQuestions": ["Question 1", "Question 2", "Question 3", "Question 4"],
-  "proposedInterviewDate": "Suggested upcoming date",
+  "proposedInterviewDate": "${defaultInterviewDate}",
   "emailSubject": "Personalized subject line for candidate",
-  "emailBody": "Personalized, warm and professional email message text (invitation if SELECTED, polite rejection if REJECTED)"
+  "emailBody": "Personalized, warm and professional email message text (invitation for ${defaultInterviewDate} if SELECTED, polite constructive rejection if REJECTED)"
 }
 `;
 
@@ -462,17 +545,6 @@ function generateGoogleMeetLink(seed = '') {
   const chars = (seed ? seed.toString().toLowerCase().replace(/[^a-z0-9]/g, '') : '') + Math.random().toString(36).substring(2, 11);
   const clean = chars.padEnd(10, 'x').substring(0, 10);
   return `https://meet.google.com/${clean.slice(0, 3)}-${clean.slice(3, 7)}-${clean.slice(7, 10)}`;
-}
-
-// Helper: Formatted upcoming interview date string
-function getFormattedInterviewDate(daysAhead = 3) {
-  const d = new Date();
-  d.setDate(d.getDate() + daysAhead);
-  // Skip weekends if falls on Saturday/Sunday
-  if (d.getDay() === 0) d.setDate(d.getDate() + 1);
-  if (d.getDay() === 6) d.setDate(d.getDate() + 2);
-  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  return d.toLocaleDateString('en-US', options);
 }
 
 // HTML Email Template: Professional Interview Invitation with Google Meet Button
@@ -609,7 +681,10 @@ function generateInterviewInviteTemplate({ candidate }) {
 function generateHiringOfferTemplate({ candidate, joiningDate, salaryOffer, customNotes }) {
   const candidateName = candidate.name || 'Candidate';
   const role = candidate.role || 'Full Stack Developer';
-  const startDate = joiningDate || candidate.joiningDate || 'Within 2-4 weeks (To be mutually confirmed)';
+  const calculatedJoining = getFormattedJoiningDate(3, candidate.interviewDate || candidate.proposedInterviewDate);
+  const startDate = (joiningDate && !joiningDate.includes('Within')) 
+    ? joiningDate 
+    : (candidate.joiningDate && !candidate.joiningDate.includes('Within') ? candidate.joiningDate : calculatedJoining);
   const compDetails = salaryOffer || candidate.salaryOffer || 'Competitive Compensation Package (As finalized during interview)';
 
   return `
@@ -919,12 +994,17 @@ async function processCandidateEmailRecord(parsed, uid) {
   const candId = 'cand_auto_' + Date.now().toString(36) + '_' + Math.random().toString(36).substring(2, 6);
   const meetingLink = generateGoogleMeetLink(candId);
   const matchedRole = evaluation.appliedRole || appliedRole;
-  const interviewDate = evaluation.proposedInterviewDate || getFormattedInterviewDate(3);
+
+  // Calculate verified, future-guaranteed interview & joining dates
+  const interviewDate = validateAndSanitizeInterviewDate(evaluation.proposedInterviewDate, new Date());
+  const joiningDate = getFormattedJoiningDate(3, interviewDate);
   const interviewTime = '2:30 PM - 3:15 PM IST (45 Minutes)';
   const interviewRound = (matchedRole.toLowerCase().includes('marketing'))
     ? 'Round 1: Marketing Strategy & Portfolio Review'
     : 'Round 1: Technical & System Architecture Deep-Dive';
   const interviewerName = `${appConfig.companyName} Technical Hiring Panel`;
+
+  const cleanEmailBody = sanitizeEmailBodyDates(evaluation.emailBody, interviewDate);
 
   const candidateRecord = {
     id: candId,
@@ -947,14 +1027,15 @@ async function processCandidateEmailRecord(parsed, uid) {
     proposedInterviewDate: interviewDate,
     interviewDate: interviewDate,
     interviewTime: interviewTime,
+    joiningDate: joiningDate,
     interviewRound: interviewRound,
     meetingLink: meetingLink,
     interviewerName: interviewerName,
-    interviewStatus: evaluation.decision === 'SELECTED' ? `Interview Invitation Dispatched (${meetingLink})` : 'N/A',
+    interviewStatus: evaluation.decision === 'SELECTED' ? `Interview Scheduled (${interviewDate})` : 'N/A',
     emailSubject: evaluation.decision === 'SELECTED' 
       ? `📅 Interview Invitation: ${evaluation.appliedRole || appliedRole} at ${appConfig.companyName}` 
-      : evaluation.emailSubject,
-    emailBody: evaluation.emailBody,
+      : (evaluation.emailSubject || `Application Update: ${evaluation.appliedRole || appliedRole}`),
+    emailBody: cleanEmailBody,
     emailSentAt: now,
     createdAt: now,
     updatedAt: now,
@@ -965,9 +1046,9 @@ async function processCandidateEmailRecord(parsed, uid) {
   if (appConfig.autoSendEmails && primarySenderEmail && primarySenderEmail.includes('@')) {
     if (evaluation.decision === 'SELECTED') {
       const inviteHtml = generateInterviewInviteTemplate({ candidate: candidateRecord });
-      await sendCandidateCustomEmail(primarySenderEmail, candidateRecord.emailSubject, inviteHtml, evaluation.emailBody);
+      await sendCandidateCustomEmail(primarySenderEmail, candidateRecord.emailSubject, inviteHtml, cleanEmailBody);
     } else {
-      await sendCandidateEmail(primarySenderEmail, candidateRecord.emailSubject, evaluation.emailBody);
+      await sendCandidateEmail(primarySenderEmail, candidateRecord.emailSubject, cleanEmailBody);
     }
   }
 
@@ -1269,12 +1350,17 @@ async function handleEvaluationRequest(req, res) {
     const candId = 'cand_' + Date.now().toString(36) + '_' + Math.random().toString(36).substring(2, 6);
     const meetingLink = generateGoogleMeetLink(candId);
     const targetRole = appliedRole || evaluation.appliedRole || 'Full Stack Developer';
-    const interviewDate = evaluation.proposedInterviewDate || getFormattedInterviewDate(3);
+
+    // Calculate verified, future-guaranteed interview & joining dates
+    const interviewDate = validateAndSanitizeInterviewDate(evaluation.proposedInterviewDate, new Date());
+    const joiningDate = getFormattedJoiningDate(3, interviewDate);
     const interviewTime = '2:30 PM - 3:15 PM IST (45 Minutes)';
     const interviewRound = (targetRole === 'Digital Marketing Specialist')
       ? 'Round 1: Marketing Strategy & Campaign Review'
       : 'Round 1: Technical & System Architecture Deep-Dive';
     const interviewerName = `${appConfig.companyName} Technical Hiring Panel`;
+
+    const cleanEmailBody = sanitizeEmailBodyDates(evaluation.emailBody, interviewDate);
 
     const candidateRecord = {
       id: candId,
@@ -1296,14 +1382,15 @@ async function handleEvaluationRequest(req, res) {
       proposedInterviewDate: interviewDate,
       interviewDate: interviewDate,
       interviewTime: interviewTime,
+      joiningDate: joiningDate,
       interviewRound: interviewRound,
       meetingLink: meetingLink,
       interviewerName: interviewerName,
-      interviewStatus: evaluation.decision === 'SELECTED' ? `Interview Invitation Dispatched (${meetingLink})` : 'N/A',
+      interviewStatus: evaluation.decision === 'SELECTED' ? `Interview Scheduled (${interviewDate})` : 'N/A',
       emailSubject: evaluation.decision === 'SELECTED' 
         ? `📅 Interview Invitation: ${targetRole} at ${appConfig.companyName}` 
         : (evaluation.emailSubject || `Application Update: ${targetRole}`),
-      emailBody: evaluation.emailBody,
+      emailBody: cleanEmailBody,
       emailSentAt: now,
       createdAt: now,
       updatedAt: now,
@@ -1313,9 +1400,9 @@ async function handleEvaluationRequest(req, res) {
     if (candidateEmail && candidateEmail.includes('@') && appConfig.autoSendEmails) {
       if (evaluation.decision === 'SELECTED') {
         const inviteHtml = generateInterviewInviteTemplate({ candidate: candidateRecord });
-        await sendCandidateCustomEmail(candidateEmail, candidateRecord.emailSubject, inviteHtml, evaluation.emailBody);
+        await sendCandidateCustomEmail(candidateEmail, candidateRecord.emailSubject, inviteHtml, cleanEmailBody);
       } else {
-        await sendCandidateEmail(candidateEmail, candidateRecord.emailSubject, evaluation.emailBody);
+        await sendCandidateEmail(candidateEmail, candidateRecord.emailSubject, cleanEmailBody);
       }
     }
 
@@ -1378,15 +1465,26 @@ async function handleCandidateStatusUpdate(req, res) {
     if (status) candidate.status = status;
     if (decision) candidate.decision = decision;
     if (matchScore !== undefined) candidate.matchScore = Number(matchScore);
-    if (interviewDate || proposedInterviewDate) candidate.proposedInterviewDate = interviewDate || proposedInterviewDate;
-    if (interviewDate) candidate.interviewDate = interviewDate;
+    
+    // Resolve and validate interview date
+    const resolvedInterviewDate = (interviewDate || proposedInterviewDate)
+      ? validateAndSanitizeInterviewDate(interviewDate || proposedInterviewDate)
+      : (candidate.interviewDate ? validateAndSanitizeInterviewDate(candidate.interviewDate) : getFormattedInterviewDate(3));
+    candidate.proposedInterviewDate = resolvedInterviewDate;
+    candidate.interviewDate = resolvedInterviewDate;
+
+    // Resolve and validate joining date
+    const resolvedJoiningDate = (joiningDate && !joiningDate.includes('Within'))
+      ? joiningDate
+      : (candidate.joiningDate && !candidate.joiningDate.includes('Within') ? candidate.joiningDate : getFormattedJoiningDate(3, resolvedInterviewDate));
+    candidate.joiningDate = resolvedJoiningDate;
+
     if (interviewTime) candidate.interviewTime = interviewTime;
     if (meetingLink) candidate.meetingLink = meetingLink;
     if (interviewerName) candidate.interviewerName = interviewerName;
     if (interviewRound) candidate.interviewRound = interviewRound;
     if (interviewStatus) candidate.interviewStatus = interviewStatus;
     if (hrNotes !== undefined) candidate.hrNotes = hrNotes;
-    if (joiningDate) candidate.joiningDate = joiningDate;
     if (salaryOffer) candidate.salaryOffer = salaryOffer;
 
     candidate.updatedAt = new Date().toISOString();
@@ -1401,7 +1499,7 @@ async function handleCandidateStatusUpdate(req, res) {
       const offerSubject = customEmailSubject || `🎉 Congratulations! Job Offer for ${candidate.role} at ${appConfig.companyName}`;
       const offerHtml = generateHiringOfferTemplate({
         candidate,
-        joiningDate: joiningDate || candidate.joiningDate || 'Within 2-4 weeks',
+        joiningDate: resolvedJoiningDate,
         salaryOffer: salaryOffer || candidate.salaryOffer || 'As discussed during the final interview round',
         customNotes: hrNotes || ''
       });
