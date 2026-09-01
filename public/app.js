@@ -1186,6 +1186,38 @@ function initScanner() {
   }
 }
 
+// Helper: Dynamic calendar calculation for future interview dates
+function formatFutureInterviewDate(daysAhead = 3, fromDate = new Date()) {
+  const d = new Date(fromDate);
+  let added = 0;
+  while (added < daysAhead) {
+    d.setDate(d.getDate() + 1);
+    if (d.getDay() !== 0 && d.getDay() !== 6) {
+      added++;
+    }
+  }
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  return d.toLocaleDateString('en-US', options);
+}
+
+// Helper: Dynamic calendar calculation for joining dates (3 weeks after interview on a Monday)
+function formatFutureJoiningDate(weeksAhead = 3, fromInterviewDateStr = null) {
+  let baseDate = new Date();
+  if (fromInterviewDateStr) {
+    const parsed = new Date(fromInterviewDateStr);
+    if (!isNaN(parsed.getTime())) {
+      baseDate = parsed;
+    }
+  }
+  const d = new Date(baseDate);
+  d.setDate(d.getDate() + (weeksAhead * 7));
+  const day = d.getDay();
+  if (day === 0) d.setDate(d.getDate() + 1);
+  else if (day !== 1) d.setDate(d.getDate() + (8 - day));
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  return d.toLocaleDateString('en-US', options);
+}
+
 // Modal Logic
 function initModal() {
   const modal = document.getElementById('candidate-modal');
@@ -1254,38 +1286,6 @@ function initModal() {
       });
     });
   }
-
-// Helper: Dynamic calendar calculation for future interview dates
-function formatFutureInterviewDate(daysAhead = 3, fromDate = new Date()) {
-  const d = new Date(fromDate);
-  let added = 0;
-  while (added < daysAhead) {
-    d.setDate(d.getDate() + 1);
-    if (d.getDay() !== 0 && d.getDay() !== 6) {
-      added++;
-    }
-  }
-  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  return d.toLocaleDateString('en-US', options);
-}
-
-// Helper: Dynamic calendar calculation for joining dates (3 weeks after interview on a Monday)
-function formatFutureJoiningDate(weeksAhead = 3, fromInterviewDateStr = null) {
-  let baseDate = new Date();
-  if (fromInterviewDateStr) {
-    const parsed = new Date(fromInterviewDateStr);
-    if (!isNaN(parsed.getTime())) {
-      baseDate = parsed;
-    }
-  }
-  const d = new Date(baseDate);
-  d.setDate(d.getDate() + (weeksAhead * 7));
-  const day = d.getDay();
-  if (day === 0) d.setDate(d.getDate() + 1);
-  else if (day !== 1) d.setDate(d.getDate() + (8 - day));
-  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  return d.toLocaleDateString('en-US', options);
-}
 
   // Dynamic Hiring Box Visibility & Auto-Joining Date on Status Change
   const updateStatusSelect = document.getElementById('modal-update-status');
@@ -1550,205 +1550,214 @@ async function deleteCandidate(id, name) {
 window.deleteCandidate = deleteCandidate;
 
 function openCandidateModal(cand) {
+  if (!cand) return;
   selectedCandidate = cand;
-  const isSelected = cand.decision === 'SELECTED';
-  const isHired = cand.status === 'HIRED' || cand.status === 'OFFER_EXTENDED';
-  const initials = (cand.name || 'Candidate').split(' ').filter(Boolean).map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'CD';
 
-  // Header Elements
-  const elAvatar = document.getElementById('modal-avatar');
-  if (elAvatar) elAvatar.textContent = initials;
+  try {
+    const isSelected = cand.decision === 'SELECTED';
+    const isHired = cand.status === 'HIRED' || cand.status === 'OFFER_EXTENDED';
+    const initials = (cand.name || 'Candidate').split(' ').filter(Boolean).map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'CD';
 
-  const elName = document.getElementById('modal-name');
-  if (elName) elName.textContent = cand.name;
+    // Header Elements
+    const elAvatar = document.getElementById('modal-avatar');
+    if (elAvatar) elAvatar.textContent = initials;
 
-  const elRoleMeta = document.getElementById('modal-role-meta');
-  if (elRoleMeta) elRoleMeta.textContent = `${cand.role} • ${cand.email || 'No email'} • ${cand.phone || 'No phone'}`;
+    const elName = document.getElementById('modal-name');
+    if (elName) elName.textContent = cand.name;
 
-  const decisionBadge = document.getElementById('modal-decision');
-  if (decisionBadge) {
-    decisionBadge.textContent = isSelected ? '✓ SELECTED' : '✕ REJECTED';
-    decisionBadge.className = `decision-badge ${isSelected ? 'selected' : 'rejected'}`;
-  }
+    const elRoleMeta = document.getElementById('modal-role-meta');
+    if (elRoleMeta) elRoleMeta.textContent = `${cand.role} • ${cand.email || 'No email'} • ${cand.phone || 'No phone'}`;
 
-  const statusBadge = document.getElementById('modal-status');
-  if (statusBadge) {
-    statusBadge.textContent = formatStatus(cand.status || 'APPLICATION_RECEIVED');
-    statusBadge.className = `status-badge status-${(cand.status || 'new').toLowerCase()}`;
-  }
-
-  // Score Radial Circle
-  const scoreCircle = document.getElementById('modal-score-circle');
-  if (scoreCircle) {
-    scoreCircle.className = `score-circle ${isSelected ? 'selected' : 'rejected'}`;
-    const elScoreNum = document.getElementById('modal-score-num');
-    if (elScoreNum) elScoreNum.textContent = cand.matchScore;
-  }
-
-  // Meta Info in Left Card
-  const elMetaRole = document.getElementById('modal-meta-role');
-  if (elMetaRole) elMetaRole.textContent = cand.role || 'Full Stack Developer';
-
-  const elExp = document.getElementById('modal-exp');
-  if (elExp) elExp.textContent = cand.yearsOfExperience || '1+ Years';
-
-  const elEdu = document.getElementById('modal-edu');
-  if (elEdu) elEdu.textContent = cand.education || 'Graduate';
-
-  const elSource = document.getElementById('modal-source');
-  if (elSource) elSource.textContent = cand.source || 'Direct Submission';
-
-  const elAppliedTime = document.getElementById('modal-applied-time');
-  if (elAppliedTime) elAppliedTime.textContent = cand.createdAt ? new Date(cand.createdAt).toLocaleString('en-US') : 'Today';
-
-  // Rejection Reason Box
-  const rejBox = document.getElementById('modal-rejection-reason-box');
-  const rejText = document.getElementById('modal-rejection-reason');
-  if (rejBox && rejText) {
-    if (!isSelected || cand.rejectionReason) {
-      rejBox.style.display = 'block';
-      rejText.textContent = cand.rejectionReason || 'Candidate qualifications did not meet the role requirements score threshold (≥70%).';
-    } else {
-      rejBox.style.display = 'none';
+    const decisionBadge = document.getElementById('modal-decision');
+    if (decisionBadge) {
+      decisionBadge.textContent = isSelected ? '✓ SELECTED' : '✕ REJECTED';
+      decisionBadge.className = `decision-badge ${isSelected ? 'selected' : 'rejected'}`;
     }
-  }
 
-  // AI Evaluation Summary
-  const elSummary = document.getElementById('modal-evaluation-summary');
-  if (elSummary) elSummary.textContent = cand.evaluationSummary || 'No evaluation summary recorded.';
-
-  // Strengths
-  const strengthsUl = document.getElementById('modal-strengths-list');
-  if (strengthsUl) {
-    strengthsUl.innerHTML = (cand.strengths || []).map(s => `<li>${escapeHtml(s)}</li>`).join('') || '<li>Domain proficiency and strong resume qualifications.</li>';
-  }
-
-  // Improvements
-  const improvementsUl = document.getElementById('modal-improvements-list');
-  if (improvementsUl) {
-    improvementsUl.innerHTML = (cand.areasForImprovement || []).map(s => `<li>${escapeHtml(s)}</li>`).join('') || '<li>None noted.</li>';
-  }
-
-  // Skills Tags
-  const skillsTags = document.getElementById('modal-skills-tags');
-  if (skillsTags) {
-    skillsTags.innerHTML = (cand.topSkills || []).map(s => `<span>${escapeHtml(s)}</span>`).join('') || '<span>General Skills</span>';
-  }
-
-  // Structured Editable Profile Inputs
-  const inputProfName = document.getElementById('modal-profile-name');
-  if (inputProfName) inputProfName.value = cand.name || '';
-
-  const inputProfEmail = document.getElementById('modal-profile-email');
-  if (inputProfEmail) inputProfEmail.value = cand.email || cand.resumeEmail || '';
-
-  const inputProfPhone = document.getElementById('modal-profile-phone');
-  if (inputProfPhone) inputProfPhone.value = cand.phone || '';
-
-  const inputProfLoc = document.getElementById('modal-profile-location');
-  if (inputProfLoc) inputProfLoc.value = cand.location || 'Bangalore, India';
-
-  const inputProfExp = document.getElementById('modal-profile-exp');
-  if (inputProfExp) inputProfExp.value = cand.yearsOfExperience || '2+ Years';
-
-  const inputProfEdu = document.getElementById('modal-profile-edu');
-  if (inputProfEdu) inputProfEdu.value = cand.education || 'B.Tech in Computer Science';
-
-  // Interview Schedule & Google Meet Fields
-  const defaultIntDate = formatFutureInterviewDate(3);
-  const interviewDateInput = document.getElementById('modal-interview-date');
-  if (interviewDateInput) {
-    interviewDateInput.value = cand.interviewDate || cand.proposedInterviewDate || defaultIntDate;
-  }
-
-  const interviewTimeInput = document.getElementById('modal-interview-time');
-  if (interviewTimeInput) {
-    interviewTimeInput.value = cand.interviewTime || '2:30 PM - 3:15 PM IST (45 Mins)';
-  }
-
-  const meetingLinkInput = document.getElementById('modal-meeting-link');
-  if (meetingLinkInput) {
-    meetingLinkInput.value = cand.meetingLink || `https://meet.google.com/nex-${(cand.id || 'abc').substring(5, 9)}-meet`;
-  }
-
-  const interviewRoundInput = document.getElementById('modal-interview-round');
-  if (interviewRoundInput) {
-    interviewRoundInput.value = cand.interviewRound || (cand.role && cand.role.includes('Marketing') 
-      ? 'Round 1: Marketing Strategy & Campaign Review' 
-      : 'Round 1: Technical & System Architecture');
-  }
-
-  const interviewerInput = document.getElementById('modal-interviewer');
-  if (interviewerInput) {
-    interviewerInput.value = cand.interviewerName || 'Tech Innovations Hiring Panel';
-  }
-
-  // Questions List
-  const questionsOl = document.getElementById('modal-interview-questions');
-  if (questionsOl) {
-    if (cand.interviewQuestions && cand.interviewQuestions.length > 0) {
-      questionsOl.innerHTML = cand.interviewQuestions.map(q => `<li>${escapeHtml(q)}</li>`).join('');
-    } else {
-      questionsOl.innerHTML = `<li>No interview questions generated (Candidate marked as ${cand.decision}).</li>`;
+    const statusBadge = document.getElementById('modal-status');
+    if (statusBadge) {
+      statusBadge.textContent = formatStatus(cand.status || 'APPLICATION_RECEIVED');
+      statusBadge.className = `status-badge status-${(cand.status || 'new').toLowerCase()}`;
     }
+
+    // Score Radial Circle
+    const scoreCircle = document.getElementById('modal-score-circle');
+    if (scoreCircle) {
+      scoreCircle.className = `score-circle ${isSelected ? 'selected' : 'rejected'}`;
+      const elScoreNum = document.getElementById('modal-score-num');
+      if (elScoreNum) elScoreNum.textContent = cand.matchScore;
+    }
+
+    // Meta Info in Left Card
+    const elMetaRole = document.getElementById('modal-meta-role');
+    if (elMetaRole) elMetaRole.textContent = cand.role || 'Full Stack Developer';
+
+    const elExp = document.getElementById('modal-exp');
+    if (elExp) elExp.textContent = cand.yearsOfExperience || '1+ Years';
+
+    const elEdu = document.getElementById('modal-edu');
+    if (elEdu) elEdu.textContent = cand.education || 'Graduate';
+
+    const elSource = document.getElementById('modal-source');
+    if (elSource) elSource.textContent = cand.source || 'Direct Submission';
+
+    const elAppliedTime = document.getElementById('modal-applied-time');
+    if (elAppliedTime) elAppliedTime.textContent = cand.createdAt ? new Date(cand.createdAt).toLocaleString('en-US') : 'Today';
+
+    // Rejection Reason Box
+    const rejBox = document.getElementById('modal-rejection-reason-box');
+    const rejText = document.getElementById('modal-rejection-reason');
+    if (rejBox && rejText) {
+      if (!isSelected || cand.rejectionReason) {
+        rejBox.style.display = 'block';
+        rejText.textContent = cand.rejectionReason || 'Candidate qualifications did not meet the role requirements score threshold (≥70%).';
+      } else {
+        rejBox.style.display = 'none';
+      }
+    }
+
+    // AI Evaluation Summary
+    const elSummary = document.getElementById('modal-evaluation-summary');
+    if (elSummary) elSummary.textContent = cand.evaluationSummary || 'No evaluation summary recorded.';
+
+    // Strengths
+    const strengthsUl = document.getElementById('modal-strengths-list');
+    if (strengthsUl) {
+      strengthsUl.innerHTML = (cand.strengths || []).map(s => `<li>${escapeHtml(s)}</li>`).join('') || '<li>Domain proficiency and strong resume qualifications.</li>';
+    }
+
+    // Improvements
+    const improvementsUl = document.getElementById('modal-improvements-list');
+    if (improvementsUl) {
+      improvementsUl.innerHTML = (cand.areasForImprovement || []).map(s => `<li>${escapeHtml(s)}</li>`).join('') || '<li>None noted.</li>';
+    }
+
+    // Skills Tags
+    const skillsTags = document.getElementById('modal-skills-tags');
+    if (skillsTags) {
+      skillsTags.innerHTML = (cand.topSkills || []).map(s => `<span>${escapeHtml(s)}</span>`).join('') || '<span>General Skills</span>';
+    }
+
+    // Structured Editable Profile Inputs
+    const inputProfName = document.getElementById('modal-profile-name');
+    if (inputProfName) inputProfName.value = cand.name || '';
+
+    const inputProfEmail = document.getElementById('modal-profile-email');
+    if (inputProfEmail) inputProfEmail.value = cand.email || cand.resumeEmail || '';
+
+    const inputProfPhone = document.getElementById('modal-profile-phone');
+    if (inputProfPhone) inputProfPhone.value = cand.phone || '';
+
+    const inputProfLoc = document.getElementById('modal-profile-location');
+    if (inputProfLoc) inputProfLoc.value = cand.location || 'Bangalore, India';
+
+    const inputProfExp = document.getElementById('modal-profile-exp');
+    if (inputProfExp) inputProfExp.value = cand.yearsOfExperience || '2+ Years';
+
+    const inputProfEdu = document.getElementById('modal-profile-edu');
+    if (inputProfEdu) inputProfEdu.value = cand.education || 'B.Tech in Computer Science';
+
+    // Interview Schedule & Google Meet Fields
+    const defaultIntDate = formatFutureInterviewDate(3);
+    const interviewDateInput = document.getElementById('modal-interview-date');
+    if (interviewDateInput) {
+      interviewDateInput.value = cand.interviewDate || cand.proposedInterviewDate || defaultIntDate;
+    }
+
+    const interviewTimeInput = document.getElementById('modal-interview-time');
+    if (interviewTimeInput) {
+      interviewTimeInput.value = cand.interviewTime || '2:30 PM - 3:15 PM IST (45 Mins)';
+    }
+
+    const meetingLinkInput = document.getElementById('modal-meeting-link');
+    if (meetingLinkInput) {
+      meetingLinkInput.value = cand.meetingLink || `https://meet.google.com/nex-${(cand.id || 'abc').substring(5, 9)}-meet`;
+    }
+
+    const interviewRoundInput = document.getElementById('modal-interview-round');
+    if (interviewRoundInput) {
+      interviewRoundInput.value = cand.interviewRound || (cand.role && cand.role.includes('Marketing') 
+        ? 'Round 1: Marketing Strategy & Campaign Review' 
+        : 'Round 1: Technical & System Architecture');
+    }
+
+    const interviewerInput = document.getElementById('modal-interviewer');
+    if (interviewerInput) {
+      interviewerInput.value = cand.interviewerName || 'Tech Innovations Hiring Panel';
+    }
+
+    // Questions List
+    const questionsOl = document.getElementById('modal-interview-questions');
+    if (questionsOl) {
+      if (cand.interviewQuestions && cand.interviewQuestions.length > 0) {
+        questionsOl.innerHTML = cand.interviewQuestions.map(q => `<li>${escapeHtml(q)}</li>`).join('');
+      } else {
+        questionsOl.innerHTML = `<li>No interview questions generated (Candidate marked as ${cand.decision}).</li>`;
+      }
+    }
+
+    // Status & Role Form Fields
+    const updateStatusSelect = document.getElementById('modal-update-status');
+    if (updateStatusSelect) updateStatusSelect.value = cand.status || 'INTERVIEW_SCHEDULED';
+
+    const updateRoleSelect = document.getElementById('modal-update-role');
+    if (updateRoleSelect) updateRoleSelect.value = cand.role || 'Full Stack Developer';
+
+    // Hiring Offer Fields (Work Mode, Location, Joining Date, CTC)
+    const hiringBox = document.getElementById('modal-hiring-box');
+    if (hiringBox) {
+      hiringBox.style.display = isHired ? 'block' : 'none';
+    }
+
+    const joiningDateInput = document.getElementById('modal-joining-date');
+    if (joiningDateInput) {
+      joiningDateInput.value = (cand.joiningDate && !cand.joiningDate.includes('Within')) 
+        ? cand.joiningDate 
+        : formatFutureJoiningDate(3, interviewDateInput?.value || defaultIntDate);
+    }
+
+    const salaryOfferInput = document.getElementById('modal-salary-offer');
+    if (salaryOfferInput) salaryOfferInput.value = cand.salaryOffer || 'Competitive Market Rate (₹18 LPA - ₹24 LPA)';
+
+    const workModeSelect = document.getElementById('modal-work-mode');
+    if (workModeSelect) {
+      workModeSelect.value = cand.workMode || 'Hybrid (3 Days Office / 2 Days Remote)';
+    }
+
+    const workLocationInput = document.getElementById('modal-work-location');
+    if (workLocationInput) {
+      workLocationInput.value = cand.workLocation || 'Tech Innovations Campus, Cyber City, Bangalore';
+    }
+
+    const empTypeSelect = document.getElementById('modal-employment-type');
+    if (empTypeSelect) {
+      empTypeSelect.value = cand.employmentType || 'Full-Time Permanent';
+    }
+
+    const deptInput = document.getElementById('modal-department');
+    if (deptInput) {
+      deptInput.value = cand.department || (cand.role && cand.role.toLowerCase().includes('marketing') ? 'Growth & Digital Marketing' : 'Core Engineering & Technology');
+    }
+
+    const hrNotesInput = document.getElementById('modal-hr-notes');
+    if (hrNotesInput) hrNotesInput.value = cand.hrNotes || '';
+
+    // Email Preview
+    const emailSubj = document.getElementById('modal-email-subject');
+    if (emailSubj) emailSubj.textContent = cand.emailSubject || 'N/A';
+
+    const emailBody = document.getElementById('modal-email-body');
+    if (emailBody) emailBody.textContent = cand.emailBody || 'No email generated.';
+  } catch (err) {
+    console.error('Error populating candidate modal:', err);
   }
-
-  // Status & Role Form Fields
-  const updateStatusSelect = document.getElementById('modal-update-status');
-  if (updateStatusSelect) updateStatusSelect.value = cand.status || 'INTERVIEW_SCHEDULED';
-
-  const updateRoleSelect = document.getElementById('modal-update-role');
-  if (updateRoleSelect) updateRoleSelect.value = cand.role || 'Full Stack Developer';
-
-  // Hiring Offer Fields (Work Mode, Location, Joining Date, CTC)
-  const hiringBox = document.getElementById('modal-hiring-box');
-  if (hiringBox) {
-    hiringBox.style.display = isHired ? 'block' : 'none';
-  }
-
-  const joiningDateInput = document.getElementById('modal-joining-date');
-  if (joiningDateInput) {
-    joiningDateInput.value = (cand.joiningDate && !cand.joiningDate.includes('Within')) 
-      ? cand.joiningDate 
-      : formatFutureJoiningDate(3, interviewDateInput?.value || defaultIntDate);
-  }
-
-  const salaryOfferInput = document.getElementById('modal-salary-offer');
-  if (salaryOfferInput) salaryOfferInput.value = cand.salaryOffer || 'Competitive Market Rate (₹18 LPA - ₹24 LPA)';
-
-  const workModeSelect = document.getElementById('modal-work-mode');
-  if (workModeSelect) {
-    workModeSelect.value = cand.workMode || 'Hybrid (3 Days Office / 2 Days Remote)';
-  }
-
-  const workLocationInput = document.getElementById('modal-work-location');
-  if (workLocationInput) {
-    workLocationInput.value = cand.workLocation || 'Tech Innovations Campus, Cyber City, Bangalore';
-  }
-
-  const empTypeSelect = document.getElementById('modal-employment-type');
-  if (empTypeSelect) {
-    empTypeSelect.value = cand.employmentType || 'Full-Time Permanent';
-  }
-
-  const deptInput = document.getElementById('modal-department');
-  if (deptInput) {
-    deptInput.value = cand.department || (cand.role && cand.role.toLowerCase().includes('marketing') ? 'Growth & Digital Marketing' : 'Core Engineering & Technology');
-  }
-
-  const hrNotesInput = document.getElementById('modal-hr-notes');
-  if (hrNotesInput) hrNotesInput.value = cand.hrNotes || '';
-
-  // Email Preview
-  const emailSubj = document.getElementById('modal-email-subject');
-  if (emailSubj) emailSubj.textContent = cand.emailSubject || 'N/A';
-
-  const emailBody = document.getElementById('modal-email-body');
-  if (emailBody) emailBody.textContent = cand.emailBody || 'No email generated.';
 
   const modal = document.getElementById('candidate-modal');
-  if (modal) modal.style.display = 'flex';
+  if (modal) {
+    modal.style.display = 'flex';
+  }
 }
+window.openCandidateModal = openCandidateModal;
 
 // Settings Logic
 function initSettings() {
