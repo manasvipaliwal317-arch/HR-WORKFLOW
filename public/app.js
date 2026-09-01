@@ -638,7 +638,7 @@ function renderCandidates(candidates) {
     `;
     tbody.innerHTML = `
       <tr>
-        <td colspan="8" style="text-align:center; padding: 2rem; color: var(--text-secondary);">
+        <td colspan="9" style="text-align:center; padding: 2rem; color: var(--text-secondary);">
           No candidates found for selected filters.
         </td>
       </tr>
@@ -731,7 +731,7 @@ function renderCandidates(candidates) {
       tableDateBadge = `<span class="date-badge-interview">📅 Interview: <strong>${escapeHtml(intDate)}</strong></span>`;
     }
 
-    // Table View
+    // Table View: Candidate | Applied On | Target Role | AI Score | Top Skills | Decision | Pipeline Status | Interview/Joining Date | Actions
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>
@@ -739,23 +739,25 @@ function renderCandidates(candidates) {
         <small style="color:var(--text-muted);">${escapeHtml(cand.email)}</small>
       </td>
       <td>
-        <div>${escapeHtml(cand.role)}</div>
+        <span style="color:var(--text-secondary); font-size:0.85rem; font-weight:500;">${dateStr}</span>
+      </td>
+      <td>
+        <div style="font-weight:600;">${escapeHtml(cand.role)}</div>
         <small style="color:var(--text-secondary); font-size:0.75rem;">${escapeHtml(cand.workMode || 'Hybrid')}</small>
+      </td>
+      <td>
+        <strong style="color: ${cand.matchScore >= 70 ? 'var(--success-text)' : 'var(--danger-text)'}; font-size:0.95rem;">${cand.matchScore}%</strong>
+      </td>
+      <td>
+        ${(cand.topSkills || []).slice(0, 3).map(s => `<span class="skill-pill">${escapeHtml(s)}</span>`).join(' ')}
       </td>
       <td>
         <span class="badge-decision ${isSelected ? 'selected' : 'rejected'}">
           ${cand.decision}
         </span>
       </td>
-      <td>
-        <strong style="color: ${cand.matchScore >= 70 ? 'var(--success-text)' : 'var(--danger-text)'}">${cand.matchScore}%</strong>
-      </td>
       <td><span class="badge-status">${formatStatus(cand.status)}</span></td>
       <td>${tableDateBadge}</td>
-      <td>
-        ${(cand.topSkills || []).slice(0, 3).map(s => `<span class="skill-pill">${escapeHtml(s)}</span>`).join(' ')}
-      </td>
-      <td>${dateStr}</td>
       <td>
         <div class="table-actions-cell">
           <button class="btn-secondary" style="padding:0.3rem 0.6rem; font-size:0.75rem;" onclick="event.stopPropagation(); openCandidateModalById('${cand.id}')">Inspect</button>
