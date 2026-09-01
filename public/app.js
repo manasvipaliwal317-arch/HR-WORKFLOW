@@ -143,7 +143,7 @@ function initRealtimeScanner() {
       btnScan.disabled = true;
       btnScan.innerHTML = `🔄 Scanning...`;
       try {
-        const res = await fetch('/api/scan-inbox', { method: 'POST' });
+        const res = await fetch('/api/scan-inbox', { method: 'POST', cache: 'no-store' });
         const data = await res.json();
         showToast(data.message || 'Scanning INBOX for candidate resumes...', 'info');
         setTimeout(() => {
@@ -151,7 +151,7 @@ function initRealtimeScanner() {
           loadStats();
           btnScan.disabled = false;
           btnScan.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> Scan Mail Now`;
-        }, 3000);
+        }, 2000);
       } catch (err) {
         btnScan.disabled = false;
         btnScan.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> Scan Mail Now`;
@@ -159,48 +159,183 @@ function initRealtimeScanner() {
     });
   }
 
-  // Server-Sent Events (SSE) for instant push
-  if (window.EventSource) {
-    try {
-      const sse = new EventSource('/api/live-events');
-      sse.addEventListener('candidate_added', (e) => {
-        try {
-          const data = JSON.parse(e.data);
-          if (data && data.candidate) {
-            showToast(`⚡ New Resume Scanned: ${data.candidate.name} (${data.candidate.role}) • ${data.candidate.decision} (${data.candidate.matchScore}%)`, data.candidate.decision === 'SELECTED' ? 'success' : 'info');
-            loadCandidates();
-            loadStats();
-          }
-        } catch (err) {}
-      });
-      sse.addEventListener('candidate_updated', () => { loadCandidates(); loadStats(); });
-      sse.addEventListener('candidate_deleted', () => { loadCandidates(); loadStats(); });
-    } catch (e) {
-      console.warn("SSE not available, relying on background poller");
-    }
-  }
+  // Server-Sent Events (SSE) for instant live push
+  initSSE();
 
-  // Background auto-refresh every 4s
+  // Background auto-refresh every 2.5s to ensure zero stale state
   setInterval(() => {
     loadCandidatesSilently();
     updateScannerTelemetry();
-  }, 4000);
+  }, 2500);
 }
 
-// Silent poller that preserves active user filter selections
+// Live SSE Stream Connector with Automatic Reconnection
+let liveEventSource = null;
+let sseReconnectTimer = null;
+
+function initSSE() {
+  if (!window.EventSource) {
+    console.warn("EventSource not supported by browser, falling back to high-frequency polling");
+    return;
+  }
+
+  if (liveEventSource) {
+    try { liveEventSource.close(); } catch(e) {}
+  }
+
+  try {
+    liveEventSource = new EventSource('/api/live-events');
+
+    liveEventSource.onopen = () => {
+      const badge = document.getElementById('scanner-last-sync');
+      if (badge) badge.innerHTML = `⚡ Live Stream Connected (Every 5s)`;
+    };
+
+    liveEventSource.addEventListener('candidate_added', (e) => {
+      try {
+        const data = JSON.parse(e.data);
+        if (data && data.candidate) {
+          handleLiveCandidateArrival(data.candidate);
+        } else {
+          loadCandidates();
+          loadStats();
+        }
+      } catch (err) {
+        console.error('SSE parse error:', err);
+        loadCandidates();
+      }
+    });
+
+    liveEventSource.addEventListener('candidate_updated', (e) => {
+      try {
+        const data = JSON.parse(e.data);
+        if (data && data.candidate) {
+          handleLiveCandidateArrival(data.candidate);
+        }
+      } catch(err) {}
+      loadCandidates();
+      loadStats();
+    });
+
+    liveEventSource.addEventListener('candidate_deleted', () => {
+      loadCandidates();
+      loadStats();
+    });
+
+    liveEventSource.addEventListener('job_roles_updated', () => {
+      loadJobRoles();
+    });
+
+    liveEventSource.onerror = () => {
+      try { liveEventSource.close(); } catch(e) {}
+      clearTimeout(sseReconnectTimer);
+      sseReconnectTimer = setTimeout(initSSE, 3000);
+    };
+  } catch (e) {
+    console.warn("SSE init error, using poller:", e);
+  }
+}
+
+// Instant Live Candidate Dispatcher: Immediate in-memory injection & instant UI re-render
+function handleLiveCandidateArrival(cand) {
+  if (!cand) return;
+
+  const existingIdx = allCandidates.findIndex(c => 
+    c.id === cand.id || 
+    (c.email && cand.email && c.email.toLowerCase() === cand.email.toLowerCase() && c.role === cand.role) ||
+    (c.name && cand.name && c.name.toLowerCase() === cand.name.toLowerCase() && c.role === cand.role)
+  );
+
+  if (existingIdx >= 0) {
+    allCandidates[existingIdx] = cand;
+  } else {
+    allCandidates.unshift(cand);
+  }
+
+  // Update all UI components instantly without network delay
+  updateMetrics(allCandidates);
+  updateRoleDropdown(allCandidates);
+  applyFilters();
+  renderEmailLogs();
+  loadStats();
+
+  const isSelected = cand.decision === 'SELECTED';
+  const statusHtml = isSelected
+    ? `<span style="color:#10b981;font-weight:700;">SELECTED (Interview Invite Dispatched)</span>`
+    : `<span style="color:#ef4444;font-weight:700;">REJECTED (Constructive Feedback Sent)</span>`;
+
+  showToast(`
+    <div style="text-align:left;">
+      <div style="font-weight:700;font-size:0.95rem;margin-bottom:2px;">⚡ Live Email Resume Processed</div>
+      <div><strong>${escapeHtml(cand.name)}</strong> (${escapeHtml(cand.role)}) — <strong>${cand.matchScore}% Match</strong></div>
+      <div>Status: ${statusHtml}</div>
+    </div>
+  `, isSelected ? 'success' : 'info');
+
+  // Flash highlight newly arrived card
+  setTimeout(() => {
+    const firstCard = document.querySelector('.candidate-card');
+    if (firstCard) {
+      firstCard.classList.add('flash-highlight');
+      setTimeout(() => firstCard.classList.remove('flash-highlight'), 3500);
+    }
+  }, 50);
+
+  // Subtle audio chime
+  try { playChime(isSelected); } catch (e) {}
+
+  // Follow-up background sync
+  loadCandidates();
+  loadStats();
+}
+
+function playChime(isSuccess) {
+  try {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) return;
+    const ctx = new AudioContext();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    if (isSuccess) {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
+      osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.1); // E5
+      osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.2); // G5
+      gain.gain.setValueAtTime(0.08, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.4);
+    } else {
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(440, ctx.currentTime); // A4
+      osc.frequency.setValueAtTime(349.23, ctx.currentTime + 0.12); // F4
+      gain.gain.setValueAtTime(0.06, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.35);
+    }
+  } catch (e) {}
+}
+
+// Silent poller that preserves active user filter selections with deep fingerprinting
 async function loadCandidatesSilently() {
   try {
-    const res = await fetch('/api/candidates');
+    const res = await fetch('/api/candidates', { cache: 'no-store' });
     const data = await res.json();
     if (data.success && Array.isArray(data.candidates)) {
-      const isDifferent = data.candidates.length !== allCandidates.length || 
-        JSON.stringify(data.candidates.map(c => c.id + '_' + c.updatedAt)) !== JSON.stringify(allCandidates.map(c => c.id + '_' + c.updatedAt));
+      const newFingerprint = data.candidates.map(c => `${c.id}_${c.decision}_${c.status}_${c.matchScore}_${c.updatedAt || c.createdAt}`).join('|');
+      const oldFingerprint = allCandidates.map(c => `${c.id}_${c.decision}_${c.status}_${c.matchScore}_${c.updatedAt || c.createdAt}`).join('|');
       
-      if (isDifferent) {
+      if (newFingerprint !== oldFingerprint || data.candidates.length !== allCandidates.length) {
         allCandidates = data.candidates;
         updateMetrics(allCandidates);
         updateRoleDropdown(allCandidates);
         applyFilters();
+        renderEmailLogs();
+        loadStats();
       }
     }
   } catch (e) {}
@@ -208,7 +343,7 @@ async function loadCandidatesSilently() {
 
 async function updateScannerTelemetry() {
   try {
-    const res = await fetch('/api/scanner-status');
+    const res = await fetch('/api/scanner-status', { cache: 'no-store' });
     const data = await res.json();
     if (data.success && data.stats) {
       const badgeSync = document.getElementById('scanner-last-sync');
@@ -290,13 +425,14 @@ function setViewMode(mode) {
 // Load Candidates from API
 async function loadCandidates() {
   try {
-    const res = await fetch('/api/candidates');
+    const res = await fetch('/api/candidates', { cache: 'no-store' });
     const data = await res.json();
     if (data.success && Array.isArray(data.candidates)) {
       allCandidates = data.candidates;
       updateMetrics(allCandidates);
       updateRoleDropdown(allCandidates);
       applyFilters();
+      renderEmailLogs();
     }
   } catch (e) {
     console.error('Failed to load candidates:', e);
@@ -586,7 +722,7 @@ function updateMetrics(candidates) {
 // Load KPI Stats from Backend
 async function loadStats() {
   try {
-    const res = await fetch('/api/analytics');
+    const res = await fetch('/api/analytics', { cache: 'no-store' });
     const data = await res.json();
     if (data.success) {
       const elTotal = document.getElementById('metric-total');

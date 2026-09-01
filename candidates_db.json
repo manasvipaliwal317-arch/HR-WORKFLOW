@@ -1,5 +1,188 @@
 [
   {
+    "id": "cand_auto_mti9punp_itkm",
+    "name": "Khushi Jain",
+    "email": "Khushijain12@email.com",
+    "phone": "+91 98111 22334",
+    "role": "Digital Marketing Specialist",
+    "decision": "SELECTED",
+    "matchScore": 95,
+    "status": "INTERVIEW_SCHEDULED",
+    "yearsOfExperience": "5 years",
+    "topSkills": [
+      "SEO",
+      "Google Ads",
+      "Meta Ads Manager",
+      "Google Analytics 4 (GA4)",
+      "Conversion Rate Optimization"
+    ],
+    "education": "MBA in Marketing — Narsee Monjee Institute of Management Studies (NMIMS)",
+    "strengths": [
+      "Proven track record of driving excellent performance marketing results, managing an 18-lakh monthly budget and improving ROAS from 2.8x to 4.2x.",
+      "Comprehensive background in both paid acquisition channels (Google, Meta, LinkedIn Ads) and organic growth strategies (65% YoY SEO organic search growth).",
+      "Strong analytics proficiency using tools like GA4, Google Tag Manager, Looker Studio, and Mixpanel to drive data-led CRO experiments."
+    ],
+    "areasForImprovement": [
+      "Could benefit from acquiring advanced programming skills, such as using Python for automated SEO tasks or GA4 API data extraction.",
+      "Experience is heavily focused on Indian market dynamics; could expand performance-marketing budget scales to broader, global SaaS campaigns."
+    ],
+    "evaluationSummary": "Khushi Jain is an exceptionally strong candidate who perfectly fits the Digital Marketing Specialist role. With 5 years of robust marketing experience across top-tier D2C and SaaS brands, she demonstrates rare proficiency in balancing both paid media acquisition and organic SEO growth. She is highly data-driven, capable of implementing systematic conversion rate optimization (CRO) methodologies, and has hands-on experience managing substantial marketing budgets.\n\nHer academic credentials from NMIMS and certifications in Google and Meta ads further reinforce her theoretical grounding. Khushi's leadership of a 3-person team demonstrates maturity and readiness to immediately take charge of campaigns. She will be an invaluable asset to Tech Innovations Inc.'s growth and marketing initiatives.",
+    "rejectionReason": null,
+    "interviewQuestions": [
+      "Can you walk us through how you structured your ₹18 lakh monthly ad budget across Google and Meta, and how you managed cross-channel attribution?",
+      "You drove a 65% YoY organic traffic increase at Bloomcart. What did your technical SEO overhaul entail, and how did you prioritize tasks?",
+      "Describe a complex conversion tracking setup you implemented using GA4 and Google Tag Manager. How did you validate that your data was clean?",
+      "What is your approach to designing a high-converting landing page A/B test? Share an example of a hypothesis you formulated that led to a significant conversion lift.",
+      "How do you stay updated with continuous changes in privacy regulations and cookie deprecation, and how does this affect your campaign optimization strategy?"
+    ],
+    "proposedInterviewDate": "November 14, 2024 at 11:30 AM IST",
+    "interviewDate": "November 14, 2024 at 11:30 AM IST",
+    "interviewTime": "2:30 PM - 3:15 PM IST (45 Minutes)",
+    "interviewRound": "Round 1: Marketing Strategy & Portfolio Review",
+    "meetingLink": "https://meet.google.com/can-daut-omt",
+    "interviewerName": "Tech Innovations Inc. Technical Hiring Panel",
+    "interviewStatus": "Interview Invitation Dispatched (https://meet.google.com/can-daut-omt)",
+    "emailSubject": "📅 Interview Invitation: Digital Marketing Specialist at Tech Innovations Inc.",
+    "emailBody": "Dear Khushi,\n\nThank you for applying for the Digital Marketing Specialist position at Tech Innovations Inc.\n\nWe thoroughly reviewed your resume and cover letter, and we are highly impressed by your 5 years of rich experience across both performance marketing and technical SEO. Your success in scaling organic traffic by 65% and driving a blended 4.2x ROAS on high-volume budgets perfectly aligns with our growth and performance marketing objectives.\n\nWe would love to invite you to an initial technical interview with our Growth & Marketing team to discuss your background in detail and explore how your skills fit our roadmap.\n\nWe would like to propose the following time slot for our conversation:\n- Date: November 14, 2024\n- Time: 11:30 AM IST\n\nPlease let us know if this schedule works for you, or if we should suggest an alternative time. We look forward to speaking with you!\n\nBest regards,\n\nManasvi Paliwal\nSenior Technical Recruiter & Hiring Director\nTech Innovations Inc.\nmanasvipaliwal317@gmail.com",
+    "emailSentAt": "2026-09-01T06:10:11.701Z",
+    "createdAt": "2026-09-01T06:10:11.701Z",
+    "updatedAt": "2026-09-01T06:10:11.701Z",
+    "source": "Gmail IMAP (Khushi Jain Resume.docx)"
+  },
+  {
+    "id": "cand_auto_mti997jq_99ue",
+    "name": "Rohan Sharma",
+    "email": "paliwalrishu2000@gmail.com",
+    "phone": "+91-98XXXXXXXX",
+    "role": "Full Stack Developer",
+    "decision": "REJECTED",
+    "matchScore": 55,
+    "status": "REJECTED",
+    "yearsOfExperience": "2 years",
+    "topSkills": [
+      "React.js",
+      "JavaScript (ES6+)",
+      "REST APIs",
+      "Git",
+      "Responsive Web Design"
+    ],
+    "education": "Bachelor of Technology (B.Tech.) in Computer Science & Engineering, Gujarat Technological University",
+    "strengths": [
+      "Strong frontend development capabilities with React.js and modern JavaScript (ES6+)",
+      "Proven track record of building highly responsive UIs and converting design layouts into interactive code",
+      "Hands-on experience with REST API integration using Axios and state management via Context API"
+    ],
+    "areasForImprovement": [
+      "Lacks backend development skills required for the role, specifically Node.js and Express",
+      "No demonstrated database experience with PostgreSQL or other relational databases",
+      "Missing experience in end-to-end system architecture design"
+    ],
+    "evaluationSummary": "Rohan Sharma is an accomplished Frontend Developer with 2+ years of professional experience, showcasing strong expertise in React.js, JavaScript, and responsive UI design. His work at WebCraft Technologies and PixelSoft Solutions highlights a strong ability to build robust, modular frontend applications, integrate REST APIs, and optimize UI performance. His projects, such as the Fintech Digital Payment Dashboard, further validate his capabilities in handling client-side state and navigation.\n\nHowever, the Full Stack Developer position at Tech Innovations Inc. requires a robust set of backend and system architecture skills, including mandatory professional experience with Node.js, Express, and PostgreSQL. Because Rohan's expertise is strictly focused on frontend technologies, he does not meet the key criteria required to successfully execute this full-stack role. Consequently, we cannot move forward with his application at this stage.",
+    "rejectionReason": "Our Full Stack Developer role strictly requires a minimum of 2+ years of experience with backend architectures, specifically Node.js, Express, and PostgreSQL, which are currently missing from your purely frontend-focused resume.",
+    "interviewQuestions": [],
+    "proposedInterviewDate": "Friday, September 4, 2026",
+    "interviewDate": "Friday, September 4, 2026",
+    "interviewTime": "2:30 PM - 3:15 PM IST (45 Minutes)",
+    "interviewRound": "Round 1: Technical & System Architecture Deep-Dive",
+    "meetingLink": "https://meet.google.com/can-daut-omt",
+    "interviewerName": "Tech Innovations Inc. Technical Hiring Panel",
+    "interviewStatus": "N/A",
+    "emailSubject": "Application Update - Full Stack Developer at Tech Innovations Inc.",
+    "emailBody": "Dear Rohan,\n\nThank you for applying for the Full Stack Developer position at Tech Innovations Inc. We sincerely appreciate the time and effort you put into submitting your application.\n\nOur team was highly impressed by your strong frontend credentials, particularly your expertise in React.js, responsive web design, and REST API integration. However, our current Full Stack Developer role requires extensive hands-on experience in backend technologies such as Node.js, Express, and PostgreSQL, along with system architecture design. Because your background is purely focused on frontend development, we are unable to move forward with your candidacy at this time.\n\nPlease note that our active openings are currently limited to: 'Full Stack Developer' (requiring deep backend knowledge), 'Digital Marketing Specialist', and 'AI Solutions Architect'. We will keep your resume in our talent database and will reach out to you immediately should a dedicated Frontend Developer position matching your exact skillset become available.\n\nWe wish you the very best of luck in your job search and your future professional endeavors.\n\nWarm regards,\n\nSenior Technical Recruiter\nTech Innovations Inc.",
+    "emailSentAt": "2026-09-01T05:57:15.254Z",
+    "createdAt": "2026-09-01T05:57:15.254Z",
+    "updatedAt": "2026-09-01T05:57:15.254Z",
+    "source": "Gmail IMAP (Frontend_Developer_1_3_Years_Resume.pdf)"
+  },
+  {
+    "id": "cand_auto_mti8zu3s_jnuf",
+    "name": "Manasvi Paliwal",
+    "email": "manasvi60487.mbaib22@ipsacademy.org",
+    "phone": "9109933353",
+    "role": "Full Stack Developer",
+    "decision": "REJECTED",
+    "matchScore": 5,
+    "status": "REJECTED",
+    "yearsOfExperience": "Fresher",
+    "topSkills": [
+      "Coordination",
+      "Typing",
+      "Multitasking Abilities",
+      "Time Management",
+      "Active Listening"
+    ],
+    "education": "MBA in International Business, IPS Academy, Indore",
+    "strengths": [
+      "Strong background in coordination and project multitasking",
+      "Solid academic foundations in business management and international business",
+      "Excellent active listening and time management capabilities"
+    ],
+    "areasForImprovement": [
+      "Lacks any formal software development training or experience",
+      "Does not possess required technical stack knowledge (React, Node.js, TypeScript, PostgreSQL, REST APIs)"
+    ],
+    "evaluationSummary": "The candidate, Manasvi Paliwal, is an MBA graduate in International Business from IPS Academy. They have expressed interest in the Full Stack Developer position at Tech Innovations Inc. However, their academic background and skillset are strictly non-technical, focusing primarily on administration, business management, and humanities. There is no evidence of coding capability, system architecture experience, or software engineering practices.\n\nOur current hiring strategy is tightly constrained to three active positions: Full Stack Developer, Digital Marketing Specialist, and AI Solutions Architect. Because the candidate's skills do not align with any of these high-tech roles, and specifically lack the 2+ years of software development experience required for the Full Stack Developer role, we must respectfully decline their application at this stage.",
+    "rejectionReason": "The candidate does not possess the technical skills (React, Node.js, databases) or the minimum 2+ years of software development experience required for the Full Stack Developer role. Our active hiring is currently limited to Full Stack Developer, Digital Marketing Specialist, and AI Solutions Architect positions.",
+    "interviewQuestions": [],
+    "proposedInterviewDate": "N/A",
+    "interviewDate": "N/A",
+    "interviewTime": "2:30 PM - 3:15 PM IST (45 Minutes)",
+    "interviewRound": "Round 1: Technical & System Architecture Deep-Dive",
+    "meetingLink": "https://meet.google.com/can-daut-omt",
+    "interviewerName": "Tech Innovations Inc. Technical Hiring Panel",
+    "interviewStatus": "N/A",
+    "emailSubject": "Your application at Tech Innovations Inc.",
+    "emailBody": "Dear Manasvi,\n\nThank you for taking the time to apply for the Full Stack Developer position and sharing your resume with Tech Innovations Inc.\n\nAfter a careful review of your background, we regret to inform you that we are unable to move forward with your application. Our team is currently only hiring for three highly specialized roles: Full Stack Developer (requiring 2+ years of developer experience with React, Node.js, and APIs), Digital Marketing Specialist, and AI Solutions Architect. Because your training and qualifications are in business administration and international business, your profile does not match the technical criteria required for our active engineering openings.\n\nWe will retain your resume in our talent database for future opportunities that better align with your expertise in management, coordination, and business operations. We wish you the absolute best in your future career search.\n\nWarm regards,\n\nTech Innovations Inc. Recruiting Team",
+    "emailSentAt": "2026-09-01T05:49:57.928Z",
+    "createdAt": "2026-09-01T05:49:57.928Z",
+    "updatedAt": "2026-09-01T05:49:57.928Z",
+    "source": "Gmail IMAP (Manasvi Paliwal Resume (1).pdf.pdf)"
+  },
+  {
+    "id": "cand_auto_mti8zh1v_2et3",
+    "name": "Manasvi Paliwal",
+    "email": "manasvipaliwal317@gmail.com",
+    "phone": "9109933353",
+    "role": "Digital Marketing Specialist",
+    "decision": "REJECTED",
+    "matchScore": 45,
+    "status": "REJECTED",
+    "yearsOfExperience": "Less than 1 year",
+    "topSkills": [
+      "MS Excel",
+      "PowerPoint",
+      "Tally Prime",
+      "Global Market Analysis",
+      "Basic Digital Marketing"
+    ],
+    "education": "MBA in International Business, IPS Academy, Indore (2022-2024)",
+    "strengths": [
+      "Strong educational foundation in business and strategic planning (MBA with 8.5 SGPA)",
+      "Practical exposure to global market documentation (purchase orders, proforma invoices, incoterms) from internships",
+      "Demonstrated interest in self-learning modern techniques (currently studying AI SEO, AEO, and GEO)"
+    ],
+    "areasForImprovement": [
+      "Lacks practical experience with essential performance marketing tools such as Google Ads, Meta Ads Manager, and GA4",
+      "No technical background or experience in full-stack development, making her unsuitable for the Full Stack Developer role she applied for"
+    ],
+    "evaluationSummary": "Manasvi Paliwal's profile shows a solid academic foundation in International Business along with early-stage experience in finance and marketing operations. In her cover note, she expressed interest in the Full Stack Developer role; however, her resume contains no technical software development skills, programming languages, or framework experience required for engineering roles.\n\nHer background is a closer potential fit for marketing, specifically our Digital Marketing Specialist opening. However, she does not yet possess the required 1+ years of dedicated experience or hands-on mastery of critical growth tools like Google Ads, Meta Ads, and Google Analytics (GA4). Her marketing capabilities are currently at an introductory and theoretical level. Consequently, we cannot move forward with her application at this time.",
+    "rejectionReason": "The candidate lacks the software engineering background required for the Full Stack Developer role and does not meet the minimum 1+ years of hands-on campaign management experience and technical platform skills required for the Digital Marketing Specialist role. Tech Innovations Inc. is currently hiring only for Full Stack Developer, Digital Marketing Specialist, and AI Solutions Architect.",
+    "interviewQuestions": [],
+    "proposedInterviewDate": "N/A",
+    "interviewDate": "N/A",
+    "interviewTime": "2:30 PM - 3:15 PM IST (45 Minutes)",
+    "interviewRound": "Round 1: Marketing Strategy & Portfolio Review",
+    "meetingLink": "https://meet.google.com/can-daut-omt",
+    "interviewerName": "Tech Innovations Inc. Technical Hiring Panel",
+    "interviewStatus": "N/A",
+    "emailSubject": "Regarding your application to Tech Innovations Inc.",
+    "emailBody": "Dear Manasvi,\n\nThank you for your interest in Tech Innovations Inc. and for submitting your resume. We have carefully reviewed your application and qualifications.\n\nWhile you expressed interest in our Full Stack Developer position, we noted that your academic and internship background is heavily focused on International Business and Marketing. We evaluated your profile against our active Digital Marketing Specialist opening; however, because we require a minimum of 1+ years of hands-on experience managing digital campaigns with tools like Google Ads, Meta Ads Manager, and GA4, we are unable to advance your candidacy at this time. \n\nPlease note that our hiring is currently limited strictly to the following active openings:\n1. Full Stack Developer (Engineering)\n2. Digital Marketing Specialist (Growth & Marketing)\n3. AI Solutions Architect (Enterprise AI & Automation)\n\nWe appreciate your time and wish you the best of luck with your job search and your ongoing learning in digital marketing and SEO.\n\nBest regards,\n\nSenior Technical Recruiter & Hiring Director\nTech Innovations Inc.",
+    "emailSentAt": "2026-09-01T05:49:41.011Z",
+    "createdAt": "2026-09-01T05:49:41.011Z",
+    "updatedAt": "2026-09-01T05:49:41.011Z",
+    "source": "Gmail IMAP (Manasvi Paliwal-Resume.pdf)"
+  },
+  {
     "id": "cand_mth4drp2_cnnl",
     "name": "Sneha Verma",
     "email": "sneha.verma.mkt@example.com",
@@ -310,46 +493,6 @@
     "createdAt": "2026-08-27T11:49:21.847Z",
     "updatedAt": "2026-08-27T11:49:21.847Z",
     "source": "Gmail IMAP (4_Kabir_Singh_AI_Prompt_Engineer_Fresher (1).pdf)"
-  },
-  {
-    "id": "cand_auto_mtbglqnl_c7tu",
-    "name": "Manasvi Paliwal",
-    "email": "manasvipaliwal317@gmail.com",
-    "phone": "9109933353",
-    "role": "Digital Marketing Specialist",
-    "decision": "REJECTED",
-    "matchScore": 55,
-    "status": "REJECTED",
-    "yearsOfExperience": "1 year",
-    "topSkills": [
-      "International Business Strategy",
-      "MS Excel",
-      "PowerPoint",
-      "AI SEO (AEO & GEO) learning",
-      "Supply Chain Management"
-    ],
-    "education": "MBA in International Business, IPS Academy, Indore (8.5 SGPA)",
-    "strengths": [
-      "Strong strategic foundation with an MBA in International Business",
-      "Proactive self-starter currently learning modern AI SEO techniques",
-      "Experience with corporate documentation, Excel, and SAP workflows"
-    ],
-    "areasForImprovement": [
-      "Lack of hands-on experience running active digital marketing campaigns (SEO, SEM, Paid Social)",
-      "No proven portfolio of working with core analytical platforms such as Google Analytics, Google Ads, or Meta Ads Manager",
-      "Current professional experience is predominantly focused on finance and international trade operations rather than digital creative/analytical execution"
-    ],
-    "evaluationSummary": "Manasvi possesses a solid academic background with an MBA in International Business and has completed early internships focusing on import/export operations and basic finance executive tasks. However, the candidate's profile is currently missing the deep, hands-on execution skills required for a Digital Marketing Specialist. While we highly commend her initiative in independently learning advanced concepts like AI SEO, AEO, and GEO, her past roles at Hemant Industries and Symbiotec Pharmalab have centered almost exclusively around transactional business documentation, SAP data entry, and finance operations. To successfully pivot into a mid-to-senior Digital Marketing role, Manasvi needs practical, verifiable experience managing SEO/PPC pipelines, content creation, and campaign metrics.",
-    "rejectionReason": "Your profile is heavily geared toward international business and finance operations. For the Digital Marketing Specialist position, we require direct, hands-on experience managing paid digital campaigns, executing organic SEO strategy, and utilizing performance marketing analytics tools, which are currently not demonstrated in your professional history.",
-    "interviewQuestions": [],
-    "proposedInterviewDate": "Upcoming Week",
-    "interviewStatus": "N/A",
-    "emailSubject": "Your Application for Digital Marketing Specialist - Tech Innovations Inc.",
-    "emailBody": "Dear Manasvi,\n\nThank you for your interest in the Digital Marketing Specialist position at Tech Innovations Inc. and for sharing your resume and application materials with us.\n\nWe were impressed by your strong academic performance in your International Business MBA and your proactive efforts to learn emerging trends like AI SEO (AEO & GEO). However, after carefully reviewing your experience against our current hiring needs, we have decided to move forward with other candidates whose backgrounds more closely align with the hands-on campaign execution, paid media management, and analytical toolsets required for this specific role.\n\nBecause of your strong strategic foundation and business acumen, we highly encourage you to gain practical, hands-on experience with digital marketing platforms (such as Google Ads, Meta Ads Manager, and web analytics suite tools) or build a project-based portfolio. We would love to keep your resume on file should any future positions open up that align more directly with your business operations background.\n\nWe wish you the very best in your job search and your future professional endeavors.\n\nWarm regards,\n\nHiring Team\nTech Innovations Inc.",
-    "emailSentAt": "2026-08-27T11:48:33.969Z",
-    "createdAt": "2026-08-27T11:48:33.969Z",
-    "updatedAt": "2026-08-27T11:48:33.969Z",
-    "source": "Gmail IMAP (Manasvi Paliwal-Resume.pdf)"
   },
   {
     "id": "cand_res_mtbfodof_rqzt",

@@ -47,6 +47,18 @@ const upload = multer({
 app.use(cors());
 app.use(express.json({ limit: '25mb' }));
 app.use(express.urlencoded({ extended: true, limit: '25mb' }));
+
+// Anti-caching middleware for all REST API endpoints so HR Dashboard always receives instant fresh data
+app.use((req, res, next) => {
+  if (req.path.startsWith('/api/')) {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    res.setHeader('Surrogate-Control', 'no-store');
+  }
+  next();
+});
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/site', express.static(path.join(__dirname, 'tech-innovations-inc')));
 app.use('/company', express.static(path.join(__dirname, 'tech-innovations-inc')));
@@ -679,21 +691,45 @@ async function sendCandidateEmail(toEmail, subject, bodyText) {
 let sseClients = [];
 
 function broadcastSSE(event, data) {
-  const msg = `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`;
-  sseClients.forEach(client => client.res.write(msg));
+  const payload = JSON.stringify(data);
+  const msg = `event: ${event}\ndata: ${payload}\n\n`;
+  
+  sseClients = sseClients.filter(client => {
+    try {
+      client.res.write(msg);
+      if (typeof client.res.flush === 'function') client.res.flush();
+      return true;
+    } catch (err) {
+      return false;
+    }
+  });
 }
+
+// Keep-alive heartbeat ping every 15s so browser EventSource connections never drop
+setInterval(() => {
+  sseClients = sseClients.filter(client => {
+    try {
+      client.res.write(': keep-alive ping\n\n');
+      if (typeof client.res.flush === 'function') client.res.flush();
+      return true;
+    } catch (err) {
+      return false;
+    }
+  });
+}, 15000);
 
 app.get('/api/live-events', (req, res) => {
   res.setHeader('Content-Type', 'text/event-stream');
-  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
   res.setHeader('Connection', 'keep-alive');
+  res.setHeader('X-Accel-Buffering', 'no');
   res.flushHeaders();
 
-  const clientId = Date.now();
+  const clientId = Date.now() + '_' + Math.random().toString(36).substring(2, 6);
   sseClients.push({ id: clientId, res });
 
-  // Send initial ping
-  res.write(`event: connected\ndata: ${JSON.stringify({ status: 'connected', time: new Date() })}\n\n`);
+  // Send initial connected event
+  res.write(`event: connected\ndata: ${JSON.stringify({ status: 'connected', time: new Date().toISOString() })}\n\n`);
 
   req.on('close', () => {
     sseClients = sseClients.filter(c => c.id !== clientId);
@@ -791,7 +827,8 @@ async function processCandidateEmailRecord(parsed, uid) {
 
   console.log(`   🎯 Decision: ${evaluation.candidateName} -> ${evaluation.decision} (${evaluation.matchScore}%) for Role: ${evaluation.appliedRole || appliedRole}`);
 
-  const targetEmail = evaluation.candidateEmail || fromAddr;
+  const primarySenderEmail = fromAddr || evaluation.candidateEmail || 'candidate@example.com';
+  const resumeExtractedEmail = evaluation.candidateEmail || fromAddr || 'N/A';
   const now = new Date().toISOString();
   const candId = 'cand_auto_' + Date.now().toString(36) + '_' + Math.random().toString(36).substring(2, 6);
   const meetingLink = generateGoogleMeetLink(candId);
@@ -806,7 +843,8 @@ async function processCandidateEmailRecord(parsed, uid) {
   const candidateRecord = {
     id: candId,
     name: evaluation.candidateName || fromName,
-    email: targetEmail,
+    email: primarySenderEmail,
+    resumeEmail: resumeExtractedEmail,
     phone: evaluation.candidatePhone || 'N/A',
     role: evaluation.appliedRole || appliedRole,
     decision: evaluation.decision,
@@ -834,22 +872,26 @@ async function processCandidateEmailRecord(parsed, uid) {
     emailSentAt: now,
     createdAt: now,
     updatedAt: now,
-    source: `Gmail IMAP (${fileName})`
+    source: `Gmail INBOX (${fileName})`
   };
 
-  // Dispatch Email
-  if (appConfig.autoSendEmails && targetEmail && targetEmail.includes('@')) {
+  // Dispatch Email to applicant sender
+  if (appConfig.autoSendEmails && primarySenderEmail && primarySenderEmail.includes('@')) {
     if (evaluation.decision === 'SELECTED') {
       const inviteHtml = generateInterviewInviteTemplate({ candidate: candidateRecord });
-      await sendCandidateCustomEmail(targetEmail, candidateRecord.emailSubject, inviteHtml, evaluation.emailBody);
+      await sendCandidateCustomEmail(primarySenderEmail, candidateRecord.emailSubject, inviteHtml, evaluation.emailBody);
     } else {
-      await sendCandidateEmail(targetEmail, candidateRecord.emailSubject, evaluation.emailBody);
+      await sendCandidateEmail(primarySenderEmail, candidateRecord.emailSubject, evaluation.emailBody);
     }
   }
 
-  // Save Candidate
+  // Save Candidate with clean deduplication
   let candidates = getCandidates();
-  candidates = candidates.filter(c => c.name !== candidateRecord.name || c.role !== candidateRecord.role);
+  candidates = candidates.filter(c => 
+    c.id !== candidateRecord.id && 
+    !(c.email && candidateRecord.email && c.email.toLowerCase() === candidateRecord.email.toLowerCase() && c.role === candidateRecord.role) &&
+    !(c.name && candidateRecord.name && c.name.toLowerCase() === candidateRecord.name.toLowerCase() && c.role === candidateRecord.role)
+  );
   candidates.unshift(candidateRecord);
   saveCandidates(candidates);
   markUIDProcessed(uid);
@@ -857,10 +899,11 @@ async function processCandidateEmailRecord(parsed, uid) {
   scannerStats.resumesProcessed++;
   scannerStats.lastCandidateName = candidateRecord.name;
 
-  // Broadcast Real-Time SSE to Dashboard
+  // Broadcast Real-Time SSE to Dashboard with full payload
   broadcastSSE('candidate_added', {
     candidate: candidateRecord,
-    total: candidates.length
+    total: candidates.length,
+    candidates: candidates
   });
 
   console.log(`   ✅ Candidate broadcasted to Live Dashboard! Total: ${candidates.length}`);

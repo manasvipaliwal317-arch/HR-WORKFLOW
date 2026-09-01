@@ -597,6 +597,26 @@ body {
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
 }
 
+@keyframes livePulseGlow {
+  0% { transform: scale(0.97); box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.9); border-color: #6366f1; }
+  40% { transform: scale(1.02); box-shadow: 0 0 25px 8px rgba(99, 102, 241, 0.6); border-color: #a855f7; }
+  100% { transform: scale(1); box-shadow: var(--shadow-subtle); border-color: var(--border-color); }
+}
+
+.candidate-card.flash-highlight {
+  animation: livePulseGlow 2.5s ease-in-out;
+  border-color: #6366f1 !important;
+}
+
+@keyframes liveRowGlow {
+  0% { background-color: rgba(99, 102, 241, 0.35); }
+  100% { background-color: transparent; }
+}
+
+#candidate-table-body tr.flash-highlight-row {
+  animation: liveRowGlow 2.5s ease-out;
+}
+
 .card-top {
   display: flex;
   justify-content: space-between;
