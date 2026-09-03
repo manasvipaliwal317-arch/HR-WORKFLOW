@@ -6,7 +6,7 @@ const path = require('path');
 
 const CONFIG = {
   hrEmail: 'manasvipaliwal317@gmail.com',
-  appPassword: 'kstnydybbuqmpbyr',
+  appPassword: 'YOUR_GMAIL_APP_PASSWORD',
   testRecipient: 'paliwalrishu2000@gmail.com',
   apiUrl: 'http://localhost:3000'
 };

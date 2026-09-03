@@ -9,7 +9,7 @@ socket.on('data', (data) => {
   console.log('IMAP Server:', msg.trim());
   if (msg.includes('* OK')) {
     // Send LOGIN command
-    socket.write(`a001 LOGIN manasvipaliwal317@gmail.com kstnydybbuqmpbyr\r\n`);
+    socket.write(`a001 LOGIN manasvipaliwal317@gmail.com YOUR_GMAIL_APP_PASSWORD\r\n`);
   } else if (msg.includes('a001 OK')) {
     console.log('✅ IMAP Login SUCCESSFUL! Mailbox is fully accessible.');
     socket.write(`a002 LOGOUT\r\n`);

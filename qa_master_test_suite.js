@@ -8,7 +8,7 @@ const { PDFParse } = require('pdf-parse');
 
 const CONFIG = {
   email: 'manasvipaliwal317@gmail.com',
-  appPassword: 'kstnydybbuqmpbyr',
+  appPassword: 'YOUR_GMAIL_APP_PASSWORD',
   geminiApiKey: 'YOUR_GEMINI_API_KEY',
   geminiModel: 'gemini-3.6-flash',
   dashboardPort: 3000,

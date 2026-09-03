@@ -6,7 +6,7 @@ const { PDFParse } = require('pdf-parse');
 
 const CONFIG = {
   hrEmail: 'manasvipaliwal317@gmail.com',
-  appPassword: 'kstnydybbuqmpbyr',
+  appPassword: 'YOUR_GMAIL_APP_PASSWORD',
   geminiApiKey: 'YOUR_GEMINI_API_KEY',
   models: ['gemini-3.5-flash', 'gemini-3.5-flash-lite', 'gemini-3.7-flash'],
   companyName: 'Tech Innovations Inc.',

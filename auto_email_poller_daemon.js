@@ -17,7 +17,7 @@ process.on('unhandledRejection', (reason) => {
 
 const CONFIG = {
   hrEmail: 'manasvipaliwal317@gmail.com',
-  appPassword: 'kstnydybbuqmpbyr',
+  appPassword: 'YOUR_GMAIL_APP_PASSWORD',
   geminiApiKey: 'YOUR_GEMINI_API_KEY',
   models: ['gemini-3.6-flash', 'gemini-flash-latest', 'gemini-3.5-flash', 'gemini-2.5-flash-lite'],
   companyName: 'Tech Innovations Inc.',

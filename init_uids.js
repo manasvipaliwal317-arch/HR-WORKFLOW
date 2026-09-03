@@ -4,7 +4,7 @@ const path = require('path');
 
 const imap = new Imap({
   user: 'manasvipaliwal317@gmail.com',
-  password: 'kstnydybbuqmpbyr',
+  password: 'YOUR_GMAIL_APP_PASSWORD',
   host: 'imap.gmail.com',
   port: 993,
   tls: true,

@@ -1,6 +1,6 @@
 [
   {
-    "id": "cand_auto_mtlhfks8_riuc",
+    "id": "cand_auto_mtlhmr4j_wd14",
     "name": "Robert",
     "email": "manasvipaliwal317@gmail.com",
     "resumeEmail": "manasvipaliwal317@gmail.com",
@@ -9,19 +9,16 @@
     "decision": "REJECTED",
     "matchScore": 0,
     "status": "REJECTED",
-    "yearsOfExperience": "Unknown",
+    "yearsOfExperience": "N/A",
     "topSkills": [],
-    "education": "Not provided",
-    "strengths": [
-      "Interest in Full Stack Development"
-    ],
+    "education": "N/A",
+    "strengths": [],
     "areasForImprovement": [
-      "Provide a detailed resume",
-      "Highlight specific technical experience",
-      "Include project portfolio or GitHub links"
+      "Formal resume submission",
+      "Detailed documentation of project history"
     ],
-    "evaluationSummary": "The candidate, Robert, expressed interest in the Full Stack Developer position; however, the submission lacked a formal resume and any documentation of technical expertise. As a result, we cannot conduct a professional evaluation of the candidate's qualifications against our requirements. Without evidence of experience in React, Node.js, Express, or PostgreSQL, we are unable to proceed with an interview at this time.",
-    "rejectionReason": "Your application did not include a resume or details regarding your technical expertise. Our current hiring process for Full Stack Developer, Digital Marketing Specialist, and AI Solutions Architect roles requires a formal evaluation of your professional background. We encourage you to re-apply with a detailed resume that highlights your experience with our required technologies.",
+    "evaluationSummary": "The candidate, Robert, failed to provide a formal resume or any technical details regarding his professional background and skill set. As we require a comprehensive overview of experience to evaluate candidates against our open roles, we are unable to assess his suitability for the Full Stack Developer position.",
+    "rejectionReason": "Your application was rejected because a formal resume was not provided. To be considered for our active openings in Full Stack Developer, Digital Marketing Specialist, or AI Solutions Architect, you must submit a detailed document highlighting your relevant experience and technical skills.",
     "interviewQuestions": [],
     "proposedInterviewDate": "Tuesday, September 8, 2026",
     "interviewDate": "Tuesday, September 8, 2026",
@@ -38,12 +35,12 @@
     "salaryOffer": "Competitive / Market Standard (Finalized upon Offer)",
     "interviewStatus": "N/A",
     "emailSubject": "Update regarding your application at Tech Innovations Inc.",
-    "emailBody": "Dear Robert, Thank you for your interest in the Full Stack Developer position at Tech Innovations Inc. After reviewing your submission, we noted that it did not include a resume or details regarding your technical expertise. As our hiring process requires a formal evaluation of your professional history and skill set, we are unable to process your application at this time. We are currently only accepting candidates for our active openings in Full Stack Development, Digital Marketing, and AI Solutions, all of which require a detailed background review. We encourage you to re-apply once you have a formal resume ready that clearly outlines your experience and relevant technical capabilities. We wish you the very best in your professional endeavors.",
-    "emailSentAt": "2026-09-03T12:09:30.800Z",
-    "createdAt": "2026-09-03T12:09:27.800Z",
-    "updatedAt": "2026-09-03T12:09:27.800Z",
+    "emailBody": "Dear Robert, Thank you for your interest in Tech Innovations Inc. Following our review of your submission, we have determined that we cannot proceed with your application at this time as it did not include a formal resume. To accurately evaluate candidates for our active openings—Full Stack Developer, Digital Marketing Specialist, or AI Solutions Architect—we require a detailed summary of your professional background and technical competencies. We invite you to re-apply once you have a comprehensive resume prepared that clearly outlines your expertise. We appreciate your interest in our firm and wish you the best in your career search.",
+    "emailSentAt": "2026-09-03T12:15:05.639Z",
+    "createdAt": "2026-09-03T12:15:02.611Z",
+    "updatedAt": "2026-09-03T12:15:02.611Z",
     "source": "Gmail IMAP (Direct Application (Email Body))",
-    "emailMessageId": "<b21a69f2-5685-6d8f-871d-aea8d4d12edf@gmail.com>"
+    "emailMessageId": "<b77972e3-bf8b-e943-1743-ef3d3193325b@gmail.com>"
   },
   {
     "id": "cand_auto_mtlha4m8_7cj8",
