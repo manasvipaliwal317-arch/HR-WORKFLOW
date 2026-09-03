@@ -1008,10 +1008,27 @@ const IGNORE_DOMAINS = [
   'google.com'
 ];
 
-function shouldIgnoreSender(fromAddr) {
+function shouldIgnoreSender(fromAddr, subject = '') {
   if (!fromAddr) return true;
-  const lower = fromAddr.toLowerCase();
-  return IGNORE_DOMAINS.some(domain => lower.includes(domain));
+  const lowerFrom = fromAddr.toLowerCase();
+  const lowerSubj = (subject || '').toLowerCase();
+
+  // 1. Never evaluate emails sent by the recruiter's own address
+  if (appConfig.hrEmail && lowerFrom.includes(appConfig.hrEmail.toLowerCase())) {
+    return true;
+  }
+
+  // 2. Ignore outgoing HR template subjects
+  if (
+    lowerSubj.includes('regarding your application') ||
+    lowerSubj.includes('interview invitation:') ||
+    lowerSubj.includes('recruitment system connected') ||
+    lowerSubj.includes('pipeline verification')
+  ) {
+    return true;
+  }
+
+  return IGNORE_DOMAINS.some(domain => lowerFrom.includes(domain));
 }
 
 // Process a candidate email application
@@ -1024,7 +1041,7 @@ async function processCandidateEmailRecord(parsed, uid) {
   const messageId = parsed.messageId || '';
 
   // Filter ignore rules for non-candidate marketing/newsletters
-  if (shouldIgnoreSender(fromAddr)) {
+  if (shouldIgnoreSender(fromAddr, subject)) {
     markUIDProcessed(uid, messageId);
     return false;
   }
@@ -1307,7 +1324,7 @@ async function scanInboxNow() {
           const msgId = msgIdMatch ? msgIdMatch[1] : '';
           const subjStr = subjMatch ? subjMatch[1].toLowerCase() : '';
 
-          if (fromStr && shouldIgnoreSender(fromStr)) {
+          if (fromStr && shouldIgnoreSender(fromStr, subjStr)) {
             markUIDProcessed(uid, msgId);
             return;
           }

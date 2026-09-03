@@ -1,6 +1,6 @@
 [
   {
-    "id": "cand_auto_mtlhmr4j_wd14",
+    "id": "cand_auto_mtlhnv5i_di4z",
     "name": "Robert",
     "email": "manasvipaliwal317@gmail.com",
     "resumeEmail": "manasvipaliwal317@gmail.com",
@@ -9,16 +9,17 @@
     "decision": "REJECTED",
     "matchScore": 0,
     "status": "REJECTED",
-    "yearsOfExperience": "N/A",
+    "yearsOfExperience": "Unknown",
     "topSkills": [],
     "education": "N/A",
     "strengths": [],
     "areasForImprovement": [
-      "Formal resume submission",
-      "Detailed documentation of project history"
+      "Provide a detailed resume",
+      "Highlight technical projects",
+      "Showcase specific software development experience"
     ],
-    "evaluationSummary": "The candidate, Robert, failed to provide a formal resume or any technical details regarding his professional background and skill set. As we require a comprehensive overview of experience to evaluate candidates against our open roles, we are unable to assess his suitability for the Full Stack Developer position.",
-    "rejectionReason": "Your application was rejected because a formal resume was not provided. To be considered for our active openings in Full Stack Developer, Digital Marketing Specialist, or AI Solutions Architect, you must submit a detailed document highlighting your relevant experience and technical skills.",
+    "evaluationSummary": "The candidate failed to provide the necessary documentation required for a formal technical assessment. Without a resume, we are unable to verify the minimum 2+ years of experience or the proficiency in core skills such as React, Node.js, and PostgreSQL required for the Full Stack Developer role. Consequently, we cannot proceed with the application in its current state.",
+    "rejectionReason": "Your application was rejected because no formal resume was submitted. We require a comprehensive summary of your professional background, technical competencies, and project experience to accurately evaluate your candidacy for our active openings: Full Stack Developer, Digital Marketing Specialist, or AI Solutions Architect. Please re-apply with your updated resume once ready.",
     "interviewQuestions": [],
     "proposedInterviewDate": "Tuesday, September 8, 2026",
     "interviewDate": "Tuesday, September 8, 2026",
@@ -35,12 +36,12 @@
     "salaryOffer": "Competitive / Market Standard (Finalized upon Offer)",
     "interviewStatus": "N/A",
     "emailSubject": "Update regarding your application at Tech Innovations Inc.",
-    "emailBody": "Dear Robert, Thank you for your interest in Tech Innovations Inc. Following our review of your submission, we have determined that we cannot proceed with your application at this time as it did not include a formal resume. To accurately evaluate candidates for our active openings—Full Stack Developer, Digital Marketing Specialist, or AI Solutions Architect—we require a detailed summary of your professional background and technical competencies. We invite you to re-apply once you have a comprehensive resume prepared that clearly outlines your expertise. We appreciate your interest in our firm and wish you the best in your career search.",
-    "emailSentAt": "2026-09-03T12:15:05.639Z",
-    "createdAt": "2026-09-03T12:15:02.611Z",
-    "updatedAt": "2026-09-03T12:15:02.611Z",
+    "emailBody": "Dear Robert, thank you for your continued interest in Tech Innovations Inc. We have reviewed your initial submission; however, as mentioned previously, your application did not include a formal resume. To be considered for our active openings in Full Stack Development, Digital Marketing, or AI Solutions Architecture, we require a detailed summary of your skills and experience. We encourage you to re-apply once you have a comprehensive resume prepared. We appreciate your patience and wish you the best in your career endeavors.",
+    "emailSentAt": "2026-09-03T12:15:57.946Z",
+    "createdAt": "2026-09-03T12:15:54.486Z",
+    "updatedAt": "2026-09-03T12:15:54.486Z",
     "source": "Gmail IMAP (Direct Application (Email Body))",
-    "emailMessageId": "<b77972e3-bf8b-e943-1743-ef3d3193325b@gmail.com>"
+    "emailMessageId": "<99f58531-7d08-510d-3334-226c7abe4ad0@gmail.com>"
   },
   {
     "id": "cand_auto_mtlha4m8_7cj8",

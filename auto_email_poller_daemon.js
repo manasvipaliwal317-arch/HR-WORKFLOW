@@ -79,10 +79,27 @@ const IGNORE_DOMAINS = [
   'aspireforher.com'
 ];
 
-function shouldIgnoreSender(fromAddr) {
+function shouldIgnoreSender(fromAddr, subject = '') {
   if (!fromAddr) return true;
-  const lower = fromAddr.toLowerCase();
-  return IGNORE_DOMAINS.some(domain => lower.includes(domain));
+  const lowerFrom = fromAddr.toLowerCase();
+  const lowerSubj = (subject || '').toLowerCase();
+
+  // 1. Never evaluate emails sent by the recruiter's own address
+  if (CONFIG.hrEmail && lowerFrom.includes(CONFIG.hrEmail.toLowerCase())) {
+    return true;
+  }
+
+  // 2. Ignore outgoing HR template subjects
+  if (
+    lowerSubj.includes('regarding your application') ||
+    lowerSubj.includes('interview invitation:') ||
+    lowerSubj.includes('recruitment system connected') ||
+    lowerSubj.includes('pipeline verification')
+  ) {
+    return true;
+  }
+
+  return IGNORE_DOMAINS.some(domain => lowerFrom.includes(domain));
 }
 
 // ----------------- CALENDAR & SCHEDULING DATE ENGINE ----------------- //
@@ -492,11 +509,13 @@ function pollInbox() {
         msg.once('end', () => {
           const fromMatch = headerBuffer.match(/From:\s*([^\r\n]+)/i);
           const msgIdMatch = headerBuffer.match(/Message-ID:\s*<([^>]+)>/i);
+          const subjMatch = headerBuffer.match(/Subject:\s*([^\r\n]+)/i);
 
           const fromStr = fromMatch ? fromMatch[1].toLowerCase() : '';
           const msgId = msgIdMatch ? msgIdMatch[1] : '';
+          const subjStr = subjMatch ? subjMatch[1].toLowerCase() : '';
 
-          if (fromStr && shouldIgnoreSender(fromStr)) {
+          if (fromStr && shouldIgnoreSender(fromStr, subjStr)) {
             saveProcessedUID(uid, msgId);
             return;
           }
