@@ -1,6 +1,12 @@
 {
   "geminiApiKey": "YOUR_GEMINI_API_KEY",
-  "geminiModel": "gemini-3.6-flash",
+  "geminiModel": "gemini-3.5-flash-lite",
+  "models": [
+    "gemini-3.5-flash-lite",
+    "gemini-3.1-flash-lite",
+    "gemini-3.7-flash",
+    "gemini-3.6-flash"
+  ],
   "hrEmail": "manasvipaliwal317@gmail.com",
   "gmailAppPassword": "YOUR_GMAIL_APP_PASSWORD",
   "selectionScoreThreshold": 70,

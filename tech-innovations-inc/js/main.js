@@ -572,8 +572,9 @@ async function initCareersDynamicFeed() {
       const res = await fetch(url, { cache: 'no-store' });
       if (res.ok) {
         const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) {
-          roles = data;
+        const list = Array.isArray(data) ? data : (data.roles || data.activeRoles || []);
+        if (Array.isArray(list) && list.length > 0) {
+          roles = list;
           break;
         }
       }

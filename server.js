@@ -92,7 +92,7 @@ app.use('/tech-innovations-inc', express.static(websiteDir, staticOptions));
 // Default Config
 let appConfig = {
   geminiApiKey: process.env.GEMINI_API_KEY || "YOUR_GEMINI_API_KEY",
-  models: ["gemini-3.5-flash", "gemini-3.5-flash-lite", "gemini-3.7-flash"],
+  models: ["gemini-3.5-flash-lite", "gemini-3.1-flash-lite", "gemini-3.7-flash", "gemini-3.6-flash"],
   hrEmail: process.env.HR_EMAIL || "manasvipaliwal317@gmail.com",
   gmailAppPassword: process.env.GMAIL_APP_PASSWORD || "YOUR_GMAIL_APP_PASSWORD",
   selectionScoreThreshold: Number(process.env.SELECTION_SCORE_THRESHOLD) || 70,
@@ -375,12 +375,25 @@ function getProcessedUIDs() {
   return [];
 }
 
-function markUIDProcessed(uid) {
+function markUIDProcessed(uid, messageId = null) {
   const list = getProcessedUIDs();
-  const uidStr = uid.toString();
-  if (!list.includes(uidStr)) {
-    list.push(uidStr);
-    if (list.length > 500) list.shift();
+  let changed = false;
+  if (uid) {
+    const uidStr = uid.toString();
+    if (!list.includes(uidStr)) {
+      list.push(uidStr);
+      changed = true;
+    }
+  }
+  if (messageId) {
+    const msgIdStr = messageId.toString();
+    if (!list.includes(msgIdStr)) {
+      list.push(msgIdStr);
+      changed = true;
+    }
+  }
+  if (changed) {
+    if (list.length > 1000) list.splice(0, list.length - 1000);
     fs.writeFileSync(PROCESSED_UIDS_FILE, JSON.stringify(list, null, 2), 'utf8');
   }
 }
@@ -538,55 +551,52 @@ RETURN STRICT JSON ONLY (no markdown formatting, no code fences):
     generationConfig: { responseMimeType: "application/json" }
   });
 
-  const modelsToTry = appConfig.models || ['gemini-3.5-flash', 'gemini-3.5-flash-lite', 'gemini-3.7-flash'];
+  const modelsToTry = appConfig.models || ['gemini-3.5-flash-lite', 'gemini-3.1-flash-lite', 'gemini-3.7-flash', 'gemini-3.6-flash'];
 
   for (const model of modelsToTry) {
-    for (let attempt = 1; attempt <= 2; attempt++) {
-      try {
-        console.log(`🤖 Evaluating with ${model} (attempt ${attempt})...`);
-        const evaluation = await new Promise((resolve, reject) => {
-          const req = https.request({
-            hostname: 'generativelanguage.googleapis.com',
-            path: `/v1beta/models/${model}:generateContent?key=${appConfig.geminiApiKey}`,
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Content-Length': Buffer.byteLength(payload)
-            },
-            timeout: 45000
-          }, (res) => {
-            let data = '';
-            res.on('data', chunk => data += chunk);
-            res.on('end', () => {
-              try {
-                const respObj = JSON.parse(data);
-                if (respObj.error) {
-                  return reject(new Error(`API ${respObj.error.code}: ${respObj.error.message}`));
-                }
-                if (!respObj.candidates || !respObj.candidates[0] || !respObj.candidates[0].content) {
-                  return reject(new Error(`Empty output from Gemini`));
-                }
-                let rawText = respObj.candidates[0].content.parts[0].text;
-                rawText = rawText.replace(/^```json\s*/i, '').replace(/\s*```$/i, '').trim();
-                resolve(JSON.parse(rawText));
-              } catch (e) {
-                reject(new Error(`JSON Parse Error: ${e.message}`));
+    try {
+      console.log(`🤖 Evaluating candidate with AI Engine (${model})...`);
+      const evaluation = await new Promise((resolve, reject) => {
+        const req = https.request({
+          hostname: 'generativelanguage.googleapis.com',
+          path: `/v1beta/models/${model}:generateContent?key=${appConfig.geminiApiKey}`,
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Content-Length': Buffer.byteLength(payload)
+          },
+          timeout: 15000
+        }, (res) => {
+          let data = '';
+          res.on('data', chunk => data += chunk);
+          res.on('end', () => {
+            try {
+              const respObj = JSON.parse(data);
+              if (respObj.error) {
+                return reject(new Error(`API ${respObj.error.code}: ${respObj.error.message}`));
               }
-            });
+              if (!respObj.candidates || !respObj.candidates[0] || !respObj.candidates[0].content) {
+                return reject(new Error(`Empty output from Gemini`));
+              }
+              let rawText = respObj.candidates[0].content.parts[0].text;
+              rawText = rawText.replace(/^```json\s*/i, '').replace(/\s*```$/i, '').trim();
+              resolve(JSON.parse(rawText));
+            } catch (e) {
+              reject(new Error(`JSON Parse Error: ${e.message}`));
+            }
           });
-
-          req.on('error', reject);
-          req.on('timeout', () => { req.destroy(); reject(new Error('AI Request Timeout')); });
-          req.write(payload);
-          req.end();
         });
 
-        console.log(`✅ AI Evaluation succeeded with ${model}!`);
-        return evaluation;
-      } catch (err) {
-        console.warn(`⚠️ [${model} Attempt ${attempt}] ${err.message}`);
-        if (attempt === 1) await new Promise(r => setTimeout(r, 1000));
-      }
+        req.on('error', reject);
+        req.on('timeout', () => { req.destroy(); reject(new Error('AI Request Timeout')); });
+        req.write(payload);
+        req.end();
+      });
+
+      console.log(`✅ AI Evaluation succeeded with ${model}!`);
+      return evaluation;
+    } catch (err) {
+      console.warn(`⚠️ [${model}] ${err.message}. Trying next fallback model...`);
     }
   }
 
@@ -982,55 +992,106 @@ const scannerStats = {
 
 let isScanInProgress = false;
 
-// Process a verified candidate email with resume
+const IGNORE_DOMAINS = [
+  'accounts.google.com',
+  'linkedin.com',
+  'bseindia.in',
+  'engage.canva.com',
+  'mail.salesforce.com',
+  'email.openai.com',
+  'email.mcafee.com',
+  'info.n8n.io',
+  'announce.fiverr.com',
+  'aspireforher.com',
+  'digest.groww.in',
+  'googleplay-noreply@google.com',
+  'google.com'
+];
+
+function shouldIgnoreSender(fromAddr) {
+  if (!fromAddr) return true;
+  const lower = fromAddr.toLowerCase();
+  return IGNORE_DOMAINS.some(domain => lower.includes(domain));
+}
+
+// Process a candidate email application
 async function processCandidateEmailRecord(parsed, uid) {
   const fromAddr = (parsed.from && parsed.from.value && parsed.from.value[0]) ? parsed.from.value[0].address : '';
   const fromName = (parsed.from && parsed.from.value && parsed.from.value[0]) ? parsed.from.value[0].name || fromAddr : fromAddr;
   const subject = parsed.subject || 'Job Application';
   const textBody = parsed.text || '';
   const attachments = parsed.attachments || [];
+  const messageId = parsed.messageId || '';
 
-  // STRICT FILTER: Must have at least ONE resume attachment (.pdf, .docx, .doc)
-  const resumeAttachment = attachments.find(att => {
+  // Filter ignore rules for non-candidate marketing/newsletters
+  if (shouldIgnoreSender(fromAddr)) {
+    markUIDProcessed(uid, messageId);
+    return false;
+  }
+
+  // Check attachments for resumes
+  let hasResumeAttachment = false;
+  let resumeAttachment = attachments.find(att => {
     const ext = path.extname(att.filename || '').toLowerCase();
     return ext === '.pdf' || ext === '.docx' || ext === '.doc';
   });
 
-  if (!resumeAttachment) {
-    // NOT A RESUME -> SKIP COMPLETELY!
-    markUIDProcessed(uid);
+  let fileName = 'Direct Application (Email Body)';
+  let resumeText = textBody;
+
+  if (resumeAttachment) {
+    hasResumeAttachment = true;
+    fileName = resumeAttachment.filename || 'resume.pdf';
+    const uploadPath = path.join(UPLOAD_DIR, fileName);
+    fs.writeFileSync(uploadPath, resumeAttachment.content);
+
+    const ext = path.extname(fileName).toLowerCase();
+    if (ext === '.pdf') {
+      try {
+        const parser = new PDFParse({ data: resumeAttachment.content });
+        const p = await parser.getText();
+        await parser.destroy();
+        resumeText = p.text || textBody;
+      } catch (e) {
+        resumeText = textBody;
+      }
+    } else if (ext === '.docx') {
+      try {
+        const docRes = await mammoth.extractRawText({ buffer: resumeAttachment.content });
+        resumeText = docRes.value || textBody;
+      } catch (e) {
+        resumeText = textBody;
+      }
+    }
+  }
+
+  const subjLower = subject.toLowerCase();
+  const bodyLower = textBody.toLowerCase();
+  const isJobKeywords = subjLower.includes('job') || 
+                       subjLower.includes('application') || 
+                       subjLower.includes('resume') || 
+                       subjLower.includes('cv') || 
+                       subjLower.includes('engineer') || 
+                       subjLower.includes('developer') || 
+                       subjLower.includes('marketing') ||
+                       subjLower.includes('apply') ||
+                       subjLower.includes('candidate') ||
+                       bodyLower.includes('resume') ||
+                       bodyLower.includes('position') ||
+                       bodyLower.includes('applying for');
+
+  // Skip emails that are neither attachments nor job-related
+  if (!hasResumeAttachment && !isJobKeywords) {
+    markUIDProcessed(uid, messageId);
     return false;
   }
 
   console.log(`\n===============================================================`);
-  console.log(`🎯 [INBOX AUTO-SCANNER] NEW RESUME DETECTED!`);
+  console.log(`🎯 [INBOX AUTO-SCANNER] NEW CANDIDATE APPLICATION DETECTED!`);
   console.log(`   From:        ${fromName} <${fromAddr}>`);
   console.log(`   Subject:     ${subject}`);
-  console.log(`   Attachment:  ${resumeAttachment.filename} (${resumeAttachment.size} bytes)`);
-
-  const fileName = resumeAttachment.filename || 'resume.pdf';
-  const uploadPath = path.join(UPLOAD_DIR, fileName);
-  fs.writeFileSync(uploadPath, resumeAttachment.content);
-
-  let resumeText = '';
-  const ext = path.extname(fileName).toLowerCase();
-  if (ext === '.pdf') {
-    try {
-      const parser = new PDFParse({ data: resumeAttachment.content });
-      const p = await parser.getText();
-      await parser.destroy();
-      resumeText = p.text || textBody;
-    } catch (e) {
-      resumeText = textBody;
-    }
-  } else if (ext === '.docx') {
-    try {
-      const docRes = await mammoth.extractRawText({ buffer: resumeAttachment.content });
-      resumeText = docRes.value || textBody;
-    } catch (e) {
-      resumeText = textBody;
-    }
-  }
+  console.log(`   Attachment:  ${fileName} (${hasResumeAttachment ? 'Found' : 'Direct Email Text'})`);
+  console.log(`   Text Length: ${resumeText.length} characters`);
 
   // Dynamically Infer Target Role from currently active openings
   const activeRoles = getActiveJobRoles();
@@ -1118,16 +1179,26 @@ async function processCandidateEmailRecord(parsed, uid) {
     emailSentAt: now,
     createdAt: now,
     updatedAt: now,
-    source: `Gmail INBOX (${fileName})`
+    source: `Gmail IMAP (${fileName})`
   };
 
-  // Dispatch Email to applicant sender
+  // Dispatch Email to applicant sender automatically
   if (appConfig.autoSendEmails && primarySenderEmail && primarySenderEmail.includes('@')) {
+    console.log(`   ✉️ [Auto-Dispatch] Sending ${evaluation.decision} email response to ${primarySenderEmail}...`);
+    let dispatchResult = null;
     if (evaluation.decision === 'SELECTED') {
       const inviteHtml = generateInterviewInviteTemplate({ candidate: candidateRecord });
-      await sendCandidateCustomEmail(primarySenderEmail, candidateRecord.emailSubject, inviteHtml, cleanEmailBody);
+      dispatchResult = await sendCandidateCustomEmail(primarySenderEmail, candidateRecord.emailSubject, inviteHtml, cleanEmailBody);
     } else {
-      await sendCandidateEmail(primarySenderEmail, candidateRecord.emailSubject, cleanEmailBody);
+      dispatchResult = await sendCandidateEmail(primarySenderEmail, candidateRecord.emailSubject, cleanEmailBody);
+    }
+
+    if (dispatchResult && dispatchResult.success) {
+      console.log(`   ✅ [Auto-Dispatch SUCCESS] Message ID: ${dispatchResult.messageId} delivered to ${primarySenderEmail}`);
+      candidateRecord.emailMessageId = dispatchResult.messageId;
+      candidateRecord.emailSentAt = new Date().toISOString();
+    } else {
+      console.error(`   ⚠️ [Auto-Dispatch Notice]:`, dispatchResult ? dispatchResult.error : 'Dispatch failure');
     }
   }
 
@@ -1140,7 +1211,7 @@ async function processCandidateEmailRecord(parsed, uid) {
   );
   candidates.unshift(candidateRecord);
   saveCandidates(candidates);
-  markUIDProcessed(uid);
+  markUIDProcessed(uid, messageId);
 
   scannerStats.resumesProcessed++;
   scannerStats.lastCandidateName = candidateRecord.name;
@@ -1177,14 +1248,20 @@ async function scanInboxNow() {
     host: 'imap.gmail.com',
     port: 993,
     tls: true,
-    tlsOptions: { rejectUnauthorized: false }
+    tlsOptions: { rejectUnauthorized: false },
+    authTimeout: 15000,
+    connTimeout: 20000
   });
+
+  const cleanup = () => {
+    isScanInProgress = false;
+    try { imap.end(); } catch (e) {}
+  };
 
   imap.once('ready', () => {
     imap.openBox('INBOX', false, (err, box) => {
       if (err) {
-        isScanInProgress = false;
-        try { imap.end(); } catch (e) {}
+        cleanup();
         return;
       }
 
@@ -1192,16 +1269,25 @@ async function scanInboxNow() {
       scannerStats.totalScans++;
 
       const total = box.messages.total;
+      if (total === 0) {
+        cleanup();
+        return;
+      }
+
       const processedUIDs = getProcessedUIDs();
-      // Fetch latest 10 messages
-      const startSeq = Math.max(1, total - 10);
+      const startSeq = Math.max(1, total - 14);
       const endSeq = total;
 
-      const f = imap.seq.fetch(`${startSeq}:${endSeq}`, { bodies: '', struct: true });
-      const pending = [];
+      // STEP 1: Fast header fetch in < 1 second
+      const f = imap.seq.fetch(`${startSeq}:${endSeq}`, {
+        bodies: 'HEADER.FIELDS (MESSAGE-ID FROM SUBJECT DATE)',
+        struct: true
+      });
+
+      const candidateSeqsToFetch = [];
 
       f.on('message', (msg, seqno) => {
-        let buffer = '';
+        let headerBuffer = '';
         let uid = seqno.toString();
 
         msg.on('attributes', (attrs) => {
@@ -1209,40 +1295,87 @@ async function scanInboxNow() {
         });
 
         msg.on('body', (stream) => {
-          stream.on('data', chunk => buffer += chunk.toString('utf8'));
+          stream.on('data', chunk => headerBuffer += chunk.toString('utf8'));
         });
 
         msg.once('end', () => {
-          if (!processedUIDs.includes(uid)) {
-            pending.push({ buffer, uid });
+          const fromMatch = headerBuffer.match(/From:\s*([^\r\n]+)/i);
+          const msgIdMatch = headerBuffer.match(/Message-ID:\s*<([^>]+)>/i);
+          const subjMatch = headerBuffer.match(/Subject:\s*([^\r\n]+)/i);
+
+          const fromStr = fromMatch ? fromMatch[1].toLowerCase() : '';
+          const msgId = msgIdMatch ? msgIdMatch[1] : '';
+          const subjStr = subjMatch ? subjMatch[1].toLowerCase() : '';
+
+          if (fromStr && shouldIgnoreSender(fromStr)) {
+            markUIDProcessed(uid, msgId);
+            return;
           }
+
+          if (processedUIDs.includes(uid) || (msgId && processedUIDs.includes(msgId))) {
+            return;
+          }
+
+          candidateSeqsToFetch.push({ seqno, uid, msgId });
         });
       });
 
-      f.once('error', () => {
-        isScanInProgress = false;
-        try { imap.end(); } catch (e) {}
+      f.once('error', (err) => {
+        console.error('Header fetch error:', err.message);
+        cleanup();
       });
 
       f.once('end', async () => {
-        if (pending.length > 0) {
-          for (const item of pending) {
-            try {
-              const parsed = await simpleParser(item.buffer);
-              await processCandidateEmailRecord(parsed, item.uid);
-            } catch (pErr) {
-              console.error('Email parse error:', pErr.message);
-              markUIDProcessed(item.uid);
-            }
+        if (candidateSeqsToFetch.length === 0) {
+          cleanup();
+          return;
+        }
+
+        console.log(`🔍 [INBOX Scanner] Found ${candidateSeqsToFetch.length} new unprocessed message(s). Fetching details...`);
+
+        // STEP 2: Fetch and process each candidate message sequentially
+        for (const item of candidateSeqsToFetch) {
+          markUIDProcessed(item.uid, item.msgId);
+          try {
+            await new Promise((resolve) => {
+              const fullFetch = imap.seq.fetch(`${item.seqno}:${item.seqno}`, { bodies: '', struct: true });
+              let fullBuffer = '';
+
+              fullFetch.on('message', (m) => {
+                m.on('body', (s) => {
+                  s.on('data', c => fullBuffer += c.toString('utf8'));
+                });
+              });
+
+              fullFetch.once('error', () => resolve());
+              fullFetch.once('end', async () => {
+                if (fullBuffer) {
+                  try {
+                    const parsed = await simpleParser(fullBuffer);
+                    await processCandidateEmailRecord(parsed, item.uid);
+                  } catch (pErr) {
+                    console.error('Candidate processing error:', pErr.message);
+                  }
+                }
+                resolve();
+              });
+            });
+          } catch (itemErr) {
+            console.error('Message fetch error:', itemErr.message);
           }
         }
-        isScanInProgress = false;
-        try { imap.end(); } catch (e) {}
+
+        cleanup();
       });
     });
   });
 
-  imap.once('error', () => {
+  imap.once('error', (err) => {
+    console.error('IMAP connection error:', err.message);
+    cleanup();
+  });
+
+  imap.once('close', () => {
     isScanInProgress = false;
   });
 

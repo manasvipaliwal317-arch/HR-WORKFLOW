@@ -19,10 +19,10 @@ const CONFIG = {
   hrEmail: 'manasvipaliwal317@gmail.com',
   appPassword: 'kstnydybbuqmpbyr',
   geminiApiKey: 'YOUR_GEMINI_API_KEY',
-  models: ['gemini-3.5-flash', 'gemini-flash-latest', 'gemini-3.6-flash'],
+  models: ['gemini-3.6-flash', 'gemini-flash-latest', 'gemini-3.5-flash', 'gemini-2.5-flash-lite'],
   companyName: 'Tech Innovations Inc.',
   threshold: 70,
-  pollIntervalMs: 10000 // Exact 10 seconds
+  pollIntervalMs: 5000 // 5 seconds
 };
 
 const PROCESSED_FILE = path.join(__dirname, 'processed_email_uids.json');
@@ -42,13 +42,25 @@ function getProcessedUIDs() {
   return [];
 }
 
-function saveProcessedUID(uid) {
+function saveProcessedUID(uid, messageId = null) {
   const list = getProcessedUIDs();
-  const uidStr = uid.toString();
-  if (!list.includes(uidStr)) {
-    list.push(uidStr);
-    // Keep max 500 records
-    if (list.length > 500) list.shift();
+  let changed = false;
+  if (uid) {
+    const uidStr = uid.toString();
+    if (!list.includes(uidStr)) {
+      list.push(uidStr);
+      changed = true;
+    }
+  }
+  if (messageId) {
+    const msgIdStr = messageId.toString();
+    if (!list.includes(msgIdStr)) {
+      list.push(msgIdStr);
+      changed = true;
+    }
+  }
+  if (changed) {
+    if (list.length > 1000) list.splice(0, list.length - 1000);
     fs.writeFileSync(PROCESSED_FILE, JSON.stringify(list, null, 2), 'utf8');
   }
 }
@@ -422,33 +434,51 @@ function pollInbox() {
   if (isPolling) return;
   isPolling = true;
 
+  const cleanup = (imap) => {
+    isPolling = false;
+    if (imap) {
+      try { imap.end(); } catch (e) {}
+    }
+  };
+
   const imap = new Imap({
     user: CONFIG.hrEmail,
     password: CONFIG.appPassword,
     host: 'imap.gmail.com',
     port: 993,
     tls: true,
-    tlsOptions: { rejectUnauthorized: false }
+    tlsOptions: { rejectUnauthorized: false },
+    authTimeout: 15000,
+    connTimeout: 20000
   });
 
   imap.once('ready', () => {
-    imap.openBox('[Gmail]/All Mail', false, (err, box) => {
+    imap.openBox('INBOX', false, (err, box) => {
       if (err) {
-        isPolling = false;
-        try { imap.end(); } catch (e) {}
+        cleanup(imap);
         return;
       }
 
       const total = box.messages.total;
+      if (total === 0) {
+        cleanup(imap);
+        return;
+      }
+
       const processedUIDs = getProcessedUIDs();
-      const startSeq = Math.max(1, total - 8);
+      const startSeq = Math.max(1, total - 14);
       const endSeq = total;
 
-      const f = imap.seq.fetch(`${startSeq}:${endSeq}`, { bodies: '', struct: true });
-      const pending = [];
+      // STEP 1: Fast header fetch in < 1 second
+      const f = imap.seq.fetch(`${startSeq}:${endSeq}`, {
+        bodies: 'HEADER.FIELDS (MESSAGE-ID FROM SUBJECT DATE)',
+        struct: true
+      });
+
+      const candidateSeqsToFetch = [];
 
       f.on('message', (msg, seqno) => {
-        let buffer = '';
+        let headerBuffer = '';
         let uid = seqno.toString();
 
         msg.on('attributes', (attrs) => {
@@ -456,34 +486,84 @@ function pollInbox() {
         });
 
         msg.on('body', (stream) => {
-          stream.on('data', (chunk) => buffer += chunk.toString('utf8'));
+          stream.on('data', (chunk) => headerBuffer += chunk.toString('utf8'));
         });
 
         msg.once('end', () => {
-          if (!processedUIDs.includes(uid)) {
-            pending.push({ buffer, uid });
+          const fromMatch = headerBuffer.match(/From:\s*([^\r\n]+)/i);
+          const msgIdMatch = headerBuffer.match(/Message-ID:\s*<([^>]+)>/i);
+
+          const fromStr = fromMatch ? fromMatch[1].toLowerCase() : '';
+          const msgId = msgIdMatch ? msgIdMatch[1] : '';
+
+          if (fromStr && shouldIgnoreSender(fromStr)) {
+            saveProcessedUID(uid, msgId);
+            return;
           }
+
+          if (processedUIDs.includes(uid) || (msgId && processedUIDs.includes(msgId))) {
+            return;
+          }
+
+          candidateSeqsToFetch.push({ seqno, uid, msgId });
         });
       });
 
       f.once('error', (err) => {
-        isPolling = false;
-        try { imap.end(); } catch (e) {}
+        console.error('Daemon header fetch error:', err.message);
+        cleanup(imap);
       });
 
       f.once('end', async () => {
-        if (pending.length > 0) {
-          for (const item of pending) {
-            await processCandidateEmail(item.buffer, item.uid);
+        if (candidateSeqsToFetch.length === 0) {
+          cleanup(imap);
+          return;
+        }
+
+        console.log(`🔍 [Daemon Scanner] Found ${candidateSeqsToFetch.length} new unprocessed message(s). Fetching full payload...`);
+
+        // STEP 2: Fetch and process each candidate message sequentially
+        for (const item of candidateSeqsToFetch) {
+          saveProcessedUID(item.uid, item.msgId);
+          try {
+            await new Promise((resolve) => {
+              const fullFetch = imap.seq.fetch(`${item.seqno}:${item.seqno}`, { bodies: '', struct: true });
+              let fullBuffer = '';
+
+              fullFetch.on('message', (m) => {
+                m.on('body', (s) => {
+                  s.on('data', (c) => fullBuffer += c.toString('utf8'));
+                });
+              });
+
+              fullFetch.once('error', () => resolve());
+              fullFetch.once('end', async () => {
+                if (fullBuffer) {
+                  try {
+                    await processCandidateEmail(fullBuffer, item.uid);
+                  } catch (pErr) {
+                    console.error('Daemon processing error:', pErr.message);
+                  }
+                }
+                resolve();
+              });
+            });
+          } catch (itemErr) {
+            console.error('Daemon item error:', itemErr.message);
           }
         }
-        isPolling = false;
-        try { imap.end(); } catch (e) {}
+
+        cleanup(imap);
       });
     });
   });
 
   imap.once('error', (err) => {
+    console.error('IMAP connection error:', err.message);
+    cleanup(imap);
+  });
+
+  imap.once('close', () => {
     isPolling = false;
   });
 
@@ -491,9 +571,9 @@ function pollInbox() {
 }
 
 console.log('===============================================================');
-console.log(` 🚀 PRODUCTION 10-SECOND CONTINUOUS EMAIL WATCHER RUNNING`);
+console.log(` 🚀 PRODUCTION CONTINUOUS EMAIL WATCHER RUNNING`);
 console.log(` 📧 Recruiter Mailbox: ${CONFIG.hrEmail}`);
-console.log(` ⏱️ Polling Frequency: Every 10 Seconds`);
+console.log(` ⏱️ Polling Frequency: Every 5 Seconds`);
 console.log(` 🤖 AI Models Active:  ${CONFIG.models.join(' ➔ ')}`);
 console.log(` 🌐 Live HR Dashboard: http://localhost:3000`);
 console.log('===============================================================');
@@ -501,5 +581,5 @@ console.log('===============================================================');
 // Initial check immediately
 pollInbox();
 
-// Run every 10 seconds continuously
+// Run every 5 seconds continuously
 setInterval(pollInbox, CONFIG.pollIntervalMs);
