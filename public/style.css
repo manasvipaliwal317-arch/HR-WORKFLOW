@@ -2298,3 +2298,137 @@ body {
   transform: translateY(-1px);
 }
 
+/* Assessment Test Status Badges */
+.badge-test-pass {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  border-radius: 6px;
+  font-size: 0.78rem;
+  color: #34d399;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.badge-test-fail {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  border-radius: 6px;
+  font-size: 0.78rem;
+  color: #f87171;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.badge-test-assigned {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.35);
+  border-radius: 6px;
+  font-size: 0.78rem;
+  color: #a5b4fc;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge-test-inprogress {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  border-radius: 6px;
+  font-size: 0.78rem;
+  color: #fbbf24;
+  font-weight: 600;
+  white-space: nowrap;
+  animation: pulse 2s infinite;
+}
+
+.badge-test-none {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* MCQ Review Section in Modal */
+.mcq-review-item {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 0.82rem;
+}
+
+.mcq-review-item.correct {
+  border-left: 3px solid #10b981;
+}
+
+.mcq-review-item.incorrect {
+  border-left: 3px solid #ef4444;
+}
+
+.mcq-review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.mcq-verdict-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.mcq-verdict-badge.correct {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+}
+
+.mcq-verdict-badge.incorrect {
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+}
+
+.mcq-answers-comparison {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.mcq-answers-comparison .ans-user {
+  color: #cbd5e1;
+}
+
+.mcq-answers-comparison .ans-correct {
+  color: #34d399;
+  font-weight: 600;
+}
+
+

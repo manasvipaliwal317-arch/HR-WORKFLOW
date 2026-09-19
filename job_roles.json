@@ -21,7 +21,7 @@
     "id": "role_marketing",
     "title": "Digital Marketing Specialist",
     "department": "Growth & Marketing",
-    "isActive": true,
+    "isActive": false,
     "requiredSkills": [
       "SEO",
       "SEM",
@@ -124,7 +124,7 @@
     "id": "role_custom_mthd6y3o_yrhu",
     "title": "AI Solutions Architect",
     "department": "Enterprise AI & Automation",
-    "isActive": true,
+    "isActive": false,
     "requiredSkills": [
       "LangChain",
       "Python",
@@ -135,5 +135,20 @@
     ],
     "minExperience": "4+ Years",
     "description": "Designing enterprise-grade autonomous AI agents, LLM pipelines, and automation workflows."
+  },
+  {
+    "id": "role_custom_mu8a2lam_umaz",
+    "title": "Senior Cloud Security Architect",
+    "department": "Cloud Security",
+    "isActive": true,
+    "requiredSkills": [
+      "AWS",
+      "Kubernetes",
+      "IAM",
+      "Terraform",
+      "SOC2"
+    ],
+    "minExperience": "4+ Years",
+    "description": "Securing cloud infrastructure and managing compliance."
   }
 ]

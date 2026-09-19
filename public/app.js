@@ -224,6 +224,25 @@ function initSSE() {
       loadStats();
     });
 
+    liveEventSource.addEventListener('test_completed', (e) => {
+      try {
+        const data = JSON.parse(e.data);
+        if (data) {
+          const pass = !!data.passed;
+          showToast(`
+            <div style="text-align:left;">
+              <div style="font-weight:700;font-size:0.95rem;margin-bottom:2px;">📊 Assessment Test Submitted</div>
+              <div>Score: <strong>${data.score}%</strong> (${pass ? '🎉 PASSED ≥ 80% — HIRED' : '⚠️ FAILED < 80% — REJECTED'})</div>
+              <div>Status: ${pass ? '<span style="color:#10b981;font-weight:700;">Job Offer Dispatched</span>' : '<span style="color:#ef4444;font-weight:700;">Feedback Email Sent</span>'}</div>
+            </div>
+          `, pass ? 'success' : 'info');
+          try { playChime(pass); } catch (err) {}
+        }
+      } catch (err) {}
+      loadCandidates();
+      loadStats();
+    });
+
     liveEventSource.addEventListener('candidate_deleted', () => {
       loadCandidates();
       loadStats();
@@ -538,16 +557,36 @@ function scrollToPipelineTop() {
   }
 }
 
+// Helper: Assessment Test Status Badge Generator
+function getTestBadgeHtml(cand) {
+  if (cand.testScore !== undefined && cand.testScore !== null) {
+    if (cand.testScore >= 80) {
+      return `<span class="badge-test-pass">🎯 Test: <strong>${cand.testScore}%</strong> (Passed)</span>`;
+    } else {
+      return `<span class="badge-test-fail">⚠️ Test: <strong>${cand.testScore}%</strong> (Failed)</span>`;
+    }
+  }
+  if (cand.testStatus === 'IN_PROGRESS') {
+    return `<span class="badge-test-inprogress">⏳ Test In Progress</span>`;
+  }
+  if (cand.testStatus === 'ASSIGNED' || cand.status === 'TEST_ASSIGNED' || cand.decision === 'SELECTED') {
+    return `<span class="badge-test-assigned">📝 Test Link Sent</span>`;
+  }
+  return `<span class="badge-test-none">Test: N/A</span>`;
+}
+
 // Instant Filter Application
 function applyFilters() {
   const searchInput = document.getElementById('pipeline-search');
   const decisionSelect = document.getElementById('filter-decision');
   const statusSelect = document.getElementById('filter-status');
+  const testSelect = document.getElementById('filter-test');
   const roleSelect = document.getElementById('filter-role');
 
   const search = (searchInput ? searchInput.value : '').toLowerCase().trim();
   const decision = decisionSelect ? decisionSelect.value : 'ALL';
   const status = statusSelect ? statusSelect.value : 'ALL';
+  const testFilter = testSelect ? testSelect.value : 'ALL';
   const role = roleSelect ? roleSelect.value : 'ALL';
 
   filteredCandidates = allCandidates.filter(c => {
@@ -558,6 +597,13 @@ function applyFilters() {
     // Pipeline Status filter
     if (status !== 'ALL' && c.status !== status) {
       return false;
+    }
+    // Assessment Test filter
+    if (testFilter !== 'ALL') {
+      if (testFilter === 'PASSED' && !(c.testScore !== undefined && c.testScore >= 80)) return false;
+      if (testFilter === 'FAILED' && !(c.testScore !== undefined && c.testScore < 80)) return false;
+      if (testFilter === 'IN_PROGRESS' && c.testStatus !== 'IN_PROGRESS') return false;
+      if (testFilter === 'ASSIGNED' && !(c.testStatus === 'ASSIGNED' || c.status === 'TEST_ASSIGNED' || (c.decision === 'SELECTED' && c.testScore === undefined))) return false;
     }
     // Role filter
     if (role !== 'ALL' && c.role !== role) {
@@ -599,6 +645,7 @@ function initFilters() {
   const searchInput = document.getElementById('pipeline-search');
   const decisionSelect = document.getElementById('filter-decision');
   const statusSelect = document.getElementById('filter-status');
+  const testSelect = document.getElementById('filter-test');
   const roleSelect = document.getElementById('filter-role');
 
   if (searchInput) {
@@ -611,6 +658,10 @@ function initFilters() {
 
   if (statusSelect) {
     statusSelect.addEventListener('change', applyFilters);
+  }
+
+  if (testSelect) {
+    testSelect.addEventListener('change', applyFilters);
   }
 
   if (roleSelect) {
@@ -658,6 +709,7 @@ function renderCandidates(candidates) {
 
   pageCandidates.forEach(cand => {
     const isSelected = cand.decision === 'SELECTED';
+    const isHired = cand.status === 'HIRED';
     const initials = (cand.name || 'Candidate').split(' ').filter(Boolean).map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'CD';
     const scoreClass = cand.matchScore >= 70 ? 'high' : 'low';
     const dateStr = cand.createdAt ? new Date(cand.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'Today';
@@ -666,14 +718,14 @@ function renderCandidates(candidates) {
     let scheduleBadgeHtml = '';
     if (cand.status === 'HIRED' || cand.status === 'OFFER_EXTENDED') {
       scheduleBadgeHtml = `<div class="date-badge-hired" style="margin: 8px 0 4px;">💼 Joining: <strong>${escapeHtml(cand.joiningDate || 'Confirmed')}</strong></div>`;
-    } else if (cand.status === 'INTERVIEW_SCHEDULED' || isSelected) {
-      const intDate = cand.interviewDate || cand.proposedInterviewDate || 'Upcoming';
-      scheduleBadgeHtml = `<div class="date-badge-interview" style="margin: 8px 0 4px;">📅 Interview: <strong>${escapeHtml(intDate)}</strong></div>`;
     }
+
+    // Test Badge
+    const testBadge = getTestBadgeHtml(cand);
 
     // Card View
     const card = document.createElement('div');
-    card.className = `candidate-card ${isSelected ? 'selected' : 'rejected'}`;
+    card.className = `candidate-card ${isHired ? 'selected' : (isSelected ? 'selected' : 'rejected')}`;
     card.innerHTML = `
       <div>
         <div class="card-top">
@@ -691,12 +743,13 @@ function renderCandidates(candidates) {
         </div>
 
         <div class="card-badges-row">
-          <span class="badge-decision ${isSelected ? 'selected' : 'rejected'}">
-            ${isSelected ? '✓ SELECTED' : '✕ REJECTED'}
+          <span class="badge-decision ${isHired ? 'selected' : (isSelected ? 'selected' : 'rejected')}">
+            ${isHired ? '🎉 HIRED' : (isSelected ? '✓ SELECTED' : '✕ REJECTED')}
           </span>
           <span class="badge-status">
             ${formatStatus(cand.status)}
           </span>
+          ${testBadge}
         </div>
 
         ${scheduleBadgeHtml}
@@ -722,16 +775,7 @@ function renderCandidates(candidates) {
     card.addEventListener('click', () => openCandidateModal(cand));
     grid.appendChild(card);
 
-    // Table Date Badge
-    let tableDateBadge = '<span style="color:var(--text-muted);">—</span>';
-    if (cand.status === 'HIRED' || cand.status === 'OFFER_EXTENDED') {
-      tableDateBadge = `<span class="date-badge-hired">💼 Joining: <strong>${escapeHtml(cand.joiningDate || 'TBD')}</strong></span>`;
-    } else if (cand.status === 'INTERVIEW_SCHEDULED' || isSelected) {
-      const intDate = cand.interviewDate || cand.proposedInterviewDate || 'Scheduled';
-      tableDateBadge = `<span class="date-badge-interview">📅 Interview: <strong>${escapeHtml(intDate)}</strong></span>`;
-    }
-
-    // Table View: Candidate | Applied On | Target Role | AI Score | Top Skills | Decision | Pipeline Status | Interview/Joining Date | Actions
+    // Table View: Candidate | Applied On | Target Role | AI Score | Assessment Test | Top Skills | Decision | Pipeline Status | Actions
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>
@@ -749,15 +793,17 @@ function renderCandidates(candidates) {
         <strong style="color: ${cand.matchScore >= 70 ? 'var(--success-text)' : 'var(--danger-text)'}; font-size:0.95rem;">${cand.matchScore}%</strong>
       </td>
       <td>
+        ${testBadge}
+      </td>
+      <td>
         ${(cand.topSkills || []).slice(0, 3).map(s => `<span class="skill-pill">${escapeHtml(s)}</span>`).join(' ')}
       </td>
       <td>
-        <span class="badge-decision ${isSelected ? 'selected' : 'rejected'}">
-          ${cand.decision}
+        <span class="badge-decision ${isHired ? 'selected' : (isSelected ? 'selected' : 'rejected')}">
+          ${isHired ? 'HIRED' : cand.decision}
         </span>
       </td>
       <td><span class="badge-status">${formatStatus(cand.status)}</span></td>
-      <td>${tableDateBadge}</td>
       <td>
         <div class="table-actions-cell">
           <button class="btn-secondary" style="padding:0.3rem 0.6rem; font-size:0.75rem;" onclick="event.stopPropagation(); openCandidateModalById('${cand.id}')">Inspect</button>
@@ -1235,47 +1281,37 @@ function initModal() {
     });
   }
 
-  // Copy Google Meet link
-  const copyMeetBtn = document.getElementById('btn-copy-meet-link');
-  if (copyMeetBtn) {
-    copyMeetBtn.addEventListener('click', () => {
-      const link = document.getElementById('modal-meeting-link')?.value;
-      if (!link) {
-        showToast('No meeting link available', 'warning');
-        return;
-      }
-      navigator.clipboard.writeText(link).then(() => {
-        showToast('Google Meet link copied to clipboard: ' + link, 'success');
-      });
+  // Copy Assessment Test link
+  const copyTestLinkHandler = () => {
+    const link = document.getElementById('modal-test-link')?.value;
+    if (!link) {
+      showToast('No assessment test link available for this candidate', 'warning');
+      return;
+    }
+    navigator.clipboard.writeText(link).then(() => {
+      showToast('Assessment test link copied to clipboard: ' + link, 'success');
     });
-  }
+  };
 
-  // Open Meet Link
-  const openMeetBtn = document.getElementById('btn-open-meet');
-  if (openMeetBtn) {
-    openMeetBtn.addEventListener('click', () => {
-      const link = document.getElementById('modal-meeting-link')?.value;
-      if (link && link.startsWith('http')) {
-        window.open(link, '_blank');
-      } else {
-        showToast('Please enter a valid meeting URL (e.g. https://meet.google.com/...)', 'warning');
-      }
-    });
-  }
+  const copyTestBtn = document.getElementById('btn-copy-test-link');
+  const copyTestBtnInput = document.getElementById('btn-copy-test-link-input');
+  if (copyTestBtn) copyTestBtn.addEventListener('click', copyTestLinkHandler);
+  if (copyTestBtnInput) copyTestBtnInput.addEventListener('click', copyTestLinkHandler);
 
-  // Generate New Meet Link
-  const genMeetBtn = document.getElementById('btn-generate-meet');
-  if (genMeetBtn) {
-    genMeetBtn.addEventListener('click', () => {
-      const rand1 = Math.random().toString(36).substring(2, 5);
-      const rand2 = Math.random().toString(36).substring(2, 6);
-      const rand3 = Math.random().toString(36).substring(2, 5);
-      const newLink = `https://meet.google.com/${rand1}-${rand2}-${rand3}`;
-      const input = document.getElementById('modal-meeting-link');
-      if (input) input.value = newLink;
-      showToast('Generated new Google Meet link: ' + newLink, 'info');
-    });
-  }
+  // Open Assessment Portal in new tab
+  const openTestLinkHandler = () => {
+    const link = document.getElementById('modal-test-link')?.value;
+    if (link && link.startsWith('http')) {
+      window.open(link, '_blank');
+    } else {
+      showToast('Please enter a valid assessment portal URL', 'warning');
+    }
+  };
+
+  const openTestBtn = document.getElementById('btn-open-test-link');
+  const openTestBtnInput = document.getElementById('btn-open-test-link-input');
+  if (openTestBtn) openTestBtn.addEventListener('click', openTestLinkHandler);
+  if (openTestBtnInput) openTestBtnInput.addEventListener('click', openTestLinkHandler);
 
   // Copy interview questions
   const copyBtn = document.getElementById('btn-copy-questions');
@@ -1317,32 +1353,21 @@ function initModal() {
     });
   }
 
-  // Dispatch / Resend Interview Invitation Email with Google Meet Link
+  // Dispatch / Resend Assessment Test Link Email
   const dispatchInviteBtn = document.getElementById('btn-dispatch-interview-invite');
   if (dispatchInviteBtn) {
     dispatchInviteBtn.addEventListener('click', async () => {
       if (!selectedCandidate) return;
-      
-      const interviewDate = document.getElementById('modal-interview-date')?.value;
-      const interviewTime = document.getElementById('modal-interview-time')?.value;
-      const meetingLink = document.getElementById('modal-meeting-link')?.value;
-      const interviewRound = document.getElementById('modal-interview-round')?.value;
-      const interviewerName = document.getElementById('modal-interviewer')?.value;
 
       dispatchInviteBtn.disabled = true;
-      dispatchInviteBtn.textContent = '⏳ Dispatching Interview Invitation...';
+      dispatchInviteBtn.textContent = '⏳ Dispatching Assessment Invitation...';
 
       try {
         const res = await fetch(`/api/candidates/${selectedCandidate.id}/status`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            status: 'INTERVIEW_SCHEDULED',
-            interviewDate,
-            interviewTime,
-            meetingLink,
-            interviewRound,
-            interviewerName,
+            status: 'TEST_ASSIGNED',
             sendUpdateEmail: true
           })
         });
@@ -1353,21 +1378,24 @@ function initModal() {
           const idx = allCandidates.findIndex(c => c.id === selectedCandidate.id);
           if (idx !== -1) allCandidates[idx] = selectedCandidate;
 
-          showToast(`Interview invitation with Google Meet link dispatched to ${selectedCandidate.email}!`, 'success');
+          showToast(`Assessment invitation email with 20 MCQ test link dispatched to ${selectedCandidate.email}!`, 'success');
           
           const modalStatus = document.getElementById('modal-status');
-          if (modalStatus) modalStatus.textContent = 'INTERVIEW_SCHEDULED';
+          if (modalStatus) {
+            modalStatus.textContent = formatStatus('TEST_ASSIGNED');
+            modalStatus.className = 'status-badge status-test_assigned';
+          }
 
           updateMetrics(allCandidates);
           applyFilters();
         } else {
-          showToast(data.error || 'Failed to dispatch interview email', 'error');
+          showToast(data.error || 'Failed to dispatch assessment email', 'error');
         }
       } catch (err) {
         showToast('Error dispatching invitation: ' + err.message, 'error');
       } finally {
         dispatchInviteBtn.disabled = false;
-        dispatchInviteBtn.textContent = '✉️ Send / Resend Interview Invitation Email with Google Meet Link';
+        dispatchInviteBtn.textContent = '✉️ Send / Resend Assessment Test Link Email';
       }
     });
   }
@@ -1659,7 +1687,81 @@ function openCandidateModal(cand) {
     const inputProfEdu = document.getElementById('modal-profile-edu');
     if (inputProfEdu) inputProfEdu.value = cand.education || 'B.Tech in Computer Science';
 
-    // Interview Schedule & Google Meet Fields
+    // Online Assessment Test Fields
+    const baseUrl = window.location.origin;
+    const testToken = cand.id || cand.testToken || '';
+    const testUrl = cand.testLink || `${baseUrl}/assessment.html?token=${encodeURIComponent(testToken)}`;
+    
+    const inputTestLink = document.getElementById('modal-test-link');
+    if (inputTestLink) inputTestLink.value = testUrl;
+
+    const testStatusBadge = document.getElementById('modal-test-status-badge');
+    if (testStatusBadge) {
+      if (cand.testScore !== undefined && cand.testScore >= 80) {
+        testStatusBadge.innerHTML = `<span style="color:#10b981; font-weight:800;">PASSED (Hired)</span>`;
+      } else if (cand.testScore !== undefined && cand.testScore < 80) {
+        testStatusBadge.innerHTML = `<span style="color:#ef4444; font-weight:800;">FAILED (Rejected)</span>`;
+      } else if (cand.testStatus === 'IN_PROGRESS') {
+        testStatusBadge.innerHTML = `<span style="color:#f59e0b; font-weight:700;">IN PROGRESS</span>`;
+      } else if (cand.testStatus === 'ASSIGNED' || cand.status === 'TEST_ASSIGNED' || cand.decision === 'SELECTED') {
+        testStatusBadge.innerHTML = `<span style="color:#818cf8; font-weight:700;">LINK SENT</span>`;
+      } else {
+        testStatusBadge.innerHTML = `<span style="color:var(--text-muted);">NOT ASSIGNED</span>`;
+      }
+    }
+
+    const testScoreDisplay = document.getElementById('modal-test-score-display');
+    if (testScoreDisplay) {
+      if (cand.testScore !== undefined && cand.testScore !== null) {
+        const correct = cand.testCorrectCount !== undefined ? cand.testCorrectCount : Math.round((cand.testScore / 100) * 20);
+        testScoreDisplay.innerHTML = `<strong style="color:${cand.testScore >= 80 ? '#34d399' : '#f87171'};">${cand.testScore}%</strong> <span style="font-size:0.75rem; color:var(--text-secondary);">(${correct}/20)</span>`;
+      } else {
+        testScoreDisplay.textContent = '—';
+      }
+    }
+
+    const testViolationsDisplay = document.getElementById('modal-test-violations-display');
+    if (testViolationsDisplay) {
+      const violations = cand.testCheatViolations || 0;
+      if (violations > 0) {
+        testViolationsDisplay.innerHTML = `<span style="color:#ef4444; font-weight:700;">⚠️ ${violations} Alert(s)</span>`;
+      } else {
+        testViolationsDisplay.innerHTML = `<span style="color:#10b981; font-weight:700;">✓ Clean (0)</span>`;
+      }
+    }
+
+    // Question-by-Question Detailed Test Breakdown Card
+    const testBreakdownCard = document.getElementById('modal-test-breakdown-card');
+    const testBreakdownList = document.getElementById('modal-test-breakdown-list');
+    const testReviewBadge = document.getElementById('modal-test-review-badge');
+
+    if (testBreakdownCard && testBreakdownList) {
+      if (cand.testDetailedResults && Array.isArray(cand.testDetailedResults) && cand.testDetailedResults.length > 0) {
+        testBreakdownCard.style.display = 'block';
+        if (testReviewBadge) {
+          testReviewBadge.textContent = `${cand.testCorrectCount || 0} / ${cand.testTotalCount || 20} Correct (${cand.testScore}%)`;
+          testReviewBadge.className = cand.testScore >= 80 ? 'badge-emerald' : 'badge-danger';
+        }
+        testBreakdownList.innerHTML = cand.testDetailedResults.map((res, i) => `
+          <div class="mcq-review-item ${res.isCorrect ? 'correct' : 'incorrect'}">
+            <div class="mcq-review-header">
+              <span>Q${i + 1}: ${escapeHtml(res.question)}</span>
+              <span class="mcq-verdict-badge ${res.isCorrect ? 'correct' : 'incorrect'}">
+                ${res.isCorrect ? '✓ Correct' : '✕ Incorrect'}
+              </span>
+            </div>
+            <div class="mcq-answers-comparison">
+              <div class="ans-user">Candidate Answer: <strong>${escapeHtml(res.userAnswerText || 'Not Answered')}</strong></div>
+              ${!res.isCorrect ? `<div class="ans-correct">Correct Answer: <strong>${escapeHtml(res.correctAnswerText || 'N/A')}</strong></div>` : ''}
+            </div>
+          </div>
+        `).join('');
+      } else {
+        testBreakdownCard.style.display = 'none';
+      }
+    }
+
+    // Interview Schedule & Google Meet Fields (Preserved for compatibility)
     const defaultIntDate = formatFutureInterviewDate(3);
     const interviewDateInput = document.getElementById('modal-interview-date');
     if (interviewDateInput) {
@@ -1668,24 +1770,22 @@ function openCandidateModal(cand) {
 
     const interviewTimeInput = document.getElementById('modal-interview-time');
     if (interviewTimeInput) {
-      interviewTimeInput.value = cand.interviewTime || '2:30 PM - 3:15 PM IST (45 Mins)';
+      interviewTimeInput.value = cand.interviewTime || '30 Minutes Online Technical Assessment';
     }
 
     const meetingLinkInput = document.getElementById('modal-meeting-link');
     if (meetingLinkInput) {
-      meetingLinkInput.value = cand.meetingLink || `https://meet.google.com/nex-${(cand.id || 'abc').substring(5, 9)}-meet`;
+      meetingLinkInput.value = cand.meetingLink || testUrl;
     }
 
     const interviewRoundInput = document.getElementById('modal-interview-round');
     if (interviewRoundInput) {
-      interviewRoundInput.value = cand.interviewRound || (cand.role && cand.role.includes('Marketing') 
-        ? 'Round 1: Marketing Strategy & Campaign Review' 
-        : 'Round 1: Technical & System Architecture');
+      interviewRoundInput.value = cand.interviewRound || 'Domain Technical MCQ Assessment (20 Questions / 30 Mins)';
     }
 
     const interviewerInput = document.getElementById('modal-interviewer');
     if (interviewerInput) {
-      interviewerInput.value = cand.interviewerName || 'Tech Innovations Hiring Panel';
+      interviewerInput.value = cand.interviewerName || 'Technical Hiring Council';
     }
 
     // Questions List
@@ -1852,6 +1952,11 @@ async function loadSettings() {
 // Helpers
 function formatStatus(status) {
   if (!status) return 'New';
+  if (status === 'TEST_ASSIGNED') return '📝 Test Assigned';
+  if (status === 'TEST_IN_PROGRESS') return '⏳ Test In Progress';
+  if (status === 'HIRED') return '🎉 Hired';
+  if (status === 'REJECTED') return '✕ Rejected';
+  if (status === 'SHORTLISTED') return '⭐ Shortlisted';
   return status.replace(/_/g, ' ');
 }
 

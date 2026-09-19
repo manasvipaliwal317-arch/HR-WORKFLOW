@@ -1,0 +1,265 @@
+{
+  "timestamp": "2026-09-19T11:05:17.403Z",
+  "durationSeconds": 10.66,
+  "summary": {
+    "total": 28,
+    "passed": 28,
+    "warnings": 0,
+    "failed": 0,
+    "passRate": 100
+  },
+  "results": [
+    {
+      "subsystem": "Configuration & Storage",
+      "id": "1.1",
+      "title": "Verify System Configuration (config.json) Schema & Credentials",
+      "status": "PASSED",
+      "details": "All essential configuration parameters verified. Recruiter: manasvipaliwal317@gmail.com, Threshold: 70%.",
+      "evidence": "Models configured: [gemini-3.5-flash-lite, gemini-3.1-flash-lite, gemini-3.7-flash, gemini-3.6-flash] | Active Gemini Key: YOUR_GEMINI_API_KEY...",
+      "timestamp": "2026-09-19T11:05:06.741Z"
+    },
+    {
+      "subsystem": "Configuration & Storage",
+      "id": "1.2",
+      "title": "Verify Dynamic Job Roles Schema & Active Vacancies",
+      "status": "PASSED",
+      "details": "Database contains 9 total roles (2 currently active for recruitment).",
+      "evidence": "Active Openings: \"Full Stack Developer\", \"Senior Cloud Security Architect\"",
+      "timestamp": "2026-09-19T11:05:06.741Z"
+    },
+    {
+      "subsystem": "Configuration & Storage",
+      "id": "1.3",
+      "title": "Verify Candidates Database Integrity (candidates_db.json)",
+      "status": "PASSED",
+      "details": "Parsed 28 total candidate records with valid entity schema.",
+      "evidence": "Valid candidates indexed: 28/28",
+      "timestamp": "2026-09-19T11:05:06.743Z"
+    },
+    {
+      "subsystem": "Configuration & Storage",
+      "id": "1.4",
+      "title": "Verify Email Deduplication & Processed UIDs Store",
+      "status": "PASSED",
+      "details": "Deduplication store active and caching 164 processed message identifiers to prevent duplicate processing.",
+      "evidence": "Cache Size: 164 entries",
+      "timestamp": "2026-09-19T11:05:06.743Z"
+    },
+    {
+      "subsystem": "Document Processing",
+      "id": "2.1",
+      "title": "Extract Resume Text from Binary PDF Streams ({ PDFParse } v2 Engine)",
+      "status": "PASSED",
+      "details": "Successfully converted 789 bytes binary PDF stream into clean text payload.",
+      "evidence": "Extracted Snippet: \"Candidate Name: Robert Langdon Email: robert.langdon.qa@gmail.com Role: Senior Cloud Infrastructure Architect ...\"",
+      "timestamp": "2026-09-19T11:05:06.792Z"
+    },
+    {
+      "subsystem": "Document Processing",
+      "id": "2.2",
+      "title": "Multi-Format Document Extractor Wrapper (PDF, DOCX, Plaintext)",
+      "status": "PASSED",
+      "details": "Unified document extraction wrapper correctly routed file by extension and parsed content.",
+      "evidence": "Extracted length: 188 chars",
+      "timestamp": "2026-09-19T11:05:06.794Z"
+    },
+    {
+      "subsystem": "Document Processing",
+      "id": "2.3",
+      "title": "Fault Resilience: Corrupted / Malformed Document Protection",
+      "status": "PASSED",
+      "details": "Server safely trapped malformed PDF document without process crashing or unhandled rejections.",
+      "evidence": "Handled safely. Fallback length: 0",
+      "timestamp": "2026-09-19T11:05:06.798Z"
+    },
+    {
+      "subsystem": "AI / LLM Decision Engine",
+      "id": "3.1",
+      "title": "Live Google Gemini Endpoint Connectivity (gemini-3.6-flash)",
+      "status": "PASSED",
+      "details": "Cloud AI endpoint responded with HTTP 200 and structured JSON schema generation.",
+      "evidence": "HTTP Status: 200 | Model: gemini-3.6-flash",
+      "timestamp": "2026-09-19T11:05:09.149Z"
+    },
+    {
+      "subsystem": "AI / LLM Decision Engine",
+      "id": "3.2",
+      "title": "Strict Real-Time Calendar Engine (No Past Dates / Business Day Scheduling)",
+      "status": "PASSED",
+      "details": "Calculated verified future business interview: \"Wednesday, September 23, 2026\" and joining: \"Monday, October 19, 2026\". Hallucinated past dates (2024/2025) strictly purged.",
+      "evidence": "Interview: Wednesday, September 23, 2026 | Joining: Monday, October 19, 2026",
+      "timestamp": "2026-09-19T11:05:09.162Z"
+    },
+    {
+      "subsystem": "AI / LLM Decision Engine",
+      "id": "3.3",
+      "title": "Resilient Heuristic Fallback Engine (Dual-Path Selection & Rejection)",
+      "status": "PASSED",
+      "details": "Zero-downtime offline fallback verified:\n       ▶ Qualified: Aditi -> SELECTED (94%)\n       ▶ Underqualified: Toby -> REJECTED (40%)",
+      "evidence": "Qualified Role: Full Stack Developer | Rejection Reason: \"Domain match score of 40% is below required hiring threshold.\"",
+      "timestamp": "2026-09-19T11:05:09.164Z"
+    },
+    {
+      "subsystem": "Candidate Assessment",
+      "id": "4.1",
+      "title": "Anti-Pattern 20-MCQ Answer Key Randomizer (Strict 25% Equal Distribution)",
+      "status": "PASSED",
+      "details": "Verified mathematical constraints: Exactly 5 A's (25%), 5 B's (25%), 5 C's (25%), 5 D's (25%). Max identical in a row: 2 (Limit: 2).",
+      "evidence": "Generated Key: [D, D, B, A, C, B, B, D, B, C, B, A, A, D, D, C, A, A, C, C]",
+      "timestamp": "2026-09-19T11:05:09.164Z"
+    },
+    {
+      "subsystem": "Candidate Assessment",
+      "id": "4.2",
+      "title": "MCQ Fisher-Yates Randomization & Answer Mapping",
+      "status": "PASSED",
+      "details": "Questions and incorrect option distractors randomized via Knuth algorithm with correct option mapped to balanced key index.",
+      "evidence": "Questions formatted: 4 | Option count per question: 4",
+      "timestamp": "2026-09-19T11:05:09.164Z"
+    },
+    {
+      "subsystem": "Mailbox & Communications",
+      "id": "5.1",
+      "title": "IMAP Mailbox Connection & Inbox Access (manasvipaliwal317@gmail.com)",
+      "status": "PASSED",
+      "details": "Secure TLS 993 IMAP session established with Google Mail servers. Mailbox active.",
+      "evidence": "Mailbox Status: MESSAGES 4143 UNSEEN 3691",
+      "timestamp": "2026-09-19T11:05:10.407Z"
+    },
+    {
+      "subsystem": "Mailbox & Communications",
+      "id": "5.2",
+      "title": "Intelligent Noise Suppression & Email Filtering Rules",
+      "status": "PASSED",
+      "details": "Successfully distinguished candidate applications from newsletters, recruiter loops, and automated system alerts.",
+      "evidence": "Evaluated 5 filtering test scenarios (100% accuracy)",
+      "timestamp": "2026-09-19T11:05:10.407Z"
+    },
+    {
+      "subsystem": "Mailbox & Communications",
+      "id": "5.3",
+      "title": "Gmail SMTP Auto-Dispatcher Transport Handshake (manasvipaliwal317@gmail.com)",
+      "status": "PASSED",
+      "details": "SMTP transport credentials validated successfully with Google Mail gateway (Port 465/SSL).",
+      "evidence": "Ready for auto-dispatching interview invitations & candidate status updates.",
+      "timestamp": "2026-09-19T11:05:11.564Z"
+    },
+    {
+      "subsystem": "Dashboard & REST API",
+      "id": "6.1",
+      "title": "Server Health Check Endpoint (GET /api/health)",
+      "status": "PASSED",
+      "details": "REST API reports operational health status (healthy) and active configuration.",
+      "evidence": "Status: 200 | Service: Tech Innovations Inc. - Nexus HR Recruitment Pipeline",
+      "timestamp": "2026-09-19T11:05:11.575Z"
+    },
+    {
+      "subsystem": "Dashboard & REST API",
+      "id": "6.2",
+      "title": "Candidate CRUD Lifecycle (POST, GET, PATCH Status, DELETE)",
+      "status": "PASSED",
+      "details": "Full recruitment lifecycle tested: candidate creation, database index search, stage transition, and clean teardown.",
+      "evidence": "Target Candidate: cand_sys_test_mu8a6jyv -> INTERVIEW_SCHEDULED -> DELETED",
+      "timestamp": "2026-09-19T11:05:15.521Z"
+    },
+    {
+      "subsystem": "Dashboard & REST API",
+      "id": "6.3",
+      "title": "Job Roles Management API (GET, POST, DELETE /api/job-roles)",
+      "status": "PASSED",
+      "details": "Dynamic job vacancies successfully created, indexed for corporate careers page, and cleanly deleted.",
+      "evidence": "Role Created & Deleted: \"Senior Cloud Security Architect mu8a6n0h\" (role_custom_mu8a6n0k_fjrc)",
+      "timestamp": "2026-09-19T11:05:15.529Z"
+    },
+    {
+      "subsystem": "Dashboard & REST API",
+      "id": "6.4",
+      "title": "Recruiter Analytics & KPIs Pipeline Feed (GET /api/stats)",
+      "status": "PASSED",
+      "details": "Live metrics calculated: 28 total applicants, 16 selected, 4 hired, 12 rejected.",
+      "evidence": "Average Match Score: 70% | Selection Rate: 57%",
+      "timestamp": "2026-09-19T11:05:15.533Z"
+    },
+    {
+      "subsystem": "Dashboard & REST API",
+      "id": "6.5",
+      "title": "Real-Time Server-Sent Events Stream (GET /api/live-events)",
+      "status": "PASSED",
+      "details": "SSE pipeline connected, verified text/event-stream headers, and received handshake event.",
+      "evidence": "Handshake Event: \"event: connected\ndata: {\"status\":\"connected\",\"time\":\"2026-09-19T1...\"",
+      "timestamp": "2026-09-19T11:05:15.536Z"
+    },
+    {
+      "subsystem": "Corporate Website",
+      "id": "7.1",
+      "title": "Corporate Website Core Pages & Asset Completeness",
+      "status": "PASSED",
+      "details": "All 13 web pages and stylesheets verified intact in tech-innovations-inc/.",
+      "evidence": "Pages Verified: [index.html, about.html, services.html, solutions.html, industries.html, why-us.html, ...]",
+      "timestamp": "2026-09-19T11:05:15.539Z"
+    },
+    {
+      "subsystem": "Corporate Website",
+      "id": "7.2",
+      "title": "Careers Portal Dynamic Openings & 1-Click Action Wiring",
+      "status": "PASSED",
+      "details": "Careers hub features live API-connected grid, official HR email, and 1-Click Copy HR Email action button.",
+      "evidence": "Dynamic Grid: Active | HR Desk: manasvipaliwal317@gmail.com | 1-Click Action: Wired",
+      "timestamp": "2026-09-19T11:05:15.540Z"
+    },
+    {
+      "subsystem": "Corporate Website",
+      "id": "7.3",
+      "title": "Recruiter Dashboard UI & Online Assessment Client Files",
+      "status": "PASSED",
+      "details": "All recruiter dashboard client assets and candidate assessment test client pages are active.",
+      "evidence": "Files: index.html, app.js, style.css, assessment.html, assessment.js, assessment.css",
+      "timestamp": "2026-09-19T11:05:15.540Z"
+    },
+    {
+      "subsystem": "n8n Workflow Automation",
+      "id": "8.1",
+      "title": "n8n Workflow Graph & Node Topology Verification",
+      "status": "PASSED",
+      "details": "Workflow \"HR Resume Evaluation & Auto-Email Dispatcher\" contains all 10 essential automation nodes without missing links.",
+      "evidence": "Nodes Verified: 10 total active nodes",
+      "timestamp": "2026-09-19T11:05:15.541Z"
+    },
+    {
+      "subsystem": "n8n Workflow Automation",
+      "id": "8.2",
+      "title": "n8n Trigger-to-Action Execution Dataflow",
+      "status": "PASSED",
+      "details": "Dual ingress (IMAP Poller + Webhook) cleanly channels to Resume Preprocessor, AI Evaluator, Conditional Router, and DB Sync.",
+      "evidence": "Connection paths verified from Ingress to Egress",
+      "timestamp": "2026-09-19T11:05:15.541Z"
+    },
+    {
+      "subsystem": "Cloud Resiliency",
+      "id": "9.1",
+      "title": "Render.com Cloud HR Production Instance Health Check",
+      "status": "PASSED",
+      "details": "Production cloud deployment is live, accepting candidate synchronizations, and returning HTTP 200.",
+      "evidence": "URL: https://nexus-hr-workflow.onrender.com/api/health (Status: 200)",
+      "timestamp": "2026-09-19T11:05:15.989Z"
+    },
+    {
+      "subsystem": "Cloud Resiliency",
+      "id": "9.2",
+      "title": "Live Corporate Website & Careers Hub on Render",
+      "status": "PASSED",
+      "details": "Corporate website CDN deployment active and serving responsive HTML pages.",
+      "evidence": "URL: https://tech-innovations-inc.onrender.com (Bytes: 14834)",
+      "timestamp": "2026-09-19T11:05:17.403Z"
+    },
+    {
+      "subsystem": "Cloud Resiliency",
+      "id": "9.3",
+      "title": "Local Server Port Conflict Resilience & Auto-Fallback",
+      "status": "PASSED",
+      "details": "Server detects EADDRINUSE if port 3000 is occupied by external processes and auto-retries on next available port without crashing.",
+      "evidence": "startServer(port, maxRetries) verified active",
+      "timestamp": "2026-09-19T11:05:17.403Z"
+    }
+  ]
+}

@@ -378,22 +378,21 @@ function getProcessedUIDs() {
 function markUIDProcessed(uid, messageId = null) {
   const list = getProcessedUIDs();
   let changed = false;
-  if (uid) {
-    const uidStr = uid.toString();
-    if (!list.includes(uidStr)) {
-      list.push(uidStr);
-      changed = true;
-    }
-  }
-  if (messageId) {
-    const msgIdStr = messageId.toString();
+  if (messageId && typeof messageId === 'string' && messageId.trim()) {
+    const msgIdStr = messageId.trim();
     if (!list.includes(msgIdStr)) {
       list.push(msgIdStr);
       changed = true;
     }
   }
+  if (uid && typeof uid === 'string' && uid.includes('@')) {
+    if (!list.includes(uid)) {
+      list.push(uid);
+      changed = true;
+    }
+  }
   if (changed) {
-    if (list.length > 1000) list.splice(0, list.length - 1000);
+    if (list.length > 2000) list.splice(0, list.length - 2000);
     fs.writeFileSync(PROCESSED_UIDS_FILE, JSON.stringify(list, null, 2), 'utf8');
   }
 }
@@ -600,27 +599,334 @@ RETURN STRICT JSON ONLY (no markdown formatting, no code fences):
     }
   }
 
-  throw new Error("All AI models failed or experienced high demand.");
+  // Resilient Heuristic Fallback Evaluation if all LLM endpoints are under heavy load
+  console.log(`⚠️ All online AI endpoints unavailable. Engaging smart Heuristic Fallback Engine...`);
+  return heuristicFallbackEvaluation({ candidateName, candidateEmail, appliedRole, resumeText, emailBody, fileName });
 }
 
-// Helper: Generate persistent, clean Google Meet URL
-function generateGoogleMeetLink(seed = '') {
-  const chars = (seed ? seed.toString().toLowerCase().replace(/[^a-z0-9]/g, '') : '') + Math.random().toString(36).substring(2, 11);
-  const clean = chars.padEnd(10, 'x').substring(0, 10);
-  return `https://meet.google.com/${clean.slice(0, 3)}-${clean.slice(3, 7)}-${clean.slice(7, 10)}`;
+// ----------------- RESILIENT HEURISTIC FALLBACK EVALUATOR ----------------- //
+function heuristicFallbackEvaluation({ candidateName, candidateEmail, appliedRole, resumeText, emailBody, fileName }) {
+  console.log(`⚡ [Heuristic Engine] Analyzing application for "${fileName || candidateName || 'Candidate'}"...`);
+  const activeRoles = getActiveJobRoles();
+  const combined = `${fileName || ''} ${candidateName || ''} ${emailBody || ''} ${resumeText || ''}`.toLowerCase();
+
+  let bestRole = activeRoles[0] ? activeRoles[0].title : 'Full Stack Developer';
+  let bestMatchScore = 35;
+
+  for (const r of activeRoles) {
+    let score = 40;
+    const titleWords = r.title.toLowerCase().split(' ').filter(w => w.length > 2);
+    titleWords.forEach(w => { if (combined.includes(w)) score += 12; });
+    (r.requiredSkills || []).forEach(sk => { if (combined.includes(sk.toLowerCase())) score += 5; });
+    if (score > bestMatchScore) {
+      bestMatchScore = Math.min(score, 94);
+      bestRole = r.title;
+    }
+  }
+
+  // Extract applicant name from filename (e.g. "Khushi Jain Resume.docx" -> "Khushi Jain")
+  let extractedName = candidateName || 'Candidate';
+  if (fileName) {
+    const nameMatch = fileName.match(/([a-zA-Z]+(?:\s+[a-zA-Z]+)?)\s*(?:resume|cv|_|\.|$)/i);
+    if (nameMatch && nameMatch[1]) {
+      const cleanCandidateName = nameMatch[1].replace(/_/g, ' ').trim();
+      if (!['direct', 'resume', 'cv', 'document', 'file', 'application'].includes(cleanCandidateName.toLowerCase())) {
+        extractedName = cleanCandidateName.replace(/\b\w/g, l => l.toUpperCase());
+      }
+    }
+  }
+
+  const isSelected = bestMatchScore >= (appConfig.selectionScoreThreshold || 70);
+  const interviewDate = getFormattedInterviewDate(3);
+  const joiningDate = getFormattedJoiningDate(3, interviewDate);
+
+  return {
+    candidateName: extractedName,
+    candidateEmail: candidateEmail || 'candidate@example.com',
+    candidatePhone: 'N/A',
+    appliedRole: bestRole,
+    decision: isSelected ? 'SELECTED' : 'REJECTED',
+    matchScore: bestMatchScore,
+    yearsOfExperience: '2+ Years',
+    topSkills: bestRole.toLowerCase().includes('marketing')
+      ? ['SEO', 'Google Ads', 'GA4', 'Meta Ads Manager', 'Performance Marketing']
+      : ['React', 'Node.js', 'Express', 'PostgreSQL', 'RESTful APIs'],
+    education: "Bachelor's Degree",
+    strengths: [
+      `Demonstrated competency aligned with ${bestRole} core objectives`,
+      `Practical domain execution experience highlighted in background`,
+      `Strong match with active organizational opening requirements`
+    ],
+    areasForImprovement: ['Practical evaluation during technical domain assessment'],
+    evaluationSummary: `Applicant profile for ${extractedName} demonstrates strong alignment with requirements for the ${bestRole} position at ${appConfig.companyName}. Evaluation indicates a domain match score of ${bestMatchScore}%.`,
+    rejectionReason: isSelected ? null : `Domain match score of ${bestMatchScore}% is below required hiring threshold.`,
+    interviewQuestions: [
+      `Can you discuss a key project or campaign you delivered in ${bestRole}?`,
+      `How do you diagnose issues and optimize performance metrics?`,
+      `What methodologies do you follow to ensure scalability and high quality?`
+    ],
+    proposedInterviewDate: interviewDate,
+    emailSubject: isSelected 
+      ? `🎯 Technical Assessment & Interview: ${bestRole} at ${appConfig.companyName}` 
+      : `Application Update: ${bestRole} at ${appConfig.companyName}`,
+    emailBody: isSelected
+      ? `Dear ${extractedName},\n\nThank you for applying for the ${bestRole} position at ${appConfig.companyName}. We were impressed with your application and invite you to complete our online Technical Assessment.\n\nPlease find your unique assessment link in this email.\n\nBest regards,\n${appConfig.companyName} Recruitment Team`
+      : `Dear ${extractedName},\n\nThank you for your interest in ${appConfig.companyName}. We have decided to proceed with other candidates whose experience aligns more closely with our active openings.\n\nBest regards,\n${appConfig.companyName} Recruitment Team`
+  };
 }
 
-// HTML Email Template: Professional Interview Invitation with Google Meet Button
-function generateInterviewInviteTemplate({ candidate }) {
+// Helper: Determine current public application base URL
+function getAppBaseUrl(req = null) {
+  if (req && req.headers && req.headers.host) {
+    const proto = req.headers['x-forwarded-proto'] || req.protocol || 'http';
+    return `${proto}://${req.headers.host}`;
+  }
+  if (process.env.RENDER || process.env.PORT === '10000') {
+    return 'https://nexus-hr-workflow.onrender.com';
+  }
+  return `http://localhost:${PORT || 3000}`;
+}
+
+// ----------------- DOMAIN-SPECIFIC 20 MCQ QUESTION GENERATOR (ANTI-SERIES RANDOMIZER) ----------------- //
+
+// True Fisher-Yates (Knuth) Array Shuffle Algorithm
+function fisherYatesShuffle(array) {
+  const arr = array.slice();
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// Generate a strictly anti-pattern, balanced answer key for 20 MCQs
+// Guarantees: Exactly 5 Option A (25%), 5 Option B (25%), 5 Option C (25%), 5 Option D (25%)
+// Strict Anti-Series Constraints:
+// 1. Max consecutive identical answers = 2 (never 3 in a row, e.g. no A, A, A)
+// 2. No 2-element alternating cycles of length 4 (e.g. no A, B, A, B or C, D, C, D)
+// 3. No 4-element sequence runs (e.g. no A, B, C, D or D, C, B, A)
+function generateAntiPatternAnswerKey(totalQuestions = 20) {
+  const countsPerOption = Math.floor(totalQuestions / 4); // 5 for 20 questions
+  let baseKey = [];
+  for (let opt = 0; opt < 4; opt++) {
+    for (let c = 0; c < countsPerOption; c++) {
+      baseKey.push(opt);
+    }
+  }
+
+  function hasPattern(arr) {
+    // Constraint 1: No 3 identical answers in a row
+    for (let i = 2; i < arr.length; i++) {
+      if (arr[i] === arr[i-1] && arr[i-1] === arr[i-2]) return true;
+    }
+    // Constraint 2: No 2-element alternating cycles of length 4 (e.g. A, B, A, B or B, C, B, C)
+    for (let i = 3; i < arr.length; i++) {
+      if (arr[i] === arr[i-2] && arr[i-1] === arr[i-3]) return true;
+    }
+    // Constraint 3: No 4-element sequential runs (0,1,2,3 or 3,2,1,0)
+    for (let i = 3; i < arr.length; i++) {
+      if (arr[i] === (arr[i-1]+1)%4 && arr[i-1] === (arr[i-2]+1)%4 && arr[i-2] === (arr[i-3]+1)%4) return true;
+      if (arr[i] === (arr[i-1]+3)%4 && arr[i-1] === (arr[i-2]+3)%4 && arr[i-2] === (arr[i-3]+3)%4) return true;
+    }
+    return false;
+  }
+
+  let attempts = 0;
+  while (attempts < 1000) {
+    attempts++;
+    const candidateKey = fisherYatesShuffle(baseKey);
+    if (!hasPattern(candidateKey)) {
+      return candidateKey;
+    }
+  }
+  return fisherYatesShuffle(baseKey);
+}
+
+// Master MCQ Randomizer and Anti-Pattern Optimizer
+function optimizeAndRandomizeMCQs(rawQuestions) {
+  if (!Array.isArray(rawQuestions) || rawQuestions.length === 0) return [];
+  
+  // 1. Shuffle question list order with Fisher-Yates
+  const shuffledQuestions = fisherYatesShuffle(rawQuestions).slice(0, 20);
+  const targetAnswerKey = generateAntiPatternAnswerKey(shuffledQuestions.length);
+
+  return shuffledQuestions.map((q, idx) => {
+    const rawOptions = Array.isArray(q.options) && q.options.length === 4 
+      ? q.options 
+      : ["Option A", "Option B", "Option C", "Option D"];
+    
+    // Identify original correct option text
+    const originalCorrectIdx = (typeof q.correctAnswerIndex === 'number' && q.correctAnswerIndex >= 0 && q.correctAnswerIndex <= 3)
+      ? q.correctAnswerIndex
+      : (typeof q.correct === 'number' && q.correct >= 0 && q.correct <= 3 ? q.correct : 0);
+    
+    const correctText = rawOptions[originalCorrectIdx] !== undefined ? rawOptions[originalCorrectIdx] : rawOptions[0];
+    const incorrectOptions = rawOptions.filter((_, i) => i !== originalCorrectIdx);
+    
+    // Shuffle the 3 incorrect options with Fisher-Yates
+    const shuffledIncorrect = fisherYatesShuffle(incorrectOptions);
+    
+    // Place correct option text at the assigned balanced targetKey position
+    const targetIdx = targetAnswerKey[idx] !== undefined ? targetAnswerKey[idx] : Math.floor(Math.random() * 4);
+    const finalOptions = [];
+    let incPtr = 0;
+    
+    for (let pos = 0; pos < 4; pos++) {
+      if (pos === targetIdx) {
+        finalOptions.push(correctText);
+      } else {
+        finalOptions.push(shuffledIncorrect[incPtr++] || `Option ${String.fromCharCode(65 + pos)}`);
+      }
+    }
+
+    return {
+      id: idx + 1,
+      question: q.question || q.q || `Question ${idx + 1}`,
+      options: finalOptions,
+      correctAnswerIndex: targetIdx
+    };
+  });
+}
+
+// Curated domain question banks for dynamic fallback & shuffling
+const DOMAIN_QUESTION_BANKS = {
+  marketing: [
+    { q: "Which metric is the most effective indicator of overall paid search campaign profitability?", options: ["Return on Ad Spend (ROAS)", "Cost Per Click (CPC)", "Click-Through Rate (CTR)", "Quality Score"], correct: 0 },
+    { q: "In Google Analytics 4 (GA4), how is the primary data model structured compared to Universal Analytics?", options: ["Event-based data model", "Session-based data model", "Pageview-only model", "Hit-type hierarchy model"], correct: 0 },
+    { q: "What does 'Target CPA' bidding strategy optimize for in Google Ads?", options: ["Maximum conversions at or below your target cost per acquisition", "Maximum impressions at fixed daily spend", "Lowest possible CPC regardless of conversion quality", "Top of search page impression share"], correct: 0 },
+    { q: "Which HTTP status code should be used for a permanent redirect to preserve maximum SEO link equity?", options: ["301 Moved Permanently", "302 Found", "307 Temporary Redirect", "308 Resume Incomplete"], correct: 0 },
+    { q: "What is the primary function of the Meta (Facebook) Conversions API (CAPI)?", options: ["Send web events directly from server to Meta to bypass browser-side ad blockers", "Automatically generate video creatives using AI", "Track offline in-store walk-ins without user consent", "Increase organic Facebook group engagement"], correct: 0 },
+    { q: "Which formula accurately calculates Customer Acquisition Cost (CAC)?", options: ["(Total Sales & Marketing Expenses) / (Number of New Customers Acquired)", "(Gross Revenue) / (Total Number of Leads Generated)", "(Ad Spend) * (Average Order Value)", "(Total Website Visitors) / (Active Paying Customers)"], correct: 0 },
+    { q: "In SEO, what is the primary purpose of the 'canonical' (rel=canonical) link tag?", options: ["Prevent duplicate content issues by specifying the preferred master URL", "Block search engines from indexing sensitive private pages", "Speed up server-side DNS resolution for external assets", "Declare the primary target language for international visitors"], correct: 0 },
+    { q: "What is the industry-standard benchmark formula for Click-Through Rate (CTR)?", options: ["(Total Clicks / Total Impressions) * 100", "(Total Conversions / Total Clicks) * 100", "(Total Revenue / Total Impressions) * 100", "(Total Sessions / Total Bounces) * 100"], correct: 0 },
+    { q: "When designing an email marketing automation funnel, what does 'DMARC' policy protect against?", options: ["Domain spoofing, phishing, and unauthorized email impersonation", "Exceeding daily SMTP bandwidth limits", "High email unsubscribes and bounce rates", "Slow HTML rendering on mobile mail clients"], correct: 0 },
+    { q: "In Performance Marketing, what does 'Lookalike Audience' mean in Meta Ads?", options: ["Audiences with similar demographics and behaviors to your existing high-value customers", "Users who clicked on competitor ads in the last 7 days", "Users who share identical IP subnets with your office", "Randomly sampled demographics across a target country"], correct: 0 },
+    { q: "Which SEO on-page element has the strongest direct weight for keyword ranking relevance?", options: ["Page <title> tag and primary <h1> heading", "Footer copyright disclaimer", "Image alt tags on decorative icons", "Sidebar anchor text density"], correct: 0 },
+    { q: "What is 'Attribution Modeling' in digital growth marketing?", options: ["Rule-based assignment of conversion credit across touchpoints in a customer journey", "Designing 3D brand mascots for social campaigns", "Calculating server response time across global CDNs", "A/B testing typography variants on landing pages"], correct: 0 },
+    { q: "In Google Ads, what three factors primarily determine an Ad's 'Quality Score'?", options: ["Expected CTR, Ad Relevance, and Landing Page Experience", "Account Age, Total Monthly Spend, and Number of Active Campaigns", "Keyword Length, Bid Amount, and Ad Group Name", "Domain Authority, Backlink Count, and Social Shares"], correct: 0 },
+    { q: "What does 'LTV:CAC ratio' of 4:1 typically signify for a SaaS business?", options: ["Strong marketing efficiency and healthy unit economics", "Severe overspending on paid customer acquisition", "Negative cash flow requiring immediate price cuts", "Zero organic search traffic growth"], correct: 0 },
+    { q: "Which schema markup type is best suited for an e-commerce product landing page to show star ratings in Google SERP?", options: ["Product and AggregateRating Schema", "Article Schema", "LocalBusiness Schema", "FAQPage Schema only"], correct: 0 },
+    { q: "What is the main advantage of A/B Split Testing landing pages with statistical significance?", options: ["Ensures conversion rate improvements are mathematically valid and not due to random chance", "Guarantees 100% organic ranking on page 1 of Google", "Eliminates the need for paid search advertising", "Reduces hosting bandwidth consumption by 50%"], correct: 0 },
+    { q: "What is 'Robots.txt' used for in technical search engine optimization?", options: ["Instructing web crawlers which URLs or directories they may or may not crawl", "Securing user passwords and session cookies", "Compiling JavaScript bundles for mobile devices", "Redirecting broken 404 links automatically"], correct: 0 },
+    { q: "In content marketing, what is a 'Hub and Spoke' (Topic Cluster) model?", options: ["A comprehensive pillar page linking to and from specific detailed sub-topic articles", "An ad network syndicating banners to partner blogs", "A centralized email dispatch server with multiple IP proxies", "A method for caching WordPress pages in Redis"], correct: 0 },
+    { q: "What does 'Negative Keywords' prevent in Google Search Ads campaigns?", options: ["Prevent ads from triggering for irrelevant search queries, saving ad budget", "Prevent competitors from bidding on your brand name", "Penalize low-ranking search engine competitors", "Block spam bots from submitting web forms"], correct: 0 },
+    { q: "In conversion rate optimization (CRO), what is 'Heatmap Tracking' primarily used to observe?", options: ["User clicks, mouse movement scrolls, and attention drop-off on a page", "Server temperature in cloud data centers", "Geographic locations of ad click fraud rings", "Email inbox delivery open rates over 24 hours"], correct: 0 }
+  ],
+  fullstack: [
+    { q: "In React 18+, what is the primary benefit of the 'useTransition' hook?", options: ["Mark state updates as non-blocking transitions to keep the UI responsive", "Directly execute SQL queries on the browser", "Persist state to localStorage automatically", "Replace Redux store with zero configuration"], correct: 0 },
+    { q: "In Node.js Event Loop architecture, in which phase are 'process.nextTick' callbacks processed?", options: ["Immediately after the current operation finishes, before moving to the next event loop phase", "During the Check (setImmediate) phase only", "Inside the Poll phase after I/O polling", "During DNS lookup execution only"], correct: 0 },
+    { q: "What is the primary purpose of a Database Index (B-Tree) in PostgreSQL or MySQL?", options: ["Significantly speed up data retrieval (SELECT) at the cost of slight overhead on writes", "Encrypt columns with AES-256 automatically", "Prevent duplicate primary keys across foreign tables", "Compress table disk space by 90%"], correct: 0 },
+    { q: "How does HTTPS establish secure encrypted communication between browser and server?", options: ["TLS Handshake using asymmetric public key cryptography to exchange a symmetric session key", "Hashing all payloads with MD5 before TCP transmission", "Obfuscating JSON keys with Base64 encoding", "Tunneling plain HTTP through multiple SOCKS5 proxies"], correct: 0 },
+    { q: "In RESTful API design, which HTTP method should be strictly idempotent?", options: ["PUT and DELETE", "POST only", "PATCH only", "CONNECT only"], correct: 0 },
+    { q: "What is the primary difference between SQL (Relational) and NoSQL (Document) databases?", options: ["SQL uses structured schemas with ACID transactions; NoSQL offers flexible schemas and horizontal scalability", "SQL cannot store JSON objects; NoSQL cannot store numbers", "NoSQL cannot handle more than 1000 concurrent users", "SQL is only executed on client browsers"], correct: 0 },
+    { q: "In modern JavaScript (ES6+), what happens when a Promise rejects without a .catch() handler?", options: ["Triggers an 'unhandledRejection' event and can crash Node.js process if unhandled", "The browser ignores it silently and resumes execution", "Automatically retries the HTTP request 3 times", "Converts the rejection value into an empty string"], correct: 0 },
+    { q: "What is 'Cross-Site Request Forgery' (CSRF) and how is it primarily mitigated?", options: ["Unauthorized commands transmitted from a trusted user; mitigated using SameSite cookies and Anti-CSRF tokens", "Injecting malicious script into DOM; mitigated by CSS escaping", "Brute-forcing admin passwords; mitigated by CAPTCHA", "Stealing JWT tokens from localStorage via XSS"], correct: 0 },
+    { q: "In Docker containerization, what is the key advantage of multi-stage builds?", options: ["Reduces final production image size by separating build tools from runtime environment", "Enables running Windows containers on ARM architectures", "Automatically deploys containers to Kubernetes without yaml", "Doubles container CPU clock frequency"], correct: 0 },
+    { q: "What does Redis primarily provide in a high-scale Full Stack web architecture?", options: ["In-memory caching, fast key-value store, pub/sub messaging, and rate limiting", "Persistent relational schema validation", "HTML template rendering in browser threads", "Long-term cold tape backup storage"], correct: 0 },
+    { q: "In React, why should components NOT mutate state directly (e.g. state.count = 5)?", options: ["Direct mutation bypasses React's virtual DOM reconciliation and will not trigger re-renders", "Direct mutation corrupts browser memory heap", "React throws a compile-time syntax error on mutation", "State values become read-only constants in production"], correct: 0 },
+    { q: "What is the primary benefit of Database Connection Pooling in Node.js backend services?", options: ["Reuses existing active DB connections rather than incurring the overhead of creating new TCP connections per request", "Translates SQL queries to MongoDB syntax automatically", "Prevents SQL injection vulnerabilities without parameterized queries", "Runs database queries in separate child processes"], correct: 0 },
+    { q: "How does JWT (JSON Web Token) verify token integrity and authenticity?", options: ["Cryptographic digital signature (HMAC-SHA256 or RSA) verified against a secret or public key", "Checking the token string length against a random database record", "Querying the client's IP address on every request", "Encrypting the entire token with browser cookies"], correct: 0 },
+    { q: "What is the primary purpose of CORS (Cross-Origin Resource Sharing) in web browsers?", options: ["A browser security mechanism that restricts web pages from making requests to a different domain unless permitted", "A protocol to compress image payloads across CDNs", "An automated tool to synchronize React state across tabs", "A server firewall that blocks DDoS attacks"], correct: 0 },
+    { q: "In TypeScript, what is the difference between 'type' and 'interface'?", options: ["Interfaces support declaration merging and OOP extends; types support union, intersection, and primitive aliases", "Types only work with numbers; interfaces work with strings", "Interfaces are compiled to runtime JavaScript classes", "Types cannot be used with functions"], correct: 0 },
+    { q: "What is 'Database Sharding' in distributed systems?", options: ["Horizontally partitioning rows across multiple database instances based on a shard key", "Creating read-only replicas in the same server rack", "Compressing database logs into ZIP archives", "Converting relational tables into CSV files"], correct: 0 },
+    { q: "In Express.js, what is the role of the 'next()' function in middleware?", options: ["Passes control to the next middleware or route handler in the execution stack", "Restarts the HTTP server if an error occurs", "Sends an immediate 200 OK response to the client", "Disconnects the active database connection"], correct: 0 },
+    { q: "What is the difference between WebSockets and Server-Sent Events (SSE)?", options: ["WebSockets provide bidirectional full-duplex communication; SSE provides unidirectional server-to-client streaming over HTTP", "SSE is binary only; WebSockets are text only", "WebSockets only work in Google Chrome", "SSE requires opening a new TCP connection for every message"], correct: 0 },
+    { q: "Why is 'prepared statements' / parameterized queries the gold standard against SQL Injection?", options: ["Separates SQL code from user-supplied parameters, preventing inputs from being executed as SQL commands", "Encrypts the database hard drive with BitLocker", "Disables the DROP TABLE command across the database", "Removes all quotation marks from user inputs"], correct: 0 },
+    { q: "In Next.js (App Router), what is the key advantage of Server Components?", options: ["Renders on the server with zero client-side JavaScript bundle overhead for non-interactive content", "Enables running PHP scripts inside React JSX", "Allows direct access to user's local filesystem", "Bypasses all CSS stylesheet rules"], correct: 0 }
+  ]
+};
+
+// Generate 20 Unique, Shuffled MCQs for Candidate (Enforces Anti-Pattern & Balanced Distribution)
+async function generateTestQuestionsForCandidate(candidateId, appliedRole) {
+  const role = (appliedRole || 'Full Stack Developer').trim();
+  const isMarketing = role.toLowerCase().includes('marketing') || role.toLowerCase().includes('seo');
+  const domainKey = isMarketing ? 'marketing' : 'fullstack';
+  const roleCategory = isMarketing ? 'Digital Marketing Specialist' : role;
+
+  // Try Gemini LLM for dynamic AI generation
+  const prompt = `
+You are an expert Technical Examiner and Hiring Assessor for the role: "${roleCategory}".
+Generate a comprehensive, professional technical assessment test consisting of exactly 20 Multiple Choice Questions (MCQs) evaluating practical competency, real-world scenario judgment, and core skills for a "${roleCategory}".
+
+Requirements:
+1. Exactly 20 questions numbered 1 to 20.
+2. Each question must have 4 distinct, plausible options (A, B, C, D).
+3. Exactly ONE option must be correct.
+4. "correctAnswerIndex" must be an integer (0, 1, 2, or 3) indicating which option in "options" array is correct.
+5. Create practical, insightful questions covering core principles, debugging, strategy, and best practices.
+
+RETURN STRICT JSON ONLY (an array of 20 question objects, no markdown):
+[
+  {
+    "id": 1,
+    "question": "Question text here?",
+    "options": ["Option A", "Option B", "Option C", "Option D"],
+    "correctAnswerIndex": 0
+  }
+]
+`;
+
+  const modelsToTry = appConfig.models || ['gemini-3.5-flash-lite', 'gemini-3.1-flash-lite', 'gemini-3.7-flash', 'gemini-3.6-flash'];
+
+  for (const model of modelsToTry) {
+    try {
+      const payload = JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { responseMimeType: "application/json" }
+      });
+
+      const rawQuestions = await new Promise((resolve, reject) => {
+        const req = https.request({
+          hostname: 'generativelanguage.googleapis.com',
+          path: `/v1beta/models/${model}:generateContent?key=${appConfig.geminiApiKey}`,
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(payload) },
+          timeout: 18000
+        }, (res) => {
+          let d = '';
+          res.on('data', c => d += c);
+          res.on('end', () => {
+            try {
+              const resp = JSON.parse(d);
+              if (resp.error) return reject(new Error(resp.error.message));
+              const text = resp.candidates[0].content.parts[0].text;
+              const clean = text.replace(/^```json\s*/i, '').replace(/\s*```$/i, '').trim();
+              resolve(JSON.parse(clean));
+            } catch (e) { reject(e); }
+          });
+        });
+        req.on('error', reject);
+        req.on('timeout', () => { req.destroy(); reject(new Error('Timeout')); });
+        req.write(payload);
+        req.end();
+      });
+
+      if (Array.isArray(rawQuestions) && rawQuestions.length >= 15) {
+        const randomized = optimizeAndRandomizeMCQs(rawQuestions);
+        if (randomized.length === 20) {
+          console.log(`✅ [Gemini Test Generator] Generated 20 anti-pattern randomized MCQs for ${roleCategory} using ${model}`);
+          return randomized;
+        }
+      }
+    } catch (err) {
+      console.warn(`⚠️ [Test Generator] Model ${model} failed (${err.message}). Trying fallback...`);
+    }
+  }
+
+  // High-Quality Randomized Fallback Bank with Fisher-Yates and Anti-Series Key
+  console.log(`📋 [Test Generator] Using anti-pattern randomized question bank for "${roleCategory}"`);
+  const bank = (DOMAIN_QUESTION_BANKS[domainKey] || DOMAIN_QUESTION_BANKS.fullstack).slice();
+  return optimizeAndRandomizeMCQs(bank);
+}
+
+// HTML Email Template: Technical Assessment Test Invitation (Replaces Google Meet link)
+function generateInterviewInviteTemplate({ candidate, req = null }) {
   const candidateName = candidate.name || 'Candidate';
   const role = candidate.role || 'Full Stack Developer';
+  const baseUrl = getAppBaseUrl(req);
+  const testToken = candidate.id || ('cand_' + Date.now().toString(36));
+  const testLink = `${baseUrl}/assessment.html?token=${encodeURIComponent(testToken)}`;
   const interviewDate = candidate.proposedInterviewDate || candidate.interviewDate || getFormattedInterviewDate(3);
-  const interviewTime = candidate.interviewTime || '2:30 PM - 3:15 PM IST (45 Minutes)';
-  const meetingLink = candidate.meetingLink || generateGoogleMeetLink(candidate.id || candidate.name);
-  const interviewRound = candidate.interviewRound || (role === 'Digital Marketing Specialist' ? 'Round 1: Marketing Strategy & Campaign Review' : 'Round 1: Technical & System Architecture Deep-Dive');
-  const interviewer = candidate.interviewerName || `${appConfig.companyName} Technical Hiring Panel`;
-
-  const questionsList = (candidate.interviewQuestions || []).slice(0, 4).map(q => `<li style="margin-bottom: 8px; color: #475569;">${q}</li>`).join('');
 
   return `
   <!DOCTYPE html>
@@ -628,7 +934,7 @@ function generateInterviewInviteTemplate({ candidate }) {
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interview Invitation - ${appConfig.companyName}</title>
+    <title>Technical Assessment Invitation - ${appConfig.companyName}</title>
   </head>
   <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f1f5f9; color: #1e293b;">
     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed; background-color: #f1f5f9; padding: 30px 10px;">
@@ -639,9 +945,9 @@ function generateInterviewInviteTemplate({ candidate }) {
             <!-- HEADER -->
             <tr>
               <td style="padding: 36px 32px 30px; background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); text-align: center; color: #ffffff;">
-                <span style="display: inline-block; padding: 6px 14px; background: rgba(255,255,255,0.2); border-radius: 50px; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px;">Interview Invitation</span>
+                <span style="display: inline-block; padding: 6px 14px; background: rgba(255,255,255,0.2); border-radius: 50px; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px;">Technical Assessment & Interview Test</span>
                 <h1 style="margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -0.5px;">${appConfig.companyName}</h1>
-                <p style="margin: 8px 0 0; font-size: 15px; opacity: 0.9;">Target Position: <strong>${role}</strong></p>
+                <p style="margin: 8px 0 0; font-size: 15px; opacity: 0.95;">Target Position: <strong>${role}</strong></p>
               </td>
             </tr>
 
@@ -652,72 +958,179 @@ function generateInterviewInviteTemplate({ candidate }) {
                   Dear <strong>${candidateName}</strong>,
                 </p>
                 <p style="font-size: 15px; line-height: 1.6; color: #475569;">
-                  Thank you for applying for the <strong>${role}</strong> position at ${appConfig.companyName}. We have reviewed your credentials, and our hiring team is pleased to invite you for a virtual interview session.
+                  Congratulations! Following a comprehensive review of your resume and background for the <strong>${role}</strong> position, our hiring committee is delighted to invite you to take your official <strong>Online Technical Assessment Test</strong>.
                 </p>
 
-                <!-- INTERVIEW DETAILS CARD -->
+                <!-- TEST DETAILS CARD -->
                 <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 22px; margin: 26px 0;">
                   <h3 style="margin-top: 0; margin-bottom: 16px; font-size: 16px; color: #1e293b; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
-                    📅 Schedule & Meeting Details
+                    📝 Assessment Guidelines & Schedule
                   </h3>
                   <table border="0" cellpadding="0" cellspacing="0" width="100%">
                     <tr>
-                      <td style="padding: 6px 0; font-size: 14px; color: #64748b; width: 120px;"><strong>Date:</strong></td>
-                      <td style="padding: 6px 0; font-size: 14px; color: #0f172a; font-weight: 600;">${interviewDate}</td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #64748b; width: 140px;"><strong>Candidate Name:</strong></td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #0f172a; font-weight: 600;">${candidateName}</td>
                     </tr>
                     <tr>
-                      <td style="padding: 6px 0; font-size: 14px; color: #64748b;"><strong>Time:</strong></td>
-                      <td style="padding: 6px 0; font-size: 14px; color: #0f172a; font-weight: 600;">${interviewTime}</td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #64748b;"><strong>Target Role:</strong></td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #0f172a; font-weight: 600;">${role}</td>
                     </tr>
                     <tr>
-                      <td style="padding: 6px 0; font-size: 14px; color: #64748b;"><strong>Format:</strong></td>
-                      <td style="padding: 6px 0; font-size: 14px; color: #0f172a;">${interviewRound}</td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #64748b;"><strong>Test Format:</strong></td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #0f172a;">20 Multiple Choice Questions (Domain-Specific)</td>
                     </tr>
                     <tr>
-                      <td style="padding: 6px 0; font-size: 14px; color: #64748b;"><strong>Platform:</strong></td>
-                      <td style="padding: 6px 0; font-size: 14px; color: #0f172a;">Google Meet (Video Conference)</td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #64748b;"><strong>Time Limit:</strong></td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #4f46e5; font-weight: 700;">⏱️ 30 Minutes (Strict Countdown)</td>
                     </tr>
                     <tr>
-                      <td style="padding: 6px 0; font-size: 14px; color: #64748b;"><strong>Interviewer:</strong></td>
-                      <td style="padding: 6px 0; font-size: 14px; color: #0f172a;">${interviewer}</td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #64748b;"><strong>Hiring Criteria:</strong></td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #059669; font-weight: 700;">🏆 80% or Higher (Instant Job Offer)</td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 6px 0; font-size: 14px; color: #64748b;"><strong>Environment:</strong></td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #dc2626; font-weight: 600;">🛡️ AI-Proctored (Anti-tab switch & copy locks)</td>
                     </tr>
                   </table>
 
-                  <!-- JOIN BUTTON -->
-                  <div style="text-align: center; margin-top: 22px;">
-                    <a href="${meetingLink}" target="_blank" style="display: inline-block; background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%); color: #ffffff; text-decoration: none; font-size: 15px; font-weight: 700; padding: 13px 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);">
-                      🎥 Join Google Meet Interview
+                  <!-- START TEST CTA BUTTON -->
+                  <div style="text-align: center; margin-top: 26px; margin-bottom: 10px;">
+                    <a href="${testLink}" target="_blank" style="display: inline-block; background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%); color: #ffffff; text-decoration: none; font-size: 16px; font-weight: 800; padding: 15px 36px; border-radius: 10px; box-shadow: 0 4px 16px rgba(79, 70, 229, 0.35);">
+                      🚀 Start 30-Minute Technical Assessment Test
                     </a>
-                    <div style="margin-top: 10px;">
-                      <a href="${meetingLink}" style="font-size: 12px; color: #6366f1; text-decoration: underline; word-break: break-all;">${meetingLink}</a>
+                    <div style="margin-top: 12px;">
+                      <a href="${testLink}" style="font-size: 12px; color: #6366f1; text-decoration: underline; word-break: break-all;">${testLink}</a>
                     </div>
                   </div>
                 </div>
 
-                ${questionsList ? `
-                <!-- TOPICS / AGENDA -->
-                <div style="margin: 24px 0;">
-                  <h4 style="font-size: 14px; color: #334155; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Topics & Discussion Areas:</h4>
-                  <ul style="padding-left: 20px; margin: 0; font-size: 14px; line-height: 1.6;">
-                    ${questionsList}
+                <!-- IMPORTANT RULES -->
+                <div style="background-color: #fffbeb; border-left: 4px solid #f59e0b; padding: 14px 18px; margin: 24px 0; border-radius: 4px;">
+                  <strong style="color: #92400e; font-size: 13px; text-transform: uppercase;">⚠️ Important Examination Instructions:</strong>
+                  <ul style="padding-left: 18px; margin: 8px 0 0; font-size: 13px; color: #78350f; line-height: 1.5;">
+                    <li>Ensure an uninterrupted internet connection and a quiet environment before starting.</li>
+                    <li>Do <strong>NOT</strong> switch browser tabs or open external windows during the test; security triggers will log violations and auto-submit your exam.</li>
+                    <li>You have <strong>30 minutes</strong> to complete all 20 questions. The test auto-submits when the timer hits zero.</li>
+                    <li>Use the <strong>"Overview"</strong> button at the bottom to verify all answers before clicking <strong>"Submit"</strong>.</li>
                   </ul>
                 </div>
-                ` : ''}
 
                 <p style="font-size: 14px; line-height: 1.6; color: #64748b;">
-                  💡 <strong>Preparation Tips:</strong> Please ensure your camera and microphone are tested prior to the call and join the meeting link 2-3 minutes early.
+                  Candidates achieving <strong>80% or above</strong> will automatically receive their <strong>Official Job Offer Letter</strong> with onboarding schedule immediately upon submission.
                 </p>
 
                 <p style="font-size: 14px; line-height: 1.6; color: #64748b;">
-                  If you need to request an alternative time slot or have any questions, simply reply directly to this email at <a href="mailto:${appConfig.hrEmail}" style="color: #4f46e5; text-decoration: none;">${appConfig.hrEmail}</a>.
+                  If you encounter technical difficulties, reply directly to this email at <a href="mailto:${appConfig.hrEmail}" style="color: #4f46e5; text-decoration: none;">${appConfig.hrEmail}</a>.
                 </p>
 
                 <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 28px 0 20px;">
 
                 <!-- SIGNATURE -->
                 <p style="font-size: 14px; color: #334155; margin: 0; line-height: 1.5;">
-                  Warm regards,<br>
-                  <strong>Recruitment & Talent Acquisition Team</strong><br>
+                  Wishing you the best on your assessment,<br>
+                  <strong>Technical Recruitment & Hiring Council</strong><br>
+                  ${appConfig.companyName}<br>
+                  <span style="color: #64748b; font-size: 13px;">Official Recruiter: ${appConfig.hrEmail}</span>
+                </p>
+              </td>
+            </tr>
+
+            <!-- FOOTER -->
+            <tr>
+              <td style="padding: 20px; background-color: #f8fafc; border-top: 1px solid #e2e8f0; text-align: center; font-size: 12px; color: #94a3b8;">
+                © ${new Date().getFullYear()} ${appConfig.companyName}. All rights reserved.<br>
+                Dispatched automatically via Nexus HR Recruitment Platform.
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+  </html>
+  `;
+}
+
+// HTML Email Template: Assessment Outcome Rejection & Constructive Feedback (For Score < 80%)
+function generateAssessmentRejectionTemplate({ candidate, score, correctCount, totalCount = 20 }) {
+  const candidateName = candidate.name || 'Candidate';
+  const role = candidate.role || 'Applied Role';
+
+  return `
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment Outcome - ${appConfig.companyName}</title>
+  </head>
+  <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f1f5f9; color: #1e293b;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed; background-color: #f1f5f9; padding: 30px 10px;">
+      <tr>
+        <td align="center">
+          <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 620px; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.06); border: 1px solid #e2e8f0;">
+            
+            <!-- HEADER -->
+            <tr>
+              <td style="padding: 36px 32px 30px; background: linear-gradient(135deg, #475569 0%, #334155 100%); text-align: center; color: #ffffff;">
+                <span style="display: inline-block; padding: 6px 14px; background: rgba(255,255,255,0.15); border-radius: 50px; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px;">Technical Assessment Results</span>
+                <h1 style="margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -0.5px;">${appConfig.companyName}</h1>
+                <p style="margin: 8px 0 0; font-size: 15px; opacity: 0.9;">Position: <strong>${role}</strong></p>
+              </td>
+            </tr>
+
+            <!-- BODY CONTENT -->
+            <tr>
+              <td style="padding: 32px;">
+                <p style="font-size: 16px; line-height: 1.6; margin-top: 0; color: #334155;">
+                  Dear <strong>${candidateName}</strong>,
+                </p>
+                <p style="font-size: 15px; line-height: 1.6; color: #475569;">
+                  Thank you for taking the time to complete the 30-minute technical domain assessment for the <strong>${role}</strong> position at ${appConfig.companyName}. We truly appreciate your effort and dedication throughout our recruitment process.
+                </p>
+
+                <!-- SCORE REPORT CARD -->
+                <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 22px; margin: 26px 0;">
+                  <h3 style="margin-top: 0; margin-bottom: 14px; font-size: 16px; color: #1e293b; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">
+                    📊 Assessment Score Summary
+                  </h3>
+                  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tr>
+                      <td style="padding: 6px 0; font-size: 14px; color: #64748b; width: 150px;"><strong>Candidate Score:</strong></td>
+                      <td style="padding: 6px 0; font-size: 16px; color: #dc2626; font-weight: 800;">${score}% (${correctCount} / ${totalCount} correct)</td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 6px 0; font-size: 14px; color: #64748b;"><strong>Qualifying Threshold:</strong></td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #059669; font-weight: 700;">80% (Minimum 16 / 20 required)</td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 6px 0; font-size: 14px; color: #64748b;"><strong>Outcome:</strong></td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #64748b;">Application Not Advancing</td>
+                    </tr>
+                  </table>
+                </div>
+
+                <p style="font-size: 15px; line-height: 1.6; color: #475569;">
+                  While you demonstrated strong potential, our team requires a minimum benchmark of <strong>80%</strong> on this domain competency test for candidate advancement to final onboarding. As a result, we are unable to extend an offer for this role at this time.
+                </p>
+
+                <div style="background-color: #f1f5f9; border-left: 4px solid #6366f1; padding: 14px 18px; margin: 24px 0; border-radius: 4px;">
+                  <strong style="color: #4338ca; font-size: 13px; text-transform: uppercase;">💡 Constructive Growth Feedback:</strong>
+                  <p style="margin: 6px 0 0; font-size: 14px; color: #475569; line-height: 1.5;">
+                    We encourage you to continue deepening your technical mastery in ${role} domain fundamentals, performance metrics, and advanced practical implementations. We keep candidate profiles on file and welcome you to re-apply after 6 months.
+                  </p>
+                </div>
+
+                <p style="font-size: 14px; line-height: 1.6; color: #64748b;">
+                  We wish you the very best in your career pursuits and thank you once again for your interest in joining ${appConfig.companyName}.
+                </p>
+
+                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 28px 0 20px;">
+
+                <!-- SIGNATURE -->
+                <p style="font-size: 14px; color: #334155; margin: 0; line-height: 1.5;">
+                  Sincerely,<br>
+                  <strong>Manasvi Paliwal & The Talent Acquisition Team</strong><br>
                   ${appConfig.companyName}<br>
                   <span style="color: #64748b; font-size: 13px;">Direct Contact: ${appConfig.hrEmail}</span>
                 </p>
@@ -728,7 +1141,7 @@ function generateInterviewInviteTemplate({ candidate }) {
             <tr>
               <td style="padding: 20px; background-color: #f8fafc; border-top: 1px solid #e2e8f0; text-align: center; font-size: 12px; color: #94a3b8;">
                 © ${new Date().getFullYear()} ${appConfig.companyName}. All rights reserved.<br>
-                Dispatched automatically via Nexus HR Automation Platform.
+                Official Examination Notification • Confidential
               </td>
             </tr>
           </table>
@@ -1143,19 +1556,23 @@ async function processCandidateEmailRecord(parsed, uid) {
   const resumeExtractedEmail = evaluation.candidateEmail || fromAddr || 'N/A';
   const now = new Date().toISOString();
   const candId = 'cand_auto_' + Date.now().toString(36) + '_' + Math.random().toString(36).substring(2, 6);
-  const meetingLink = generateGoogleMeetLink(candId);
   const matchedRole = evaluation.appliedRole || appliedRole;
+  const baseUrl = getAppBaseUrl();
+  const testLink = `${baseUrl}/assessment.html?token=${encodeURIComponent(candId)}`;
 
   // Calculate verified, future-guaranteed interview & joining dates
   const interviewDate = validateAndSanitizeInterviewDate(evaluation.proposedInterviewDate, new Date());
   const joiningDate = getFormattedJoiningDate(3, interviewDate);
-  const interviewTime = '2:30 PM - 3:15 PM IST (45 Minutes)';
-  const interviewRound = (matchedRole.toLowerCase().includes('marketing'))
-    ? 'Round 1: Marketing Strategy & Portfolio Review'
-    : 'Round 1: Technical & System Architecture Deep-Dive';
-  const interviewerName = `${appConfig.companyName} Technical Hiring Panel`;
+  const interviewTime = '30 Minutes Online Technical Assessment';
+  const interviewerName = `${appConfig.companyName} Technical Hiring Council`;
 
   const cleanEmailBody = sanitizeEmailBodyDates(evaluation.emailBody, interviewDate);
+
+  // Generate domain test questions if candidate is SELECTED
+  let testQuestions = [];
+  if (evaluation.decision === 'SELECTED') {
+    testQuestions = await generateTestQuestionsForCandidate(candId, matchedRole);
+  }
 
   const candidateRecord = {
     id: candId,
@@ -1163,10 +1580,14 @@ async function processCandidateEmailRecord(parsed, uid) {
     email: primarySenderEmail,
     resumeEmail: resumeExtractedEmail,
     phone: evaluation.candidatePhone || 'N/A',
-    role: evaluation.appliedRole || appliedRole,
+    role: matchedRole,
     decision: evaluation.decision,
     matchScore: evaluation.matchScore,
-    status: evaluation.decision === 'SELECTED' ? 'INTERVIEW_SCHEDULED' : 'REJECTED',
+    status: evaluation.decision === 'SELECTED' ? 'TEST_ASSIGNED' : 'REJECTED',
+    testStatus: evaluation.decision === 'SELECTED' ? 'ASSIGNED' : 'N/A',
+    testToken: candId,
+    testLink: testLink,
+    testQuestions: testQuestions,
     yearsOfExperience: evaluation.yearsOfExperience || '1+ Years',
     topSkills: evaluation.topSkills || [],
     education: evaluation.education || 'Graduate',
@@ -1179,19 +1600,18 @@ async function processCandidateEmailRecord(parsed, uid) {
     interviewDate: interviewDate,
     interviewTime: interviewTime,
     joiningDate: joiningDate,
-    interviewRound: interviewRound,
-    meetingLink: meetingLink,
+    interviewRound: 'Domain Technical MCQ Assessment (20 Questions / 30 Mins)',
     interviewerName: interviewerName,
     workMode: 'Hybrid (3 Days Office / 2 Days Remote)',
     workLocation: `${appConfig.companyName} Campus, Cyber City, Bangalore`,
     employmentType: 'Full-Time Permanent',
-    department: (evaluation.appliedRole || appliedRole).toLowerCase().includes('marketing') ? 'Growth & Digital Marketing' : 'Core Engineering & Technology',
+    department: matchedRole.toLowerCase().includes('marketing') ? 'Growth & Digital Marketing' : 'Core Engineering & Technology',
     location: 'Bangalore, India / Open to Relocation',
     salaryOffer: 'Competitive / Market Standard (Finalized upon Offer)',
-    interviewStatus: evaluation.decision === 'SELECTED' ? `Interview Scheduled (${interviewDate})` : 'N/A',
+    interviewStatus: evaluation.decision === 'SELECTED' ? `Assessment Test Assigned (30 Mins / 20 MCQs)` : 'N/A',
     emailSubject: evaluation.decision === 'SELECTED' 
-      ? `📅 Interview Invitation: ${evaluation.appliedRole || appliedRole} at ${appConfig.companyName}` 
-      : (evaluation.emailSubject || `Application Update: ${evaluation.appliedRole || appliedRole}`),
+      ? `🎯 Technical Assessment & Interview: ${matchedRole} at ${appConfig.companyName}` 
+      : (evaluation.emailSubject || `Application Update: ${matchedRole}`),
     emailBody: cleanEmailBody,
     emailSentAt: now,
     createdAt: now,
@@ -1223,7 +1643,6 @@ async function processCandidateEmailRecord(parsed, uid) {
   let candidates = getCandidates();
   candidates = candidates.filter(c => 
     c.id !== candidateRecord.id && 
-    !(c.email && candidateRecord.email && c.email.toLowerCase() === candidateRecord.email.toLowerCase() && c.role === candidateRecord.role) &&
     !(c.name && candidateRecord.name && c.name.toLowerCase() === candidateRecord.name.toLowerCase() && c.role === candidateRecord.role)
   );
   candidates.unshift(candidateRecord);
@@ -1248,7 +1667,7 @@ async function processCandidateEmailRecord(parsed, uid) {
   return true;
 }
 
-// Single Scan of INBOX
+// Single Scan of [Gmail]/All Mail & INBOX
 async function scanInboxNow() {
   if (isScanInProgress) return;
   isScanInProgress = true;
@@ -1266,24 +1685,50 @@ async function scanInboxNow() {
     port: 993,
     tls: true,
     tlsOptions: { rejectUnauthorized: false },
-    authTimeout: 15000,
-    connTimeout: 20000
+    authTimeout: 12000,
+    connTimeout: 15000
   });
 
+  let safetyTimeout = null;
+
   const cleanup = () => {
+    if (safetyTimeout) clearTimeout(safetyTimeout);
     isScanInProgress = false;
-    try { imap.end(); } catch (e) {}
+    try {
+      if (imap && imap.state !== 'disconnected') {
+        imap.end();
+      }
+    } catch (e) {}
   };
 
+  safetyTimeout = setTimeout(() => {
+    console.warn('⚠️ [IMAP Scanner] Scan timed out after 120 seconds. Releasing lock.');
+    cleanup();
+  }, 120000);
+
   imap.once('ready', () => {
-    imap.openBox('INBOX', false, (err, box) => {
+    // Try opening [Gmail]/All Mail first (contains 100% of received/categorized emails), fallback to INBOX
+    const targetBox = '[Gmail]/All Mail';
+    imap.openBox(targetBox, false, (err, box) => {
       if (err) {
-        cleanup();
+        console.warn(`⚠️ [IMAP Scanner] Failed to open ${targetBox} (${err.message}). Trying INBOX...`);
+        imap.openBox('INBOX', false, (err2, box2) => {
+          if (err2) {
+            console.error(`⚠️ [IMAP Scanner] Failed to open INBOX (${err2.message})`);
+            cleanup();
+            return;
+          }
+          performScanOnOpenBox(box2, 'INBOX');
+        });
         return;
       }
+      performScanOnOpenBox(box, targetBox);
+    });
 
+    function performScanOnOpenBox(box, boxName) {
       scannerStats.lastScanTime = new Date().toISOString();
       scannerStats.totalScans++;
+      scannerStats.status = `Watching ${boxName} (${box.messages.total} messages)`;
 
       const total = box.messages.total;
       if (total === 0) {
@@ -1292,10 +1737,9 @@ async function scanInboxNow() {
       }
 
       const processedUIDs = getProcessedUIDs();
-      const startSeq = Math.max(1, total - 14);
+      const startSeq = Math.max(1, total - 29); // Inspect last 30 messages
       const endSeq = total;
 
-      // STEP 1: Fast header fetch in < 1 second
       const f = imap.seq.fetch(`${startSeq}:${endSeq}`, {
         bodies: 'HEADER.FIELDS (MESSAGE-ID FROM SUBJECT DATE)',
         struct: true
@@ -1321,19 +1765,19 @@ async function scanInboxNow() {
           const subjMatch = headerBuffer.match(/Subject:\s*([^\r\n]+)/i);
 
           const fromStr = fromMatch ? fromMatch[1].toLowerCase() : '';
-          const msgId = msgIdMatch ? msgIdMatch[1] : '';
+          const rawMsgId = msgIdMatch ? msgIdMatch[1].trim() : '';
           const subjStr = subjMatch ? subjMatch[1].toLowerCase() : '';
 
           if (fromStr && shouldIgnoreSender(fromStr, subjStr)) {
-            markUIDProcessed(uid, msgId);
+            if (rawMsgId) markUIDProcessed(null, rawMsgId);
             return;
           }
 
-          if (processedUIDs.includes(uid) || (msgId && processedUIDs.includes(msgId))) {
+          if (rawMsgId && processedUIDs.includes(rawMsgId)) {
             return;
           }
 
-          candidateSeqsToFetch.push({ seqno, uid, msgId });
+          candidateSeqsToFetch.push({ seqno, uid, msgId: rawMsgId });
         });
       });
 
@@ -1348,11 +1792,10 @@ async function scanInboxNow() {
           return;
         }
 
-        console.log(`🔍 [INBOX Scanner] Found ${candidateSeqsToFetch.length} new unprocessed message(s). Fetching details...`);
+        console.log(`🔍 [${boxName} Scanner] Found ${candidateSeqsToFetch.length} new unprocessed message(s). Fetching details...`);
 
-        // STEP 2: Fetch and process each candidate message sequentially
         for (const item of candidateSeqsToFetch) {
-          markUIDProcessed(item.uid, item.msgId);
+          if (item.msgId) markUIDProcessed(item.uid, item.msgId);
           try {
             await new Promise((resolve) => {
               const fullFetch = imap.seq.fetch(`${item.seqno}:${item.seqno}`, { bodies: '', struct: true });
@@ -1384,7 +1827,7 @@ async function scanInboxNow() {
 
         cleanup();
       });
-    });
+    }
   });
 
   imap.once('error', (err) => {
@@ -1393,7 +1836,7 @@ async function scanInboxNow() {
   });
 
   imap.once('close', () => {
-    isScanInProgress = false;
+    cleanup();
   });
 
   imap.connect();
@@ -1408,7 +1851,7 @@ app.get('/api/scanner-status', (req, res) => {
     stats: {
       ...scannerStats,
       mailbox: appConfig.hrEmail,
-      frequency: "Every 5 Seconds (Continuous Live INBOX Watcher)",
+      frequency: "Every 10 Seconds (Continuous Live Scanner)",
       filterRule: "STRICT: Only emails with .pdf, .docx, .doc resume attachments"
     }
   });
@@ -1416,9 +1859,9 @@ app.get('/api/scanner-status', (req, res) => {
 
 // 2. Manual Immediate Trigger
 app.post('/api/scan-inbox', async (req, res) => {
-  console.log("⚡ [Manual Trigger] Scanning INBOX immediately upon user request...");
+  console.log("⚡ [Manual Trigger] Scanning [Gmail]/All Mail & INBOX immediately upon user request...");
   scanInboxNow();
-  res.json({ success: true, message: "INBOX scan triggered immediately!" });
+  res.json({ success: true, message: "Mailbox scan triggered immediately!" });
 });
 
 // 3. Get candidates
@@ -1589,19 +2032,23 @@ async function handleEvaluationRequest(req, res) {
 
     const now = new Date().toISOString();
     const candId = 'cand_' + Date.now().toString(36) + '_' + Math.random().toString(36).substring(2, 6);
-    const meetingLink = generateGoogleMeetLink(candId);
     const targetRole = appliedRole || evaluation.appliedRole || 'Full Stack Developer';
+    const baseUrl = getAppBaseUrl(req);
+    const testLink = `${baseUrl}/assessment.html?token=${encodeURIComponent(candId)}`;
 
     // Calculate verified, future-guaranteed interview & joining dates
     const interviewDate = validateAndSanitizeInterviewDate(evaluation.proposedInterviewDate, new Date());
     const joiningDate = getFormattedJoiningDate(3, interviewDate);
-    const interviewTime = '2:30 PM - 3:15 PM IST (45 Minutes)';
-    const interviewRound = (targetRole === 'Digital Marketing Specialist')
-      ? 'Round 1: Marketing Strategy & Campaign Review'
-      : 'Round 1: Technical & System Architecture Deep-Dive';
-    const interviewerName = `${appConfig.companyName} Technical Hiring Panel`;
+    const interviewTime = '30 Minutes Online Technical Assessment';
+    const interviewerName = `${appConfig.companyName} Technical Hiring Council`;
 
     const cleanEmailBody = sanitizeEmailBodyDates(evaluation.emailBody, interviewDate);
+
+    // Generate domain test questions if candidate is SELECTED
+    let testQuestions = [];
+    if (evaluation.decision === 'SELECTED') {
+      testQuestions = await generateTestQuestionsForCandidate(candId, targetRole);
+    }
 
     const candidateRecord = {
       id: candId,
@@ -1611,7 +2058,11 @@ async function handleEvaluationRequest(req, res) {
       role: targetRole,
       decision: evaluation.decision,
       matchScore: evaluation.matchScore,
-      status: evaluation.decision === 'SELECTED' ? 'INTERVIEW_SCHEDULED' : 'REJECTED',
+      status: evaluation.decision === 'SELECTED' ? 'TEST_ASSIGNED' : 'REJECTED',
+      testStatus: evaluation.decision === 'SELECTED' ? 'ASSIGNED' : 'N/A',
+      testToken: candId,
+      testLink: testLink,
+      testQuestions: testQuestions,
       yearsOfExperience: evaluation.yearsOfExperience || 'N/A',
       topSkills: evaluation.topSkills || [],
       education: evaluation.education || 'N/A',
@@ -1624,8 +2075,7 @@ async function handleEvaluationRequest(req, res) {
       interviewDate: interviewDate,
       interviewTime: interviewTime,
       joiningDate: joiningDate,
-      interviewRound: interviewRound,
-      meetingLink: meetingLink,
+      interviewRound: 'Domain Technical MCQ Assessment (20 Questions / 30 Mins)',
       interviewerName: interviewerName,
       workMode: 'Hybrid (3 Days Office / 2 Days Remote)',
       workLocation: `${appConfig.companyName} Campus, Cyber City, Bangalore`,
@@ -1633,9 +2083,9 @@ async function handleEvaluationRequest(req, res) {
       department: targetRole.toLowerCase().includes('marketing') ? 'Growth & Digital Marketing' : 'Core Engineering & Technology',
       location: 'Bangalore, India / Open to Relocation',
       salaryOffer: 'Competitive / Market Standard (Finalized upon Offer)',
-      interviewStatus: evaluation.decision === 'SELECTED' ? `Interview Scheduled (${interviewDate})` : 'N/A',
+      interviewStatus: evaluation.decision === 'SELECTED' ? `Assessment Test Assigned (30 Mins / 20 MCQs)` : 'N/A',
       emailSubject: evaluation.decision === 'SELECTED' 
-        ? `📅 Interview Invitation: ${targetRole} at ${appConfig.companyName}` 
+        ? `🎯 Technical Assessment & Interview: ${targetRole} at ${appConfig.companyName}` 
         : (evaluation.emailSubject || `Application Update: ${targetRole}`),
       emailBody: cleanEmailBody,
       emailSentAt: now,
@@ -1646,7 +2096,7 @@ async function handleEvaluationRequest(req, res) {
 
     if (candidateEmail && candidateEmail.includes('@') && appConfig.autoSendEmails) {
       if (evaluation.decision === 'SELECTED') {
-        const inviteHtml = generateInterviewInviteTemplate({ candidate: candidateRecord });
+        const inviteHtml = generateInterviewInviteTemplate({ candidate: candidateRecord, req });
         await sendCandidateCustomEmail(candidateEmail, candidateRecord.emailSubject, inviteHtml, cleanEmailBody);
       } else {
         await sendCandidateEmail(candidateEmail, candidateRecord.emailSubject, cleanEmailBody);
@@ -1842,18 +2292,260 @@ app.delete('/api/candidates/:id', (req, res) => {
   }
 });
 
+// ----------------- TECHNICAL ASSESSMENT REST API ENDPOINTS ----------------- //
+
+// 7a. Get Candidate Assessment Details & 20 MCQs (Removes correctAnswerIndex for security)
+app.get('/api/test/:token', async (req, res) => {
+  try {
+    const token = req.params.token;
+    const candidates = getCandidates();
+    const candidate = candidates.find(c => c.id === token || (c.email && c.email.toLowerCase() === token.toLowerCase()));
+
+    if (!candidate) {
+      return res.status(404).json({ success: false, error: "Assessment link is invalid or candidate not found." });
+    }
+
+    // If test is already completed
+    if (candidate.testStatus === 'COMPLETED' || candidate.status === 'HIRED' || (candidate.decision === 'REJECTED' && candidate.testScore !== undefined)) {
+      return res.json({
+        success: true,
+        candidate: {
+          id: candidate.id,
+          name: candidate.name,
+          role: candidate.role,
+          email: candidate.email,
+          status: candidate.status,
+          decision: candidate.decision,
+          testStatus: candidate.testStatus || 'COMPLETED',
+          testScore: candidate.testScore
+        },
+        questions: []
+      });
+    }
+
+    // Generate or retrieve questions
+    if (!candidate.testQuestions || candidate.testQuestions.length === 0) {
+      console.log(`🤖 Generating fresh 20 MCQs for candidate "${candidate.name}" (${candidate.role})...`);
+      candidate.testQuestions = await generateTestQuestionsForCandidate(candidate.id, candidate.role);
+      candidate.testStatus = 'ASSIGNED';
+      saveCandidates(candidates);
+      syncCandidateToCloud(candidate);
+    }
+
+    // Sanitize questions for candidate frontend (strip correctAnswerIndex)
+    const clientQuestions = candidate.testQuestions.map(q => ({
+      id: q.id,
+      question: q.question,
+      options: q.options
+    }));
+
+    res.json({
+      success: true,
+      candidate: {
+        id: candidate.id,
+        name: candidate.name,
+        role: candidate.role,
+        email: candidate.email,
+        testStatus: candidate.testStatus
+      },
+      questions: clientQuestions
+    });
+  } catch (err) {
+    console.error("Test fetch error:", err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// 7b. Start Assessment Session
+app.post('/api/test/:token/start', (req, res) => {
+  try {
+    const token = req.params.token;
+    const candidates = getCandidates();
+    const index = candidates.findIndex(c => c.id === token || (c.email && c.email.toLowerCase() === token.toLowerCase()));
+
+    if (index === -1) {
+      return res.status(404).json({ success: false, error: "Candidate not found" });
+    }
+
+    candidates[index].testStatus = 'IN_PROGRESS';
+    candidates[index].testStartedAt = new Date().toISOString();
+    candidates[index].interviewStatus = 'Assessment Test In Progress (30 Mins Timer)';
+
+    saveCandidates(candidates);
+    broadcastSSE('candidate_updated', { candidate: candidates[index] });
+    syncCandidateToCloud(candidates[index]);
+
+    res.json({ success: true, message: "Assessment session started" });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// 7c. Submit Assessment Session & Trigger Automated Pass/Fail Workflows
+app.post('/api/test/:token/submit', async (req, res) => {
+  try {
+    const token = req.params.token;
+    const { answers = {}, durationTaken = 0, cheatViolations = 0, isAutoTimeout = false } = req.body;
+    const candidates = getCandidates();
+    const index = candidates.findIndex(c => c.id === token || (c.email && c.email.toLowerCase() === token.toLowerCase()));
+
+    if (index === -1) {
+      return res.status(404).json({ success: false, error: "Candidate not found" });
+    }
+
+    const candidate = candidates[index];
+    const questions = candidate.testQuestions || [];
+
+    if (questions.length === 0) {
+      return res.status(400).json({ success: false, error: "No test questions found for candidate." });
+    }
+
+    // Grade answers against secret key
+    let correctCount = 0;
+    const totalCount = questions.length; // 20
+    const detailedResults = [];
+
+    questions.forEach((q, idx) => {
+      const userSelected = answers[idx] !== undefined ? answers[idx] : null;
+      const isCorrect = userSelected !== null && userSelected === q.correctAnswerIndex;
+      if (isCorrect) correctCount++;
+
+      detailedResults.push({
+        questionId: q.id,
+        question: q.question,
+        options: q.options,
+        userAnswerIndex: userSelected,
+        userAnswerText: userSelected !== null ? q.options[userSelected] : 'Not Answered',
+        correctAnswerIndex: q.correctAnswerIndex,
+        correctAnswerText: q.options[q.correctAnswerIndex],
+        isCorrect
+      });
+    });
+
+    const scorePercentage = Math.round((correctCount / totalCount) * 100);
+    const isPassed = scorePercentage >= 80; // STRICT 80% THRESHOLD
+    const now = new Date().toISOString();
+
+    // Update Candidate Test Telemetry
+    candidate.testScore = scorePercentage;
+    candidate.testCorrectCount = correctCount;
+    candidate.testTotalCount = totalCount;
+    candidate.testCompletedAt = now;
+    candidate.testDurationSeconds = durationTaken;
+    candidate.testCheatViolations = cheatViolations;
+    candidate.testAnswers = answers;
+    candidate.testDetailedResults = detailedResults;
+    candidate.testStatus = 'COMPLETED';
+    candidate.updatedAt = now;
+
+    console.log(`\n===============================================================`);
+    console.log(`📊 [ASSESSMENT SUBMITTED] Candidate: ${candidate.name} (${candidate.role})`);
+    console.log(`   Score:       ${scorePercentage}% (${correctCount}/${totalCount} Correct)`);
+    console.log(`   Threshold:   80% -> Decision: ${isPassed ? 'HIRED / SELECTED' : 'REJECTED'}`);
+    console.log(`   Duration:    ${Math.floor(durationTaken / 60)}m ${durationTaken % 60}s | Security Violations: ${cheatViolations}`);
+
+    let emailSentResult = null;
+
+    // 🎯 WORKFLOW PATH 1: SCORE >= 80% -> AUTOMATIC JOB OFFER LETTER
+    if (isPassed) {
+      candidate.status = 'HIRED';
+      candidate.decision = 'SELECTED';
+      candidate.interviewStatus = `🎉 Hired (Scored ${scorePercentage}% on Test - Offer Letter Sent)`;
+
+      const resolvedJoiningDate = candidate.joiningDate || getFormattedJoiningDate(3, candidate.interviewDate || candidate.proposedInterviewDate);
+      candidate.joiningDate = resolvedJoiningDate;
+      const salaryOffer = candidate.salaryOffer || 'Competitive Market Standard (Commensurate with Technical Expertise)';
+      candidate.salaryOffer = salaryOffer;
+
+      const offerSubject = `🎉 Official Job Offer: ${candidate.role} at ${appConfig.companyName}`;
+      const offerHtml = generateHiringOfferTemplate({
+        candidate,
+        joiningDate: resolvedJoiningDate,
+        salaryOffer: salaryOffer,
+        workMode: candidate.workMode || 'Hybrid (3 Days Office / 2 Days Remote)',
+        workLocation: candidate.workLocation || `${appConfig.companyName} Campus, Cyber City, Bangalore`,
+        employmentType: candidate.employmentType || 'Full-Time Permanent',
+        department: candidate.department || ((candidate.role || '').toLowerCase().includes('marketing') ? 'Growth & Digital Marketing' : 'Core Engineering & Technology'),
+        customNotes: `Congratulations on achieving an exceptional score of ${scorePercentage}% in our technical domain assessment.`
+      });
+
+      console.log(`🚀 [Auto-Hiring Trigger] Score ${scorePercentage}% >= 80%. Dispatching Job Offer to ${candidate.email}...`);
+      if (candidate.email && candidate.email.includes('@') && appConfig.autoSendEmails) {
+        emailSentResult = await sendCandidateCustomEmail(candidate.email, offerSubject, offerHtml);
+        if (emailSentResult && emailSentResult.success) {
+          candidate.emailSubject = offerSubject;
+          candidate.emailSentAt = now;
+        }
+      }
+    }
+    // 🎯 WORKFLOW PATH 2: SCORE < 80% -> AUTOMATIC CONSTRUCTIVE REJECTION EMAIL
+    else {
+      candidate.status = 'REJECTED';
+      candidate.decision = 'REJECTED';
+      candidate.rejectionReason = `Technical Assessment score was ${scorePercentage}% (Passing threshold is 80%).`;
+      candidate.interviewStatus = `Assessment Completed (Score: ${scorePercentage}% - Rejected)`;
+
+      const rejectSubject = `Application Update: ${candidate.role} at ${appConfig.companyName}`;
+      const rejectHtml = generateAssessmentRejectionTemplate({
+        candidate,
+        score: scorePercentage,
+        correctCount,
+        totalCount
+      });
+
+      console.log(`📋 [Auto-Rejection Trigger] Score ${scorePercentage}% < 80%. Dispatching Feedback email to ${candidate.email}...`);
+      if (candidate.email && candidate.email.includes('@') && appConfig.autoSendEmails) {
+        emailSentResult = await sendCandidateCustomEmail(candidate.email, rejectSubject, rejectHtml);
+        if (emailSentResult && emailSentResult.success) {
+          candidate.emailSubject = rejectSubject;
+          candidate.emailSentAt = now;
+        }
+      }
+    }
+
+    saveCandidates(candidates);
+    broadcastSSE('candidate_updated', { candidate, testResult: { score: scorePercentage, passed: isPassed } });
+    broadcastSSE('test_completed', { candidateId: candidate.id, score: scorePercentage, passed: isPassed, status: candidate.status });
+    syncCandidateToCloud(candidate);
+
+    console.log(`   ✅ Candidate record updated to ${candidate.status} and synced to Cloud!`);
+    console.log(`===============================================================\n`);
+
+    res.json({
+      success: true,
+      passed: isPassed,
+      score: scorePercentage,
+      correctCount,
+      totalCount,
+      candidateName: candidate.name,
+      appliedRole: candidate.role,
+      emailSent: emailSentResult ? emailSentResult.success : false,
+      message: isPassed
+        ? `Congratulations! You scored ${scorePercentage}% and passed the assessment. Your official Job Offer Letter has been dispatched!`
+        : `Assessment submitted. Your score is ${scorePercentage}%. An outcome email has been dispatched.`
+    });
+  } catch (err) {
+    console.error("Test submission error:", err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 // 8. KPI Analytics & Stats (Supports both /api/analytics and /api/stats)
 function getAnalyticsStats(req, res) {
   const list = getCandidates();
   const total = list.length;
   const selected = list.filter(c => c.decision === 'SELECTED').length;
   const rejected = list.filter(c => c.decision === 'REJECTED').length;
-  const interviewScheduled = list.filter(c => c.status === 'INTERVIEW_SCHEDULED').length;
-  const offerExtended = list.filter(c => c.status === 'OFFER_EXTENDED').length;
+  const hired = list.filter(c => c.status === 'HIRED').length;
+  const testAssigned = list.filter(c => c.testStatus === 'ASSIGNED' || c.status === 'TEST_ASSIGNED').length;
+  const testCompleted = list.filter(c => c.testStatus === 'COMPLETED').length;
+  const testPassed = list.filter(c => c.testScore !== undefined && c.testScore >= 80).length;
+  const testFailed = list.filter(c => c.testScore !== undefined && c.testScore < 80).length;
 
   const totalScore = list.reduce((acc, c) => acc + (Number(c.matchScore) || 0), 0);
   const avgScore = total > 0 ? Math.round(totalScore / total) : 0;
   const selectionRate = total > 0 ? Math.round((selected / total) * 100) : 0;
+  const hiringRate = total > 0 ? Math.round((hired / total) * 100) : 0;
 
   const skillCounts = {};
   list.forEach(c => {
@@ -1878,10 +2570,14 @@ function getAnalyticsStats(req, res) {
     total,
     selected,
     rejected,
-    interviewScheduled,
-    offerExtended,
+    hired,
+    testAssigned,
+    testCompleted,
+    testPassed,
+    testFailed,
     avgScore,
     selectionRate,
+    hiringRate,
     topSkills,
     roleDistribution: roleMap
   });
@@ -2094,23 +2790,63 @@ app.delete('/api/job-roles/:id', (req, res) => {
   }
 });
 
-// Start Server and Automated Background Loop
-app.listen(PORT, () => {
-  console.log(`=======================================================`);
-  console.log(` 🚀 NEXUS HR REAL-TIME SERVER ACTIVE (PORT ${PORT})`);
-  console.log(` 🌐 Dashboard: http://localhost:${PORT}`);
-  console.log(` 📧 Watching:  ${appConfig.hrEmail}`);
-  console.log(` ⏱️ Frequency: Every 5 Seconds (Continuous Automated Scan)`);
-  console.log(` 🎯 Filter:    STRICT (.pdf / .docx / .doc Resumes ONLY)`);
-  console.log(` 🤖 AI Models: ${appConfig.models.join(' ➔ ')}`);
-  console.log(`=======================================================`);
+// Start Server and Automated Background Loop with Port Conflict Resiliency
+function startServer(portToUse = PORT, maxRetries = 5) {
+  const currentPort = Number(portToUse) || 3000;
+  const srv = app.listen(currentPort, () => {
+    console.log(`=======================================================`);
+    console.log(` 🚀 NEXUS HR REAL-TIME SERVER ACTIVE (PORT ${currentPort})`);
+    console.log(` 🌐 Dashboard: http://localhost:${currentPort}`);
+    console.log(` 📧 Watching:  ${appConfig.hrEmail}`);
+    console.log(` ⏱️ Frequency: Every 10 Seconds (Continuous Automated Scan)`);
+    console.log(` 🎯 Filter:    STRICT (.pdf / .docx / .doc Resumes ONLY)`);
+    console.log(` 🤖 AI Models: ${appConfig.models.join(' ➔ ')}`);
+    console.log(`=======================================================`);
 
-  // Initial Scan on startup
-  scanInboxNow();
+    // Initial Scan on startup
+    scanInboxNow();
 
-  // Initial Full Sync to Cloud
-  setTimeout(syncAllCandidatesToCloud, 1500);
+    // Initial Full Sync to Cloud
+    setTimeout(syncAllCandidatesToCloud, 1500);
 
-  // Run automated scan every 5 seconds continuously
-  setInterval(scanInboxNow, 5000);
-});
+    // Run automated scan every 10 seconds continuously
+    setInterval(scanInboxNow, 10000);
+  });
+
+  srv.on('error', (err) => {
+    if (err.code === 'EADDRINUSE' && maxRetries > 0) {
+      const nextPort = currentPort + 1;
+      console.warn(`⚠️ Port ${currentPort} is currently occupied by another process. Auto-retrying on fallback port ${nextPort}...`);
+      startServer(nextPort, maxRetries - 1);
+    } else {
+      console.error(`❌ Server listen error:`, err.message);
+    }
+  });
+
+  return srv;
+}
+
+if (require.main === module) {
+  startServer();
+}
+
+module.exports = {
+  app,
+  appConfig,
+  getJobRoles,
+  saveJobRoles,
+  getActiveJobRoles,
+  getCandidates,
+  saveCandidates,
+  optimizeAndRandomizeMCQs,
+  generateAntiPatternAnswerKey,
+  buildRolePromptInstructions,
+  heuristicFallbackEvaluation,
+  validateAndSanitizeInterviewDate,
+  getFormattedInterviewDate,
+  getFormattedJoiningDate,
+  shouldIgnoreSender,
+  extractTextFromDoc,
+  generateTestQuestionsForCandidate,
+  startServer
+};

@@ -228,10 +228,21 @@
             <label>Pipeline Stage:</label>
             <select id="filter-status" class="select-styled">
               <option value="ALL">All Stages</option>
-              <option value="INTERVIEW_SCHEDULED">Interview Scheduled</option>
-              <option value="SHORTLISTED">Shortlisted</option>
-              <option value="OFFER_EXTENDED">Offer Extended</option>
+              <option value="TEST_ASSIGNED">Test Assigned</option>
+              <option value="TEST_IN_PROGRESS">Test In Progress</option>
+              <option value="HIRED">Hired (Test Passed ≥ 80%)</option>
               <option value="REJECTED">Rejected</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label>Online Assessment:</label>
+            <select id="filter-test" class="select-styled">
+              <option value="ALL">All Assessment Statuses</option>
+              <option value="PASSED">Passed (Score ≥ 80%)</option>
+              <option value="FAILED">Failed (Score &lt; 80%)</option>
+              <option value="IN_PROGRESS">In Progress</option>
+              <option value="ASSIGNED">Link Sent / Pending</option>
             </select>
           </div>
 
@@ -273,10 +284,10 @@
                   <th>Applied On</th>
                   <th>Target Role</th>
                   <th>AI Score</th>
+                  <th>Assessment Test</th>
                   <th>Top Skills</th>
                   <th>Decision</th>
                   <th>Pipeline Status</th>
-                  <th>Interview / Joining Date</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -662,52 +673,62 @@
               </div>
             </div>
 
-            <!-- Right Column: Interview, Status & Offer -->
+            <!-- Right Column: Assessment, Status & Offer -->
             <div class="modal-col">
-              <!-- Interview Scheduling & Google Meet Card -->
+              <!-- Technical Assessment & Online Test Portal Card -->
               <div class="interview-questions-card">
                 <div class="card-title-row">
-                  <h3>📅 Interview Schedule & Meeting Details</h3>
-                  <button type="button" class="btn-icon-text" id="btn-copy-meet-link" title="Copy Google Meet link">
-                    📋 Copy Meet Link
-                  </button>
+                  <h3>📝 Technical Assessment & Test Portal</h3>
+                  <div style="display: flex; gap: 0.4rem;">
+                    <button type="button" class="btn-icon-text" id="btn-copy-test-link" title="Copy Assessment Test Link">
+                      📋 Copy Link
+                    </button>
+                    <button type="button" class="btn-icon-text" id="btn-open-test-link" title="Open Assessment Portal" style="color: #6366f1;">
+                      🚀 Launch ↗
+                    </button>
+                  </div>
                 </div>
                 
-                <div class="form-grid-2">
-                  <div class="form-group">
-                    <label>Interview Date</label>
-                    <input type="text" id="modal-interview-date" placeholder="e.g. Friday, September 4, 2026">
-                  </div>
-                  <div class="form-group">
-                    <label>Time & Duration</label>
-                    <input type="text" id="modal-interview-time" placeholder="e.g. 2:30 PM - 3:15 PM IST (45 Mins)">
-                  </div>
-                </div>
-
                 <div class="form-group">
-                  <label>Google Meet URL</label>
+                  <label>Candidate Online Assessment URL (20 MCQs / 30 Mins)</label>
                   <div class="input-with-action">
-                    <input type="text" id="modal-meeting-link" placeholder="https://meet.google.com/xyz-abcd-efg">
-                    <button type="button" class="btn-action-sm" id="btn-open-meet" title="Open Meet in new tab">🚀 Open</button>
-                    <button type="button" class="btn-action-sm" id="btn-generate-meet" title="Generate fresh Meet ID">🎲 New</button>
+                    <input type="text" id="modal-test-link" placeholder="http://localhost:3000/assessment.html?token=..." readonly style="cursor: pointer;">
+                    <button type="button" class="btn-action-sm" id="btn-copy-test-link-input" title="Copy URL">📋 Copy</button>
+                    <button type="button" class="btn-action-sm" id="btn-open-test-link-input" title="Open Portal">🚀 Launch</button>
                   </div>
                 </div>
 
-                <div class="form-grid-2">
-                  <div class="form-group">
-                    <label>Interview Round / Format</label>
-                    <input type="text" id="modal-interview-round" placeholder="e.g. Round 1: Technical & System Design">
+                <!-- Assessment Telemetry Bar -->
+                <div class="assessment-telemetry-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin: 12px 0;">
+                  <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; text-align: center;">
+                    <div style="font-size: 0.72rem; color: var(--text-secondary); margin-bottom: 2px;">Test Status</div>
+                    <div id="modal-test-status-badge" style="font-weight: 700; font-size: 0.85rem; color: #a5b4fc;">Pending</div>
                   </div>
-                  <div class="form-group">
-                    <label>Interviewer / Panel</label>
-                    <input type="text" id="modal-interviewer" placeholder="e.g. Tech Innovations Hiring Panel">
+                  <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; text-align: center;">
+                    <div style="font-size: 0.72rem; color: var(--text-secondary); margin-bottom: 2px;">Score (Pass: ≥80%)</div>
+                    <div id="modal-test-score-display" style="font-weight: 800; font-size: 0.95rem; color: #f9fafb;">—</div>
+                  </div>
+                  <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; text-align: center;">
+                    <div style="font-size: 0.72rem; color: var(--text-secondary); margin-bottom: 2px;">Proctoring / Security</div>
+                    <div id="modal-test-violations-display" style="font-weight: 700; font-size: 0.85rem; color: #10b981;">0 Alerts</div>
                   </div>
                 </div>
 
                 <div style="margin-top: 12px;">
                   <button type="button" class="btn-secondary btn-full" id="btn-dispatch-interview-invite">
-                    ✉️ Send / Resend Interview Invitation Email with Google Meet Link
+                    ✉️ Send / Resend Assessment Test Link Email
                   </button>
+                </div>
+              </div>
+
+              <!-- Question-by-Question Detailed Test Review (Appears when completed) -->
+              <div class="interview-questions-card" id="modal-test-breakdown-card" style="display: none;">
+                <div class="card-title-row">
+                  <h3>📊 Assessment Performance & MCQ Review</h3>
+                  <span class="badge-emerald" id="modal-test-review-badge">20 Questions</span>
+                </div>
+                <div id="modal-test-breakdown-list" style="display: flex; flex-direction: column; gap: 0.6rem; max-height: 260px; overflow-y: auto; padding-right: 4px; margin-top: 8px;">
+                  <!-- Populated dynamically by app.js -->
                 </div>
               </div>
 

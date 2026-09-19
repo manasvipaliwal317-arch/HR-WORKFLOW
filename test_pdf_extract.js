@@ -1,5 +1,5 @@
 const fs = require('fs');
-const pdfParse = require('pdf-parse');
+const { PDFParse } = require('pdf-parse');
 
 const samplePdf = `%PDF-1.4
 1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj
@@ -35,6 +35,15 @@ startxref
 
 fs.writeFileSync('test_resume_sample.pdf', samplePdf);
 
-pdfParse(Buffer.from(samplePdf)).then(data => {
-  console.log("Extracted text from PDF:", data.text.trim());
-}).catch(e => console.error("PDF parse error:", e));
+async function testExtract() {
+  try {
+    const parser = new PDFParse({ data: Buffer.from(samplePdf) });
+    const parsed = await parser.getText();
+    await parser.destroy();
+    console.log("Extracted text from PDF:\n" + parsed.text.trim());
+  } catch (e) {
+    console.error("PDF parse error:", e);
+  }
+}
+
+testExtract();

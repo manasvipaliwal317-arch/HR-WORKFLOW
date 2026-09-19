@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Technical Assessment Portal | Tech Innovations Inc.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assessment.css">
+</head>
+<body class="exam-body">
+
+  <!-- ANTI-CHEAT WARNING MODAL OVERLAY -->
+  <div id="cheatWarningModal" class="modal-overlay hidden">
+    <div class="modal-card warning-card">
+      <div class="warning-icon-pulse">⚠️</div>
+      <h2>Proctored Test Alert!</h2>
+      <p id="cheatWarningText">You have navigated away from the assessment window or switched tabs. This proctored exam prohibits tab switching or opening other windows.</p>
+      <div class="warning-counter-pill">
+        <span>Security Warning: </span>
+        <strong id="cheatCountDisplay">1 / 3</strong>
+      </div>
+      <p class="warning-footnote">Exceeding 3 security violations will lead to immediate auto-submission of your assessment.</p>
+      <button id="resumeTestBtn" class="btn btn-warning-action">I Understand — Resume Assessment</button>
+    </div>
+  </div>
+
+  <!-- OVERVIEW / QUESTION REVIEW MODAL -->
+  <div id="overviewModal" class="modal-overlay hidden">
+    <div class="modal-card overview-card">
+      <div class="modal-header">
+        <div>
+          <h2>📊 Assessment Overview</h2>
+          <p class="subtitle">Review your progress before final submission</p>
+        </div>
+        <button id="closeOverviewBtn" class="btn-icon-close" title="Close Overview">&times;</button>
+      </div>
+      
+      <!-- STATS SUMMARY -->
+      <div class="overview-stats-grid">
+        <div class="stat-pill attempted-stat">
+          <span class="stat-num" id="overviewAttemptedCount">0</span>
+          <span class="stat-label">Attempted</span>
+        </div>
+        <div class="stat-pill skipped-stat">
+          <span class="stat-num" id="overviewSkippedCount">20</span>
+          <span class="stat-label">Skipped / Unanswered</span>
+        </div>
+        <div class="stat-pill flagged-stat">
+          <span class="stat-num" id="overviewFlaggedCount">0</span>
+          <span class="stat-label">Marked for Review</span>
+        </div>
+        <div class="stat-pill timer-stat">
+          <span class="stat-num" id="overviewTimeRemaining">30:00</span>
+          <span class="stat-label">Time Remaining</span>
+        </div>
+      </div>
+
+      <!-- INTERACTIVE QUESTION MATRIX -->
+      <div class="overview-matrix-title">Click any question number to jump directly:</div>
+      <div id="overviewQuestionGrid" class="overview-grid">
+        <!-- Rendered dynamically 1-20 -->
+      </div>
+
+      <div class="modal-footer">
+        <button id="backToExamBtn" class="btn btn-secondary">Back to Exam</button>
+        <button id="overviewSubmitBtn" class="btn btn-primary">Proceed to Final Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUBMIT CONFIRMATION MODAL -->
+  <div id="submitConfirmModal" class="modal-overlay hidden">
+    <div class="modal-card confirm-card">
+      <div class="confirm-icon">🚀</div>
+      <h2>Ready to Submit Your Assessment?</h2>
+      <p id="submitConfirmSummary">You have answered <strong>0</strong> out of <strong>20</strong> questions.</p>
+      <div id="submitWarningBox" class="submit-warning hidden">
+        ⚠️ <strong>Notice:</strong> You still have unanswered questions! Unanswered questions will be scored as 0.
+      </div>
+      <p class="confirm-note">Once submitted, your assessment will be instantly graded by the automated evaluation engine (Passing Criteria: <strong>80%</strong>).</p>
+      <div class="modal-footer">
+        <button id="cancelSubmitBtn" class="btn btn-secondary">Review Questions</button>
+        <button id="confirmSubmitBtn" class="btn btn-success-action">Yes, Submit Now</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN ASSESSMENT VIEWPORT -->
+  <div class="exam-wrapper">
+    
+    <!-- TOP STICKY PROCTORED NAVBAR -->
+    <header class="exam-topbar">
+      <div class="brand-area">
+        <div class="brand-logo-badge">TI</div>
+        <div>
+          <h1 class="brand-title">Tech Innovations Inc.</h1>
+          <span class="brand-subtitle">AI-Proctored Domain Assessment</span>
+        </div>
+      </div>
+
+      <!-- CANDIDATE BADGE -->
+      <div class="candidate-header-pill">
+        <div class="pill-avatar" id="candidateAvatar">C</div>
+        <div class="pill-info">
+          <strong id="candidateName">Loading Candidate...</strong>
+          <span id="candidateRole">Loading Role...</span>
+        </div>
+      </div>
+
+      <!-- TIMER & PROGRESS -->
+      <div class="timer-container">
+        <div class="timer-label">Time Left</div>
+        <div class="timer-badge" id="timerBadge">
+          <span class="timer-icon">⏳</span>
+          <span id="timerDisplay">30:00</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- EXAM INSTRUCTIONS / START SCREEN (SHOWN BEFORE CLICKING START) -->
+    <section id="startScreen" class="exam-start-panel">
+      <div class="start-card">
+        <div class="start-badge">🎯 Shortlisted for Technical Interview Test</div>
+        <h2 id="startTitle">Domain Competency Assessment</h2>
+        <p class="start-desc">Welcome <strong id="startCandidateName">Candidate</strong>! You have been shortlisted for the <strong id="startRoleName">Role</strong> position. Please read the test rules carefully before starting.</p>
+        
+        <div class="rules-grid">
+          <div class="rule-box">
+            <span class="rule-icon">📝</span>
+            <strong>20 Domain MCQs</strong>
+            <p>Tailored specifically to your applied role and expertise.</p>
+          </div>
+          <div class="rule-box">
+            <span class="rule-icon">⏱️</span>
+            <strong>30 Minutes Duration</strong>
+            <p>Auto-submits automatically when the countdown hits zero.</p>
+          </div>
+          <div class="rule-box">
+            <span class="rule-icon">🏆</span>
+            <strong>80% Passing Score</strong>
+            <p>Score 80%+ (16/20) to automatically receive your Job Offer Letter.</p>
+          </div>
+          <div class="rule-box">
+            <span class="rule-icon">🛡️</span>
+            <strong>Proctored Environment</strong>
+            <p>No tab switching, copying, or leaving this window allowed.</p>
+          </div>
+        </div>
+
+        <div class="start-action-box">
+          <button id="beginTestBtn" class="btn btn-start-test">
+            <span>🚀 Begin 30-Minute Assessment</span>
+          </button>
+          <div class="start-hint">By clicking Begin, your 30-minute timer will start immediately.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACTIVE TEST PANEL (SHOWN WHILE TAKING TEST) -->
+    <main id="activeTestPanel" class="exam-main-layout hidden">
+      
+      <!-- LEFT: QUESTION AREA -->
+      <section class="question-container">
+        
+        <!-- QUESTION HEADER -->
+        <div class="question-meta-bar">
+          <div class="q-number-pill">
+            <span>Question </span>
+            <strong id="currentQuestionNum">1</strong>
+            <span> of 20</span>
+          </div>
+          <div class="q-actions-top">
+            <button id="flagQuestionBtn" class="btn-flag" title="Flag for review">
+              <span class="flag-icon">🚩</span> <span id="flagBtnText">Mark for Review</span>
+            </button>
+            <button id="clearSelectionBtn" class="btn-clear" title="Clear chosen answer">Clear Selection</button>
+          </div>
+        </div>
+
+        <!-- QUESTION BODY -->
+        <div class="question-card">
+          <h3 id="questionText" class="question-title">Loading question...</h3>
+          <div id="optionsContainer" class="options-list">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- QUESTION FOOTER NAVIGATION -->
+        <div class="question-nav-controls">
+          <button id="prevQuestionBtn" class="btn btn-nav" disabled>
+            ← Previous
+          </button>
+          <div class="nav-middle-info">
+            <span id="answeredStatusText">Not Answered Yet</span>
+          </div>
+          <button id="nextQuestionBtn" class="btn btn-nav btn-next">
+            Next →
+          </button>
+        </div>
+      </section>
+
+      <!-- RIGHT: SIDEBAR QUESTION PALETTE -->
+      <aside class="palette-sidebar">
+        <div class="palette-header">
+          <h4>Question Palette</h4>
+          <span class="palette-subtitle">20 Questions</span>
+        </div>
+
+        <!-- PALETTE LEGEND -->
+        <div class="palette-legend">
+          <div class="legend-item"><span class="badge-dot dot-attempted"></span> Attempted</div>
+          <div class="legend-item"><span class="badge-dot dot-flagged"></span> Flagged</div>
+          <div class="legend-item"><span class="badge-dot dot-unattempted"></span> Skipped</div>
+          <div class="legend-item"><span class="badge-dot dot-current"></span> Current</div>
+        </div>
+
+        <!-- PALETTE BUTTONS GRID 1-20 -->
+        <div id="paletteGrid" class="palette-grid">
+          <!-- Rendered dynamically -->
+        </div>
+
+        <!-- PROGRESS SUMMARY -->
+        <div class="palette-progress-box">
+          <div class="progress-bar-label">
+            <span>Completion</span>
+            <strong id="progressPercent">0%</strong>
+          </div>
+          <div class="progress-track">
+            <div id="progressBarFill" class="progress-fill" style="width: 0%;"></div>
+          </div>
+          <div class="progress-counts">
+            <span id="paletteAttemptedSummary">0 answered</span>
+            <span id="paletteRemainingSummary">20 remaining</span>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <!-- STICKY BOTTOM ACTION BAR -->
+    <footer id="bottomActionBar" class="exam-bottom-bar hidden">
+      <div class="bottom-bar-content">
+        <div class="bottom-left-summary">
+          <span class="live-dot"></span>
+          <span id="bottomStatusSummary">Proctored Session Active • 0/20 Answered</span>
+        </div>
+        
+        <div class="bottom-right-actions">
+          <!-- 1) OVERVIEW BUTTON -->
+          <button id="openOverviewBtn" class="btn btn-overview">
+            <span>📊 Overview</span>
+          </button>
+          
+          <!-- 2) SUBMIT BUTTON -->
+          <button id="openSubmitBtn" class="btn btn-submit-final">
+            <span>✅ Submit Test</span>
+          </button>
+        </div>
+      </div>
+    </footer>
+
+    <!-- RESULT / COMPLETION SCREEN -->
+    <section id="resultScreen" class="exam-result-panel hidden">
+      <div class="result-card" id="resultCardContainer">
+        <!-- Rendered dynamically based on Score >=80% or <80% -->
+      </div>
+    </section>
+
+  </div>
+
+  <script src="assessment.js"></script>
+</body>
+</html>

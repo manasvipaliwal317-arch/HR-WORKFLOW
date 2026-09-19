@@ -5,7 +5,10 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "node qa_master_test_suite.js"
+    "test": "node system_master_test_suite.js",
+    "system-test": "node system_master_test_suite.js",
+    "qa-test": "node qa_master_test_suite.js",
+    "verify": "node verify_full_system.js"
   },
   "keywords": [],
   "author": "",
