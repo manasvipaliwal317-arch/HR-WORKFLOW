@@ -452,12 +452,12 @@
     resultScreen.innerHTML = `
       <div class="result-card ${isPass ? 'pass' : 'fail'}">
         <div class="result-icon">${isPass ? '🎉' : '📋'}</div>
-        <div class="result-tag">${isPass ? 'HIRED • ASSESSMENT PASSED' : 'ASSESSMENT COMPLETED'}</div>
+        <div class="result-tag">${isPass ? 'QUALIFIED • FINAL INTERVIEW SCHEDULED' : 'ASSESSMENT COMPLETED'}</div>
         <h2 class="result-title">${isPass ? `Congratulations, ${escapeHtml(candName)}!` : `Thank You, ${escapeHtml(candName)}`}</h2>
         
         <p class="result-desc">
           ${isPass 
-            ? `Outstanding performance! You scored <strong>${score}%</strong> in the <strong>${escapeHtml(candRole)}</strong> competency test, exceeding the 80% hiring threshold.`
+            ? `Outstanding performance! You scored <strong>${score}%</strong> in the <strong>${escapeHtml(candRole)}</strong> competency test, exceeding the 80% qualification threshold.`
             : `You scored <strong>${score}%</strong> in the <strong>${escapeHtml(candRole)}</strong> assessment. The qualifying threshold for this position is <strong>80%</strong>.`
           }
         </p>
@@ -468,16 +468,19 @@
           <div class="score-sub-details">
             <div>Correct Answers: <strong>${correctCount} / ${totalCount}</strong></div>
             <div>Passing Threshold: <strong>80% (16/20)</strong></div>
-            <div>Decision: <strong>${isPass ? 'HIRED / SELECTED' : 'NOT QUALIFIED'}</strong></div>
+            <div>Decision: <strong>${isPass ? 'QUALIFIED FOR FINAL INTERVIEW' : 'NOT QUALIFIED'}</strong></div>
           </div>
         </div>
 
         ${isPass ? `
-          <!-- PASS / OFFER DISPATCH NOTIFICATION -->
-          <div class="next-steps-card">
-            <h4>✉️ Official Job Offer Letter Dispatched!</h4>
+          <!-- PASS / FINAL INTERVIEW DISPATCH NOTIFICATION -->
+          <div class="next-steps-card" style="background: rgba(2, 132, 199, 0.08); border-color: rgba(2, 132, 199, 0.3);">
+            <h4 style="color: #0284c7;">🎥 Final 1-on-1 Interview Round Invitation Dispatched!</h4>
             <p>
-              Your formal <strong>Job Offer Letter</strong> with joining schedule, compensation breakdown, and onboarding instructions has been sent to <strong>${escapeHtml(candidate.email || 'your email')}</strong>. Please check your inbox and reply to confirm your acceptance.
+              Your formal invitation for the <strong>Final Interview Round</strong>—complete with scheduled date, time, and Google Meet video conference link—has been sent to <strong>${escapeHtml(candidate.email || 'your email')}</strong>.
+            </p>
+            <p style="margin-top: 8px; font-size: 13px; color: var(--text-muted);">
+              Please check your inbox, review the discussion topics, and reply to confirm your attendance.
             </p>
           </div>
         ` : `
@@ -499,16 +502,16 @@
 
   // Render Already Completed Screen
   function renderAlreadyCompletedScreen(cand) {
-    const isHired = cand.status === 'HIRED' || (cand.testScore !== undefined && cand.testScore >= 80);
-    const score = cand.testScore !== undefined ? cand.testScore : (isHired ? 85 : 60);
+    const isPass = cand.status === 'HIRED' || cand.status === 'INTERVIEW_SCHEDULED' || (cand.testScore !== undefined && cand.testScore >= 80);
+    const score = cand.testScore !== undefined ? cand.testScore : (isPass ? 85 : 60);
 
     resultScreen.classList.remove('hidden');
     startScreen.classList.add('hidden');
 
     resultScreen.innerHTML = `
-      <div class="result-card ${isHired ? 'pass' : 'fail'}">
-        <div class="result-icon">${isHired ? '🏆' : '📋'}</div>
-        <div class="result-tag">${isHired ? 'TEST COMPLETED • OFFER EXTENDED' : 'TEST COMPLETED'}</div>
+      <div class="result-card ${isPass ? 'pass' : 'fail'}">
+        <div class="result-icon">${isPass ? '🏆' : '📋'}</div>
+        <div class="result-tag">${cand.status === 'HIRED' ? 'HIRED • OFFER EXTENDED' : (isPass ? 'QUALIFIED • FINAL INTERVIEW SCHEDULED' : 'TEST COMPLETED')}</div>
         <h2 class="result-title">Assessment Already Completed</h2>
         <p class="result-desc">
           Hello <strong>${escapeHtml(cand.name)}</strong>, your assessment for <strong>${escapeHtml(cand.role)}</strong> has already been submitted and graded.

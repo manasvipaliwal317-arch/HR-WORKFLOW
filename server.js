@@ -1071,8 +1071,8 @@ function generateInterviewInviteTemplate({ candidate, req = null }) {
                       <td style="padding: 6px 0; font-size: 14px; color: #4f46e5; font-weight: 700;">⏱️ 30 Minutes (Strict Countdown)</td>
                     </tr>
                     <tr>
-                      <td style="padding: 6px 0; font-size: 14px; color: #64748b;"><strong>Hiring Criteria:</strong></td>
-                      <td style="padding: 6px 0; font-size: 14px; color: #059669; font-weight: 700;">🏆 80% or Higher (Instant Job Offer)</td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #64748b;"><strong>Advancement Criteria:</strong></td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #059669; font-weight: 700;">🏆 80% or Higher (Qualifies for Final 1-on-1 Interview)</td>
                     </tr>
                     <tr>
                       <td style="padding: 6px 0; font-size: 14px; color: #64748b;"><strong>Environment:</strong></td>
@@ -1103,7 +1103,7 @@ function generateInterviewInviteTemplate({ candidate, req = null }) {
                 </div>
 
                 <p style="font-size: 14px; line-height: 1.6; color: #64748b;">
-                  Candidates achieving <strong>80% or above</strong> will automatically receive their <strong>Official Job Offer Letter</strong> with onboarding schedule immediately upon submission.
+                  Candidates achieving <strong>80% or above</strong> will automatically advance to the <strong>Final 1-on-1 Technical & Cultural Interview Round</strong> with our hiring leadership panel.
                 </p>
 
                 <p style="font-size: 14px; line-height: 1.6; color: #64748b;">
@@ -1137,6 +1137,146 @@ function generateInterviewInviteTemplate({ candidate, req = null }) {
   </html>
   `;
 }
+
+// Generate deterministic Google Meet link
+function generateGoogleMeetLink(seed = '') {
+  const str = String(seed || Date.now().toString(36)).toLowerCase().replace(/[^a-z0-9]/g, '');
+  const part1 = (str.slice(0, 3) + 'abc').slice(0, 3);
+  const part2 = (str.slice(3, 7) + 'defg').slice(0, 4);
+  const part3 = (str.slice(7, 10) + 'xyz').slice(0, 3);
+  return `https://meet.google.com/${part1}-${part2}-${part3}`;
+}
+
+// HTML Email Template: Final Interview Round Invitation (Dispatched when Candidate Clears Assessment with Score >= 80%)
+function generateFinalInterviewInviteTemplate({ candidate, score, correctCount, totalCount = 20, interviewDate, interviewTime, meetingLink }) {
+  const candidateName = candidate.name || 'Candidate';
+  const role = candidate.role || 'Full Stack Developer';
+  const dateStr = interviewDate || candidate.interviewDate || candidate.proposedInterviewDate || getFormattedInterviewDate(2);
+  const timeStr = interviewTime || candidate.interviewTime || '11:00 AM - 11:45 AM IST';
+  const meetUrl = meetingLink || candidate.meetingLink || generateGoogleMeetLink(candidate.id || candidate.name);
+  const interviewer = candidate.interviewerName || 'Engineering Hiring Panel & HR Leadership';
+  const company = appConfig.companyName;
+
+  return `
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Final Interview Invitation - ${company}</title>
+  </head>
+  <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f1f5f9; color: #1e293b;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed; background-color: #f1f5f9; padding: 30px 10px;">
+      <tr>
+        <td align="center">
+          <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 620px; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.06); border: 1px solid #e2e8f0;">
+            
+            <!-- HEADER -->
+            <tr>
+              <td style="padding: 36px 32px 30px; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); text-align: center; color: #ffffff;">
+                <span style="display: inline-block; padding: 6px 14px; background: rgba(255,255,255,0.2); border-radius: 50px; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px;">🎉 Assessment Cleared!</span>
+                <h1 style="margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -0.5px;">Final Interview Round</h1>
+                <p style="margin: 8px 0 0; font-size: 15px; opacity: 0.95;">Position: <strong>${role}</strong> at ${company}</p>
+              </td>
+            </tr>
+
+            <!-- BODY CONTENT -->
+            <tr>
+              <td style="padding: 32px;">
+                <p style="font-size: 16px; line-height: 1.6; margin-top: 0; color: #334155;">
+                  Dear <strong>${candidateName}</strong>,
+                </p>
+                <p style="font-size: 15px; line-height: 1.6; color: #475569;">
+                  Congratulations on clearing the online technical assessment with a score of <strong>${score}%</strong> (${correctCount}/${totalCount} questions correct)!
+                </p>
+                <p style="font-size: 15px; line-height: 1.6; color: #475569;">
+                  Based on your exceptional performance, our hiring council is pleased to invite you to the <strong>Final Round: 1-on-1 Technical Deep-Dive & Cultural Alignment Interview</strong>.
+                </p>
+
+                <!-- INTERVIEW SCHEDULE CARD -->
+                <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 22px; margin: 26px 0;">
+                  <h3 style="margin-top: 0; margin-bottom: 16px; font-size: 16px; color: #1e293b; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
+                    📅 Final Round Schedule & Video Link
+                  </h3>
+                  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tr>
+                      <td style="padding: 6px 0; font-size: 14px; color: #64748b; width: 140px;"><strong>Candidate:</strong></td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #0f172a; font-weight: 600;">${candidateName}</td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 6px 0; font-size: 14px; color: #64748b;"><strong>Target Role:</strong></td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #0f172a; font-weight: 600;">${role}</td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 6px 0; font-size: 14px; color: #64748b;"><strong>Assessment Score:</strong></td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #059669; font-weight: 700;">${score}% (${correctCount}/${totalCount} Correct — Cleared)</td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 6px 0; font-size: 14px; color: #64748b;"><strong>Date:</strong></td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #0f172a; font-weight: 600;">${dateStr}</td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 6px 0; font-size: 14px; color: #64748b;"><strong>Time & Duration:</strong></td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #0284c7; font-weight: 700;">${timeStr} (45 Minutes)</td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 6px 0; font-size: 14px; color: #64748b;"><strong>Format:</strong></td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #0f172a;">1-on-1 Video Conference (Technical & Leadership Panel)</td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 6px 0; font-size: 14px; color: #64748b;"><strong>Interview Panel:</strong></td>
+                      <td style="padding: 6px 0; font-size: 14px; color: #0f172a;">${interviewer}</td>
+                    </tr>
+                  </table>
+
+                  <!-- JOIN MEETING BUTTON -->
+                  <div style="text-align: center; margin-top: 26px; margin-bottom: 10px;">
+                    <a href="${meetUrl}" target="_blank" style="display: inline-block; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color: #ffffff; text-decoration: none; font-size: 16px; font-weight: 800; padding: 15px 36px; border-radius: 10px; box-shadow: 0 4px 16px rgba(2, 132, 199, 0.35);">
+                      🎥 Join Google Meet Video Interview
+                    </a>
+                    <div style="margin-top: 12px;">
+                      <a href="${meetUrl}" style="font-size: 12px; color: #0284c7; text-decoration: underline; word-break: break-all;">${meetUrl}</a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- WHAT TO EXPECT -->
+                <div style="background-color: #f0f9ff; border-left: 4px solid #0284c7; padding: 14px 18px; margin: 24px 0; border-radius: 4px;">
+                  <strong style="color: #0369a1; font-size: 13px; text-transform: uppercase;">💡 What to Expect in the Final Round:</strong>
+                  <ul style="padding-left: 18px; margin: 8px 0 0; font-size: 13px; color: #0c4a6e; line-height: 1.5;">
+                    <li><strong>Architecture & Project Deep-Dive:</strong> Discussion of key projects from your resume and domain problem-solving.</li>
+                    <li><strong>Team & Cultural Alignment:</strong> Collaboration approach, technical ownership, and vision for the ${role} role.</li>
+                    <li><strong>Q&A Session:</strong> An open session for you to ask questions about our roadmap, tech stack, and engineering culture.</li>
+                  </ul>
+                </div>
+
+                <p style="font-size: 14px; line-height: 1.6; color: #64748b; margin-top: 24px;">
+                  Please confirm your availability by replying directly to this email. If you need to request an alternate time, let us know as soon as possible.
+                </p>
+
+                <p style="font-size: 15px; line-height: 1.6; margin-bottom: 0; color: #334155;">
+                  Best regards,<br>
+                  <strong>${company} Talent Acquisition Team</strong><br>
+                  <span style="font-size: 13px; color: #64748b;">${appConfig.hrEmail}</span>
+                </p>
+              </td>
+            </tr>
+
+            <!-- FOOTER -->
+            <tr>
+              <td style="padding: 20px 32px; background-color: #f8fafc; border-top: 1px solid #e2e8f0; text-align: center; font-size: 12px; color: #94a3b8;">
+                © ${new Date().getFullYear()} ${company}. All rights reserved. Confidential Recruitment Correspondence.
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+  </html>
+  `;
+}
+
 
 // HTML Email Template: Assessment Outcome Rejection & Constructive Feedback (For Score < 80%)
 function generateAssessmentRejectionTemplate({ candidate, score, correctCount, totalCount = 20 }) {
@@ -2734,39 +2874,43 @@ app.post('/api/test/:token/submit', async (req, res) => {
     console.log(`\n===============================================================`);
     console.log(`📊 [ASSESSMENT SUBMITTED] Candidate: ${candidate.name} (${candidate.role})`);
     console.log(`   Score:       ${scorePercentage}% (${correctCount}/${totalCount} Correct)`);
-    console.log(`   Threshold:   80% -> Decision: ${isPassed ? 'HIRED / SELECTED' : 'REJECTED'}`);
+    console.log(`   Threshold:   80% -> Decision: ${isPassed ? 'FINAL INTERVIEW QUALIFIED' : 'REJECTED'}`);
     console.log(`   Duration:    ${Math.floor(durationTaken / 60)}m ${durationTaken % 60}s | Security Violations: ${cheatViolations}`);
 
     let emailSentResult = null;
 
-    // 🎯 WORKFLOW PATH 1: SCORE >= 80% -> AUTOMATIC JOB OFFER LETTER
+    // 🎯 WORKFLOW PATH 1: SCORE >= 80% -> AUTOMATIC FINAL 1-ON-1 INTERVIEW ROUND
     if (isPassed) {
-      candidate.status = 'HIRED';
+      candidate.status = 'INTERVIEW_SCHEDULED';
       candidate.decision = 'SELECTED';
-      candidate.interviewStatus = `🎉 Hired (Scored ${scorePercentage}% on Test - Offer Letter Sent)`;
+      candidate.interviewRound = 'Final Technical & HR Interview';
+      candidate.interviewStatus = `🎉 Passed Assessment (${scorePercentage}%) — Final Interview Scheduled`;
 
-      const resolvedJoiningDate = candidate.joiningDate || getFormattedJoiningDate(3, candidate.interviewDate || candidate.proposedInterviewDate);
-      candidate.joiningDate = resolvedJoiningDate;
-      const salaryOffer = candidate.salaryOffer || 'Competitive Market Standard (Commensurate with Technical Expertise)';
-      candidate.salaryOffer = salaryOffer;
+      const resolvedInterviewDate = candidate.interviewDate || candidate.proposedInterviewDate || getFormattedInterviewDate(2);
+      candidate.interviewDate = resolvedInterviewDate;
+      candidate.proposedInterviewDate = resolvedInterviewDate;
+      candidate.interviewTime = candidate.interviewTime || '11:00 AM - 11:45 AM IST';
+      
+      if (!candidate.meetingLink) {
+        candidate.meetingLink = generateGoogleMeetLink(candidate.id || candidate.name);
+      }
 
-      const offerSubject = `🎉 Official Job Offer: ${candidate.role} at ${appConfig.companyName}`;
-      const offerHtml = generateHiringOfferTemplate({
+      const interviewSubject = `🎉 Next Round: Final Interview for ${candidate.role} at ${appConfig.companyName}`;
+      const interviewHtml = generateFinalInterviewInviteTemplate({
         candidate,
-        joiningDate: resolvedJoiningDate,
-        salaryOffer: salaryOffer,
-        workMode: candidate.workMode || 'Hybrid (3 Days Office / 2 Days Remote)',
-        workLocation: candidate.workLocation || `${appConfig.companyName} Campus, Cyber City, Bangalore`,
-        employmentType: candidate.employmentType || 'Full-Time Permanent',
-        department: candidate.department || ((candidate.role || '').toLowerCase().includes('marketing') ? 'Growth & Digital Marketing' : 'Core Engineering & Technology'),
-        customNotes: `Congratulations on achieving an exceptional score of ${scorePercentage}% in our technical domain assessment.`
+        score: scorePercentage,
+        correctCount,
+        totalCount,
+        interviewDate: resolvedInterviewDate,
+        interviewTime: candidate.interviewTime,
+        meetingLink: candidate.meetingLink
       });
 
-      console.log(`🚀 [Auto-Hiring Trigger] Score ${scorePercentage}% >= 80%. Dispatching Job Offer to ${candidate.email}...`);
+      console.log(`🚀 [Auto-Interview Trigger] Score ${scorePercentage}% >= 80%. Dispatching Final Round Interview Invitation to ${candidate.email}...`);
       if (candidate.email && candidate.email.includes('@') && appConfig.autoSendEmails) {
-        emailSentResult = await sendCandidateCustomEmail(candidate.email, offerSubject, offerHtml);
+        emailSentResult = await sendCandidateCustomEmail(candidate.email, interviewSubject, interviewHtml);
         if (emailSentResult && emailSentResult.success) {
-          candidate.emailSubject = offerSubject;
+          candidate.emailSubject = interviewSubject;
           candidate.emailSentAt = now;
         }
       }
@@ -2812,9 +2956,12 @@ app.post('/api/test/:token/submit', async (req, res) => {
       totalCount,
       candidateName: candidate.name,
       appliedRole: candidate.role,
+      interviewDate: candidate.interviewDate,
+      interviewTime: candidate.interviewTime,
+      meetingLink: candidate.meetingLink,
       emailSent: emailSentResult ? emailSentResult.success : false,
       message: isPassed
-        ? `Congratulations! You scored ${scorePercentage}% and passed the assessment. Your official Job Offer Letter has been dispatched!`
+        ? `Congratulations! You scored ${scorePercentage}% and passed the assessment. Your official Final Interview Round Invitation has been dispatched!`
         : `Assessment submitted. Your score is ${scorePercentage}%. An outcome email has been dispatched.`
     });
   } catch (err) {

@@ -1,5 +1,290 @@
 [
   {
+    "id": "cand_auto_mub3om7z_7foa",
+    "name": "Rohan Sharma",
+    "email": "sharmavageesha2000@gmail.com",
+    "resumeEmail": "sharmavageesha2000@gmail.com",
+    "phone": "+91-98XXXXXXXX",
+    "role": "Full Stack Developer",
+    "decision": "SELECTED",
+    "matchScore": 85,
+    "status": "TEST_ASSIGNED",
+    "testStatus": "ASSIGNED",
+    "testToken": "cand_auto_mub3om7z_7foa",
+    "testLink": "http://localhost:3000/assessment.html?token=cand_auto_mub3om7z_7foa",
+    "testQuestions": [
+      {
+        "id": 1,
+        "question": "In modern CSS layout systems, when should you choose CSS Grid over Flexbox?",
+        "options": [
+          "When laying out items in a single one-dimensional row or column",
+          "When designing complex two-dimensional layouts with rows and columns simultaneously",
+          "When styling text typography exclusively",
+          "When you need to support Internet Explorer 6"
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "In Node.js, what is the primary consequence of performing heavy synchronous CPU-bound operations within the main event loop thread?",
+        "options": [
+          "Automatic thread spawning to handle the load",
+          "Memory leak due to garbage collection failure",
+          "Corrupted database connection pools",
+          "Blocked event loop causing the server to stop responding to all incoming requests"
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 3,
+        "question": "When designing a RESTful API, which status code is most appropriate for a successful resource creation request that also returns the representation of the newly created resource?",
+        "options": [
+          "204 No Content",
+          "202 Accepted",
+          "201 Created",
+          "200 OK"
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 4,
+        "question": "In a React application, you notice frequent unnecessary re-renders of a child component whenever its parent state updates, even though the props passed to the child haven't changed. Which approach best resolves this?",
+        "options": [
+          "Use the useEffect hook to monitor prop changes",
+          "Wrap the child component in React.memo",
+          "Convert the functional component into a class component",
+          "Move all state management to the global Redux store"
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "Which HTTP header is essential for preventing Cross-Origin Resource Sharing (CORS) blocking when a frontend hosted on 'https://app.example.com' requests data from an API on 'https://api.example.com'?",
+        "options": [
+          "Content-Type",
+          "X-Frame-Options",
+          "Strict-Transport-Security",
+          "Access-Control-Allow-Origin"
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 6,
+        "question": "Which of the following best describes 'Idempotency' in the context of HTTP methods?",
+        "options": [
+          "Making multiple identical requests has the same effect as making a single request",
+          "Every request must return a different random response",
+          "Requests are guaranteed to execute in chronological order",
+          "Endpoints automatically retry failed network calls"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 7,
+        "question": "What is the primary purpose of using database indexing in a high-traffic web application?",
+        "options": [
+          "To speed up data retrieval operations at the cost of write performance",
+          "To automatically encrypt sensitive column data",
+          "To reduce the storage size of the database tables",
+          "To enforce foreign key constraints"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 8,
+        "question": "What is code splitting in modern frontend module bundlers (like Webpack or Vite)?",
+        "options": [
+          "Splitting unit tests into separate test runners",
+          "Separating HTML markup from CSS stylesheets",
+          "Splitting a monolithic backend into microservices",
+          "Dividing your code into various bundles which can then be loaded on demand or in parallel"
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 9,
+        "question": "In relational databases, what does the 'N+1 query problem' refer to?",
+        "options": [
+          "Making 1 query to fetch a parent list and N subsequent queries to fetch related child records",
+          "Having N columns in a table and 1 primary key",
+          "Creating N database instances with 1 master replica",
+          "Executing N updates and 1 delete statement in a single transaction"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 10,
+        "question": "What does the 'C' in the CAP theorem stand for, and what does it imply in distributed data stores?",
+        "options": [
+          "Consistency; every read receives the most recent write or an error",
+          "Capacity; the maximum storage limit of a cluster",
+          "Concurrency; multiple threads can access data safely",
+          "Compatibility; backward support for legacy APIs"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 11,
+        "question": "Which design pattern is commonly used in backend architecture to decouple components by having an entity publish events without knowing who consumes them?",
+        "options": [
+          "Factory Pattern",
+          "Adapter Pattern",
+          "Observer / Pub-Sub Pattern",
+          "Singleton Pattern"
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 12,
+        "question": "What is the key difference between optimistic and pessimistic locking in database concurrency control?",
+        "options": [
+          "Optimistic locking is only for NoSQL databases, whereas pessimistic locking is for SQL",
+          "Optimistic locking uses database transactions, while pessimistic locking uses caching",
+          "Optimistic locking assumes conflicts are rare and checks at commit time, while pessimistic locking locks the record immediately",
+          "Pessimistic locking prevents deadlocks automatically, while optimistic locking causes them"
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 13,
+        "question": "Which Git command should you use to integrate changes from a feature branch into the main branch by replaying your commits on top of the latest main branch history, creating a linear project history?",
+        "options": [
+          "git rebase",
+          "git cherry-pick",
+          "git squash",
+          "git merge"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 14,
+        "question": "Why is input validation on the backend mandatory even if robust frontend validation is already implemented?",
+        "options": [
+          "Browsers do not support JavaScript validation libraries",
+          "Users can easily bypass frontend validation by making direct API requests",
+          "Frontend validation is purely cosmetic and has no performance impact",
+          "Backend validation is faster to execute"
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 15,
+        "question": "When implementing JWT (JSON Web Tokens) for authentication, where is the most secure place to store the access token on the client-side to mitigate XSS theft risks?",
+        "options": [
+          "LocalStorage",
+          "SessionStorage",
+          "JavaScript Global Variable",
+          "HttpOnly Cookie"
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 16,
+        "question": "What is the primary benefit of containerizing a full-stack application using Docker?",
+        "options": [
+          "It guarantees faster CPU execution speed",
+          "It automatically writes unit tests for your code",
+          "It eliminates environment inconsistency between development, staging, and production",
+          "It replaces the need for a CI/CD pipeline"
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 17,
+        "question": "What is the primary role of a reverse proxy like Nginx sitting in front of a Node.js application server?",
+        "options": [
+          "To manage database migrations automatically",
+          "To handle SSL termination, load balancing, and static file serving",
+          "To replace the application's routing logic",
+          "To compile JavaScript code into native binaries"
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 18,
+        "question": "Which of the following vulnerabilities is primarily prevented by implementing strict Content Security Policy (CSP) headers and output encoding?",
+        "options": [
+          "Cross-Site Request Forgery (CSRF)",
+          "Remote Code Execution (RCE)",
+          "SQL Injection (SQLi)",
+          "Cross-Site Scripting (XSS)"
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 19,
+        "question": "When debugging a memory leak in a Node.js application, which tool or technique is standard practice to identify retained objects and heap allocation?",
+        "options": [
+          "Restarting the server every hour via cron",
+          "Increasing the max-old-space-size indefinitely",
+          "Using Chrome DevTools or heap snapshot analyzers (e.g., heapdump)",
+          "Checking console.log output frequency"
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 20,
+        "question": "What is the purpose of database connection pooling in backend web applications?",
+        "options": [
+          "To maintain a cache of frequently queried SQL statements",
+          "To reuse a set of active database connections, avoiding the high overhead of establishing a new connection per request",
+          "To store user sessions in memory for quick access",
+          "To pool multiple databases into a single sharded cluster"
+        ],
+        "correctAnswerIndex": 1
+      }
+    ],
+    "yearsOfExperience": "2+ years",
+    "topSkills": [
+      "React.js",
+      "JavaScript",
+      "HTML5/CSS3",
+      "REST APIs",
+      "Git"
+    ],
+    "education": "Bachelor of Technology (B.Tech.) in Computer Science & Engineering, Gujarat Technological University",
+    "strengths": [
+      "Strong hands-on expertise in React.js and modern JavaScript (ES6+)",
+      "Solid experience with responsive web design and REST API integration",
+      "Proven track record of building production-ready frontend web applications"
+    ],
+    "areasForImprovement": [
+      "Could expand on backend technologies like Node.js and Express to fully match all backend requirements",
+      "Needs more exposure to database management systems such as PostgreSQL"
+    ],
+    "evaluationSummary": "Rohan Sharma presents a solid background in frontend web development with over 2 years of professional experience building responsive and scalable applications using React.js, JavaScript, and CSS3. While his primary focus has been on frontend architecture, his strong command over component design, REST API integration, and state management aligns well with our Full Stack Developer requirements. We are excited to evaluate his full-stack potential and problem-solving abilities further in an interview.",
+    "rejectionReason": null,
+    "interviewQuestions": [
+      "Can you explain how you handle complex state management in React, and when you would choose Context API versus other state management solutions?",
+      "Describe your experience integrating RESTful APIs in a React application. How do you handle asynchronous error handling, loading, and validation states?",
+      "How do you approach optimizing performance and ensuring cross-browser compatibility in a large-scale React web application?",
+      "Walk us through your experience with backend integration and how you collaborate with backend engineers to define API contracts.",
+      "Can you explain a challenging UI or state synchronization bug you resolved recently using Chrome DevTools or other debugging methods?"
+    ],
+    "proposedInterviewDate": "Thursday, September 24, 2026",
+    "interviewDate": "Thursday, September 24, 2026",
+    "interviewTime": "30 Minutes Online Technical Assessment",
+    "joiningDate": "Monday, October 19, 2026",
+    "interviewRound": "Domain Technical MCQ Assessment (20 Questions / 30 Mins)",
+    "interviewerName": "Tech Innovations Inc. Technical Hiring Council",
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Inc. Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Core Engineering & Technology",
+    "location": "Bangalore, India / Open to Relocation",
+    "salaryOffer": "Competitive / Market Standard (Finalized upon Offer)",
+    "interviewStatus": "Assessment Test Assigned (30 Mins / 20 MCQs)",
+    "emailSubject": "🎯 Technical Assessment & Interview: Full Stack Developer at Tech Innovations Inc.",
+    "emailBody": "Dear Vageesha / Rohan,\n\nThank you for submitting your application for the Full Stack Developer role at Tech Innovations Inc. We were thoroughly impressed by your strong background in React.js, modern JavaScript, and building responsive web applications.\n\nWe would love to invite you for an online technical interview on Thursday, September 24, 2026 at 2:30 PM - 3:15 PM IST. Please confirm your availability for this slot by replying to this email so we can share the meeting link.\n\nWe look forward to speaking with you!\n\nBest regards,\n\nSenior Technical Recruiter & Hiring Director\nTech Innovations Inc.",
+    "emailSentAt": "2026-09-21T10:26:46.445Z",
+    "createdAt": "2026-09-21T10:26:35.519Z",
+    "updatedAt": "2026-09-21T10:26:35.519Z",
+    "source": "Gmail IMAP (Frontend_Developer_1_3_Years_Resume.pdf)",
+    "emailMessageId": "<01ab1698-47b8-5fdd-f5a2-9f3492a8047d@gmail.com>",
+    "emailDeliveryStatus": "DELIVERED",
+    "emailTransport": "gmail_smtp"
+  },
+  {
     "id": "cand_auto_muazrqxf_c7in",
     "name": "Mahima Chouhan",
     "email": "manasvi60487.mbaib22@ipsacademy.org",
@@ -336,620 +621,6 @@
     "emailMessageId": "<296970cf-dc66-044e-e940-6d1c513d3ce3@gmail.com>",
     "emailDeliveryStatus": "DELIVERED",
     "emailTransport": "gmail_smtp"
-  },
-  {
-    "id": "cand_auto_mto4hobf_n4yu",
-    "name": "Rohan Sharma",
-    "email": "manasvi60487.mbaib22@ipsacademy.org",
-    "resumeEmail": "manasvi60487.mbaib22@ipsacademy.org",
-    "phone": "+91-98XXXXXXXX",
-    "role": "Full Stack Developer",
-    "decision": "REJECTED",
-    "matchScore": 88,
-    "status": "REJECTED",
-    "testStatus": "COMPLETED",
-    "testToken": "cand_auto_mto4hobf_n4yu",
-    "testLink": "http://localhost:3000/assessment.html?token=cand_auto_mto4hobf_n4yu",
-    "testQuestions": [
-      {
-        "id": 1,
-        "question": "When debugging a performance bottleneck in a full-stack application, which toolset combination is most effective for tracing latency across both frontend rendering and backend microservices?",
-        "options": [
-          "Application Performance Monitoring (APM) tools with distributed tracing (e.g., OpenTelemetry, Datadog) combined with browser performance profilers",
-          "Static code analyzers like ESLint and SonarQube",
-          "Console.log statements and browser zoom tools",
-          "Database query execution plan visualizers alone"
-        ],
-        "correctAnswerIndex": 0
-      },
-      {
-        "id": 2,
-        "question": "What does the 'S' in the SOLID principles stand for, and what architectural goal does it achieve?",
-        "options": [
-          "Single Responsibility Principle; states that a class should have only one reason to change, promoting modularity and maintainability",
-          "Synchronous Principle; enforces non-blocking async code structures",
-          "Security Principle; prevents unauthorized access to service layers",
-          "Scalability Principle; ensures systems scale horizontally automatically"
-        ],
-        "correctAnswerIndex": 0
-      },
-      {
-        "id": 3,
-        "question": "What is the key advantage of using Database Indexing, and what is a primary trade-off?",
-        "options": [
-          "Improves write performance; trade-off is higher CPU utilization",
-          "Significantly speeds up SELECT query performance; trade-off is slower INSERT, UPDATE operations and increased storage overhead",
-          "Reduces database disk space usage; trade-off is loss of ACID compliance",
-          "Eliminates the need for foreign keys; trade-off is data redundancy"
-        ],
-        "correctAnswerIndex": 1
-      },
-      {
-        "id": 4,
-        "question": "What is a closure in JavaScript?",
-        "options": [
-          "A function bundled together with references to its lexical environment, allowing it to access outer scope variables even after the outer function has finished executing",
-          "A method used to close open database connections and free memory",
-          "A design pattern used to enforce private class properties in ES5",
-          "An error handling block equivalent to try/catch/finally"
-        ],
-        "correctAnswerIndex": 0
-      },
-      {
-        "id": 5,
-        "question": "What is database sharding, and when is it typically introduced in system design?",
-        "options": [
-          "An indexing strategy used to speed up full-text search queries; used for log analysis",
-          "A method for backing up SQL databases to cloud object storage; used for disaster recovery",
-          "A technique for vertical scaling by upgrading RAM and CPU on a single database server; used at project inception",
-          "A horizontal partitioning strategy that splits a large database across multiple machines to handle massive data volumes and throughput; used when single-node limits are exceeded"
-        ],
-        "correctAnswerIndex": 3
-      },
-      {
-        "id": 6,
-        "question": "Which of the following is considered an effective strategy to mitigate the N+1 query problem in an ORM-backed relational database architecture?",
-        "options": [
-          "Increasing the connection pool size in the application configuration",
-          "Enabling query result caching on the database server",
-          "Using database indexing on foreign key columns",
-          "Implementing eager loading (e.g., `.include()` or `.join()`) for related entities"
-        ],
-        "correctAnswerIndex": 3
-      },
-      {
-        "id": 7,
-        "question": "Which HTTP header is crucial for enabling and configuring Cross-Origin Resource Sharing (CORS) to allow a frontend hosted on 'https://app.example.com' to consume APIs from 'https://api.example.com'?",
-        "options": [
-          "X-Frame-Options",
-          "Access-Control-Allow-Origin",
-          "Strict-Transport-Security",
-          "Content-Security-Policy"
-        ],
-        "correctAnswerIndex": 1
-      },
-      {
-        "id": 8,
-        "question": "In Git, what is the core difference between `git merge` and `git rebase`?",
-        "options": [
-          "Merge deletes the source branch after combining; Rebase keeps it intact",
-          "There is no functional difference; they are aliases for each other",
-          "Rebase can only be used locally, while merge is exclusively for remote repositories",
-          "Merge creates a new commit that combines branches preserving history; Rebase rewrites the commit history by moving branch commits on top of the target base branch"
-        ],
-        "correctAnswerIndex": 3
-      },
-      {
-        "id": 9,
-        "question": "In modern CI/CD pipelines, what is the primary benefit of containerization (e.g., Docker) over traditional deployment methods?",
-        "options": [
-          "It compresses source code to reduce server storage requirements",
-          "It eliminates the need for writing automated unit tests",
-          "It automatically scales Kubernetes clusters based on CPU usage",
-          "It ensures environmental consistency across development, staging, and production by bundling the application and its dependencies into a single immutable artifact"
-        ],
-        "correctAnswerIndex": 3
-      },
-      {
-        "id": 10,
-        "question": "What is the primary vulnerability that Cross-Site Scripting (XSS) exposes a web application to, and how is it primarily prevented in modern frontend frameworks?",
-        "options": [
-          "Unauthorized command execution on the server; prevented by input sanitization",
-          "Hijacking of active sessions via predictable session IDs; prevented by using cryptographically secure random tokens",
-          "Execution of malicious client-side scripts in the victim's browser; prevented by automatic output encoding and escaping",
-          "SQL injection via user inputs; prevented by using prepared statements"
-        ],
-        "correctAnswerIndex": 2
-      },
-      {
-        "id": 11,
-        "question": "When designing a RESTful API, which HTTP status code is most appropriate to return immediately after a resource is successfully created via a POST request?",
-        "options": [
-          "201 Created",
-          "200 OK",
-          "204 No Content",
-          "202 Accepted"
-        ],
-        "correctAnswerIndex": 0
-      },
-      {
-        "id": 12,
-        "question": "What is the primary purpose of a Content Delivery Network (CDN) in web architecture?",
-        "options": [
-          "To manage database migrations across staging and production environments",
-          "To cache and serve static assets (images, JS, CSS) from edge servers geographically closer to end-users, reducing latency and origin server load",
-          "To execute backend business logic closer to the database",
-          "To encrypt traffic between microservices within a private cloud"
-        ],
-        "correctAnswerIndex": 1
-      },
-      {
-        "id": 13,
-        "question": "What is the primary role of a Reverse Proxy (such as Nginx) in a modern web application infrastructure?",
-        "options": [
-          "To compile CSS stylesheets into optimized minified bundles",
-          "To act as an intermediary for requests from clients seeking resources from backend servers, handling tasks like SSL termination, load balancing, and caching",
-          "To transpile modern JavaScript code for older browser compatibility",
-          "To store relational database tables in memory for fast retrieval"
-        ],
-        "correctAnswerIndex": 1
-      },
-      {
-        "id": 14,
-        "question": "How do CSS Grid and CSS Flexbox fundamentally differ in layout design?",
-        "options": [
-          "Grid is for animations; Flexbox is for static layouts",
-          "Grid requires JavaScript polyfills; Flexbox is purely native CSS",
-          "Grid is fundamentally two-dimensional (rows and columns simultaneously); Flexbox is primarily one-dimensional (either a row or a column)",
-          "Flexbox is only supported in legacy browsers; Grid is modern"
-        ],
-        "correctAnswerIndex": 2
-      },
-      {
-        "id": 15,
-        "question": "What does ACID stand for in the context of relational database transactions?",
-        "options": [
-          "Atomicity, Consistency, Isolation, Durability",
-          "Association, Consistency, Isolation, Durability",
-          "Authentication, Confidentiality, Integrity, Disponibility",
-          "Atomicity, Concurrency, Indexing, Distribution"
-        ],
-        "correctAnswerIndex": 0
-      },
-      {
-        "id": 16,
-        "question": "In the context of WebSockets versus traditional HTTP REST polling, when should you choose WebSockets?",
-        "options": [
-          "When network bandwidth must be minimized by avoiding persistent TCP connections",
-          "For simple CRUD operations on static resource endpoints",
-          "When you need real-time, bi-directional, low-latency communication between client and server (e.g., chat applications or live dashboards)",
-          "When you want to cache responses easily via standard CDN infrastructure"
-        ],
-        "correctAnswerIndex": 2
-      },
-      {
-        "id": 17,
-        "question": "When implementing JSON Web Tokens (JWT) for authentication, where is the most secure place to store the access token on the client-side to mitigate XSS attacks?",
-        "options": [
-          "HTML5 SessionStorage",
-          "As a plain text string in browser cookies without flags",
-          "HTML5 LocalStorage",
-          "In-memory (e.g., React state or a closure variable)"
-        ],
-        "correctAnswerIndex": 3
-      },
-      {
-        "id": 18,
-        "question": "Which of the following describes an idempotent operation in HTTP API design?",
-        "options": [
-          "An operation that requires administrative authorization privileges",
-          "An operation that executes asynchronously in the background",
-          "An operation that can be applied multiple times without changing the result beyond the initial application (e.g., PUT or DELETE)",
-          "An operation that returns a different response every time it is called"
-        ],
-        "correctAnswerIndex": 2
-      },
-      {
-        "id": 19,
-        "question": "In Node.js, how does the event loop handle asynchronous I/O operations?",
-        "options": [
-          "Using multi-threading where each request spawns a dedicated OS thread",
-          "By utilizing libuv to delegate tasks to system kernel threads or a thread pool, invoking callbacks in the event loop upon completion",
-          "By compiling JavaScript code to native machine code via WebAssembly prior to execution",
-          "By blocking the main thread until the network socket returns data"
-        ],
-        "correctAnswerIndex": 1
-      },
-      {
-        "id": 20,
-        "question": "In React, what is the primary purpose of the `useMemo` hook?",
-        "options": [
-          "To perform side-effects like data fetching on component mount",
-          "To maintain a mutable reference that persists across renders without triggering a re-render",
-          "To memoize expensive calculations between renders to optimize performance",
-          "To manage global application state without Redux"
-        ],
-        "correctAnswerIndex": 2
-      }
-    ],
-    "yearsOfExperience": "3+ years",
-    "topSkills": [
-      "React.js",
-      "Python",
-      "FastAPI",
-      "PostgreSQL",
-      "REST APIs",
-      "Git"
-    ],
-    "education": "Bachelor of Technology (B.Tech.) in Computer Science & Engineering, Gujarat Technological University",
-    "strengths": [
-      "3+ years of robust full-stack development experience building production-grade web applications",
-      "Strong proficiency in React.js for building responsive and component-driven frontend interfaces",
-      "Extensive experience designing REST APIs, handling backend databases (PostgreSQL/MongoDB), and managing system architecture"
-    ],
-    "areasForImprovement": [
-      "While experienced with Python/FastAPI backend architectures, direct production experience with Node.js/Express could be expanded",
-      "Further emphasis on TypeScript in enterprise environments"
-    ],
-    "evaluationSummary": "Rohan Sharma presents an exceptionally strong profile as a Full Stack AI Engineer with over 3 years of production experience across well-regarded tech organizations like NeuralStack Technologies and CodeCraft Labs. His core technical competencies heavily align with our Full Stack Developer requirements, showcasing deep expertise in React.js frontend engineering, REST API design, PostgreSQL data management, and full software development lifecycles. Given his solid background in building scalable web applications and integrating complex backend services, Rohan is an ideal candidate for our engineering team.",
-    "rejectionReason": "Technical Assessment score was 35% (Passing threshold is 80%).",
-    "interviewQuestions": [
-      "Can you explain your approach to architecting a scalable RESTful API backend, particularly regarding error handling, validation, and middleware integration?",
-      "How do you optimize state management and rendering performance in large-scale React.js applications?",
-      "Describe your experience with database schema design and query optimization in PostgreSQL for heavy transactional loads.",
-      "How do you ensure seamless end-to-end integration and data synchronization between a React frontend and a relational database backend?"
-    ],
-    "proposedInterviewDate": "Wednesday, September 9, 2026",
-    "interviewDate": "Wednesday, September 9, 2026",
-    "interviewTime": "30 Minutes Online Technical Assessment",
-    "joiningDate": "Monday, October 5, 2026",
-    "interviewRound": "Domain Technical MCQ Assessment (20 Questions / 30 Mins)",
-    "interviewerName": "Tech Innovations Inc. Technical Hiring Council",
-    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
-    "workLocation": "Tech Innovations Inc. Campus, Cyber City, Bangalore",
-    "employmentType": "Full-Time Permanent",
-    "department": "Core Engineering & Technology",
-    "location": "Bangalore, India / Open to Relocation",
-    "salaryOffer": "Competitive / Market Standard (Finalized upon Offer)",
-    "interviewStatus": "Assessment Completed (Score: 35% - Rejected)",
-    "emailSubject": "Application Update: Full Stack Developer at Tech Innovations Inc.",
-    "emailBody": "Dear Rohan, Thank you for applying for the Full Stack Developer position at Tech Innovations Inc. We were thoroughly impressed by your background in building scalable full-stack applications, your expertise with React.js and REST APIs, and your strong engineering experience. We would love to invite you to a technical interview on Wednesday, September 9, 2026 at 2:30 PM - 3:15 PM IST to discuss your experience and technical vision further. Please confirm your availability for this slot. We look forward to speaking with you!",
-    "emailSentAt": "2026-09-05T08:34:05.967Z",
-    "createdAt": "2026-09-05T08:30:29.210Z",
-    "updatedAt": "2026-09-05T08:34:05.967Z",
-    "source": "Gmail IMAP (Full_Stack_AI_Engineer Rohan Sharma_Resume (2).pdf)",
-    "emailMessageId": "<12f6c74f-93ba-37b8-d719-af6ef080d9c2@gmail.com>",
-    "testStartedAt": "2026-09-05T08:32:53.962Z",
-    "testScore": 35,
-    "testCorrectCount": 7,
-    "testTotalCount": 20,
-    "testCompletedAt": "2026-09-05T08:34:05.967Z",
-    "testDurationSeconds": 71,
-    "testCheatViolations": 0,
-    "testAnswers": {
-      "0": 2,
-      "1": 2,
-      "2": 1,
-      "3": 0,
-      "4": 1,
-      "5": 0,
-      "6": 2,
-      "7": 3,
-      "8": 2,
-      "9": 2,
-      "10": 0,
-      "11": 3,
-      "12": 0,
-      "13": 2,
-      "14": 1,
-      "15": 1,
-      "16": 2,
-      "17": 1,
-      "18": 1,
-      "19": 3
-    },
-    "testDetailedResults": [
-      {
-        "questionId": 1,
-        "question": "When debugging a performance bottleneck in a full-stack application, which toolset combination is most effective for tracing latency across both frontend rendering and backend microservices?",
-        "options": [
-          "Application Performance Monitoring (APM) tools with distributed tracing (e.g., OpenTelemetry, Datadog) combined with browser performance profilers",
-          "Static code analyzers like ESLint and SonarQube",
-          "Console.log statements and browser zoom tools",
-          "Database query execution plan visualizers alone"
-        ],
-        "userAnswerIndex": 2,
-        "userAnswerText": "Console.log statements and browser zoom tools",
-        "correctAnswerIndex": 0,
-        "correctAnswerText": "Application Performance Monitoring (APM) tools with distributed tracing (e.g., OpenTelemetry, Datadog) combined with browser performance profilers",
-        "isCorrect": false
-      },
-      {
-        "questionId": 2,
-        "question": "What does the 'S' in the SOLID principles stand for, and what architectural goal does it achieve?",
-        "options": [
-          "Single Responsibility Principle; states that a class should have only one reason to change, promoting modularity and maintainability",
-          "Synchronous Principle; enforces non-blocking async code structures",
-          "Security Principle; prevents unauthorized access to service layers",
-          "Scalability Principle; ensures systems scale horizontally automatically"
-        ],
-        "userAnswerIndex": 2,
-        "userAnswerText": "Security Principle; prevents unauthorized access to service layers",
-        "correctAnswerIndex": 0,
-        "correctAnswerText": "Single Responsibility Principle; states that a class should have only one reason to change, promoting modularity and maintainability",
-        "isCorrect": false
-      },
-      {
-        "questionId": 3,
-        "question": "What is the key advantage of using Database Indexing, and what is a primary trade-off?",
-        "options": [
-          "Improves write performance; trade-off is higher CPU utilization",
-          "Significantly speeds up SELECT query performance; trade-off is slower INSERT, UPDATE operations and increased storage overhead",
-          "Reduces database disk space usage; trade-off is loss of ACID compliance",
-          "Eliminates the need for foreign keys; trade-off is data redundancy"
-        ],
-        "userAnswerIndex": 1,
-        "userAnswerText": "Significantly speeds up SELECT query performance; trade-off is slower INSERT, UPDATE operations and increased storage overhead",
-        "correctAnswerIndex": 1,
-        "correctAnswerText": "Significantly speeds up SELECT query performance; trade-off is slower INSERT, UPDATE operations and increased storage overhead",
-        "isCorrect": true
-      },
-      {
-        "questionId": 4,
-        "question": "What is a closure in JavaScript?",
-        "options": [
-          "A function bundled together with references to its lexical environment, allowing it to access outer scope variables even after the outer function has finished executing",
-          "A method used to close open database connections and free memory",
-          "A design pattern used to enforce private class properties in ES5",
-          "An error handling block equivalent to try/catch/finally"
-        ],
-        "userAnswerIndex": 0,
-        "userAnswerText": "A function bundled together with references to its lexical environment, allowing it to access outer scope variables even after the outer function has finished executing",
-        "correctAnswerIndex": 0,
-        "correctAnswerText": "A function bundled together with references to its lexical environment, allowing it to access outer scope variables even after the outer function has finished executing",
-        "isCorrect": true
-      },
-      {
-        "questionId": 5,
-        "question": "What is database sharding, and when is it typically introduced in system design?",
-        "options": [
-          "An indexing strategy used to speed up full-text search queries; used for log analysis",
-          "A method for backing up SQL databases to cloud object storage; used for disaster recovery",
-          "A technique for vertical scaling by upgrading RAM and CPU on a single database server; used at project inception",
-          "A horizontal partitioning strategy that splits a large database across multiple machines to handle massive data volumes and throughput; used when single-node limits are exceeded"
-        ],
-        "userAnswerIndex": 1,
-        "userAnswerText": "A method for backing up SQL databases to cloud object storage; used for disaster recovery",
-        "correctAnswerIndex": 3,
-        "correctAnswerText": "A horizontal partitioning strategy that splits a large database across multiple machines to handle massive data volumes and throughput; used when single-node limits are exceeded",
-        "isCorrect": false
-      },
-      {
-        "questionId": 6,
-        "question": "Which of the following is considered an effective strategy to mitigate the N+1 query problem in an ORM-backed relational database architecture?",
-        "options": [
-          "Increasing the connection pool size in the application configuration",
-          "Enabling query result caching on the database server",
-          "Using database indexing on foreign key columns",
-          "Implementing eager loading (e.g., `.include()` or `.join()`) for related entities"
-        ],
-        "userAnswerIndex": 0,
-        "userAnswerText": "Increasing the connection pool size in the application configuration",
-        "correctAnswerIndex": 3,
-        "correctAnswerText": "Implementing eager loading (e.g., `.include()` or `.join()`) for related entities",
-        "isCorrect": false
-      },
-      {
-        "questionId": 7,
-        "question": "Which HTTP header is crucial for enabling and configuring Cross-Origin Resource Sharing (CORS) to allow a frontend hosted on 'https://app.example.com' to consume APIs from 'https://api.example.com'?",
-        "options": [
-          "X-Frame-Options",
-          "Access-Control-Allow-Origin",
-          "Strict-Transport-Security",
-          "Content-Security-Policy"
-        ],
-        "userAnswerIndex": 2,
-        "userAnswerText": "Strict-Transport-Security",
-        "correctAnswerIndex": 1,
-        "correctAnswerText": "Access-Control-Allow-Origin",
-        "isCorrect": false
-      },
-      {
-        "questionId": 8,
-        "question": "In Git, what is the core difference between `git merge` and `git rebase`?",
-        "options": [
-          "Merge deletes the source branch after combining; Rebase keeps it intact",
-          "There is no functional difference; they are aliases for each other",
-          "Rebase can only be used locally, while merge is exclusively for remote repositories",
-          "Merge creates a new commit that combines branches preserving history; Rebase rewrites the commit history by moving branch commits on top of the target base branch"
-        ],
-        "userAnswerIndex": 3,
-        "userAnswerText": "Merge creates a new commit that combines branches preserving history; Rebase rewrites the commit history by moving branch commits on top of the target base branch",
-        "correctAnswerIndex": 3,
-        "correctAnswerText": "Merge creates a new commit that combines branches preserving history; Rebase rewrites the commit history by moving branch commits on top of the target base branch",
-        "isCorrect": true
-      },
-      {
-        "questionId": 9,
-        "question": "In modern CI/CD pipelines, what is the primary benefit of containerization (e.g., Docker) over traditional deployment methods?",
-        "options": [
-          "It compresses source code to reduce server storage requirements",
-          "It eliminates the need for writing automated unit tests",
-          "It automatically scales Kubernetes clusters based on CPU usage",
-          "It ensures environmental consistency across development, staging, and production by bundling the application and its dependencies into a single immutable artifact"
-        ],
-        "userAnswerIndex": 2,
-        "userAnswerText": "It automatically scales Kubernetes clusters based on CPU usage",
-        "correctAnswerIndex": 3,
-        "correctAnswerText": "It ensures environmental consistency across development, staging, and production by bundling the application and its dependencies into a single immutable artifact",
-        "isCorrect": false
-      },
-      {
-        "questionId": 10,
-        "question": "What is the primary vulnerability that Cross-Site Scripting (XSS) exposes a web application to, and how is it primarily prevented in modern frontend frameworks?",
-        "options": [
-          "Unauthorized command execution on the server; prevented by input sanitization",
-          "Hijacking of active sessions via predictable session IDs; prevented by using cryptographically secure random tokens",
-          "Execution of malicious client-side scripts in the victim's browser; prevented by automatic output encoding and escaping",
-          "SQL injection via user inputs; prevented by using prepared statements"
-        ],
-        "userAnswerIndex": 2,
-        "userAnswerText": "Execution of malicious client-side scripts in the victim's browser; prevented by automatic output encoding and escaping",
-        "correctAnswerIndex": 2,
-        "correctAnswerText": "Execution of malicious client-side scripts in the victim's browser; prevented by automatic output encoding and escaping",
-        "isCorrect": true
-      },
-      {
-        "questionId": 11,
-        "question": "When designing a RESTful API, which HTTP status code is most appropriate to return immediately after a resource is successfully created via a POST request?",
-        "options": [
-          "201 Created",
-          "200 OK",
-          "204 No Content",
-          "202 Accepted"
-        ],
-        "userAnswerIndex": 0,
-        "userAnswerText": "201 Created",
-        "correctAnswerIndex": 0,
-        "correctAnswerText": "201 Created",
-        "isCorrect": true
-      },
-      {
-        "questionId": 12,
-        "question": "What is the primary purpose of a Content Delivery Network (CDN) in web architecture?",
-        "options": [
-          "To manage database migrations across staging and production environments",
-          "To cache and serve static assets (images, JS, CSS) from edge servers geographically closer to end-users, reducing latency and origin server load",
-          "To execute backend business logic closer to the database",
-          "To encrypt traffic between microservices within a private cloud"
-        ],
-        "userAnswerIndex": 3,
-        "userAnswerText": "To encrypt traffic between microservices within a private cloud",
-        "correctAnswerIndex": 1,
-        "correctAnswerText": "To cache and serve static assets (images, JS, CSS) from edge servers geographically closer to end-users, reducing latency and origin server load",
-        "isCorrect": false
-      },
-      {
-        "questionId": 13,
-        "question": "What is the primary role of a Reverse Proxy (such as Nginx) in a modern web application infrastructure?",
-        "options": [
-          "To compile CSS stylesheets into optimized minified bundles",
-          "To act as an intermediary for requests from clients seeking resources from backend servers, handling tasks like SSL termination, load balancing, and caching",
-          "To transpile modern JavaScript code for older browser compatibility",
-          "To store relational database tables in memory for fast retrieval"
-        ],
-        "userAnswerIndex": 0,
-        "userAnswerText": "To compile CSS stylesheets into optimized minified bundles",
-        "correctAnswerIndex": 1,
-        "correctAnswerText": "To act as an intermediary for requests from clients seeking resources from backend servers, handling tasks like SSL termination, load balancing, and caching",
-        "isCorrect": false
-      },
-      {
-        "questionId": 14,
-        "question": "How do CSS Grid and CSS Flexbox fundamentally differ in layout design?",
-        "options": [
-          "Grid is for animations; Flexbox is for static layouts",
-          "Grid requires JavaScript polyfills; Flexbox is purely native CSS",
-          "Grid is fundamentally two-dimensional (rows and columns simultaneously); Flexbox is primarily one-dimensional (either a row or a column)",
-          "Flexbox is only supported in legacy browsers; Grid is modern"
-        ],
-        "userAnswerIndex": 2,
-        "userAnswerText": "Grid is fundamentally two-dimensional (rows and columns simultaneously); Flexbox is primarily one-dimensional (either a row or a column)",
-        "correctAnswerIndex": 2,
-        "correctAnswerText": "Grid is fundamentally two-dimensional (rows and columns simultaneously); Flexbox is primarily one-dimensional (either a row or a column)",
-        "isCorrect": true
-      },
-      {
-        "questionId": 15,
-        "question": "What does ACID stand for in the context of relational database transactions?",
-        "options": [
-          "Atomicity, Consistency, Isolation, Durability",
-          "Association, Consistency, Isolation, Durability",
-          "Authentication, Confidentiality, Integrity, Disponibility",
-          "Atomicity, Concurrency, Indexing, Distribution"
-        ],
-        "userAnswerIndex": 1,
-        "userAnswerText": "Association, Consistency, Isolation, Durability",
-        "correctAnswerIndex": 0,
-        "correctAnswerText": "Atomicity, Consistency, Isolation, Durability",
-        "isCorrect": false
-      },
-      {
-        "questionId": 16,
-        "question": "In the context of WebSockets versus traditional HTTP REST polling, when should you choose WebSockets?",
-        "options": [
-          "When network bandwidth must be minimized by avoiding persistent TCP connections",
-          "For simple CRUD operations on static resource endpoints",
-          "When you need real-time, bi-directional, low-latency communication between client and server (e.g., chat applications or live dashboards)",
-          "When you want to cache responses easily via standard CDN infrastructure"
-        ],
-        "userAnswerIndex": 1,
-        "userAnswerText": "For simple CRUD operations on static resource endpoints",
-        "correctAnswerIndex": 2,
-        "correctAnswerText": "When you need real-time, bi-directional, low-latency communication between client and server (e.g., chat applications or live dashboards)",
-        "isCorrect": false
-      },
-      {
-        "questionId": 17,
-        "question": "When implementing JSON Web Tokens (JWT) for authentication, where is the most secure place to store the access token on the client-side to mitigate XSS attacks?",
-        "options": [
-          "HTML5 SessionStorage",
-          "As a plain text string in browser cookies without flags",
-          "HTML5 LocalStorage",
-          "In-memory (e.g., React state or a closure variable)"
-        ],
-        "userAnswerIndex": 2,
-        "userAnswerText": "HTML5 LocalStorage",
-        "correctAnswerIndex": 3,
-        "correctAnswerText": "In-memory (e.g., React state or a closure variable)",
-        "isCorrect": false
-      },
-      {
-        "questionId": 18,
-        "question": "Which of the following describes an idempotent operation in HTTP API design?",
-        "options": [
-          "An operation that requires administrative authorization privileges",
-          "An operation that executes asynchronously in the background",
-          "An operation that can be applied multiple times without changing the result beyond the initial application (e.g., PUT or DELETE)",
-          "An operation that returns a different response every time it is called"
-        ],
-        "userAnswerIndex": 1,
-        "userAnswerText": "An operation that executes asynchronously in the background",
-        "correctAnswerIndex": 2,
-        "correctAnswerText": "An operation that can be applied multiple times without changing the result beyond the initial application (e.g., PUT or DELETE)",
-        "isCorrect": false
-      },
-      {
-        "questionId": 19,
-        "question": "In Node.js, how does the event loop handle asynchronous I/O operations?",
-        "options": [
-          "Using multi-threading where each request spawns a dedicated OS thread",
-          "By utilizing libuv to delegate tasks to system kernel threads or a thread pool, invoking callbacks in the event loop upon completion",
-          "By compiling JavaScript code to native machine code via WebAssembly prior to execution",
-          "By blocking the main thread until the network socket returns data"
-        ],
-        "userAnswerIndex": 1,
-        "userAnswerText": "By utilizing libuv to delegate tasks to system kernel threads or a thread pool, invoking callbacks in the event loop upon completion",
-        "correctAnswerIndex": 1,
-        "correctAnswerText": "By utilizing libuv to delegate tasks to system kernel threads or a thread pool, invoking callbacks in the event loop upon completion",
-        "isCorrect": true
-      },
-      {
-        "questionId": 20,
-        "question": "In React, what is the primary purpose of the `useMemo` hook?",
-        "options": [
-          "To perform side-effects like data fetching on component mount",
-          "To maintain a mutable reference that persists across renders without triggering a re-render",
-          "To memoize expensive calculations between renders to optimize performance",
-          "To manage global application state without Redux"
-        ],
-        "userAnswerIndex": 3,
-        "userAnswerText": "To manage global application state without Redux",
-        "correctAnswerIndex": 2,
-        "correctAnswerText": "To memoize expensive calculations between renders to optimize performance",
-        "isCorrect": false
-      }
-    ]
   },
   {
     "id": "cand_qa_verified_mto2jn2l",
@@ -4519,9 +4190,9 @@
     "email": "kabir.singh.ai@email.com",
     "phone": "+91 90123 45678",
     "role": "AI Prompt Engineer",
-    "decision": "SELECTED",
+    "decision": "REJECTED",
     "matchScore": 85,
-    "status": "INTERVIEW_SCHEDULED",
+    "status": "REJECTED",
     "yearsOfExperience": "Fresher (6-month internship)",
     "topSkills": [
       "Prompt Engineering (Zero/Few-Shot, CoT)",
@@ -4541,7 +4212,7 @@
       "Exposure to advanced system evaluation frameworks and automated CI/CD for model outputs"
     ],
     "evaluationSummary": "Kabir Singh is an outstanding fresher candidate for the AI Prompt Engineer position. Despite being a recent graduate, his academic background in AI & Data Science from Delhi Technological University, combined with structured project portfolios, makes him highly competitive. His internship at Sparkline Analytics demonstrates an empirical, data-driven approach to prompt engineering, as evidenced by his work on custom Python evaluation harnesses and boosting chatbot first-response accuracy from 68% to 84%.\n\nHis self-initiated projects, like the RAG-based study assistant and the Prompt Pattern Library, showcase a strong command over prompt chaining, hallucination mitigation, and API integration. Kabir exhibits an excellent grasp of modern LLM concepts (embeddings, vector stores, zero/few-shot prompting) that aligns seamlessly with our engineering needs.",
-    "rejectionReason": null,
+    "rejectionReason": "Technical Assessment score was 5% (Passing threshold is 80%).",
     "interviewQuestions": [
       "Can you walk us through the Python prompt-evaluation harness you designed? What metrics did you define to measure and compare prompt performance?",
       "In your RAG study assistant project, what specific strategies and prompt structures did you use to reduce hallucinations and improve relevance by 35%?",
@@ -4549,12 +4220,12 @@
       "How do you design prompts to remain robust and performant across different model updates or when switching from GPT models to Claude?"
     ],
     "proposedInterviewDate": "Friday, September 4, 2026",
-    "interviewStatus": "Interview Invitation Dispatched to kabir.singh.ai@email.com",
-    "emailSubject": "Interview Invitation: AI Prompt Engineer at Tech Innovations Inc.",
+    "interviewStatus": "Assessment Completed (Score: 5% - Rejected)",
+    "emailSubject": "Application Update: AI Prompt Engineer at Tech Innovations Inc.",
     "emailBody": "Dear Kabir,\n\nThank you for applying for the AI Prompt Engineer position at Tech Innovations Inc. We have reviewed your resume and were highly impressed by your academic credentials from Delhi Technological University, your DeepLearning.AI certifications, and your practical experience during your internship at Sparkline Analytics.\n\nYour systematic approach to constructing prompt-evaluation harnesses and optimizing RAG pipelines directly aligns with the technical standards of our AI products. We are keen to learn more about your technical portfolio and your perspective on model alignment.\n\nWe would like to invite you for a 45-minute technical interview to discuss your projects, prompt-design philosophies, and technical skills. We propose scheduling this next Thursday at 3:00 PM IST via Google Meet. \n\nPlease let us know if this slot works for you, or feel free to suggest 2-3 alternative times.\n\nWarm regards,\n\nManasvi Paliwal\nHiring Director\nTech Innovations Inc.\nmanasvipaliwal317@gmail.com",
-    "emailSentAt": "2026-08-27T11:49:21.847Z",
+    "emailSentAt": "2026-09-21T10:36:00.411Z",
     "createdAt": "2026-08-27T11:49:21.847Z",
-    "updatedAt": "2026-08-27T11:49:21.847Z",
+    "updatedAt": "2026-09-21T10:36:00.411Z",
     "source": "Gmail IMAP (4_Kabir_Singh_AI_Prompt_Engineer_Fresher (1).pdf)",
     "interviewDate": "Friday, September 4, 2026",
     "joiningDate": "Monday, September 28, 2026",
@@ -4565,7 +4236,544 @@
     "location": "Bangalore, India",
     "salaryOffer": "₹18 LPA - ₹24 LPA + Benefits",
     "interviewTime": "02:00 PM IST (45 Minutes)",
-    "meetingLink": "https://meet.google.com/tech-hr-interview"
+    "meetingLink": "https://meet.google.com/tech-hr-interview",
+    "testQuestions": [
+      {
+        "id": 1,
+        "question": "How do delimiters (like triple backticks ```, quotes, or XML tags) protect against basic prompt injection in user-facing applications?",
+        "options": [
+          "They encrypt the user input using AES-256.",
+          "They automatically block harmful words.",
+          "They compress the input text.",
+          "They clearly bound untrusted user input, helping the model distinguish between system instructions and data payloads."
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 2,
+        "question": "You are designing a prompt that requires the LLM to output Python code. Which tactic ensures the code is easily parseable by downstream automated test scripts?",
+        "options": [
+          "Writing the prompt entirely in lowercase letters.",
+          "Instructing the model to write the code inside markdown code blocks and forbidding conversational filler text.",
+          "Asking the model to write the code in a story format.",
+          "Setting temperature to 1.5 to increase creativity in coding solutions."
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "Which of the following represents a prompt injection vulnerability in an enterprise application?",
+        "options": [
+          "The user asks the model to write a poem about autumn.",
+          "A malicious user inputs text that instructs the chatbot to ignore previous instructions and reveal system secrets.",
+          "The prompt exceeds the maximum token length of the model.",
+          "The model takes 5 seconds longer than usual to respond."
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "What is the primary benefit of 'Prompt Chaining' in complex software workflows?",
+        "options": [
+          "It compresses the output to save bandwidth.",
+          "It merges multiple AI models into a single neural network.",
+          "It breaks down a monolithic, complex task into smaller, manageable, sequential LLM calls, improving reliability and debuggability.",
+          "It allows you to bypass API cost limits."
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 5,
+        "question": "What is the primary function of 'Top-p' (nucleus sampling) in generation parameters?",
+        "options": [
+          "Filtering out tokens whose cumulative probability exceeds threshold p, controlling diversity.",
+          "Setting the maximum token length of the response.",
+          "Amplifying the weight of the system prompt.",
+          "Determining the priority of the prompt queue on the server."
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 6,
+        "question": "What is the primary purpose of 'System Prompts' (or system instructions) in chat-based LLM applications?",
+        "options": [
+          "To define the persona, boundaries, behavioral guidelines, and overarching constraints for the conversation.",
+          "To bill the user correctly based on usage tiers.",
+          "To manage the network socket connection between client and server.",
+          "To compile the Python code generated by the user."
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 7,
+        "question": "What does 'temperature = 0' typically enforce in LLM generation behavior?",
+        "options": [
+          "Immediate termination of the API request.",
+          "A balanced trade-off between speed and accuracy.",
+          "Maximum creativity and diverse vocabulary usage.",
+          "Completely deterministic output where the highest probability token is always chosen."
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 8,
+        "question": "How does 'Few-Shot Prompting' improve model performance compared to Zero-Shot Prompting?",
+        "options": [
+          "It provides concrete patterns, formatting cues, and context within the prompt examples.",
+          "It forces the model to bypass its safety alignment layers.",
+          "It completely eliminates the need for a system prompt.",
+          "It reduces the total number of output tokens generated."
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 9,
+        "question": "In the context of prompt engineering, what does 'temperature' control in model generation?",
+        "options": [
+          "The execution speed and server processing time of the prompt.",
+          "The strictness of the content moderation filter.",
+          "The randomness and creativity of the model's token predictions.",
+          "The length of the context window used by the model."
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 10,
+        "question": "Which approach is best when you want an LLM to adopt a specific persona (e.g., a seasoned financial advisor) while maintaining strict adherence to factual accuracy?",
+        "options": [
+          "Tell the model: 'Pretend you are a financial advisor, but if you don't know a fact, say 'I don't know' and do not fabricate information.'",
+          "Just tell the model: 'Be a financial advisor.' and let it guess the rest.",
+          "Provide zero instructions and high temperature.",
+          "Instruct the model to use as much professional jargon as possible."
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 11,
+        "question": "When designing a prompt for a Large Language Model to extract specific entities from unstructured text, which technique is most effective for ensuring consistent JSON output format?",
+        "options": [
+          "Providing a few-shot example of the exact input and expected JSON output structure.",
+          "Appending the word 'JSON' multiple times at the end of the prompt.",
+          "Asking nicely in natural language to use JSON brackets.",
+          "Using all-caps for the instruction 'OUTPUT MUST BE JSON'."
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 12,
+        "question": "When implementing Retrieval-Augmented Generation (RAG), what is a major pitfall of poorly constructed chunking strategies in the prompt context?",
+        "options": [
+          "The embedding model will automatically delete the user data.",
+          "The API will return a 404 error.",
+          "The LLM will receive fragmented context lacking necessary semantic relationships, leading to poor answers.",
+          "The vector database will run out of storage space."
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 13,
+        "question": "What is the primary goal of Red Teaming in the context of AI Prompt Engineering?",
+        "options": [
+          "To optimize the color scheme of the chatbot user interface.",
+          "To test how fast the model can generate code.",
+          "To measure the financial cost per 1,000 tokens.",
+          "To intentionally stress-test prompts and model boundaries to discover vulnerabilities, jailbreaks, and failure modes."
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 14,
+        "question": "What is the technique called where you prompt an LLM to generate multiple distinct reasoning paths for the same problem and then select the best answer via majority vote?",
+        "options": [
+          "Prompt Chaining",
+          "Adversarial Prompting",
+          "Self-Consistency",
+          "Meta-Prompting"
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 15,
+        "question": "Which prompting strategy involves instructing the model to generate a rationale or step-by-step breakdown before arriving at the final answer?",
+        "options": [
+          "Retrieval-Augmented Generation (RAG)",
+          "Chain-of-Thought (CoT) prompting",
+          "Negative prompting",
+          "Self-Consistency prompting"
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 16,
+        "question": "What does the term 'Hallucination' refer to in LLM outputs?",
+        "options": [
+          "The model taking too long to respond due to high server load.",
+          "The model generating fluent, confident-sounding, but factually incorrect or completely fabricated information.",
+          "The repetition of the exact same sentence infinitely in a loop.",
+          "The model refusing to answer due to content safety policies."
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 17,
+        "question": "You notice that an LLM prompt is frequently ignoring instructions buried in the middle of a very long text document (e.g., 5,000 words). What psychological or architectural phenomenon is likely occurring?",
+        "options": [
+          "Token truncation error",
+          "Gradient vanishing",
+          "Catastrophic forgetting",
+          "The 'Lost in the Middle' phenomenon"
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 18,
+        "question": "Why might you use XML tags (e.g., <context>, <instructions>) within a structured prompt?",
+        "options": [
+          "To encrypt the data in transit.",
+          "To make the prompt render correctly in a web browser.",
+          "To help the model clearly demarcate and parse different sections of the prompt (such as data vs. instructions).",
+          "To reduce the token count of the prompt significantly."
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 19,
+        "question": "What is the primary risk of relying solely on zero-shot prompting for complex, multi-step logical reasoning tasks?",
+        "options": [
+          "The token limit will immediately be exceeded.",
+          "The model may hallucinate intermediate steps or skip logical deductions, leading to incorrect final outputs.",
+          "The model will always refuse to answer due to safety constraints.",
+          "The response latency increases exponentially."
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 20,
+        "question": "What is 'Negative Prompting' primarily used for in generative AI workflows?",
+        "options": [
+          "Triggering error handling routines in the backend code.",
+          "Insulting the model to make it try harder.",
+          "Decreasing the token count of the request.",
+          "Specifying what elements, behaviors, or formats the model should explicitly avoid generating."
+        ],
+        "correctAnswerIndex": 3
+      }
+    ],
+    "testStatus": "COMPLETED",
+    "testStartedAt": "2026-09-21T10:35:33.213Z",
+    "testScore": 5,
+    "testCorrectCount": 1,
+    "testTotalCount": 20,
+    "testCompletedAt": "2026-09-21T10:36:00.411Z",
+    "testDurationSeconds": 27,
+    "testCheatViolations": 2,
+    "testAnswers": {
+      "0": 2,
+      "1": 3,
+      "2": 1
+    },
+    "testDetailedResults": [
+      {
+        "questionId": 1,
+        "question": "How do delimiters (like triple backticks ```, quotes, or XML tags) protect against basic prompt injection in user-facing applications?",
+        "options": [
+          "They encrypt the user input using AES-256.",
+          "They automatically block harmful words.",
+          "They compress the input text.",
+          "They clearly bound untrusted user input, helping the model distinguish between system instructions and data payloads."
+        ],
+        "userAnswerIndex": 2,
+        "userAnswerText": "They compress the input text.",
+        "correctAnswerIndex": 3,
+        "correctAnswerText": "They clearly bound untrusted user input, helping the model distinguish between system instructions and data payloads.",
+        "isCorrect": false
+      },
+      {
+        "questionId": 2,
+        "question": "You are designing a prompt that requires the LLM to output Python code. Which tactic ensures the code is easily parseable by downstream automated test scripts?",
+        "options": [
+          "Writing the prompt entirely in lowercase letters.",
+          "Instructing the model to write the code inside markdown code blocks and forbidding conversational filler text.",
+          "Asking the model to write the code in a story format.",
+          "Setting temperature to 1.5 to increase creativity in coding solutions."
+        ],
+        "userAnswerIndex": 3,
+        "userAnswerText": "Setting temperature to 1.5 to increase creativity in coding solutions.",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "Instructing the model to write the code inside markdown code blocks and forbidding conversational filler text.",
+        "isCorrect": false
+      },
+      {
+        "questionId": 3,
+        "question": "Which of the following represents a prompt injection vulnerability in an enterprise application?",
+        "options": [
+          "The user asks the model to write a poem about autumn.",
+          "A malicious user inputs text that instructs the chatbot to ignore previous instructions and reveal system secrets.",
+          "The prompt exceeds the maximum token length of the model.",
+          "The model takes 5 seconds longer than usual to respond."
+        ],
+        "userAnswerIndex": 1,
+        "userAnswerText": "A malicious user inputs text that instructs the chatbot to ignore previous instructions and reveal system secrets.",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "A malicious user inputs text that instructs the chatbot to ignore previous instructions and reveal system secrets.",
+        "isCorrect": true
+      },
+      {
+        "questionId": 4,
+        "question": "What is the primary benefit of 'Prompt Chaining' in complex software workflows?",
+        "options": [
+          "It compresses the output to save bandwidth.",
+          "It merges multiple AI models into a single neural network.",
+          "It breaks down a monolithic, complex task into smaller, manageable, sequential LLM calls, improving reliability and debuggability.",
+          "It allows you to bypass API cost limits."
+        ],
+        "userAnswerIndex": null,
+        "userAnswerText": "Not Answered",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "It breaks down a monolithic, complex task into smaller, manageable, sequential LLM calls, improving reliability and debuggability.",
+        "isCorrect": false
+      },
+      {
+        "questionId": 5,
+        "question": "What is the primary function of 'Top-p' (nucleus sampling) in generation parameters?",
+        "options": [
+          "Filtering out tokens whose cumulative probability exceeds threshold p, controlling diversity.",
+          "Setting the maximum token length of the response.",
+          "Amplifying the weight of the system prompt.",
+          "Determining the priority of the prompt queue on the server."
+        ],
+        "userAnswerIndex": null,
+        "userAnswerText": "Not Answered",
+        "correctAnswerIndex": 0,
+        "correctAnswerText": "Filtering out tokens whose cumulative probability exceeds threshold p, controlling diversity.",
+        "isCorrect": false
+      },
+      {
+        "questionId": 6,
+        "question": "What is the primary purpose of 'System Prompts' (or system instructions) in chat-based LLM applications?",
+        "options": [
+          "To define the persona, boundaries, behavioral guidelines, and overarching constraints for the conversation.",
+          "To bill the user correctly based on usage tiers.",
+          "To manage the network socket connection between client and server.",
+          "To compile the Python code generated by the user."
+        ],
+        "userAnswerIndex": null,
+        "userAnswerText": "Not Answered",
+        "correctAnswerIndex": 0,
+        "correctAnswerText": "To define the persona, boundaries, behavioral guidelines, and overarching constraints for the conversation.",
+        "isCorrect": false
+      },
+      {
+        "questionId": 7,
+        "question": "What does 'temperature = 0' typically enforce in LLM generation behavior?",
+        "options": [
+          "Immediate termination of the API request.",
+          "A balanced trade-off between speed and accuracy.",
+          "Maximum creativity and diverse vocabulary usage.",
+          "Completely deterministic output where the highest probability token is always chosen."
+        ],
+        "userAnswerIndex": null,
+        "userAnswerText": "Not Answered",
+        "correctAnswerIndex": 3,
+        "correctAnswerText": "Completely deterministic output where the highest probability token is always chosen.",
+        "isCorrect": false
+      },
+      {
+        "questionId": 8,
+        "question": "How does 'Few-Shot Prompting' improve model performance compared to Zero-Shot Prompting?",
+        "options": [
+          "It provides concrete patterns, formatting cues, and context within the prompt examples.",
+          "It forces the model to bypass its safety alignment layers.",
+          "It completely eliminates the need for a system prompt.",
+          "It reduces the total number of output tokens generated."
+        ],
+        "userAnswerIndex": null,
+        "userAnswerText": "Not Answered",
+        "correctAnswerIndex": 0,
+        "correctAnswerText": "It provides concrete patterns, formatting cues, and context within the prompt examples.",
+        "isCorrect": false
+      },
+      {
+        "questionId": 9,
+        "question": "In the context of prompt engineering, what does 'temperature' control in model generation?",
+        "options": [
+          "The execution speed and server processing time of the prompt.",
+          "The strictness of the content moderation filter.",
+          "The randomness and creativity of the model's token predictions.",
+          "The length of the context window used by the model."
+        ],
+        "userAnswerIndex": null,
+        "userAnswerText": "Not Answered",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "The randomness and creativity of the model's token predictions.",
+        "isCorrect": false
+      },
+      {
+        "questionId": 10,
+        "question": "Which approach is best when you want an LLM to adopt a specific persona (e.g., a seasoned financial advisor) while maintaining strict adherence to factual accuracy?",
+        "options": [
+          "Tell the model: 'Pretend you are a financial advisor, but if you don't know a fact, say 'I don't know' and do not fabricate information.'",
+          "Just tell the model: 'Be a financial advisor.' and let it guess the rest.",
+          "Provide zero instructions and high temperature.",
+          "Instruct the model to use as much professional jargon as possible."
+        ],
+        "userAnswerIndex": null,
+        "userAnswerText": "Not Answered",
+        "correctAnswerIndex": 0,
+        "correctAnswerText": "Tell the model: 'Pretend you are a financial advisor, but if you don't know a fact, say 'I don't know' and do not fabricate information.'",
+        "isCorrect": false
+      },
+      {
+        "questionId": 11,
+        "question": "When designing a prompt for a Large Language Model to extract specific entities from unstructured text, which technique is most effective for ensuring consistent JSON output format?",
+        "options": [
+          "Providing a few-shot example of the exact input and expected JSON output structure.",
+          "Appending the word 'JSON' multiple times at the end of the prompt.",
+          "Asking nicely in natural language to use JSON brackets.",
+          "Using all-caps for the instruction 'OUTPUT MUST BE JSON'."
+        ],
+        "userAnswerIndex": null,
+        "userAnswerText": "Not Answered",
+        "correctAnswerIndex": 0,
+        "correctAnswerText": "Providing a few-shot example of the exact input and expected JSON output structure.",
+        "isCorrect": false
+      },
+      {
+        "questionId": 12,
+        "question": "When implementing Retrieval-Augmented Generation (RAG), what is a major pitfall of poorly constructed chunking strategies in the prompt context?",
+        "options": [
+          "The embedding model will automatically delete the user data.",
+          "The API will return a 404 error.",
+          "The LLM will receive fragmented context lacking necessary semantic relationships, leading to poor answers.",
+          "The vector database will run out of storage space."
+        ],
+        "userAnswerIndex": null,
+        "userAnswerText": "Not Answered",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "The LLM will receive fragmented context lacking necessary semantic relationships, leading to poor answers.",
+        "isCorrect": false
+      },
+      {
+        "questionId": 13,
+        "question": "What is the primary goal of Red Teaming in the context of AI Prompt Engineering?",
+        "options": [
+          "To optimize the color scheme of the chatbot user interface.",
+          "To test how fast the model can generate code.",
+          "To measure the financial cost per 1,000 tokens.",
+          "To intentionally stress-test prompts and model boundaries to discover vulnerabilities, jailbreaks, and failure modes."
+        ],
+        "userAnswerIndex": null,
+        "userAnswerText": "Not Answered",
+        "correctAnswerIndex": 3,
+        "correctAnswerText": "To intentionally stress-test prompts and model boundaries to discover vulnerabilities, jailbreaks, and failure modes.",
+        "isCorrect": false
+      },
+      {
+        "questionId": 14,
+        "question": "What is the technique called where you prompt an LLM to generate multiple distinct reasoning paths for the same problem and then select the best answer via majority vote?",
+        "options": [
+          "Prompt Chaining",
+          "Adversarial Prompting",
+          "Self-Consistency",
+          "Meta-Prompting"
+        ],
+        "userAnswerIndex": null,
+        "userAnswerText": "Not Answered",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "Self-Consistency",
+        "isCorrect": false
+      },
+      {
+        "questionId": 15,
+        "question": "Which prompting strategy involves instructing the model to generate a rationale or step-by-step breakdown before arriving at the final answer?",
+        "options": [
+          "Retrieval-Augmented Generation (RAG)",
+          "Chain-of-Thought (CoT) prompting",
+          "Negative prompting",
+          "Self-Consistency prompting"
+        ],
+        "userAnswerIndex": null,
+        "userAnswerText": "Not Answered",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "Chain-of-Thought (CoT) prompting",
+        "isCorrect": false
+      },
+      {
+        "questionId": 16,
+        "question": "What does the term 'Hallucination' refer to in LLM outputs?",
+        "options": [
+          "The model taking too long to respond due to high server load.",
+          "The model generating fluent, confident-sounding, but factually incorrect or completely fabricated information.",
+          "The repetition of the exact same sentence infinitely in a loop.",
+          "The model refusing to answer due to content safety policies."
+        ],
+        "userAnswerIndex": null,
+        "userAnswerText": "Not Answered",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "The model generating fluent, confident-sounding, but factually incorrect or completely fabricated information.",
+        "isCorrect": false
+      },
+      {
+        "questionId": 17,
+        "question": "You notice that an LLM prompt is frequently ignoring instructions buried in the middle of a very long text document (e.g., 5,000 words). What psychological or architectural phenomenon is likely occurring?",
+        "options": [
+          "Token truncation error",
+          "Gradient vanishing",
+          "Catastrophic forgetting",
+          "The 'Lost in the Middle' phenomenon"
+        ],
+        "userAnswerIndex": null,
+        "userAnswerText": "Not Answered",
+        "correctAnswerIndex": 3,
+        "correctAnswerText": "The 'Lost in the Middle' phenomenon",
+        "isCorrect": false
+      },
+      {
+        "questionId": 18,
+        "question": "Why might you use XML tags (e.g., <context>, <instructions>) within a structured prompt?",
+        "options": [
+          "To encrypt the data in transit.",
+          "To make the prompt render correctly in a web browser.",
+          "To help the model clearly demarcate and parse different sections of the prompt (such as data vs. instructions).",
+          "To reduce the token count of the prompt significantly."
+        ],
+        "userAnswerIndex": null,
+        "userAnswerText": "Not Answered",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "To help the model clearly demarcate and parse different sections of the prompt (such as data vs. instructions).",
+        "isCorrect": false
+      },
+      {
+        "questionId": 19,
+        "question": "What is the primary risk of relying solely on zero-shot prompting for complex, multi-step logical reasoning tasks?",
+        "options": [
+          "The token limit will immediately be exceeded.",
+          "The model may hallucinate intermediate steps or skip logical deductions, leading to incorrect final outputs.",
+          "The model will always refuse to answer due to safety constraints.",
+          "The response latency increases exponentially."
+        ],
+        "userAnswerIndex": null,
+        "userAnswerText": "Not Answered",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "The model may hallucinate intermediate steps or skip logical deductions, leading to incorrect final outputs.",
+        "isCorrect": false
+      },
+      {
+        "questionId": 20,
+        "question": "What is 'Negative Prompting' primarily used for in generative AI workflows?",
+        "options": [
+          "Triggering error handling routines in the backend code.",
+          "Insulting the model to make it try harder.",
+          "Decreasing the token count of the request.",
+          "Specifying what elements, behaviors, or formats the model should explicitly avoid generating."
+        ],
+        "userAnswerIndex": null,
+        "userAnswerText": "Not Answered",
+        "correctAnswerIndex": 3,
+        "correctAnswerText": "Specifying what elements, behaviors, or formats the model should explicitly avoid generating.",
+        "isCorrect": false
+      }
+    ]
   },
   {
     "id": "cand_res_mtbfodof_rqzt",
@@ -4851,9 +5059,9 @@
     "email": "manasvipaliwal317@gmail.com",
     "phone": "N/A",
     "role": "Senior Full Stack Engineer",
-    "decision": "SELECTED",
+    "decision": "REJECTED",
     "matchScore": 92,
-    "status": "INTERVIEW_SCHEDULED",
+    "status": "REJECTED",
     "yearsOfExperience": "6 years",
     "topSkills": [
       "React",
@@ -4873,7 +5081,7 @@
       "Additional metrics around system latency reductions and cloud cost optimizations would strengthen candidate narrative."
     ],
     "evaluationSummary": "Marcus Sterling presents an exceptional profile for the Senior Full Stack Engineer role at Tech Innovations Inc. With 6 years of technical experience, including serving in a leadership capacity, he possesses deep expertise across React, Next.js, TypeScript, Node.js, PostgreSQL, Docker, and AWS.\n\nHis track record at CloudNexus demonstrates his ability to design and deploy scalable microservices supporting up to 500,000 monthly users. Backed by a high-caliber CS degree from Carnegie Mellon University, Marcus combines strong theoretical fundamentals with production-grade full-stack delivery.",
-    "rejectionReason": null,
+    "rejectionReason": "Technical Assessment score was 15% (Passing threshold is 80%).",
     "interviewQuestions": [
       "Can you walk us through the architecture of the microservices you built at CloudNexus to scale to 500k monthly users?",
       "How do you optimize state management and server-side rendering performance using Next.js and React in high-traffic applications?",
@@ -4881,12 +5089,12 @@
       "As a Lead Engineer, how do you balance managing technical debt, conducting code reviews, and delivering feature roadmaps on time?"
     ],
     "proposedInterviewDate": "Friday, September 4, 2026",
-    "interviewStatus": "Invitation Sent - Awaiting Confirmation",
-    "emailSubject": "Interview Invitation: Senior Full Stack Engineer Role at Tech Innovations Inc.",
+    "interviewStatus": "Assessment Completed (Score: 15% - Rejected)",
+    "emailSubject": "Application Update: Senior Full Stack Engineer at Tech Innovations Inc.",
     "emailBody": "Hi Marcus,\n\nThank you for submitting your application for the Senior Full Stack Engineer position at Tech Innovations Inc. We reviewed your resume and were thoroughly impressed with your lead engineering experience at CloudNexus, as well as your background from Carnegie Mellon.\n\nWe would love to invite you to an initial 45-minute video interview to discuss your technical expertise, project achievements, and how you might fit with our engineering team.\n\nWe have provisionally reserved Next Thursday at 2:00 PM EST for our conversation. Please let us know if this slot works for you or reply with a few alternative times that fit your schedule.\n\nLooking forward to speaking with you!\n\nBest regards,\n\nTech Innovations Inc. Hiring Team",
-    "emailSentAt": "2026-08-27T09:35:42.824Z",
+    "emailSentAt": "2026-09-21T10:30:38.770Z",
     "createdAt": "2026-08-27T09:35:42.824Z",
-    "updatedAt": "2026-08-27T09:35:42.824Z",
+    "updatedAt": "2026-09-21T10:30:38.770Z",
     "source": "Dashboard Text Submission",
     "interviewDate": "Friday, September 4, 2026",
     "joiningDate": "Monday, September 28, 2026",
@@ -5120,7 +5328,338 @@
         "correctAnswerIndex": 0
       }
     ],
-    "testStatus": "ASSIGNED"
+    "testStatus": "COMPLETED",
+    "testStartedAt": "2026-09-21T10:29:34.214Z",
+    "testScore": 15,
+    "testCorrectCount": 3,
+    "testTotalCount": 20,
+    "testCompletedAt": "2026-09-21T10:30:38.770Z",
+    "testDurationSeconds": 64,
+    "testCheatViolations": 2,
+    "testAnswers": {
+      "0": 1,
+      "1": 1,
+      "2": 0,
+      "3": 2,
+      "4": 2,
+      "5": 0,
+      "6": 1,
+      "7": 3,
+      "8": 3,
+      "9": 3,
+      "10": 1,
+      "11": 0,
+      "12": 1,
+      "13": 2,
+      "14": 3,
+      "15": 1,
+      "16": 0,
+      "17": 1,
+      "18": 3,
+      "19": 2
+    },
+    "testDetailedResults": [
+      {
+        "questionId": 1,
+        "question": "Which caching strategy is optimal for a read-heavy application where data consistency is critical, but minimizing database read load is also prioritized?",
+        "options": [
+          "Client-side caching only, bypassing server-side cache layers entirely",
+          "Write-Through caching where the application writes directly to the cache, which asynchronously writes to the database",
+          "Cache-Aside (Lazy Loading) with explicit cache invalidation on writes",
+          "Write-Behind (Write-Back) caching with delayed database persistence"
+        ],
+        "userAnswerIndex": 1,
+        "userAnswerText": "Write-Through caching where the application writes directly to the cache, which asynchronously writes to the database",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "Cache-Aside (Lazy Loading) with explicit cache invalidation on writes",
+        "isCorrect": false
+      },
+      {
+        "questionId": 2,
+        "question": "In a distributed microservices architecture, you notice a cascading failure occurring due to downstream service latency. Which architectural pattern is most effective to mitigate this issue?",
+        "options": [
+          "Implementing synchronous retries with exponential backoff on all clients",
+          "Using the Circuit Breaker pattern with fallback mechanisms",
+          "Deploying more replicas of the downstream service immediately",
+          "Increasing the connection timeout limits on the API Gateway"
+        ],
+        "userAnswerIndex": 1,
+        "userAnswerText": "Using the Circuit Breaker pattern with fallback mechanisms",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "Using the Circuit Breaker pattern with fallback mechanisms",
+        "isCorrect": true
+      },
+      {
+        "questionId": 3,
+        "question": "You need to implement real-time bidirectional communication between clients and a server that scales horizontally across multiple pods in Kubernetes. What is a key architectural consideration?",
+        "options": [
+          "WebSockets are stateless and require no special infrastructure adjustments",
+          "WebSocket connections cannot be terminated at an ingress controller",
+          "Long polling should always be preferred over WebSockets in Kubernetes",
+          "Sticky sessions must be enabled on the load balancer, or a message broker (like Redis Pub/Sub) must be used to sync state across nodes"
+        ],
+        "userAnswerIndex": 0,
+        "userAnswerText": "WebSockets are stateless and require no special infrastructure adjustments",
+        "correctAnswerIndex": 3,
+        "correctAnswerText": "Sticky sessions must be enabled on the load balancer, or a message broker (like Redis Pub/Sub) must be used to sync state across nodes",
+        "isCorrect": false
+      },
+      {
+        "questionId": 4,
+        "question": "When performing database refactoring for a zero-downtime deployment (e.g., renaming a mandatory column), which strategy should be used?",
+        "options": [
+          "The Expand-Contract (Parallel Run) pattern: add new column, dual-write in code, backfill, switch reads, drop old column",
+          "The 'Big Bang' migration during a scheduled maintenance window",
+          "Renaming the column directly in production during peak traffic hours",
+          "Dropping the table and recreating it with the new schema"
+        ],
+        "userAnswerIndex": 2,
+        "userAnswerText": "Renaming the column directly in production during peak traffic hours",
+        "correctAnswerIndex": 0,
+        "correctAnswerText": "The Expand-Contract (Parallel Run) pattern: add new column, dual-write in code, backfill, switch reads, drop old column",
+        "isCorrect": false
+      },
+      {
+        "questionId": 5,
+        "question": "When securing a single-page application (SPA) communicating with an API, what is the most robust defense against Cross-Site Scripting (XSS) token theft when handling JSON Web Tokens (JWT)?",
+        "options": [
+          "Embedding the JWT directly into the global window object during server-side rendering",
+          "Storing the JWT in `localStorage` for easy access by Axios interceptors",
+          "Storing the JWT in `sessionStorage` so it clears when the tab closes",
+          "Storing the access token in memory and utilizing httpOnly, Secure, SameSite cookies for refresh tokens"
+        ],
+        "userAnswerIndex": 2,
+        "userAnswerText": "Storing the JWT in `sessionStorage` so it clears when the tab closes",
+        "correctAnswerIndex": 3,
+        "correctAnswerText": "Storing the access token in memory and utilizing httpOnly, Secure, SameSite cookies for refresh tokens",
+        "isCorrect": false
+      },
+      {
+        "questionId": 6,
+        "question": "In Docker containerization for production Node.js or Python apps, why is multi-stage building considered a best practice?",
+        "options": [
+          "It bypasses the need for container orchestration platforms",
+          "It speeds up local development hot-reloading",
+          "It significantly reduces the final image size and attack surface by excluding build tools and dev dependencies",
+          "It allows running multiple microservices inside a single container image"
+        ],
+        "userAnswerIndex": 0,
+        "userAnswerText": "It bypasses the need for container orchestration platforms",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "It significantly reduces the final image size and attack surface by excluding build tools and dev dependencies",
+        "isCorrect": false
+      },
+      {
+        "questionId": 7,
+        "question": "When designing a high-throughput REST API that handles millions of writes per day, which database indexing strategy best optimizes range queries and equality checks on a compound key?",
+        "options": [
+          "A B-Tree index with columns ordered from highest cardinality to lowest cardinality",
+          "A full-text search index across all table columns",
+          "A hash index on the most frequently updated column",
+          "A B-Tree index with columns ordered by equality first, then range filters"
+        ],
+        "userAnswerIndex": 1,
+        "userAnswerText": "A full-text search index across all table columns",
+        "correctAnswerIndex": 3,
+        "correctAnswerText": "A B-Tree index with columns ordered by equality first, then range filters",
+        "isCorrect": false
+      },
+      {
+        "questionId": 8,
+        "question": "What is the primary distinction between horizontal scaling (scaling out) and vertical scaling (scaling up)?",
+        "options": [
+          "Horizontal scaling adds more CPU/RAM to an existing server; vertical scaling adds more server instances",
+          "Horizontal scaling adds more server instances to a pool; vertical scaling adds more CPU/RAM to a single machine",
+          "There is no functional difference; they are interchangeable terms",
+          "Horizontal scaling is only used for databases; vertical scaling is only used for frontends"
+        ],
+        "userAnswerIndex": 3,
+        "userAnswerText": "Horizontal scaling is only used for databases; vertical scaling is only used for frontends",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "Horizontal scaling adds more server instances to a pool; vertical scaling adds more CPU/RAM to a single machine",
+        "isCorrect": false
+      },
+      {
+        "questionId": 9,
+        "question": "What is the primary benefit of adopting an API Gateway pattern in a microservices architecture?",
+        "options": [
+          "It provides a single entry point, handling cross-cutting concerns like rate limiting, SSL termination, authentication, and request routing",
+          "It automatically writes unit tests for backend APIs",
+          "It completely eliminates network latency between services",
+          "It removes the need for internal service-to-service authentication"
+        ],
+        "userAnswerIndex": 3,
+        "userAnswerText": "It removes the need for internal service-to-service authentication",
+        "correctAnswerIndex": 0,
+        "correctAnswerText": "It provides a single entry point, handling cross-cutting concerns like rate limiting, SSL termination, authentication, and request routing",
+        "isCorrect": false
+      },
+      {
+        "questionId": 10,
+        "question": "How does Event-Sourcing fundamentally differ from traditional CRUD state persistence?",
+        "options": [
+          "Event-Sourcing stores every state-changing event as an immutable log, allowing current state to be derived by replaying events",
+          "Event-Sourcing stores only the current state of an entity in a relational table",
+          "Event-Sourcing removes the need for asynchronous message queues",
+          "Event-Sourcing is exclusively used for frontend state management in Redux"
+        ],
+        "userAnswerIndex": 3,
+        "userAnswerText": "Event-Sourcing is exclusively used for frontend state management in Redux",
+        "correctAnswerIndex": 0,
+        "correctAnswerText": "Event-Sourcing stores every state-changing event as an immutable log, allowing current state to be derived by replaying events",
+        "isCorrect": false
+      },
+      {
+        "questionId": 11,
+        "question": "What is the purpose of the `SameSite` attribute in HTTP cookies, specifically regarding `SameSite=Strict` vs `SameSite=Lax`?",
+        "options": [
+          "Strict is used for mobile apps; Lax is used for web browsers",
+          "Strict encrypts the cookie data; Lax leaves it in plaintext",
+          "Strict allows cookies on all requests; Lax blocks all cookies entirely",
+          "Strict prevents cookies from being sent on any cross-site requests; Lax allows them on top-level navigation GET requests from external sites"
+        ],
+        "userAnswerIndex": 1,
+        "userAnswerText": "Strict encrypts the cookie data; Lax leaves it in plaintext",
+        "correctAnswerIndex": 3,
+        "correctAnswerText": "Strict prevents cookies from being sent on any cross-site requests; Lax allows them on top-level navigation GET requests from external sites",
+        "isCorrect": false
+      },
+      {
+        "questionId": 12,
+        "question": "You need to design a background job processing system for heavy PDF generation. Which pattern ensures that if a worker crashes mid-job, the task is not lost and can be retried?",
+        "options": [
+          "Polling a shared database table with a `status = 'pending'` flag using client-side intervals",
+          "Fire-and-forget asynchronous functions inside the API process",
+          "Broadcasting a WebSocket event to all connected clients",
+          "A reliable message queue (e.g., RabbitMQ, AWS SQS, BullMQ) with explicit message acknowledgment (ACK/NACK)"
+        ],
+        "userAnswerIndex": 0,
+        "userAnswerText": "Polling a shared database table with a `status = 'pending'` flag using client-side intervals",
+        "correctAnswerIndex": 3,
+        "correctAnswerText": "A reliable message queue (e.g., RabbitMQ, AWS SQS, BullMQ) with explicit message acknowledgment (ACK/NACK)",
+        "isCorrect": false
+      },
+      {
+        "questionId": 13,
+        "question": "What is the primary risk of using optimistic locking in a high-concurrency database environment?",
+        "options": [
+          "Exhaustion of database memory due to lock escalation",
+          "High rates of transaction retries and failures for users when update collisions occur frequently",
+          "Unencrypted data being written to disk",
+          "Deadlocks occurring frequently between long-running transactions"
+        ],
+        "userAnswerIndex": 1,
+        "userAnswerText": "High rates of transaction retries and failures for users when update collisions occur frequently",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "High rates of transaction retries and failures for users when update collisions occur frequently",
+        "isCorrect": true
+      },
+      {
+        "questionId": 14,
+        "question": "When optimizing a web application's Core Web Vitals, specifically Largest Contentful Paint (LCP), which technique yields the highest impact?",
+        "options": [
+          "Optimizing and preloading the main hero image or server-rendering the critical content path with proper resource hints",
+          "Minimizing unused CSS rules via PurgeCSS",
+          "Adding more animations to the footer component",
+          "Moving all JavaScript execution to Web Workers"
+        ],
+        "userAnswerIndex": 2,
+        "userAnswerText": "Adding more animations to the footer component",
+        "correctAnswerIndex": 0,
+        "correctAnswerText": "Optimizing and preloading the main hero image or server-rendering the critical content path with proper resource hints",
+        "isCorrect": false
+      },
+      {
+        "questionId": 15,
+        "question": "In a GraphQL API, a client makes a deeply nested query that causes severe performance degradation on the database (the 'N+1' query problem or excessive depth). How should a Senior Engineer architecturally prevent this?",
+        "options": [
+          "Increase the database connection pool size indefinitely",
+          "Implement query complexity analysis/depth limiting and use dataloaders for batching/caching database fetches",
+          "Disable nested queries entirely and force clients to use REST endpoints",
+          "Cache every single GraphQL mutation at the CDN layer"
+        ],
+        "userAnswerIndex": 3,
+        "userAnswerText": "Cache every single GraphQL mutation at the CDN layer",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "Implement query complexity analysis/depth limiting and use dataloaders for batching/caching database fetches",
+        "isCorrect": false
+      },
+      {
+        "questionId": 16,
+        "question": "You are debugging a memory leak in a Node.js backend application. Which tool and methodology combination is most appropriate to isolate the root cause?",
+        "options": [
+          "Monitoring CPU utilization spikes in the cloud provider's dashboard",
+          "Increasing the V8 max old space size parameter via command line flags",
+          "Analyzing V8 heap snapshots taken over time using Chrome DevTools or Clinic.js",
+          "Using `console.time` to measure execution duration of asynchronous blocks"
+        ],
+        "userAnswerIndex": 1,
+        "userAnswerText": "Increasing the V8 max old space size parameter via command line flags",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "Analyzing V8 heap snapshots taken over time using Chrome DevTools or Clinic.js",
+        "isCorrect": false
+      },
+      {
+        "questionId": 17,
+        "question": "In the context of modern web security, what does Content Security Policy (CSP) primarily protect against?",
+        "options": [
+          "SQL Injection (SQLi) and Remote Code Execution",
+          "Distributed Denial of Service (DDoS) attacks at Layer 7",
+          "Cross-Site Scripting (XSS) and data injection attacks by restricting resource execution sources",
+          "Man-in-the-Middle (MitM) sniffing of HTTPS traffic"
+        ],
+        "userAnswerIndex": 0,
+        "userAnswerText": "SQL Injection (SQLi) and Remote Code Execution",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "Cross-Site Scripting (XSS) and data injection attacks by restricting resource execution sources",
+        "isCorrect": false
+      },
+      {
+        "questionId": 18,
+        "question": "In modern React applications utilizing concurrent rendering, what is the primary purpose of the `useTransition` hook?",
+        "options": [
+          "To handle CSS animations and page transition effects smoothly",
+          "To mark state updates as non-urgent, allowing the browser to prioritize high-priority interactions like typing or clicking",
+          "To synchronize state changes across multiple browser tabs",
+          "To automatically memoize expensive component render trees"
+        ],
+        "userAnswerIndex": 1,
+        "userAnswerText": "To mark state updates as non-urgent, allowing the browser to prioritize high-priority interactions like typing or clicking",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "To mark state updates as non-urgent, allowing the browser to prioritize high-priority interactions like typing or clicking",
+        "isCorrect": true
+      },
+      {
+        "questionId": 19,
+        "question": "When implementing a CI/CD pipeline, what is the correct order of test execution to maximize developer feedback speed and pipeline efficiency?",
+        "options": [
+          "End-to-End (E2E) tests -> Integration tests -> Unit tests",
+          "Performance tests -> Security scans -> Unit tests -> E2E tests",
+          "Unit tests -> Integration tests -> End-to-End (E2E) tests",
+          "Manual QA approval -> Automated UI tests -> Unit tests"
+        ],
+        "userAnswerIndex": 3,
+        "userAnswerText": "Manual QA approval -> Automated UI tests -> Unit tests",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "Unit tests -> Integration tests -> End-to-End (E2E) tests",
+        "isCorrect": false
+      },
+      {
+        "questionId": 20,
+        "question": "What is the primary advantage of using Database Migrations managed via code over manual schema modifications in a CI/CD pipeline?",
+        "options": [
+          "They ensure deterministic, version-controlled, and repeatable schema changes across all environments",
+          "They prevent downtime during massive table alterations without requiring expand-contract patterns",
+          "They eliminate the need for database backups entirely",
+          "They automatically optimize slow-running SQL queries without developer intervention"
+        ],
+        "userAnswerIndex": 2,
+        "userAnswerText": "They eliminate the need for database backups entirely",
+        "correctAnswerIndex": 0,
+        "correctAnswerText": "They ensure deterministic, version-controlled, and repeatable schema changes across all environments",
+        "isCorrect": false
+      }
+    ]
   },
   {
     "id": "cand_mtbblvhx_ksxz",

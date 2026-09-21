@@ -232,8 +232,8 @@ function initSSE() {
           showToast(`
             <div style="text-align:left;">
               <div style="font-weight:700;font-size:0.95rem;margin-bottom:2px;">📊 Assessment Test Submitted</div>
-              <div>Score: <strong>${data.score}%</strong> (${pass ? '🎉 PASSED ≥ 80% — HIRED' : '⚠️ FAILED < 80% — REJECTED'})</div>
-              <div>Status: ${pass ? '<span style="color:#10b981;font-weight:700;">Job Offer Dispatched</span>' : '<span style="color:#ef4444;font-weight:700;">Feedback Email Sent</span>'}</div>
+              <div>Score: <strong>${data.score}%</strong> (${pass ? '🎉 PASSED ≥ 80% — FINAL INTERVIEW SCHEDULED' : '⚠️ FAILED < 80% — REJECTED'})</div>
+              <div>Status: ${pass ? '<span style="color:#0284c7;font-weight:700;">Final Interview Dispatched</span>' : '<span style="color:#ef4444;font-weight:700;">Feedback Email Sent</span>'}</div>
             </div>
           `, pass ? 'success' : 'info');
           try { playChime(pass); } catch (err) {}
@@ -1952,6 +1952,7 @@ async function loadSettings() {
 // Helpers
 function formatStatus(status) {
   if (!status) return 'New';
+  if (status === 'INTERVIEW_SCHEDULED') return '📅 Final Interview Scheduled';
   if (status === 'TEST_ASSIGNED') return '📝 Test Assigned';
   if (status === 'TEST_IN_PROGRESS') return '⏳ Test In Progress';
   if (status === 'HIRED') return '🎉 Hired';
