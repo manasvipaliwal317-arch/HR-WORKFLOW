@@ -809,6 +809,28 @@ body {
   background: rgba(255, 255, 255, 0.02);
 }
 
+.table-status-select {
+  padding: 0.38rem 0.65rem;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  background: var(--bg-surface, #1e293b);
+  color: var(--text-primary, #f8fafc);
+  border: 1px solid var(--border-color, #334155);
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.table-status-select:hover {
+  border-color: var(--primary, #6366f1);
+}
+
+.table-status-select:focus {
+  border-color: var(--primary, #6366f1);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.25);
+}
+
 /* AI Resume Scanner Layout */
 .scanner-layout {
   display: grid;

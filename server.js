@@ -1341,15 +1341,14 @@ function generateAssessmentRejectionTemplate({ candidate, score, correctCount, t
                   While you demonstrated strong potential, our team requires a minimum benchmark of <strong>80%</strong> on this domain competency test for candidate advancement to final onboarding. As a result, we are unable to extend an offer for this role at this time.
                 </p>
 
-                <div style="background-color: #f1f5f9; border-left: 4px solid #6366f1; padding: 14px 18px; margin: 24px 0; border-radius: 4px;">
-                  <strong style="color: #4338ca; font-size: 13px; text-transform: uppercase;">💡 Constructive Growth Feedback:</strong>
-                  <p style="margin: 6px 0 0; font-size: 14px; color: #475569; line-height: 1.5;">
+                <div style="background-color: #f8fafc; border-left: 4px solid #6366f1; padding: 16px 20px; margin: 24px 0; border-radius: 6px;">
+                  <p style="margin: 0; font-size: 14px; color: #475569; line-height: 1.6;">
                     We encourage you to continue deepening your technical mastery in ${role} domain fundamentals, performance metrics, and advanced practical implementations. We keep candidate profiles on file and welcome you to re-apply after 6 months.
                   </p>
                 </div>
 
                 <p style="font-size: 14px; line-height: 1.6; color: #64748b;">
-                  We wish you the very best in your career pursuits and thank you once again for your interest in joining ${appConfig.companyName}.
+                  We wish you the very best in your career pursuits and thank you once again for your interest in joining ${appConfig.companyName.replace(/\.+$/, '')}.
                 </p>
 
                 <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 28px 0 20px;">

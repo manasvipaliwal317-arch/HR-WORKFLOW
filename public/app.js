@@ -775,39 +775,68 @@ function renderCandidates(candidates) {
     card.addEventListener('click', () => openCandidateModal(cand));
     grid.appendChild(card);
 
-    // Table View: Candidate | Applied On | Target Role | AI Score | Assessment Test | Top Skills | Decision | Pipeline Status | Actions
+    // Table View: Date | Candidate | Target Role | Top Skills | AI Score | Assessment Test | Test Result | Interview Scheduled | Final Status | Action
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>
-        <strong>${escapeHtml(cand.name)}</strong><br>
-        <small style="color:var(--text-muted);">${escapeHtml(cand.email)}</small>
+        <span style="color:var(--text-secondary); font-size:0.85rem; font-weight:500; white-space:nowrap;">${dateStr}</span>
       </td>
       <td>
-        <span style="color:var(--text-secondary); font-size:0.85rem; font-weight:500;">${dateStr}</span>
+        <strong style="color:var(--text-primary); font-size:0.9rem;">${escapeHtml(cand.name)}</strong><br>
+        <small style="color:var(--text-muted); font-size:0.75rem;">${escapeHtml(cand.email || '')}</small>
+        ${cand.phone && cand.phone !== 'N/A' ? `<br><small style="color:var(--text-secondary); font-size:0.72rem;">${escapeHtml(cand.phone)}</small>` : ''}
       </td>
       <td>
-        <div style="font-weight:600;">${escapeHtml(cand.role)}</div>
+        <div style="font-weight:600; color:var(--text-primary);">${escapeHtml(cand.role || 'N/A')}</div>
         <small style="color:var(--text-secondary); font-size:0.75rem;">${escapeHtml(cand.workMode || 'Hybrid')}</small>
       </td>
       <td>
-        <strong style="color: ${cand.matchScore >= 70 ? 'var(--success-text)' : 'var(--danger-text)'}; font-size:0.95rem;">${cand.matchScore}%</strong>
+        <div style="display:flex; flex-wrap:wrap; gap:4px; max-width:210px;">
+          ${(cand.topSkills || []).slice(0, 3).map(s => `<span class="skill-pill" style="font-size:0.72rem; padding:2px 7px;">${escapeHtml(s)}</span>`).join('')}
+          ${(cand.topSkills || []).length > 3 ? `<span class="skill-pill" style="font-size:0.72rem; padding:2px 5px; opacity:0.7;">+${cand.topSkills.length - 3}</span>` : ''}
+        </div>
       </td>
       <td>
-        ${testBadge}
+        <strong style="display:inline-block; padding:3px 8px; border-radius:6px; background:${cand.matchScore >= 70 ? 'rgba(16,185,129,0.12)' : 'rgba(239,68,68,0.12)'}; color:${cand.matchScore >= 70 ? '#10b981' : '#ef4444'}; font-size:0.9rem;">${cand.matchScore}%</strong>
       </td>
       <td>
-        ${(cand.topSkills || []).slice(0, 3).map(s => `<span class="skill-pill">${escapeHtml(s)}</span>`).join(' ')}
+        ${cand.testCompletedAt || cand.testScore !== undefined 
+          ? `<span style="display:inline-flex; align-items:center; gap:4px; padding:3px 8px; border-radius:6px; background:rgba(16,185,129,0.12); color:#10b981; font-weight:600; font-size:0.75rem; white-space:nowrap;">✅ Submitted</span>`
+          : (cand.testStatus === 'IN_PROGRESS'
+            ? `<span style="display:inline-flex; align-items:center; gap:4px; padding:3px 8px; border-radius:6px; background:rgba(245,158,11,0.12); color:#f59e0b; font-weight:600; font-size:0.75rem; white-space:nowrap;">⏳ In Progress</span>`
+            : (cand.testStatus === 'ASSIGNED' || cand.status === 'TEST_ASSIGNED' || cand.decision === 'SELECTED'
+              ? `<span style="display:inline-flex; align-items:center; gap:4px; padding:3px 8px; border-radius:6px; background:rgba(99,102,241,0.12); color:#6366f1; font-weight:600; font-size:0.75rem; white-space:nowrap;">📝 Link Active</span>`
+              : `<span style="color:var(--text-muted); font-size:0.75rem;">⚪ Pending</span>`))}
       </td>
       <td>
-        <span class="badge-decision ${isHired ? 'selected' : (isSelected ? 'selected' : 'rejected')}">
-          ${isHired ? 'HIRED' : cand.decision}
-        </span>
+        ${cand.testScore !== undefined && cand.testScore !== null
+          ? (cand.testScore >= 80 
+              ? `<span style="display:inline-block; padding:3px 8px; border-radius:6px; background:rgba(16,185,129,0.15); color:#10b981; font-weight:700; font-size:0.8rem; white-space:nowrap;">🎯 ${cand.testScore}% (Passed)</span>`
+              : `<span style="display:inline-block; padding:3px 8px; border-radius:6px; background:rgba(239,68,68,0.15); color:#ef4444; font-weight:700; font-size:0.8rem; white-space:nowrap;">⚠️ ${cand.testScore}% (Failed)</span>`)
+          : `<span style="color:var(--text-muted); font-size:0.78rem;">—</span>`}
       </td>
-      <td><span class="badge-status">${formatStatus(cand.status)}</span></td>
       <td>
-        <div class="table-actions-cell">
-          <button class="btn-secondary" style="padding:0.3rem 0.6rem; font-size:0.75rem;" onclick="event.stopPropagation(); openCandidateModalById('${cand.id}')">Inspect</button>
-          <button class="btn-table-delete" onclick="event.stopPropagation(); deleteCandidate('${cand.id}', '${escapeHtml(cand.name).replace(/'/g, "\\'")}')" title="Delete Candidate">🗑️ Delete</button>
+        ${(cand.interviewDate || cand.proposedInterviewDate)
+          ? `<div>
+              <div style="font-size:0.8rem; font-weight:600; color:var(--text-primary); white-space:nowrap;">${escapeHtml(cand.interviewDate || cand.proposedInterviewDate)}</div>
+              <div style="font-size:0.72rem; color:var(--text-muted);">${escapeHtml(cand.interviewTime || '11:00 AM IST')}</div>
+              ${cand.meetingLink ? `<a href="${cand.meetingLink}" target="_blank" onclick="event.stopPropagation()" style="display:inline-flex; align-items:center; gap:3px; margin-top:3px; padding:2px 7px; border-radius:4px; font-size:0.7rem; background:rgba(2,132,199,0.15); color:#0284c7; text-decoration:none; font-weight:600; white-space:nowrap;">🎥 Join Meet</a>` : ''}
+             </div>`
+          : `<span style="color:var(--text-muted); font-size:0.78rem;">Not Scheduled</span>`}
+      </td>
+      <td>
+        <select class="table-status-select" onclick="event.stopPropagation()" onchange="quickUpdateCandidateStatus('${cand.id}', this.value)" style="padding:0.35rem 0.6rem; border-radius:6px; font-size:0.76rem; font-weight:600; cursor:pointer; background:var(--bg-card); color:var(--text-primary); border:1px solid var(--border-color); outline:none;">
+          <option value="APPLIED" ${cand.status === 'APPLIED' ? 'selected' : ''}>Applied</option>
+          <option value="TEST_ASSIGNED" ${cand.status === 'TEST_ASSIGNED' ? 'selected' : ''}>📝 Test Assigned</option>
+          <option value="INTERVIEW_SCHEDULED" ${cand.status === 'INTERVIEW_SCHEDULED' ? 'selected' : ''}>📅 Final Interview</option>
+          <option value="HIRED" ${cand.status === 'HIRED' || cand.status === 'OFFER_EXTENDED' ? 'selected' : ''}>🎉 HIRED (Offer Dispatched)</option>
+          <option value="REJECTED" ${cand.status === 'REJECTED' ? 'selected' : ''}>✕ REJECTED (Feedback Sent)</option>
+        </select>
+      </td>
+      <td>
+        <div class="table-actions-cell" style="display:flex; gap:0.4rem; align-items:center; white-space:nowrap;">
+          <button class="btn-secondary" style="padding:0.35rem 0.65rem; font-size:0.75rem; display:inline-flex; align-items:center; gap:3px;" onclick="event.stopPropagation(); openCandidateModalById('${cand.id}')" title="Inspect Candidate Full Profile">👁️ Inspect</button>
+          <button class="btn-table-delete" style="padding:0.35rem 0.65rem; font-size:0.75rem; display:inline-flex; align-items:center; gap:3px;" onclick="event.stopPropagation(); deleteCandidate('${cand.id}', '${escapeHtml(cand.name).replace(/'/g, "\\'")}')" title="Delete Candidate">🗑️ Delete</button>
         </div>
       </td>
     `;
@@ -1578,6 +1607,44 @@ async function deleteCandidate(id, name) {
   }
 }
 window.deleteCandidate = deleteCandidate;
+
+// Fast inline status approval & email dispatch directly from the Table
+async function quickUpdateCandidateStatus(id, newStatus) {
+  const cand = allCandidates.find(c => String(c.id) === String(id));
+  const candName = cand ? cand.name : 'Candidate';
+  const candEmail = cand ? cand.email : 'candidate email';
+
+  try {
+    showToast(`⏳ Updating ${candName} to ${formatStatus(newStatus)} & dispatching notification...`, 'info');
+    const res = await fetch(`/api/candidates/${id}/status`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        status: newStatus,
+        sendUpdateEmail: true
+      })
+    });
+    const data = await res.json();
+    if (data.success) {
+      if (newStatus === 'HIRED' || newStatus === 'OFFER_EXTENDED') {
+        showToast(`🎉 SUCCESS: ${candName} HIRED! Formal Job Offer Letter dispatched to ${candEmail}!`, 'success');
+      } else if (newStatus === 'INTERVIEW_SCHEDULED') {
+        showToast(`📅 SUCCESS: Final Interview Scheduled & Invitation dispatched to ${candEmail}!`, 'success');
+      } else if (newStatus === 'REJECTED') {
+        showToast(`📋 SUCCESS: Application outcome & feedback email dispatched to ${candEmail}.`, 'info');
+      } else {
+        showToast(`Status updated to ${formatStatus(newStatus)} successfully.`, 'success');
+      }
+      loadCandidates();
+      loadStats();
+    } else {
+      showToast(data.error || 'Failed to update status', 'error');
+    }
+  } catch (err) {
+    showToast('Error updating status: ' + err.message, 'error');
+  }
+}
+window.quickUpdateCandidateStatus = quickUpdateCandidateStatus;
 
 function openCandidateModal(cand) {
   if (!cand) return;

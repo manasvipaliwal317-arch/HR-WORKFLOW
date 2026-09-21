@@ -5,9 +5,9 @@
     "email": "manasvipaliwal317@gmail.com",
     "phone": "+91 98765 43210",
     "role": "Full Stack Developer",
-    "decision": "SELECTED",
+    "decision": "REJECTED",
     "matchScore": 94,
-    "status": "TEST_ASSIGNED",
+    "status": "REJECTED",
     "yearsOfExperience": 4,
     "topSkills": [
       "React",
@@ -24,13 +24,13 @@
     "evaluationSummary": "High potential candidate demonstrating deep proficiency in scalable distributed systems.",
     "interviewRound": "Technical & System Design Round",
     "interviewerName": "Engineering Hiring Panel",
-    "interviewStatus": "Assessment Test Link Dispatched",
+    "interviewStatus": "Assessment Completed (Score: 40% - Rejected)",
     "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
     "workLocation": "Tech Innovations Campus, Cyber City, Bangalore",
     "employmentType": "Full-Time Permanent",
     "department": "Core Engineering & Technology",
     "createdAt": "2026-09-21T10:53:52.963Z",
-    "updatedAt": "2026-09-21T10:53:52.963Z",
+    "updatedAt": "2026-09-21T11:00:17.235Z",
     "testQuestions": [
       {
         "id": 1,
@@ -253,7 +253,341 @@
         "correctAnswerIndex": 2
       }
     ],
-    "testStatus": "ASSIGNED"
+    "testStatus": "COMPLETED",
+    "testStartedAt": "2026-09-21T10:56:39.992Z",
+    "testScore": 40,
+    "testCorrectCount": 8,
+    "testTotalCount": 20,
+    "testCompletedAt": "2026-09-21T11:00:17.235Z",
+    "testDurationSeconds": 217,
+    "testCheatViolations": 0,
+    "testAnswers": {
+      "0": 0,
+      "1": 3,
+      "2": 1,
+      "3": 1,
+      "4": 0,
+      "5": 2,
+      "6": 1,
+      "7": 1,
+      "8": 1,
+      "9": 3,
+      "10": 3,
+      "11": 0,
+      "12": 0,
+      "13": 2,
+      "14": 0,
+      "15": 1,
+      "16": 3,
+      "17": 3,
+      "18": 1,
+      "19": 1
+    },
+    "testDetailedResults": [
+      {
+        "questionId": 1,
+        "question": "What is the primary purpose of database indexing, and what is a notable trade-off?",
+        "options": [
+          "Indexes speed up data retrieval (SELECT queries) at the cost of slower write operations (INSERT, UPDATE, DELETE) and increased storage space.",
+          "Indexes automatically normalize database tables to 3NF.",
+          "Indexes eliminate the need for foreign key constraints and reduce memory usage.",
+          "Indexes convert relational databases into NoSQL document stores."
+        ],
+        "userAnswerIndex": 0,
+        "userAnswerText": "Indexes speed up data retrieval (SELECT queries) at the cost of slower write operations (INSERT, UPDATE, DELETE) and increased storage space.",
+        "correctAnswerIndex": 0,
+        "correctAnswerText": "Indexes speed up data retrieval (SELECT queries) at the cost of slower write operations (INSERT, UPDATE, DELETE) and increased storage space.",
+        "isCorrect": true
+      },
+      {
+        "questionId": 2,
+        "question": "What is the primary role of an ORM (Object-Relational Mapper) like Prisma or TypeORM, and what is a common pitfall?",
+        "options": [
+          "ORMs automatically encrypt database backups; a common pitfall is accidental deletion of indexes.",
+          "ORMs manage container orchestration; a common pitfall is memory leaks in Node.js.",
+          "ORMs convert frontend UI components into SQL queries; a common pitfall is slow browser rendering.",
+          "ORMs translate database tables into object models; a common pitfall is the N+1 query problem due to lazy loading or unoptimized relations."
+        ],
+        "userAnswerIndex": 3,
+        "userAnswerText": "ORMs translate database tables into object models; a common pitfall is the N+1 query problem due to lazy loading or unoptimized relations.",
+        "correctAnswerIndex": 3,
+        "correctAnswerText": "ORMs translate database tables into object models; a common pitfall is the N+1 query problem due to lazy loading or unoptimized relations.",
+        "isCorrect": true
+      },
+      {
+        "questionId": 3,
+        "question": "You are designing a database schema for an e-commerce platform in PostgreSQL where orders frequently require joining with order items and product details. To optimize read performance without sacrificing write integrity, which strategy should you consider first?",
+        "options": [
+          "Create appropriate B-tree indexes on foreign keys and use covering indexes (INCLUDE clause) for frequent queries.",
+          "Denormalize all product data directly into the orders table as a JSONB column.",
+          "Store all transactional data in Redis and persist to PostgreSQL asynchronously once a day.",
+          "Split the database into independent microservices with no foreign key constraints."
+        ],
+        "userAnswerIndex": 1,
+        "userAnswerText": "Denormalize all product data directly into the orders table as a JSONB column.",
+        "correctAnswerIndex": 0,
+        "correctAnswerText": "Create appropriate B-tree indexes on foreign keys and use covering indexes (INCLUDE clause) for frequent queries.",
+        "isCorrect": false
+      },
+      {
+        "questionId": 4,
+        "question": "You need to implement token-based authentication using JSON Web Tokens (JWT) in a Single Page Application. Which storage mechanism presents the highest risk to security regarding Cross-Site Scripting (XSS) attacks?",
+        "options": [
+          "In-memory JavaScript application state variables",
+          "Browser LocalStorage",
+          "HttpOnly, Secure SameSite cookies",
+          "SessionStorage cleared on tab close"
+        ],
+        "userAnswerIndex": 1,
+        "userAnswerText": "Browser LocalStorage",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "Browser LocalStorage",
+        "isCorrect": true
+      },
+      {
+        "questionId": 5,
+        "question": "What is the primary benefit of implementing Server-Side Rendering (SSR) or Static Site Generation (SSG) in frameworks like Next.js compared to Client-Side Rendering (CSR)?",
+        "options": [
+          "Improving initial page load performance (SEO friendliness and faster First Contentful Paint) by rendering HTML on the server.",
+          "Eliminating the need for CSS stylesheets.",
+          "Removing all server infrastructure costs.",
+          "Allowing developers to write backend code directly inside React components without an API layer."
+        ],
+        "userAnswerIndex": 0,
+        "userAnswerText": "Improving initial page load performance (SEO friendliness and faster First Contentful Paint) by rendering HTML on the server.",
+        "correctAnswerIndex": 0,
+        "correctAnswerText": "Improving initial page load performance (SEO friendliness and faster First Contentful Paint) by rendering HTML on the server.",
+        "isCorrect": true
+      },
+      {
+        "questionId": 6,
+        "question": "In modern Frontend state management (such as Redux Toolkit, Zustand, or Context API), why is immutability of state emphasized?",
+        "options": [
+          "It prevents browsers from caching JavaScript bundles.",
+          "It automatically synchronizes frontend state with backend databases.",
+          "It ensures state updates can be tracked, enables time-travel debugging, and allows UI components to efficiently detect changes through shallow comparisons.",
+          "It reduces the total lines of code required to build user interfaces."
+        ],
+        "userAnswerIndex": 2,
+        "userAnswerText": "It ensures state updates can be tracked, enables time-travel debugging, and allows UI components to efficiently detect changes through shallow comparisons.",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "It ensures state updates can be tracked, enables time-travel debugging, and allows UI components to efficiently detect changes through shallow comparisons.",
+        "isCorrect": true
+      },
+      {
+        "questionId": 7,
+        "question": "In a microservices architecture, multiple independent services need to communicate asynchronously. Which pattern best ensures reliable event delivery and decoupling between the producer and consumers?",
+        "options": [
+          "Client-side polling via WebSockets connected to a central load balancer.",
+          "Pub/Sub messaging via a distributed broker like Apache Kafka or RabbitMQ.",
+          "Direct synchronous HTTP REST calls with exponential backoff retries.",
+          "Shared database tables where services poll for updates every second."
+        ],
+        "userAnswerIndex": 1,
+        "userAnswerText": "Pub/Sub messaging via a distributed broker like Apache Kafka or RabbitMQ.",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "Pub/Sub messaging via a distributed broker like Apache Kafka or RabbitMQ.",
+        "isCorrect": true
+      },
+      {
+        "questionId": 8,
+        "question": "When configuring a React Single Page Application behind a reverse proxy like Nginx, you encounter '404 Not Found' errors when users attempt to hard-refresh deep routes (e.g., /dashboard/settings). What is the correct Nginx configuration adjustment?",
+        "options": [
+          "Enable gzip compression for all static assets.",
+          "Add 'try_files $uri $uri/ /index.html;' to the server block.",
+          "Configure proxy_pass to redirect all traffic to the Node.js backend.",
+          "Set up a permanent redirect from 404 to the root domain."
+        ],
+        "userAnswerIndex": 1,
+        "userAnswerText": "Add 'try_files $uri $uri/ /index.html;' to the server block.",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "Add 'try_files $uri $uri/ /index.html;' to the server block.",
+        "isCorrect": true
+      },
+      {
+        "questionId": 9,
+        "question": "What is the primary security vulnerability mitigated by implementing a strict Content Security Policy (CSP) header with nonces or hashes in a modern web application?",
+        "options": [
+          "Cross-Site Scripting (XSS)",
+          "SQL Injection (SQLi)",
+          "Broken Object Level Authorization (BOLA)",
+          "Distributed Denial of Service (DDoS)"
+        ],
+        "userAnswerIndex": 1,
+        "userAnswerText": "SQL Injection (SQLi)",
+        "correctAnswerIndex": 0,
+        "correctAnswerText": "Cross-Site Scripting (XSS)",
+        "isCorrect": false
+      },
+      {
+        "questionId": 10,
+        "question": "When building a responsive modern web application, what is the primary benefit of utilizing CSS Grid over CSS Flexbox?",
+        "options": [
+          "CSS Grid eliminates the need for media queries entirely under all conditions.",
+          "CSS Grid automatically compresses images for faster page loads.",
+          "CSS Grid natively supports two-dimensional layouts (rows and columns simultaneously) with explicit track definitions.",
+          "CSS Grid is better suited for one-dimensional layouts (rows or columns)."
+        ],
+        "userAnswerIndex": 3,
+        "userAnswerText": "CSS Grid is better suited for one-dimensional layouts (rows or columns).",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "CSS Grid natively supports two-dimensional layouts (rows and columns simultaneously) with explicit track definitions.",
+        "isCorrect": false
+      },
+      {
+        "questionId": 11,
+        "question": "Which HTTP status code is most appropriate when a request has been successfully processed, but there is no new representation to return in the response body (e.g., a successful DELETE request)?",
+        "options": [
+          "202 Accepted",
+          "201 Created",
+          "204 No Content",
+          "200 OK"
+        ],
+        "userAnswerIndex": 3,
+        "userAnswerText": "200 OK",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "204 No Content",
+        "isCorrect": false
+      },
+      {
+        "questionId": 12,
+        "question": "What does the 'S' in the SOLID design principles stand for, and how does it apply to Full Stack development?",
+        "options": [
+          "Scalability Principle: Systems must scale horizontally automatically.",
+          "Security Principle: Every module must validate user inputs.",
+          "Speed Principle: Functions must execute in constant time O(1).",
+          "Single Responsibility Principle: A class or module should have only one reason to change."
+        ],
+        "userAnswerIndex": 0,
+        "userAnswerText": "Scalability Principle: Systems must scale horizontally automatically.",
+        "correctAnswerIndex": 3,
+        "correctAnswerText": "Single Responsibility Principle: A class or module should have only one reason to change.",
+        "isCorrect": false
+      },
+      {
+        "questionId": 13,
+        "question": "You are designing an API endpoint that handles financial transactions and must be idempotent. What does idempotency mean in this context?",
+        "options": [
+          "The endpoint requires multi-factor authentication for every call.",
+          "Making multiple identical requests has the same effect as making a single request.",
+          "The response is always returned in XML format.",
+          "The operation executes faster on subsequent calls."
+        ],
+        "userAnswerIndex": 0,
+        "userAnswerText": "The endpoint requires multi-factor authentication for every call.",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "Making multiple identical requests has the same effect as making a single request.",
+        "isCorrect": false
+      },
+      {
+        "questionId": 14,
+        "question": "What is the purpose of CORS (Cross-Origin Resource Sharing) headers in web browsers?",
+        "options": [
+          "To manage user session timeouts across multiple browser tabs.",
+          "To compress HTTP payloads for faster transmission over high-latency networks.",
+          "To encrypt traffic traveling between the browser and the server.",
+          "To allow a server to indicate any origins other than its own from which a browser should permit loading resources."
+        ],
+        "userAnswerIndex": 2,
+        "userAnswerText": "To encrypt traffic traveling between the browser and the server.",
+        "correctAnswerIndex": 3,
+        "correctAnswerText": "To allow a server to indicate any origins other than its own from which a browser should permit loading resources.",
+        "isCorrect": false
+      },
+      {
+        "questionId": 15,
+        "question": "In Git, what is the fundamental operational difference between 'git merge' and 'git rebase'?",
+        "options": [
+          "Merge deletes older commits, while rebase keeps them.",
+          "Merge requires a pull request, while rebase is performed automatically.",
+          "Rebase can only be used on remote repositories, while merge is local-only.",
+          "Merge creates a new merge commit combining histories, while rebase rewrites commit history by moving your feature branch base to the tip of the main branch."
+        ],
+        "userAnswerIndex": 0,
+        "userAnswerText": "Merge deletes older commits, while rebase keeps them.",
+        "correctAnswerIndex": 3,
+        "correctAnswerText": "Merge creates a new merge commit combining histories, while rebase rewrites commit history by moving your feature branch base to the tip of the main branch.",
+        "isCorrect": false
+      },
+      {
+        "questionId": 16,
+        "question": "When designing a GraphQL API compared to a REST API, which scenario represents the most significant advantage?",
+        "options": [
+          "Built-in protection against denial of service attacks without rate limiting.",
+          "Lower server CPU usage due to lack of caching requirements.",
+          "Eliminating over-fetching and under-fetching of data by allowing clients to query exactly what they need.",
+          "Automatic handling of database transaction rollbacks."
+        ],
+        "userAnswerIndex": 1,
+        "userAnswerText": "Lower server CPU usage due to lack of caching requirements.",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "Eliminating over-fetching and under-fetching of data by allowing clients to query exactly what they need.",
+        "isCorrect": false
+      },
+      {
+        "questionId": 17,
+        "question": "How does the JavaScript engine handle asynchronous operations under the hood using the Event Loop?",
+        "options": [
+          "It blocks the main thread until the network request completes.",
+          "It offloads I/O tasks to system kernel or thread pool, then pushes callbacks to the callback/task queue once ready, to be executed when the call stack is empty.",
+          "It uses multi-threading directly within JavaScript code execution blocks.",
+          "It constantly polls all async functions every millisecond using CPU cycles."
+        ],
+        "userAnswerIndex": 3,
+        "userAnswerText": "It constantly polls all async functions every millisecond using CPU cycles.",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "It offloads I/O tasks to system kernel or thread pool, then pushes callbacks to the callback/task queue once ready, to be executed when the call stack is empty.",
+        "isCorrect": false
+      },
+      {
+        "questionId": 18,
+        "question": "When optimizing a web application's Core Web Vitals, which metric specifically measures visual stability and unexpected layout shifts?",
+        "options": [
+          "First Input Delay (FID)",
+          "Time to First Byte (TTFB)",
+          "Largest Contentful Paint (LCP)",
+          "Cumulative Layout Shift (CLS)"
+        ],
+        "userAnswerIndex": 3,
+        "userAnswerText": "Cumulative Layout Shift (CLS)",
+        "correctAnswerIndex": 3,
+        "correctAnswerText": "Cumulative Layout Shift (CLS)",
+        "isCorrect": true
+      },
+      {
+        "questionId": 19,
+        "question": "In a high-throughput RESTful API built with Node.js and Express, you notice that a specific synchronous JSON parsing operation is blocking the event loop. What is the most idiomatic and efficient way to resolve this?",
+        "options": [
+          "Offload the heavy parsing to worker threads using the 'worker_threads' module.",
+          "Migrate the entire application backend to C++ using native addons.",
+          "Increase the Node.js UV_THREADPOOL_SIZE environment variable.",
+          "Wrap the synchronous operation in a standard JavaScript Promise using Promise.resolve()."
+        ],
+        "userAnswerIndex": 1,
+        "userAnswerText": "Migrate the entire application backend to C++ using native addons.",
+        "correctAnswerIndex": 0,
+        "correctAnswerText": "Offload the heavy parsing to worker threads using the 'worker_threads' module.",
+        "isCorrect": false
+      },
+      {
+        "questionId": 20,
+        "question": "In Docker containerization for a Node.js production application, why is it considered a best practice to use multi-stage builds?",
+        "options": [
+          "To run multiple Node.js versions simultaneously in the same container.",
+          "To speed up local development hot-reloading.",
+          "To exclude development dependencies, build tools, and source code from the final production image, reducing size and attack surface.",
+          "To bypass the need for a reverse proxy like Nginx."
+        ],
+        "userAnswerIndex": 1,
+        "userAnswerText": "To speed up local development hot-reloading.",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "To exclude development dependencies, build tools, and source code from the final production image, reducing size and attack surface.",
+        "isCorrect": false
+      }
+    ],
+    "rejectionReason": "Technical Assessment score was 40% (Passing threshold is 80%).",
+    "emailSubject": "Application Update: Full Stack Developer at Tech Innovations Inc.",
+    "emailSentAt": "2026-09-21T11:00:17.235Z"
   },
   {
     "id": "cand_mub4mtp1_3cp5",
