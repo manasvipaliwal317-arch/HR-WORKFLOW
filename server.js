@@ -379,8 +379,13 @@ setInterval(() => {
 }, 120000);
 
 // ☁️ Pull any candidates from Render whose email was blocked by Render's free tier firewall and flush via local SMTP
+let isFlushingCloud = false;
+const flushedCandidateIds = new Set();
+
 async function pullAndFlushCloudPendingEmails() {
   if (process.env.RENDER || process.env.PORT === '10000') return;
+  if (isFlushingCloud) return;
+  isFlushingCloud = true;
 
   try {
     const parsedUrl = new URL(CLOUD_RENDER_URL + '/api/candidates');
@@ -396,12 +401,14 @@ async function pullAndFlushCloudPendingEmails() {
           const pending = cloudCandidates.filter(c => 
             c.email && 
             c.email.includes('@') && 
+            !flushedCandidateIds.has(c.id) &&
             (!c.emailMessageId || c.emailDeliveryStatus === 'FAILED' || c.emailDeliveryStatus === 'PENDING')
           );
 
           if (pending.length > 0) {
-            console.log(`☁️ [Cloud Relay Dispatcher] Found ${pending.length} unsent candidate email(s) on Render. Dispatching via local SMTP...`);
-            for (const cand of pending) {
+            console.log(`☁️ [Cloud Relay Dispatcher] Found ${pending.length} unsent candidate email(s) on Render. Pacing dispatches to comply with Google SMTP policies...`);
+            for (const cand of pending.slice(0, 5)) { // Process max 5 at a time
+              flushedCandidateIds.add(cand.id);
               const toEmail = cand.email;
               const subject = cand.emailSubject || `Application Update: ${cand.role} at ${appConfig.companyName}`;
               const html = cand.decision === 'SELECTED'
@@ -424,16 +431,25 @@ async function pullAndFlushCloudPendingEmails() {
                 cand.emailTransport = 'local_cloud_relay';
                 syncCandidateToCloud(cand);
               }
+
+              // Gentle 2-second pacing between dispatches to respect Google SMTP limits
+              await new Promise(resolve => setTimeout(resolve, 2000));
             }
           }
-        } catch (e) {}
+        } catch (e) {} finally {
+          isFlushingCloud = false;
+        }
       });
-    }).on('error', () => {});
-  } catch (err) {}
+    }).on('error', () => {
+      isFlushingCloud = false;
+    });
+  } catch (err) {
+    isFlushingCloud = false;
+  }
 }
 
-// Check and flush cloud emails every 20 seconds
-setInterval(pullAndFlushCloudPendingEmails, 20000);
+// Check and flush cloud emails every 60 seconds
+setInterval(pullAndFlushCloudPendingEmails, 60000);
 setTimeout(pullAndFlushCloudPendingEmails, 5000);
 
 // Helper: Processed UIDs
@@ -1511,6 +1527,33 @@ async function dispatchViaResendApi(apiKey, toEmail, subject, htmlContent, textF
   });
 }
 
+// Singleton Pooled Transporter to prevent Google "Too many login attempts" (454-4.7.0)
+let cachedTransporter = null;
+let lastTransporterKey = null;
+
+function getPooledTransporter(user, pass) {
+  const key = `${user}:${pass}`;
+  if (cachedTransporter && lastTransporterKey === key) {
+    return cachedTransporter;
+  }
+  cachedTransporter = nodemailer.createTransport({
+    pool: true,
+    maxConnections: 1,
+    maxMessages: 50,
+    rateDelta: 1000,
+    rateLimit: 1,
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: { user, pass },
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 15000
+  });
+  lastTransporterKey = key;
+  return cachedTransporter;
+}
+
 // Master Multi-Transport Dispatcher
 async function sendCandidateCustomEmail(toEmail, subject, htmlContent, textFallback = '') {
   // 1. Try HTTPS Webhook Relay if configured (Port 443 - zero firewall blocks on Render)
@@ -1527,22 +1570,13 @@ async function sendCandidateCustomEmail(toEmail, subject, htmlContent, textFallb
     console.warn(`⚠️ Resend API notice (${resendRes.error}). Trying direct SMTP fallback...`);
   }
 
-  // 3. Direct Gmail SMTP with Strict 8-second Connection Timeout
+  // 3. Direct Gmail SMTP with Strict Connection Timeout and Reused Pool
   let cleanPassword = (appConfig.gmailAppPassword || '').replace(/\s+/g, '');
   if (!cleanPassword || cleanPassword === 'YOUR_GMAIL_APP_PASSWORD') {
     cleanPassword = 'YOUR_GMAIL_APP_PASSWORD';
   }
 
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: appConfig.hrEmail,
-      pass: cleanPassword
-    },
-    connectionTimeout: 8000,
-    greetingTimeout: 8000,
-    socketTimeout: 12000
-  });
+  const transporter = getPooledTransporter(appConfig.hrEmail, cleanPassword);
 
   const mailOptions = {
     from: `"${appConfig.companyName} Recruitment Team" <${appConfig.hrEmail}>`,
