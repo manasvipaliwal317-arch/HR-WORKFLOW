@@ -21,7 +21,7 @@
     "id": "role_marketing",
     "title": "Digital Marketing Specialist",
     "department": "Growth & Marketing",
-    "isActive": false,
+    "isActive": true,
     "requiredSkills": [
       "SEO",
       "SEM",

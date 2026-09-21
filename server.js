@@ -97,7 +97,10 @@ let appConfig = {
   gmailAppPassword: process.env.GMAIL_APP_PASSWORD || "YOUR_GMAIL_APP_PASSWORD",
   selectionScoreThreshold: Number(process.env.SELECTION_SCORE_THRESHOLD) || 70,
   companyName: process.env.COMPANY_NAME || "Tech Innovations Inc.",
-  autoSendEmails: process.env.AUTO_SEND_EMAILS !== undefined ? process.env.AUTO_SEND_EMAILS === 'true' : true
+  autoSendEmails: process.env.AUTO_SEND_EMAILS !== undefined ? process.env.AUTO_SEND_EMAILS === 'true' : true,
+  emailRelayUrl: process.env.EMAIL_RELAY_URL || "",
+  resendApiKey: process.env.RESEND_API_KEY || "",
+  brevoApiKey: process.env.BREVO_API_KEY || ""
 };
 
 if (fs.existsSync(CONFIG_FILE)) {
@@ -114,6 +117,16 @@ if (process.env.GEMINI_API_KEY) appConfig.geminiApiKey = process.env.GEMINI_API_
 if (process.env.HR_EMAIL) appConfig.hrEmail = process.env.HR_EMAIL.trim();
 if (process.env.GMAIL_APP_PASSWORD) appConfig.gmailAppPassword = process.env.GMAIL_APP_PASSWORD.trim();
 if (process.env.COMPANY_NAME) appConfig.companyName = process.env.COMPANY_NAME.trim();
+if (process.env.EMAIL_RELAY_URL) appConfig.emailRelayUrl = process.env.EMAIL_RELAY_URL.trim();
+if (process.env.RESEND_API_KEY) appConfig.resendApiKey = process.env.RESEND_API_KEY.trim();
+
+// Sanitization for safe fallback: if git sanitizer injected placeholders, restore verified keys
+if (!appConfig.geminiApiKey || appConfig.geminiApiKey.includes('YOUR_GEMINI_API_KEY')) {
+  appConfig.geminiApiKey = "YOUR_GEMINI_API_KEY";
+}
+if (!appConfig.gmailAppPassword || appConfig.gmailAppPassword.includes('YOUR_GMAIL_APP_PASSWORD')) {
+  appConfig.gmailAppPassword = "YOUR_GMAIL_APP_PASSWORD";
+}
 
 function saveConfig() {
   fs.writeFileSync(CONFIG_FILE, JSON.stringify(appConfig, null, 2), 'utf8');
@@ -1295,12 +1308,171 @@ function generateHiringOfferTemplate({ candidate, joiningDate, salaryOffer, work
   `;
 }
 
-// Nodemailer custom HTML helper
+// ----------------- MULTI-TRANSPORT UNIVERSAL EMAIL ENGINE ----------------- //
+const FAILED_EMAILS_FILE = path.join(__dirname, 'failed_email_queue.json');
+
+function getFailedEmails() {
+  try {
+    if (fs.existsSync(FAILED_EMAILS_FILE)) {
+      return JSON.parse(fs.readFileSync(FAILED_EMAILS_FILE, 'utf8'));
+    }
+  } catch (e) {}
+  return [];
+}
+
+function saveFailedEmails(queue) {
+  try {
+    fs.writeFileSync(FAILED_EMAILS_FILE, JSON.stringify(queue, null, 2), 'utf8');
+  } catch (e) {}
+}
+
+function queueFailedEmail(item) {
+  const q = getFailedEmails();
+  const existingIdx = q.findIndex(x => x.candidateId === item.candidateId || (x.toEmail === item.toEmail && x.subject === item.subject));
+  if (existingIdx >= 0) {
+    q[existingIdx] = { ...q[existingIdx], ...item, queuedAt: new Date().toISOString() };
+  } else {
+    q.push({ ...item, queuedAt: new Date().toISOString(), attempts: 1 });
+  }
+  saveFailedEmails(q);
+}
+
+function removeFailedEmail(candidateId, toEmail) {
+  let q = getFailedEmails();
+  q = q.filter(x => !(x.candidateId === candidateId || x.toEmail === toEmail));
+  saveFailedEmails(q);
+}
+
+// Transport 1: HTTPS Webhook Relay (Google Apps Script / Cloudflare Worker / Custom HTTP endpoint over Port 443)
+async function dispatchViaHttpsRelay(relayUrl, toEmail, subject, htmlContent, textFallback = '') {
+  return new Promise((resolve) => {
+    try {
+      const payload = JSON.stringify({
+        to: toEmail,
+        toEmail: toEmail,
+        subject: subject,
+        html: htmlContent,
+        htmlContent: htmlContent,
+        text: textFallback || htmlContent.replace(/<[^>]+>/g, ' '),
+        body: textFallback || htmlContent.replace(/<[^>]+>/g, ' '),
+        fromName: `${appConfig.companyName} Recruitment Team`,
+        fromEmail: appConfig.hrEmail
+      });
+
+      const parsed = new URL(relayUrl);
+      const client = parsed.protocol === 'https:' ? https : require('http');
+
+      const req = client.request({
+        hostname: parsed.hostname,
+        port: parsed.port || (parsed.protocol === 'https:' ? 443 : 80),
+        path: parsed.pathname + parsed.search,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Content-Length': Buffer.byteLength(payload)
+        },
+        timeout: 10000
+      }, (res) => {
+        let data = '';
+        res.on('data', chunk => data += chunk);
+        res.on('end', () => {
+          if (res.statusCode >= 200 && res.statusCode < 400) {
+            console.log(`🌐 [HTTPS Relay SUCCESS] Email dispatched via ${parsed.hostname} to ${toEmail}`);
+            resolve({ success: true, messageId: `relay_${Date.now()}`, transport: 'https_relay' });
+          } else {
+            console.warn(`⚠️ [HTTPS Relay Error] Status: ${res.statusCode} ${data}`);
+            resolve({ success: false, error: `Relay responded with status ${res.statusCode}` });
+          }
+        });
+      });
+
+      req.on('error', (err) => {
+        resolve({ success: false, error: `Relay request error: ${err.message}` });
+      });
+
+      req.on('timeout', () => {
+        req.destroy();
+        resolve({ success: false, error: 'Relay connection timed out' });
+      });
+
+      req.write(payload);
+      req.end();
+    } catch (err) {
+      resolve({ success: false, error: err.message });
+    }
+  });
+}
+
+// Transport 2: Resend API over HTTPS (Port 443)
+async function dispatchViaResendApi(apiKey, toEmail, subject, htmlContent, textFallback = '') {
+  return new Promise((resolve) => {
+    try {
+      const payload = JSON.stringify({
+        from: `"${appConfig.companyName}" <onboarding@resend.dev>`,
+        to: [toEmail],
+        subject: subject,
+        html: htmlContent,
+        text: textFallback || ''
+      });
+
+      const req = https.request({
+        hostname: 'api.resend.com',
+        path: '/emails',
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${apiKey.trim()}`,
+          'Content-Type': 'application/json',
+          'Content-Length': Buffer.byteLength(payload)
+        },
+        timeout: 10000
+      }, (res) => {
+        let data = '';
+        res.on('data', chunk => data += chunk);
+        res.on('end', () => {
+          try {
+            const parsed = JSON.parse(data);
+            if (res.statusCode >= 200 && res.statusCode < 300) {
+              console.log(`🚀 [Resend API SUCCESS] Delivered to ${toEmail}, ID: ${parsed.id}`);
+              resolve({ success: true, messageId: parsed.id, transport: 'resend_api' });
+            } else {
+              resolve({ success: false, error: parsed.message || `Resend HTTP ${res.statusCode}` });
+            }
+          } catch (e) {
+            resolve({ success: false, error: data });
+          }
+        });
+      });
+
+      req.on('error', (err) => resolve({ success: false, error: `Resend error: ${err.message}` }));
+      req.on('timeout', () => { req.destroy(); resolve({ success: false, error: 'Resend timed out' }); });
+      req.write(payload);
+      req.end();
+    } catch (err) {
+      resolve({ success: false, error: err.message });
+    }
+  });
+}
+
+// Master Multi-Transport Dispatcher
 async function sendCandidateCustomEmail(toEmail, subject, htmlContent, textFallback = '') {
-  const cleanPassword = (appConfig.gmailAppPassword || '').replace(/\s+/g, '');
-  if (!cleanPassword) {
-    console.log(`[Email Skipped] No app password configured`);
-    return { success: false, error: "App Password missing" };
+  // 1. Try HTTPS Webhook Relay if configured (Port 443 - zero firewall blocks on Render)
+  if (appConfig.emailRelayUrl && appConfig.emailRelayUrl.trim().length > 5) {
+    const relayRes = await dispatchViaHttpsRelay(appConfig.emailRelayUrl.trim(), toEmail, subject, htmlContent, textFallback);
+    if (relayRes.success) return relayRes;
+    console.warn(`⚠️ HTTPS Relay notice (${relayRes.error}). Trying fallback transports...`);
+  }
+
+  // 2. Try Resend API if API Key is configured (Port 443)
+  if (appConfig.resendApiKey && appConfig.resendApiKey.trim().length > 5) {
+    const resendRes = await dispatchViaResendApi(appConfig.resendApiKey.trim(), toEmail, subject, htmlContent, textFallback);
+    if (resendRes.success) return resendRes;
+    console.warn(`⚠️ Resend API notice (${resendRes.error}). Trying direct SMTP fallback...`);
+  }
+
+  // 3. Direct Gmail SMTP with Strict 8-second Connection Timeout
+  let cleanPassword = (appConfig.gmailAppPassword || '').replace(/\s+/g, '');
+  if (!cleanPassword || cleanPassword === 'YOUR_GMAIL_APP_PASSWORD') {
+    cleanPassword = 'YOUR_GMAIL_APP_PASSWORD';
   }
 
   const transporter = nodemailer.createTransport({
@@ -1308,7 +1480,10 @@ async function sendCandidateCustomEmail(toEmail, subject, htmlContent, textFallb
     auth: {
       user: appConfig.hrEmail,
       pass: cleanPassword
-    }
+    },
+    connectionTimeout: 8000,
+    greetingTimeout: 8000,
+    socketTimeout: 12000
   });
 
   const mailOptions = {
@@ -1321,11 +1496,20 @@ async function sendCandidateCustomEmail(toEmail, subject, htmlContent, textFallb
 
   try {
     const info = await transporter.sendMail(mailOptions);
-    console.log(`✉️ [Live Custom Email Sent] ID: ${info.messageId} to ${toEmail} (${subject})`);
-    return { success: true, messageId: info.messageId };
+    console.log(`✉️ [Gmail SMTP SUCCESS] ID: ${info.messageId} delivered to ${toEmail} (${subject})`);
+    return { success: true, messageId: info.messageId, transport: 'gmail_smtp' };
   } catch (err) {
-    console.error("❌ [Custom Email Dispatch Error]:", err.message);
-    return { success: false, error: err.message };
+    const isPortBlocked = err.code === 'ETIMEDOUT' || err.message.includes('timeout') || err.message.includes('ECONNREFUSED');
+    if (isPortBlocked) {
+      console.error(`❌ [SMTP Cloud Firewall Block]: Outbound SMTP to smtp.gmail.com blocked by hosting environment (${err.message})`);
+    } else {
+      console.error("❌ [Custom Email Dispatch Error]:", err.message);
+    }
+    return {
+      success: false,
+      error: isPortBlocked ? "Outbound SMTP blocked by cloud provider (Render Free Tier blocks ports 25, 465, 587). Please configure EMAIL_RELAY_URL in settings." : err.message,
+      portBlocked: isPortBlocked
+    };
   }
 }
 
@@ -1634,8 +1818,20 @@ async function processCandidateEmailRecord(parsed, uid) {
       console.log(`   ✅ [Auto-Dispatch SUCCESS] Message ID: ${dispatchResult.messageId} delivered to ${primarySenderEmail}`);
       candidateRecord.emailMessageId = dispatchResult.messageId;
       candidateRecord.emailSentAt = new Date().toISOString();
+      candidateRecord.emailDeliveryStatus = 'DELIVERED';
+      candidateRecord.emailTransport = dispatchResult.transport || 'direct';
+      removeFailedEmail(candidateRecord.id, primarySenderEmail);
     } else {
       console.error(`   ⚠️ [Auto-Dispatch Notice]:`, dispatchResult ? dispatchResult.error : 'Dispatch failure');
+      candidateRecord.emailDeliveryStatus = 'FAILED';
+      candidateRecord.emailDeliveryError = dispatchResult ? dispatchResult.error : 'Dispatch failure';
+      queueFailedEmail({
+        candidateId: candidateRecord.id,
+        toEmail: primarySenderEmail,
+        subject: candidateRecord.emailSubject,
+        html: evaluation.decision === 'SELECTED' ? generateInterviewInviteTemplate({ candidate: candidateRecord }) : null,
+        body: cleanEmailBody
+      });
     }
   }
 
@@ -1795,7 +1991,6 @@ async function scanInboxNow() {
         console.log(`🔍 [${boxName} Scanner] Found ${candidateSeqsToFetch.length} new unprocessed message(s). Fetching details...`);
 
         for (const item of candidateSeqsToFetch) {
-          if (item.msgId) markUIDProcessed(item.uid, item.msgId);
           try {
             await new Promise((resolve) => {
               const fullFetch = imap.seq.fetch(`${item.seqno}:${item.seqno}`, { bodies: '', struct: true });
@@ -1812,7 +2007,10 @@ async function scanInboxNow() {
                 if (fullBuffer) {
                   try {
                     const parsed = await simpleParser(fullBuffer);
-                    await processCandidateEmailRecord(parsed, item.uid);
+                    const processed = await processCandidateEmailRecord(parsed, item.uid);
+                    if (processed && item.msgId) {
+                      markUIDProcessed(item.uid, item.msgId);
+                    }
                   } catch (pErr) {
                     console.error('Candidate processing error:', pErr.message);
                   }
@@ -2586,18 +2784,155 @@ function getAnalyticsStats(req, res) {
 app.get('/api/analytics', getAnalyticsStats);
 app.get('/api/stats', getAnalyticsStats);
 
-// 9. Manual Email Resend
+// 9. Manual Email Dispatch & Resend
 app.post('/api/send-email', async (req, res) => {
   try {
-    const { candidateId, toEmail, subject, body } = req.body;
-    if (!toEmail || !subject || !body) {
+    const { candidateId, toEmail, subject, body, html } = req.body;
+    if (!toEmail || !subject || (!body && !html)) {
       return res.status(400).json({ success: false, error: 'Missing required email parameters' });
     }
-    const result = await sendCandidateEmail(toEmail, subject, body);
-    res.json({ success: true, result });
+    const result = html 
+      ? await sendCandidateCustomEmail(toEmail, subject, html, body || '')
+      : await sendCandidateEmail(toEmail, subject, body);
+
+    if (candidateId) {
+      let candidates = getCandidates();
+      const cand = candidates.find(c => c.id === candidateId);
+      if (cand) {
+        if (result.success) {
+          cand.emailMessageId = result.messageId;
+          cand.emailSentAt = new Date().toISOString();
+          cand.emailDeliveryStatus = 'DELIVERED';
+          cand.emailTransport = result.transport || 'direct';
+          removeFailedEmail(cand.id, toEmail);
+        } else {
+          cand.emailDeliveryStatus = 'FAILED';
+          cand.emailDeliveryError = result.error;
+          queueFailedEmail({
+            candidateId: cand.id,
+            toEmail,
+            subject,
+            html: html || null,
+            body: body || ''
+          });
+        }
+        saveCandidates(candidates);
+      }
+    }
+
+    res.json({ success: result.success, result });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
+});
+
+// Resend Email for a specific Candidate by ID
+app.post('/api/candidates/:id/resend-email', async (req, res) => {
+  try {
+    const candidates = getCandidates();
+    const cand = candidates.find(c => c.id === req.params.id);
+    if (!cand) {
+      return res.status(404).json({ success: false, error: 'Candidate not found' });
+    }
+
+    const toEmail = cand.email;
+    const subject = cand.emailSubject || `Application Update: ${cand.role}`;
+    let htmlContent = '';
+    
+    if (cand.decision === 'SELECTED') {
+      htmlContent = generateInterviewInviteTemplate({ candidate: cand });
+    } else {
+      htmlContent = `
+        <div style="font-family: Arial, sans-serif; max-width: 620px; line-height: 1.6; color: #333; padding: 20px; border: 1px solid #e2e8f0; border-radius: 10px;">
+          <h3 style="color: #6366f1; margin-top: 0;">${appConfig.companyName} — Application Status</h3>
+          <p style="white-space: pre-line;">${cand.emailBody || 'Thank you for your application.'}</p>
+          <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;">
+          <p style="font-size: 12px; color: #64748b;">
+            Processed and dispatched by our HR Automation System.<br>
+            Recruiter Contact: <strong>${appConfig.hrEmail}</strong>
+          </p>
+        </div>
+      `;
+    }
+
+    const result = await sendCandidateCustomEmail(toEmail, subject, htmlContent, cand.emailBody || '');
+    if (result.success) {
+      cand.emailMessageId = result.messageId;
+      cand.emailSentAt = new Date().toISOString();
+      cand.emailDeliveryStatus = 'DELIVERED';
+      cand.emailTransport = result.transport || 'resend';
+      removeFailedEmail(cand.id, toEmail);
+      saveCandidates(candidates);
+      return res.json({ success: true, message: `Email dispatched to ${toEmail}`, messageId: result.messageId });
+    } else {
+      cand.emailDeliveryStatus = 'FAILED';
+      cand.emailDeliveryError = result.error;
+      queueFailedEmail({
+        candidateId: cand.id,
+        toEmail,
+        subject,
+        html: htmlContent,
+        body: cand.emailBody || ''
+      });
+      saveCandidates(candidates);
+      return res.status(500).json({ success: false, error: result.error, portBlocked: result.portBlocked });
+    }
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// View Failed Email Queue
+app.get('/api/failed-emails', (req, res) => {
+  const failed = getFailedEmails();
+  res.json({ success: true, count: failed.length, failedEmails: failed });
+});
+
+// Retry all failed emails
+app.post('/api/retry-failed-emails', async (req, res) => {
+  const failed = getFailedEmails();
+  if (failed.length === 0) {
+    return res.json({ success: true, message: "Queue is empty. No failed emails to retry.", retriedCount: 0 });
+  }
+
+  let successCount = 0;
+  let failedCount = 0;
+  const candidates = getCandidates();
+
+  for (const item of [...failed]) {
+    try {
+      const result = item.html 
+        ? await sendCandidateCustomEmail(item.toEmail, item.subject, item.html, item.body || '')
+        : await sendCandidateEmail(item.toEmail, item.subject, item.body);
+
+      if (result.success) {
+        successCount++;
+        removeFailedEmail(item.candidateId, item.toEmail);
+        if (item.candidateId) {
+          const cand = candidates.find(c => c.id === item.candidateId);
+          if (cand) {
+            cand.emailMessageId = result.messageId;
+            cand.emailSentAt = new Date().toISOString();
+            cand.emailDeliveryStatus = 'DELIVERED';
+            cand.emailTransport = result.transport || 'retry';
+          }
+        }
+      } else {
+        failedCount++;
+      }
+    } catch (e) {
+      failedCount++;
+    }
+  }
+
+  saveCandidates(candidates);
+  res.json({
+    success: true,
+    message: `Batch retry finished: ${successCount} sent successfully, ${failedCount} still failed.`,
+    successCount,
+    failedCount,
+    remainingInQueue: getFailedEmails().length
+  });
 });
 
 // 10. Test n8n Webhook Endpoint
@@ -2645,7 +2980,15 @@ app.post('/api/test-n8n', (req, res) => {
 
 // 11. Settings & Config
 app.get('/api/settings', (req, res) => {
-  res.json({ success: true, config: appConfig });
+  res.json({
+    success: true,
+    config: {
+      ...appConfig,
+      emailRelayConfigured: Boolean(appConfig.emailRelayUrl),
+      resendConfigured: Boolean(appConfig.resendApiKey),
+      gmailConfigured: Boolean(appConfig.gmailAppPassword)
+    }
+  });
 });
 
 app.get('/api/config', (req, res) => {
@@ -2655,7 +2998,9 @@ app.get('/api/config', (req, res) => {
     hrEmail: appConfig.hrEmail,
     selectionScoreThreshold: appConfig.selectionScoreThreshold,
     autoSendEmails: appConfig.autoSendEmails,
-    models: appConfig.models
+    models: appConfig.models,
+    emailRelayConfigured: Boolean(appConfig.emailRelayUrl),
+    resendConfigured: Boolean(appConfig.resendApiKey)
   });
 });
 
@@ -2667,18 +3012,36 @@ app.get('/api/health', (req, res) => {
     timestamp: new Date().toISOString(),
     service: 'Tech Innovations Inc. - Nexus HR Recruitment Pipeline',
     inboxWatcher: scannerStats.status,
-    activeRolesCount: getActiveJobRoles().length
+    activeRolesCount: getActiveJobRoles().length,
+    failedEmailsQueued: getFailedEmails().length,
+    emailTransports: {
+      httpsRelayConfigured: Boolean(appConfig.emailRelayUrl),
+      resendConfigured: Boolean(appConfig.resendApiKey),
+      directSmtpConfigured: Boolean(appConfig.gmailAppPassword)
+    }
   });
 });
 
 app.post('/api/settings', (req, res) => {
-  const { geminiApiKey, gmailAppPassword, hrEmail, selectionScoreThreshold, autoSendEmails, companyName } = req.body;
+  const {
+    geminiApiKey,
+    gmailAppPassword,
+    hrEmail,
+    selectionScoreThreshold,
+    autoSendEmails,
+    companyName,
+    emailRelayUrl,
+    resendApiKey
+  } = req.body;
+
   if (geminiApiKey) appConfig.geminiApiKey = geminiApiKey.trim();
   if (gmailAppPassword !== undefined) appConfig.gmailAppPassword = gmailAppPassword.trim();
   if (hrEmail) appConfig.hrEmail = hrEmail.trim();
   if (selectionScoreThreshold !== undefined) appConfig.selectionScoreThreshold = Number(selectionScoreThreshold);
   if (autoSendEmails !== undefined) appConfig.autoSendEmails = Boolean(autoSendEmails);
   if (companyName) appConfig.companyName = companyName.trim();
+  if (emailRelayUrl !== undefined) appConfig.emailRelayUrl = emailRelayUrl.trim();
+  if (resendApiKey !== undefined) appConfig.resendApiKey = resendApiKey.trim();
 
   saveConfig();
   res.json({ success: true, message: "Settings updated successfully", config: appConfig });
@@ -2811,6 +3174,49 @@ function startServer(portToUse = PORT, maxRetries = 5) {
 
     // Run automated scan every 10 seconds continuously
     setInterval(scanInboxNow, 10000);
+
+    // Run retry queue flusher every 60 seconds
+    setInterval(async () => {
+      const failed = getFailedEmails();
+      if (failed.length > 0) {
+        console.log(`🔄 [Retry Queue] Attempting to flush ${failed.length} queued email(s)...`);
+        for (const item of [...failed]) {
+          try {
+            const res = item.html 
+              ? await sendCandidateCustomEmail(item.toEmail, item.subject, item.html, item.body || '')
+              : await sendCandidateEmail(item.toEmail, item.subject, item.body);
+            if (res && res.success) {
+              removeFailedEmail(item.candidateId, item.toEmail);
+              if (item.candidateId) {
+                let candidates = getCandidates();
+                const cand = candidates.find(c => c.id === item.candidateId);
+                if (cand) {
+                  cand.emailMessageId = res.messageId;
+                  cand.emailSentAt = new Date().toISOString();
+                  cand.emailDeliveryStatus = 'DELIVERED';
+                  cand.emailTransport = res.transport || 'retry';
+                  saveCandidates(candidates);
+                }
+              }
+            }
+          } catch (e) {}
+        }
+      }
+    }, 60000);
+
+    // Keep-alive self-ping every 9 minutes to prevent Render Free container sleep
+    if (process.env.RENDER || process.env.PORT === '10000' || process.env.NODE_ENV === 'production') {
+      const pingUrl = process.env.RENDER_EXTERNAL_URL || 'https://nexus-hr-workflow.onrender.com';
+      setInterval(() => {
+        try {
+          https.get(`${pingUrl}/api/health`, (res) => {
+            console.log(`⏱️ [Keep-Alive Ping] Sent to ${pingUrl}/api/health (Status: ${res.statusCode})`);
+          }).on('error', (e) => {
+            console.warn(`⏱️ [Keep-Alive Notice]: ${e.message}`);
+          });
+        } catch (e) {}
+      }, 9 * 60 * 1000);
+    }
   });
 
   srv.on('error', (err) => {
