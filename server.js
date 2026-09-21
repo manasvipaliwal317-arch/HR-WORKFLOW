@@ -3397,7 +3397,7 @@ app.delete('/api/job-roles/:id', (req, res) => {
 // Start Server and Automated Background Loop with Port Conflict Resiliency
 function startServer(portToUse = PORT, maxRetries = 5) {
   const currentPort = Number(portToUse) || 3000;
-  const srv = app.listen(currentPort, () => {
+  const srv = app.listen(currentPort, '0.0.0.0', () => {
     console.log(`=======================================================`);
     console.log(` 🚀 NEXUS HR REAL-TIME SERVER ACTIVE (PORT ${currentPort})`);
     console.log(` 🌐 Dashboard: http://localhost:${currentPort}`);
