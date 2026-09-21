@@ -1,5 +1,343 @@
 [
   {
+    "id": "cand_auto_muazrqxf_c7in",
+    "name": "Mahima Chouhan",
+    "email": "manasvi60487.mbaib22@ipsacademy.org",
+    "resumeEmail": "manasvi60487.mbaib22@ipsacademy.org",
+    "phone": "+91-XXXXXXXXXX",
+    "role": "Digital Marketing Specialist",
+    "decision": "SELECTED",
+    "matchScore": 92,
+    "status": "TEST_ASSIGNED",
+    "testStatus": "ASSIGNED",
+    "testToken": "cand_auto_muazrqxf_c7in",
+    "testLink": "http://localhost:3000/assessment.html?token=cand_auto_muazrqxf_c7in",
+    "testQuestions": [
+      {
+        "id": 1,
+        "question": "Which metric is the best indicator of how well your landing page content matches user intent?",
+        "options": [
+          "Bounce Rate",
+          "Total Impressions",
+          "Click-Through Rate (CTR)",
+          "Average Session Duration"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 2,
+        "question": "What is the main advantage of using UTM parameters in URLs?",
+        "options": [
+          "To prevent search engines from crawling the page",
+          "To bypass ad blockers in web browsers",
+          "To make the URL shorter and easier to remember",
+          "To track the specific source, medium, and campaign of traffic"
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 3,
+        "question": "What is the primary purpose of adding a 'canonical' tag to a webpage?",
+        "options": [
+          "To force a 301 redirect for mobile users",
+          "To prevent duplicate content issues by specifying the preferred version of a URL",
+          "To boost keyword density for SEO",
+          "To hide a page from Google's index entirely"
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "What does the 'ROAS' acronym stand for in digital marketing?",
+        "options": [
+          "Reach Of Active Subscribers",
+          "Return on Ad Spend",
+          "Rate of Audience Segmentation",
+          "Revenue Over Average Sales"
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "In Email Marketing, what is the 'Double Opt-In' process?",
+        "options": [
+          "Asking the user to follow the brand on social media after signing up",
+          "Adding the user to two different mailing lists simultaneously",
+          "Requiring the user to confirm their subscription via a verification email",
+          "Sending two emails in a row to increase open rates"
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 6,
+        "question": "If you are running a Facebook ad campaign and notice a high 'Frequency', what does this typically suggest?",
+        "options": [
+          "Your creative quality score is above industry average",
+          "Your audience is too large and needs to be narrowed",
+          "Users are seeing your ad multiple times, likely leading to ad fatigue",
+          "Your budget is too low to reach new people"
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 7,
+        "question": "Which of the following is a 'black hat' SEO practice?",
+        "options": [
+          "Using internal linking to structure site hierarchy",
+          "Optimizing meta descriptions for CTR",
+          "Creating high-quality pillar content",
+          "Buying backlinks from link farms"
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 8,
+        "question": "What is the main goal of 'Attribution Modeling'?",
+        "options": [
+          "To determine which marketing channels deserve credit for a conversion",
+          "To estimate future traffic volume based on past data",
+          "To analyze the sentiment of social media comments",
+          "To calculate the total lifetime value of a customer"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 9,
+        "question": "When setting up a conversion goal in Google Analytics 4 (GA4), which of the following is considered a 'Key Event'?",
+        "options": [
+          "A user hovering over an image",
+          "A user scrolling to the middle of the page",
+          "A user clicking on an external outbound link",
+          "A user completing a purchase or a sign-up form"
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 10,
+        "question": "When creating a PPC search campaign, what does 'Broad Match' keyword targeting do?",
+        "options": [
+          "Excludes all competitor keywords from the auction",
+          "Shows ads on searches that include misspellings or related searches",
+          "Shows ads only when the user is in a specific country",
+          "Shows ads only for the exact keyword entered"
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 11,
+        "question": "How does 'Responsive Design' impact digital marketing performance?",
+        "options": [
+          "It automatically generates social media content",
+          "It eliminates the need for SEO",
+          "It ensures a positive user experience across various device screen sizes",
+          "It increases the number of keywords indexed by Google"
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 12,
+        "question": "Which metric is most vital when measuring the success of a brand awareness campaign?",
+        "options": [
+          "Impressions and Reach",
+          "Conversion Rate",
+          "Shopping Cart Abandonment Rate",
+          "Cost Per Acquisition (CPA)"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 13,
+        "question": "Which of the following describes 'Remarketing'?",
+        "options": [
+          "Targeting users who have previously engaged with your website or app",
+          "Reaching a broad audience that has never heard of your brand",
+          "Creating advertisements based on television ratings",
+          "Offering discounts to first-time email subscribers"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 14,
+        "question": "What does an 'E-E-A-T' score stand for in Google's quality guidelines?",
+        "options": [
+          "Effective, Exact, Accurate, and Targeted",
+          "Experience, Expertise, Authoritativeness, and Trustworthiness",
+          "Email, Engagement, Analytics, and Traffic",
+          "Efficiency, Engagement, Accessibility, and Tracking"
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 15,
+        "question": "What is the primary function of the 'Facebook Pixel' (or Meta Pixel)?",
+        "options": [
+          "To improve the resolution of images on the website",
+          "To increase the organic search ranking of the website",
+          "To track user actions on a website to create remarketing audiences",
+          "To act as a payment gateway for e-commerce transactions"
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 16,
+        "question": "What does 'A/B testing' primarily aim to achieve?",
+        "options": [
+          "To test the speed of a website server",
+          "To compare two versions of a variable to see which performs better",
+          "To reduce the number of marketing channels used",
+          "To double the ad budget"
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 17,
+        "question": "What is the purpose of a 'Lookalike Audience' in paid social advertising?",
+        "options": [
+          "To find users who are looking for your competitors",
+          "To identify employees who work at similar companies",
+          "To target people who live in the same geographic area as your office",
+          "To target users who have similar characteristics to your existing customers"
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 18,
+        "question": "In Google Ads, what happens when your 'Ad Rank' is too low?",
+        "options": [
+          "The ad may not be displayed at all in the auction",
+          "The cost-per-click automatically increases by 50%",
+          "The ad will be charged a flat fee regardless of clicks",
+          "The ad will show only on weekends"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 19,
+        "question": "In the context of SEO, what is 'Domain Authority'?",
+        "options": [
+          "The number of years a domain has been registered",
+          "The physical location of the website's server",
+          "A Google-official metric that dictates search rankings",
+          "A search engine ranking score that predicts how well a website will rank on SERPs"
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 20,
+        "question": "Which content strategy is most effective for long-term SEO growth?",
+        "options": [
+          "Publishing thin, high-frequency daily content",
+          "Keyword stuffing in the footer of the website",
+          "Focusing on 'evergreen' content that answers user intent",
+          "Copying content from competitors to match their strategy"
+        ],
+        "correctAnswerIndex": 2
+      }
+    ],
+    "yearsOfExperience": "3 years",
+    "topSkills": [
+      "SEO",
+      "SEM",
+      "Google Ads",
+      "Meta Ads Manager",
+      "GA4",
+      "Content Strategy",
+      "Conversion Funnels",
+      "Campaign Optimization"
+    ],
+    "education": "Bachelor of Technology (B.Tech), Gujarat Technological University (GTU)",
+    "strengths": [
+      "Extensive hands-on experience managing paid acquisition budgets (₹40L+ annual) with proven ROAS of 3.8x",
+      "Strong technical marketing proficiency including GA4, GTM, Looker Studio, and Conversion Rate Optimization (CRO)",
+      "Combination of engineering analytical mindset and marketing expertise driving a 28% reduction in CAC"
+    ],
+    "areasForImprovement": [
+      "Could incorporate more advanced attribution modeling case studies in enterprise-level environments",
+      "Further expansion into localized multi-language growth campaigns"
+    ],
+    "evaluationSummary": "Mahima Chouhan is an exceptional match for the Digital Marketing Specialist role at Tech Innovations Inc. With 3 years of robust experience in performance marketing, technical SEO, and conversion rate optimization, she demonstrates a strong analytical capability combined with practical execution. Her track record of managing significant ad budgets, improving ROAS, and leveraging advanced tracking tools like GA4 and Google Tag Manager makes her an immediate asset to our growth and marketing team.",
+    "rejectionReason": null,
+    "interviewQuestions": [
+      "Can you walk us through your approach to setting up custom conversion events and server-side tracking using Google Tag Manager and GA4?",
+      "How do you structure your campaign testing framework (A/B testing) for landing pages to improve conversion rates while scaling ad budgets?",
+      "Describe a time when a paid acquisition campaign was underperforming (high CAC, low ROAS). What diagnostic steps did you take to turn it around?",
+      "What is your strategy for balancing organic SEO growth with immediate paid acquisition (SEM/Meta Ads) for a B2B SaaS product?"
+    ],
+    "proposedInterviewDate": "Thursday, September 24, 2026",
+    "interviewDate": "Thursday, September 24, 2026",
+    "interviewTime": "30 Minutes Online Technical Assessment",
+    "joiningDate": "Monday, October 19, 2026",
+    "interviewRound": "Domain Technical MCQ Assessment (20 Questions / 30 Mins)",
+    "interviewerName": "Tech Innovations Inc. Technical Hiring Council",
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Inc. Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Growth & Digital Marketing",
+    "location": "Bangalore, India / Open to Relocation",
+    "salaryOffer": "Competitive / Market Standard (Finalized upon Offer)",
+    "interviewStatus": "Assessment Test Assigned (30 Mins / 20 MCQs)",
+    "emailSubject": "🎯 Technical Assessment & Interview: Digital Marketing Specialist at Tech Innovations Inc.",
+    "emailBody": "Dear Mahima, Thank you for applying for the Digital Marketing Specialist position at Tech Innovations Inc. We were thoroughly impressed by your strong resume, data-driven background, and proven expertise in performance marketing, SEO, and analytics. We would love to invite you to an interview to discuss your experience and how you can contribute to our growth initiatives. Your interview is scheduled for Thursday, September 24, 2026 at 2:30 PM - 3:15 PM IST. Please confirm your availability by replying to this email. We look forward to meeting you soon!",
+    "emailSentAt": "2026-09-21T08:37:52.345Z",
+    "createdAt": "2026-09-21T08:37:03.123Z",
+    "updatedAt": "2026-09-21T08:37:03.123Z",
+    "source": "Gmail IMAP (Mahima Chouhan Resume.docx)",
+    "emailMessageId": "<91b4db82-b411-d972-395a-0e0fb83fbe65@gmail.com>",
+    "emailDeliveryStatus": "DELIVERED",
+    "emailTransport": "gmail_smtp"
+  },
+  {
+    "id": "cand_auto_muazqlgp_dqs4",
+    "name": "N/A",
+    "email": "nse_alerts@nse.co.in",
+    "resumeEmail": "nse_alerts@nse.co.in",
+    "phone": "18002660050",
+    "role": "Senior Cloud Security Architect",
+    "decision": "REJECTED",
+    "matchScore": 0,
+    "status": "REJECTED",
+    "testStatus": "N/A",
+    "testToken": "cand_auto_muazqlgp_dqs4",
+    "testLink": "http://localhost:3000/assessment.html?token=cand_auto_muazqlgp_dqs4",
+    "testQuestions": [],
+    "yearsOfExperience": "N/A",
+    "topSkills": [
+      "N/A"
+    ],
+    "education": "N/A",
+    "strengths": [
+      "N/A"
+    ],
+    "areasForImprovement": [
+      "The provided document is an automated investor alert notification from the National Stock Exchange and does not contain a professional resume or relevant experience for the Senior Cloud Security Architect role."
+    ],
+    "evaluationSummary": "The applicant submitted an automated system notification regarding securities balance and investor awareness instead of a professional resume. Consequently, there is no evidence of required technical skills such as AWS, Kubernetes, IAM, or Terraform, nor any professional experience relevant to the Senior Cloud Security Architect role. The submission does not meet the standards for a professional application at Tech Innovations Inc.",
+    "rejectionReason": "Your submission did not contain a professional resume. Please note that our company is currently only hiring for: 'Full Stack Developer', 'Digital Marketing Specialist', and 'Senior Cloud Security Architect'. We encourage you to submit a valid resume if you wish to be considered for these positions.",
+    "interviewQuestions": [],
+    "proposedInterviewDate": "Thursday, September 24, 2026",
+    "interviewDate": "Thursday, September 24, 2026",
+    "interviewTime": "30 Minutes Online Technical Assessment",
+    "joiningDate": "Monday, October 19, 2026",
+    "interviewRound": "Domain Technical MCQ Assessment (20 Questions / 30 Mins)",
+    "interviewerName": "Tech Innovations Inc. Technical Hiring Council",
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Inc. Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Core Engineering & Technology",
+    "location": "Bangalore, India / Open to Relocation",
+    "salaryOffer": "Competitive / Market Standard (Finalized upon Offer)",
+    "interviewStatus": "N/A",
+    "emailSubject": "Application Update: Tech Innovations Inc.",
+    "emailBody": "Dear Applicant, Thank you for contacting Tech Innovations Inc. Upon reviewing your submission, we found that the document provided was an automated investor notification rather than a professional resume. As we are currently only hiring for the roles of 'Full Stack Developer', 'Digital Marketing Specialist', and 'Senior Cloud Security Architect', we require a comprehensive resume detailing your relevant skills and experience to evaluate your candidacy. We encourage you to re-apply with your updated professional credentials. Best regards, Recruitment Team, Tech Innovations Inc.",
+    "emailSentAt": "2026-09-21T08:36:22.715Z",
+    "createdAt": "2026-09-21T08:36:09.385Z",
+    "updatedAt": "2026-09-21T08:36:09.385Z",
+    "source": "Gmail IMAP (1884647172_90187.pdf)",
+    "emailMessageId": "<296970cf-dc66-044e-e940-6d1c513d3ce3@gmail.com>",
+    "emailDeliveryStatus": "DELIVERED",
+    "emailTransport": "gmail_smtp"
+  },
+  {
     "id": "cand_auto_mto4hobf_n4yu",
     "name": "Rohan Sharma",
     "email": "manasvi60487.mbaib22@ipsacademy.org",
@@ -1257,292 +1595,6 @@
         "isCorrect": false
       }
     ]
-  },
-  {
-    "id": "cand_auto_mto09pif_8m3t",
-    "name": "Mahima Chouhan",
-    "email": "manasvi60487.mbaib22@ipsacademy.org",
-    "resumeEmail": "manasvi60487.mbaib22@ipsacademy.org",
-    "phone": "+91-XXXXXXXXXX",
-    "role": "Digital Marketing Specialist",
-    "roleId": "role_marketing",
-    "decision": "SELECTED",
-    "matchScore": 92,
-    "status": "TEST_ASSIGNED",
-    "testStatus": "ASSIGNED",
-    "testToken": "cand_auto_mto09pif_8m3t",
-    "testLink": "http://localhost:3000/assessment.html?token=cand_auto_mto09pif_8m3t",
-    "testQuestions": [
-      {
-        "id": 1,
-        "question": "What is the primary purpose of setting up UTM parameters in digital marketing campaigns?",
-        "options": [
-          "To automatically generate dynamic ad copy based on user location.",
-          "To track the effectiveness of digital marketing campaigns across traffic sources in analytics platforms.",
-          "To encrypt landing page URLs for enhanced data privacy compliance.",
-          "To improve SEO rankings by signaling unique referral traffic to search engine crawlers."
-        ],
-        "correctAnswerIndex": 1
-      },
-      {
-        "id": 2,
-        "question": "You notice a sudden drop in organic traffic for an e-commerce website. Google Search Console shows that total impressions remained steady, but average click-through rate (CTR) dropped significantly. What is the most likely cause?",
-        "options": [
-          "A technical site outage causing Googlebot to fail crawling the pages.",
-          "Competitors improved their meta titles and descriptions, or new rich snippets pushed your listings down.",
-          "The robots.txt file was accidentally updated to block the entire site.",
-          "A penalty from Google for keyword stuffing in the product descriptions."
-        ],
-        "correctAnswerIndex": 1
-      },
-      {
-        "id": 3,
-        "question": "What is the primary objective of a 'Retargeting' or 'Remarketing' campaign?",
-        "options": [
-          "To audit competitor backlink profiles for keyword expansion.",
-          "To acquire brand-new audiences who have never interacted with your digital properties.",
-          "To re-engage users who have previously visited your website or interacted with your app but did not convert.",
-          "To optimize email deliverability rates through domain authentication."
-        ],
-        "correctAnswerIndex": 2
-      },
-      {
-        "id": 4,
-        "question": "In the context of Conversion Rate Optimization (CRO), what is a statistically significant A/B test?",
-        "options": [
-          "A test conducted exclusively on mobile devices using paid traffic.",
-          "A test that has run long enough and accumulated enough data to ensure the results are not due to random chance.",
-          "A test that involves changing at least ten elements on the page simultaneously.",
-          "A test where the variation beats the control by at least 50% within the first 24 hours."
-        ],
-        "correctAnswerIndex": 1
-      },
-      {
-        "id": 5,
-        "question": "Which of the following Core Web Vitals metrics measures visual stability and unexpected layout shifts on a webpage?",
-        "options": [
-          "Interaction to Next Paint (INP)",
-          "Cumulative Layout Shift (CLS)",
-          "Largest Contentful Paint (LCP)",
-          "First Input Delay (FID)"
-        ],
-        "correctAnswerIndex": 1
-      },
-      {
-        "id": 6,
-        "question": "When planning an omnichannel marketing campaign, what is the most critical element to ensure success?",
-        "options": [
-          "Using the exact same creative asset across every single channel without modification.",
-          "Allocating 90% of the budget exclusively to top-of-funnel influencer marketing.",
-          "Disabling all organic channels to focus entirely on paid acquisition.",
-          "Maintaining a consistent brand message, cohesive user experience, and unified data tracking across all touchpoints."
-        ],
-        "correctAnswerIndex": 3
-      },
-      {
-        "id": 7,
-        "question": "What is the primary benefit of implementing a programmatic SEO (pSEO) strategy?",
-        "options": [
-          "It allows you to automatically generate thousands of optimized landing pages targeting long-tail keyword variations at scale.",
-          "It eliminates the need for any backlink acquisition campaigns.",
-          "It prevents search engine algorithms from penalizing duplicate content.",
-          "It guarantees a #1 ranking on Google for high-volume head terms."
-        ],
-        "correctAnswerIndex": 0
-      },
-      {
-        "id": 8,
-        "question": "What does the concept of 'Ad Fatigue' mean in paid social media advertising?",
-        "options": [
-          "Your landing page is loading too slowly because of heavy ad tracking scripts.",
-          "The target audience has completely exhausted its purchasing power for the quarter.",
-          "Target audiences have seen your ad too many times, leading to declining engagement rates and rising costs.",
-          "The ad platform temporarily disables your account due to excessive budget spending."
-        ],
-        "correctAnswerIndex": 2
-      },
-      {
-        "id": 9,
-        "question": "In social media marketing, what does 'Social Listening' refer to?",
-        "options": [
-          "Tracking the exact number of likes an individual post receives within the first hour.",
-          "Listening to audio advertisements running on social networks.",
-          "Analyzing broad industry trends, brand mentions, and consumer sentiment across social platforms.",
-          "Monitoring direct customer service messages in your inbox."
-        ],
-        "correctAnswerIndex": 2
-      },
-      {
-        "id": 10,
-        "question": "You are managing a B2B SaaS company and need to attribute revenue back to initial touchpoints in a long sales cycle. Which attribution model would provide the most credit to the very first interaction a user had with the brand?",
-        "options": [
-          "First Touch Attribution",
-          "Linear Attribution",
-          "Time Decay Attribution",
-          "Last Click Attribution"
-        ],
-        "correctAnswerIndex": 0
-      },
-      {
-        "id": 11,
-        "question": "What is a major risk of utilizing 'Broad Match' keywords in Google Ads without adequate negative keyword management?",
-        "options": [
-          "Quality Scores for all keywords will automatically drop to 1/10.",
-          "Google will permanently suspend the ad account for policy violations.",
-          "Ads will only show to users located outside your targeted geographic region.",
-          "Ads may trigger for irrelevant search queries, leading to wasted ad spend and low conversion rates."
-        ],
-        "correctAnswerIndex": 3
-      },
-      {
-        "id": 12,
-        "question": "When writing SEO meta descriptions, what is the generally recommended character length to ensure they are not truncated in search engine result pages (SERPs)?",
-        "options": [
-          "Around 150 to 160 characters",
-          "Around 50 to 60 characters",
-          "Around 300 to 350 characters",
-          "No specific limit; Google dynamically displays descriptions of any length."
-        ],
-        "correctAnswerIndex": 0
-      },
-      {
-        "id": 13,
-        "question": "When structuring a Google Search campaign, what is the best practice for ad group organization?",
-        "options": [
-          "Create tightly themed ad groups containing closely related keywords and highly relevant ad copy.",
-          "Group keywords strictly by alphabetical order to streamline reporting.",
-          "Put all keywords related to the entire business into a single ad group for maximum reach.",
-          "Assign one keyword per campaign with an unlimited daily budget."
-        ],
-        "correctAnswerIndex": 0
-      },
-      {
-        "id": 14,
-        "question": "How does implementing Server-Side Tagging via Google Tag Manager (GTM) benefit a website?",
-        "options": [
-          "It completely removes the need for any JavaScript on the client side.",
-          "It reduces cloud hosting costs to zero for all analytics data processing.",
-          "It automatically optimizes server hardware resources to handle higher web traffic loads.",
-          "It improves client-side page performance, enhances data privacy controls, and prevents ad blockers from stripping tracking pixels."
-        ],
-        "correctAnswerIndex": 3
-      },
-      {
-        "id": 15,
-        "question": "Which email marketing metric provides the most accurate indicator of subscriber engagement and content relevance over the long term?",
-        "options": [
-          "Click-to-Open Rate (CTOR)",
-          "Open Rate",
-          "Unsubscribe Rate",
-          "Gross Delivery Rate"
-        ],
-        "correctAnswerIndex": 0
-      },
-      {
-        "id": 16,
-        "question": "When configuring Meta Ads (Facebook/Instagram) for a lead generation campaign with a limited budget, which optimization event is generally recommended for the ad set?",
-        "options": [
-          "Landing Page Views",
-          "Leads (Conversion)",
-          "Daily Unique Reach",
-          "Link Clicks"
-        ],
-        "correctAnswerIndex": 1
-      },
-      {
-        "id": 17,
-        "question": "A client's Google Ads campaign has a high click-through rate (CTR) but a very low conversion rate on the landing page. Which of the following is the most effective first step to diagnose and improve performance?",
-        "options": [
-          "Increase the daily budget to capture more traffic and test different keywords.",
-          "Switch the bidding strategy from Maximize Conversions to Target CPA immediately.",
-          "Pause all broad match keywords and switch exclusively to exact match.",
-          "Analyze the landing page's user experience, load time, and message match with the ad copy."
-        ],
-        "correctAnswerIndex": 3
-      },
-      {
-        "id": 18,
-        "question": "In Google Analytics 4 (GA4), how are sessions primarily measured compared to Universal Analytics?",
-        "options": [
-          "GA4 sessions never time out regardless of user inactivity.",
-          "GA4 relies solely on IP addresses to aggregate session data.",
-          "GA4 uses the 'session_start' event, and a session ID is generated automatically for each event in the session, allowing more accurate cross-device attribution.",
-          "GA4 uses a time-based model strictly tied to 30-minute inactivity windows."
-        ],
-        "correctAnswerIndex": 2
-      },
-      {
-        "id": 19,
-        "question": "What is the primary function of a canonical tag (<link rel='canonical' href='...'>) in technical SEO?",
-        "options": [
-          "To prevent unauthorized web scraping of copyrighted blog posts.",
-          "To speed up mobile page rendering by compressing HTML assets.",
-          "To instruct search engines which version of a URL is the master copy, preventing duplicate content issues.",
-          "To redirect users permanently from an old domain to a new domain."
-        ],
-        "correctAnswerIndex": 2
-      },
-      {
-        "id": 20,
-        "question": "Which of the following represents a key advantage of utilizing Customer Match lists in Google Ads?",
-        "options": [
-          "It guarantees a 100% match rate for all uploaded email addresses.",
-          "It automatically generates high-resolution product images for shopping ads.",
-          "It completely bypasses all regional privacy regulations such as GDPR and CCPA.",
-          "It allows you to target your existing first-party customer data across Google properties like Search, YouTube, and Gmail."
-        ],
-        "correctAnswerIndex": 3
-      }
-    ],
-    "yearsOfExperience": "3 years",
-    "topSkills": [
-      "SEO",
-      "SEM",
-      "Google Ads",
-      "Meta Ads Manager",
-      "GA4",
-      "Content Strategy",
-      "Conversion Funnels",
-      "Campaign Optimization"
-    ],
-    "education": "Bachelor of Technology (B.Tech), Gujarat Technological University (GTU)",
-    "strengths": [
-      "Strong background in performance marketing with 3 years of hands-on experience managing paid acquisition budgets and high-ROI campaigns.",
-      "Extensive expertise in SEO, Technical SEO, Google Analytics (GA4), and conversion rate optimization (CRO).",
-      "Analytical engineering mindset combined with practical MarTech tool proficiency including GTM, Looker Studio, and HubSpot."
-    ],
-    "areasForImprovement": [
-      "Could elaborate further on international market scaling and multi-region localization strategies.",
-      "More depth on programmatic advertising models could be beneficial for future senior scale."
-    ],
-    "evaluationSummary": "Mahima Chouhan is an exceptionally strong candidate for the Digital Marketing Specialist position at Tech Innovations Inc. With 3 years of experience successfully scaling revenue, optimizing acquisition funnels, and managing significant ad budgets, she brings a blend of technical acumen and strategic growth expertise. Her resume highlights proven successes in lowering CAC, improving ROAS, and mastering GA4, SEO, and paid performance frameworks. She meets and exceeds all criteria for our active digital marketing opening.",
-    "rejectionReason": null,
-    "interviewQuestions": [
-      "Can you walk us through a specific campaign where you successfully reduced Customer Acquisition Cost (CAC) while scaling the budget?",
-      "How do you approach Technical SEO audits for a fast-growing B2B/D2C platform, and what tools do you rely on?",
-      "Explain how you configure and leverage GA4 and Google Tag Manager for custom event tracking and multi-channel attribution.",
-      "What is your framework for running A/B tests on landing page conversion funnels to improve overall conversion rates?"
-    ],
-    "proposedInterviewDate": "Wednesday, September 9, 2026",
-    "interviewDate": "Wednesday, September 9, 2026",
-    "interviewTime": "30 Minutes Online Technical Assessment",
-    "joiningDate": "Monday, October 5, 2026",
-    "interviewRound": "Domain Technical MCQ Assessment (20 Questions / 30 Mins)",
-    "interviewerName": "Tech Innovations Inc. Technical Hiring Council",
-    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
-    "workLocation": "Tech Innovations Inc. Campus, Cyber City, Bangalore",
-    "employmentType": "Full-Time Permanent",
-    "department": "Growth & Digital Marketing",
-    "location": "Bangalore, India / Open to Relocation",
-    "salaryOffer": "Competitive / Market Standard (Finalized upon Offer)",
-    "interviewStatus": "Assessment Test Assigned (30 Mins / 20 MCQs)",
-    "emailSubject": "🎯 Technical Assessment & Interview: Digital Marketing Specialist at Tech Innovations Inc.",
-    "emailBody": "Dear Mahima, Thank you for applying for the Digital Marketing Specialist position at Tech Innovations Inc. We were thoroughly impressed by your background in performance marketing, SEO, and data-driven growth analytics. We would love to invite you for a domain interview on Wednesday, September 9, 2026 at 2:30 PM - 3:15 PM IST to discuss your experience and how you can contribute to our growth team. Please confirm your availability by replying to this email. We look forward to speaking with you!",
-    "emailSentAt": "2026-09-05T06:32:33.100Z",
-    "createdAt": "2026-09-05T06:32:19.047Z",
-    "updatedAt": "2026-09-05T06:32:19.047Z",
-    "source": "Gmail IMAP (Mahima Chouhan Resume.docx)",
-    "emailMessageId": "<67a3d99d-addd-60c0-ca83-23d0871e8f8e@gmail.com>"
   },
   {
     "id": "cand_auto_mtnykzsa_li2s",

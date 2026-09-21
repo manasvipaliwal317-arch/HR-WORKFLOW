@@ -378,6 +378,64 @@ setInterval(() => {
   } catch(e) {}
 }, 120000);
 
+// ☁️ Pull any candidates from Render whose email was blocked by Render's free tier firewall and flush via local SMTP
+async function pullAndFlushCloudPendingEmails() {
+  if (process.env.RENDER || process.env.PORT === '10000') return;
+
+  try {
+    const parsedUrl = new URL(CLOUD_RENDER_URL + '/api/candidates');
+    const client = parsedUrl.protocol === 'https:' ? https : require('http');
+
+    client.get(parsedUrl.href, (res) => {
+      let d = '';
+      res.on('data', c => d += c);
+      res.on('end', async () => {
+        try {
+          const json = JSON.parse(d);
+          const cloudCandidates = json.candidates || [];
+          const pending = cloudCandidates.filter(c => 
+            c.email && 
+            c.email.includes('@') && 
+            (!c.emailMessageId || c.emailDeliveryStatus === 'FAILED' || c.emailDeliveryStatus === 'PENDING')
+          );
+
+          if (pending.length > 0) {
+            console.log(`☁️ [Cloud Relay Dispatcher] Found ${pending.length} unsent candidate email(s) on Render. Dispatching via local SMTP...`);
+            for (const cand of pending) {
+              const toEmail = cand.email;
+              const subject = cand.emailSubject || `Application Update: ${cand.role} at ${appConfig.companyName}`;
+              const html = cand.decision === 'SELECTED'
+                ? generateInterviewInviteTemplate({ candidate: cand })
+                : `
+                  <div style="font-family: Arial, sans-serif; max-width: 620px; line-height: 1.6; color: #333; padding: 20px; border: 1px solid #e2e8f0; border-radius: 10px;">
+                    <h3 style="color: #6366f1; margin-top: 0;">${appConfig.companyName} — Application Status</h3>
+                    <p style="white-space: pre-line;">${cand.emailBody || 'Thank you for your interest in Tech Innovations Inc.'}</p>
+                    <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;">
+                    <p style="font-size: 12px; color: #64748b;">Processed and dispatched automatically by Tech Innovations Inc. Recruitment Council.</p>
+                  </div>
+                `;
+
+              const result = await sendCandidateCustomEmail(toEmail, subject, html, cand.emailBody || '');
+              if (result && result.success) {
+                console.log(`   ✅ [Cloud Candidate Email Flushed] ${cand.name} (${toEmail}) Message ID: ${result.messageId}`);
+                cand.emailMessageId = result.messageId;
+                cand.emailSentAt = new Date().toISOString();
+                cand.emailDeliveryStatus = 'DELIVERED';
+                cand.emailTransport = 'local_cloud_relay';
+                syncCandidateToCloud(cand);
+              }
+            }
+          }
+        } catch (e) {}
+      });
+    }).on('error', () => {});
+  } catch (err) {}
+}
+
+// Check and flush cloud emails every 20 seconds
+setInterval(pullAndFlushCloudPendingEmails, 20000);
+setTimeout(pullAndFlushCloudPendingEmails, 5000);
+
 // Helper: Processed UIDs
 function getProcessedUIDs() {
   try {
@@ -2137,9 +2195,12 @@ app.post('/api/candidates', (req, res) => {
       employmentType: candidateData.employmentType || 'Full-Time Permanent',
       department: candidateData.department || 'Core Engineering & Technology',
       hrNotes: candidateData.hrNotes || null,
+      emailMessageId: candidateData.emailMessageId || null,
+      emailDeliveryStatus: candidateData.emailDeliveryStatus || (candidateData.emailMessageId ? 'DELIVERED' : 'PENDING'),
+      emailTransport: candidateData.emailTransport || null,
       emailSubject: candidateData.emailSubject || '',
       emailBody: candidateData.emailBody || '',
-      emailSentAt: candidateData.emailSentAt || now,
+      emailSentAt: candidateData.emailSentAt || (candidateData.emailMessageId ? now : null),
       createdAt: candidateData.createdAt || now,
       updatedAt: now,
       source: candidateData.source || 'Direct API Sync'
