@@ -1,5 +1,855 @@
 [
   {
+    "id": "cand_live_interview_demo",
+    "name": "Manasvi Paliwal",
+    "email": "manasvipaliwal317@gmail.com",
+    "phone": "+91 98765 43210",
+    "role": "Full Stack Developer",
+    "decision": "SELECTED",
+    "matchScore": 94,
+    "status": "TEST_ASSIGNED",
+    "yearsOfExperience": 4,
+    "topSkills": [
+      "React",
+      "Node.js",
+      "PostgreSQL",
+      "Docker",
+      "REST APIs"
+    ],
+    "education": "B.Tech in Computer Science",
+    "strengths": [
+      "Full stack architecture",
+      "High throughput API design"
+    ],
+    "evaluationSummary": "High potential candidate demonstrating deep proficiency in scalable distributed systems.",
+    "interviewRound": "Technical & System Design Round",
+    "interviewerName": "Engineering Hiring Panel",
+    "interviewStatus": "Assessment Test Link Dispatched",
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Core Engineering & Technology",
+    "createdAt": "2026-09-21T10:53:52.963Z",
+    "updatedAt": "2026-09-21T10:53:52.963Z",
+    "testQuestions": [
+      {
+        "id": 1,
+        "question": "What is the primary purpose of database indexing, and what is a notable trade-off?",
+        "options": [
+          "Indexes speed up data retrieval (SELECT queries) at the cost of slower write operations (INSERT, UPDATE, DELETE) and increased storage space.",
+          "Indexes automatically normalize database tables to 3NF.",
+          "Indexes eliminate the need for foreign key constraints and reduce memory usage.",
+          "Indexes convert relational databases into NoSQL document stores."
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 2,
+        "question": "What is the primary role of an ORM (Object-Relational Mapper) like Prisma or TypeORM, and what is a common pitfall?",
+        "options": [
+          "ORMs automatically encrypt database backups; a common pitfall is accidental deletion of indexes.",
+          "ORMs manage container orchestration; a common pitfall is memory leaks in Node.js.",
+          "ORMs convert frontend UI components into SQL queries; a common pitfall is slow browser rendering.",
+          "ORMs translate database tables into object models; a common pitfall is the N+1 query problem due to lazy loading or unoptimized relations."
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 3,
+        "question": "You are designing a database schema for an e-commerce platform in PostgreSQL where orders frequently require joining with order items and product details. To optimize read performance without sacrificing write integrity, which strategy should you consider first?",
+        "options": [
+          "Create appropriate B-tree indexes on foreign keys and use covering indexes (INCLUDE clause) for frequent queries.",
+          "Denormalize all product data directly into the orders table as a JSONB column.",
+          "Store all transactional data in Redis and persist to PostgreSQL asynchronously once a day.",
+          "Split the database into independent microservices with no foreign key constraints."
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 4,
+        "question": "You need to implement token-based authentication using JSON Web Tokens (JWT) in a Single Page Application. Which storage mechanism presents the highest risk to security regarding Cross-Site Scripting (XSS) attacks?",
+        "options": [
+          "In-memory JavaScript application state variables",
+          "Browser LocalStorage",
+          "HttpOnly, Secure SameSite cookies",
+          "SessionStorage cleared on tab close"
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "What is the primary benefit of implementing Server-Side Rendering (SSR) or Static Site Generation (SSG) in frameworks like Next.js compared to Client-Side Rendering (CSR)?",
+        "options": [
+          "Improving initial page load performance (SEO friendliness and faster First Contentful Paint) by rendering HTML on the server.",
+          "Eliminating the need for CSS stylesheets.",
+          "Removing all server infrastructure costs.",
+          "Allowing developers to write backend code directly inside React components without an API layer."
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 6,
+        "question": "In modern Frontend state management (such as Redux Toolkit, Zustand, or Context API), why is immutability of state emphasized?",
+        "options": [
+          "It prevents browsers from caching JavaScript bundles.",
+          "It automatically synchronizes frontend state with backend databases.",
+          "It ensures state updates can be tracked, enables time-travel debugging, and allows UI components to efficiently detect changes through shallow comparisons.",
+          "It reduces the total lines of code required to build user interfaces."
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 7,
+        "question": "In a microservices architecture, multiple independent services need to communicate asynchronously. Which pattern best ensures reliable event delivery and decoupling between the producer and consumers?",
+        "options": [
+          "Client-side polling via WebSockets connected to a central load balancer.",
+          "Pub/Sub messaging via a distributed broker like Apache Kafka or RabbitMQ.",
+          "Direct synchronous HTTP REST calls with exponential backoff retries.",
+          "Shared database tables where services poll for updates every second."
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 8,
+        "question": "When configuring a React Single Page Application behind a reverse proxy like Nginx, you encounter '404 Not Found' errors when users attempt to hard-refresh deep routes (e.g., /dashboard/settings). What is the correct Nginx configuration adjustment?",
+        "options": [
+          "Enable gzip compression for all static assets.",
+          "Add 'try_files $uri $uri/ /index.html;' to the server block.",
+          "Configure proxy_pass to redirect all traffic to the Node.js backend.",
+          "Set up a permanent redirect from 404 to the root domain."
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 9,
+        "question": "What is the primary security vulnerability mitigated by implementing a strict Content Security Policy (CSP) header with nonces or hashes in a modern web application?",
+        "options": [
+          "Cross-Site Scripting (XSS)",
+          "SQL Injection (SQLi)",
+          "Broken Object Level Authorization (BOLA)",
+          "Distributed Denial of Service (DDoS)"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 10,
+        "question": "When building a responsive modern web application, what is the primary benefit of utilizing CSS Grid over CSS Flexbox?",
+        "options": [
+          "CSS Grid eliminates the need for media queries entirely under all conditions.",
+          "CSS Grid automatically compresses images for faster page loads.",
+          "CSS Grid natively supports two-dimensional layouts (rows and columns simultaneously) with explicit track definitions.",
+          "CSS Grid is better suited for one-dimensional layouts (rows or columns)."
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 11,
+        "question": "Which HTTP status code is most appropriate when a request has been successfully processed, but there is no new representation to return in the response body (e.g., a successful DELETE request)?",
+        "options": [
+          "202 Accepted",
+          "201 Created",
+          "204 No Content",
+          "200 OK"
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 12,
+        "question": "What does the 'S' in the SOLID design principles stand for, and how does it apply to Full Stack development?",
+        "options": [
+          "Scalability Principle: Systems must scale horizontally automatically.",
+          "Security Principle: Every module must validate user inputs.",
+          "Speed Principle: Functions must execute in constant time O(1).",
+          "Single Responsibility Principle: A class or module should have only one reason to change."
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 13,
+        "question": "You are designing an API endpoint that handles financial transactions and must be idempotent. What does idempotency mean in this context?",
+        "options": [
+          "The endpoint requires multi-factor authentication for every call.",
+          "Making multiple identical requests has the same effect as making a single request.",
+          "The response is always returned in XML format.",
+          "The operation executes faster on subsequent calls."
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 14,
+        "question": "What is the purpose of CORS (Cross-Origin Resource Sharing) headers in web browsers?",
+        "options": [
+          "To manage user session timeouts across multiple browser tabs.",
+          "To compress HTTP payloads for faster transmission over high-latency networks.",
+          "To encrypt traffic traveling between the browser and the server.",
+          "To allow a server to indicate any origins other than its own from which a browser should permit loading resources."
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 15,
+        "question": "In Git, what is the fundamental operational difference between 'git merge' and 'git rebase'?",
+        "options": [
+          "Merge deletes older commits, while rebase keeps them.",
+          "Merge requires a pull request, while rebase is performed automatically.",
+          "Rebase can only be used on remote repositories, while merge is local-only.",
+          "Merge creates a new merge commit combining histories, while rebase rewrites commit history by moving your feature branch base to the tip of the main branch."
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 16,
+        "question": "When designing a GraphQL API compared to a REST API, which scenario represents the most significant advantage?",
+        "options": [
+          "Built-in protection against denial of service attacks without rate limiting.",
+          "Lower server CPU usage due to lack of caching requirements.",
+          "Eliminating over-fetching and under-fetching of data by allowing clients to query exactly what they need.",
+          "Automatic handling of database transaction rollbacks."
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 17,
+        "question": "How does the JavaScript engine handle asynchronous operations under the hood using the Event Loop?",
+        "options": [
+          "It blocks the main thread until the network request completes.",
+          "It offloads I/O tasks to system kernel or thread pool, then pushes callbacks to the callback/task queue once ready, to be executed when the call stack is empty.",
+          "It uses multi-threading directly within JavaScript code execution blocks.",
+          "It constantly polls all async functions every millisecond using CPU cycles."
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 18,
+        "question": "When optimizing a web application's Core Web Vitals, which metric specifically measures visual stability and unexpected layout shifts?",
+        "options": [
+          "First Input Delay (FID)",
+          "Time to First Byte (TTFB)",
+          "Largest Contentful Paint (LCP)",
+          "Cumulative Layout Shift (CLS)"
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 19,
+        "question": "In a high-throughput RESTful API built with Node.js and Express, you notice that a specific synchronous JSON parsing operation is blocking the event loop. What is the most idiomatic and efficient way to resolve this?",
+        "options": [
+          "Offload the heavy parsing to worker threads using the 'worker_threads' module.",
+          "Migrate the entire application backend to C++ using native addons.",
+          "Increase the Node.js UV_THREADPOOL_SIZE environment variable.",
+          "Wrap the synchronous operation in a standard JavaScript Promise using Promise.resolve()."
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 20,
+        "question": "In Docker containerization for a Node.js production application, why is it considered a best practice to use multi-stage builds?",
+        "options": [
+          "To run multiple Node.js versions simultaneously in the same container.",
+          "To speed up local development hot-reloading.",
+          "To exclude development dependencies, build tools, and source code from the final production image, reducing size and attack surface.",
+          "To bypass the need for a reverse proxy like Nginx."
+        ],
+        "correctAnswerIndex": 2
+      }
+    ],
+    "testStatus": "ASSIGNED"
+  },
+  {
+    "id": "cand_mub4mtp1_3cp5",
+    "name": "Manasvi Paliwal (Final Round Test)",
+    "email": "manasvipaliwal317@gmail.com",
+    "phone": "N/A",
+    "role": "Full Stack Developer",
+    "decision": "SELECTED",
+    "matchScore": 92,
+    "status": "INTERVIEW_SCHEDULED",
+    "yearsOfExperience": 4,
+    "topSkills": [],
+    "education": "N/A",
+    "strengths": [],
+    "areasForImprovement": [],
+    "evaluationSummary": "",
+    "rejectionReason": "Technical Assessment score was 0% (Passing threshold is 80%).",
+    "interviewQuestions": [],
+    "proposedInterviewDate": "Upcoming Week",
+    "interviewDate": "Upcoming Week",
+    "interviewTime": "02:00 PM IST (45 Minutes)",
+    "meetingLink": "https://meet.google.com/tech-hr-interview",
+    "interviewRound": "Final Technical & HR Interview",
+    "interviewerName": "Engineering Hiring Panel",
+    "interviewStatus": "🎉 Passed Assessment (90%) — Final Interview Scheduled",
+    "joiningDate": null,
+    "salaryOffer": null,
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Core Engineering & Technology",
+    "hrNotes": null,
+    "emailMessageId": null,
+    "emailDeliveryStatus": "PENDING",
+    "emailTransport": null,
+    "emailSubject": "🎉 Next Round: Final Interview for Full Stack Developer at Tech Innovations Inc.",
+    "emailBody": "",
+    "emailSentAt": "2026-09-21T10:53:39.415Z",
+    "createdAt": "2026-09-21T10:53:11.509Z",
+    "updatedAt": "2026-09-21T10:53:39.415Z",
+    "source": "Direct API Sync",
+    "testQuestions": [
+      {
+        "id": 1,
+        "question": "What is the primary purpose of adding an index to a database column in a relational database management system?",
+        "options": [
+          "To automatically handle cascading deletes",
+          "To reduce the storage space required for the table",
+          "To speed up data retrieval operations at the cost of write performance",
+          "To enforce unique constraints on table data"
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 2,
+        "question": "Why is debouncing frequently used in frontend development for event handlers like search input fields?",
+        "options": [
+          "To encrypt user input before sending it to the API",
+          "To limit the rate at which a function is executed, ensuring it only runs after a specified period of inactivity",
+          "To cache previous search results in local storage",
+          "To ensure that network requests are sent on every single keystroke"
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "What does the 'O' stand for in the SOLID principles of object-oriented and component design?",
+        "options": [
+          "Observer Pattern Principle",
+          "Object Persistence Principle",
+          "Open/Closed Principle",
+          "Optimized Performance Principle"
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 4,
+        "question": "In a progressive web application (PWA), what is the primary role of a Service Worker?",
+        "options": [
+          "To execute database queries directly from the client side",
+          "To compile TypeScript code in the browser",
+          "To act as a proxy server between the web app and the network, enabling offline capabilities",
+          "To manage global state across React components"
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 5,
+        "question": "What is the main advantage of using JSON Web Tokens (JWT) for authentication in a microservices architecture?",
+        "options": [
+          "Tokens are stored securely in the server memory by default",
+          "JWTs are stateless and can be cryptographically verified by any service without querying a central database",
+          "Tokens can never be revoked or expired prematurely",
+          "JWTs eliminate the need for HTTPS"
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "What is the primary goal of containerization using tools like Docker in a full stack deployment pipeline?",
+        "options": [
+          "To ensure consistency across development, testing, and production environments by packaging the app and its dependencies together",
+          "To replace version control systems like Git",
+          "To automatically scale server instances based on traffic spikes",
+          "To encrypt database connections in transit"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 7,
+        "question": "How does server-side rendering (SSR) typically improve SEO compared to client-side rendering (CSR)?",
+        "options": [
+          "SSR compresses images more efficiently than CSR",
+          "Search engine crawlers receive fully rendered HTML immediately, rather than waiting for JavaScript execution",
+          "SSR automatically increases the domain authority of the website",
+          "Search engine bots cannot parse JavaScript at all"
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 8,
+        "question": "In the context of web performance optimization, what does LCP (Largest Contentful Paint) measure?",
+        "options": [
+          "The total amount of JavaScript executed on page load",
+          "The visual stability and layout shift of elements during loading",
+          "The time it takes for the browser to load and parse stylesheets",
+          "The point in the page load timeline when the main content has likely loaded and rendered"
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 9,
+        "question": "Which HTTP status code is most appropriate when a REST API request is successful and creates a new resource?",
+        "options": [
+          "201 Created",
+          "202 Accepted",
+          "200 OK",
+          "204 No Content"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 10,
+        "question": "What does CI/CD stand for in modern software engineering workflows?",
+        "options": [
+          "Continuous Integration / Continuous Delivery (or Deployment)",
+          "Client Interaction / Cloud Distribution",
+          "Code Integration / Code Deployment",
+          "Compiler Inspection / Container Development"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 11,
+        "question": "Which of the following best describes CORS (Cross-Origin Resource Sharing)?",
+        "options": [
+          "A database replication strategy for distributed systems",
+          "A method for caching static assets on a CDN",
+          "A security feature implemented by browsers to restrict web pages from making requests to a different domain",
+          "A protocol for encrypting data between client and server"
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 12,
+        "question": "In a React application, which hook should be used to perform side effects such as data fetching or subscriptions?",
+        "options": [
+          "useContext",
+          "useMemo",
+          "useReducer",
+          "useEffect"
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 13,
+        "question": "In modern CSS, what is the key difference between CSS Grid and Flexbox?",
+        "options": [
+          "Flexbox requires JavaScript to calculate element positions",
+          "Grid is designed for two-dimensional layouts (rows and columns simultaneously), while Flexbox is primarily for one-dimensional layouts (a row or a column)",
+          "CSS Grid is deprecated in modern browsers",
+          "Flexbox is designed for two-dimensional layouts (rows and columns), while Grid is for one-dimensional layouts"
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 14,
+        "question": "Which Git command should you use to incorporate commits from a feature branch into your current branch by replaying them on top of the current branch's tip, creating a linear history?",
+        "options": [
+          "git cherry-pick",
+          "git stash",
+          "git merge",
+          "git rebase"
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 15,
+        "question": "What is the primary difference between SQL (Relational) and NoSQL (Non-Relational) databases?",
+        "options": [
+          "SQL databases have structured schemas and tabular relationships, whereas NoSQL databases offer flexible schemas for unstructured data",
+          "NoSQL databases guarantee strict ACID compliance across all operations",
+          "SQL databases are only used for frontend storage",
+          "NoSQL databases cannot handle JSON data"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 16,
+        "question": "Which of the following caching strategies involves writing data to the cache and the database at the same time upon a write request?",
+        "options": [
+          "Cache-Aside (Lazy Loading)",
+          "Write-Behind (Write-Back)",
+          "Read-Through",
+          "Write-Through"
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 17,
+        "question": "What is the purpose of database connection pooling in a backend application?",
+        "options": [
+          "To prevent SQL injection attacks",
+          "To maintain a cache of open database connections, reducing the overhead of establishing a new connection for every request",
+          "To allow multiple users to share the same user account",
+          "To automatically backup database tables to cloud storage"
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 18,
+        "question": "Which of the following is an example of an idempotent HTTP method?",
+        "options": [
+          "POST",
+          "PATCH",
+          "CONNECT",
+          "PUT"
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 19,
+        "question": "When designing a scalable Node.js backend, why is avoiding synchronous (blocking) I/O operations crucial?",
+        "options": [
+          "Node.js runs on a single-threaded event loop, and blocking operations halt all incoming requests",
+          "It prevents async/await syntax from functioning properly",
+          "Node.js will throw a compilation error if synchronous methods are used in production",
+          "Synchronous code cannot access environment variables"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 20,
+        "question": "What is the main security risk mitigated by sanitizing user input before rendering it in a frontend framework like React?",
+        "options": [
+          "SQL Injection",
+          "Man-in-the-Middle (MitM) attacks",
+          "Cross-Site Scripting (XSS)",
+          "Distributed Denial of Service (DDoS)"
+        ],
+        "correctAnswerIndex": 2
+      }
+    ],
+    "testStatus": "COMPLETED",
+    "testCorrectCount": 18,
+    "testTotalCount": 20,
+    "testDurationSeconds": 780,
+    "testCheatViolations": 0,
+    "testAnswers": {
+      "0": 2,
+      "1": 1,
+      "2": 2,
+      "3": 2,
+      "4": 1,
+      "5": 0,
+      "6": 1,
+      "7": 3,
+      "8": 0,
+      "9": 0,
+      "10": 2,
+      "11": 3,
+      "12": 1,
+      "13": 3,
+      "14": 0,
+      "15": 3,
+      "16": 1,
+      "17": 3,
+      "18": 1,
+      "19": 3
+    },
+    "testDetailedResults": [
+      {
+        "questionId": 1,
+        "question": "What is the primary purpose of adding an index to a database column in a relational database management system?",
+        "options": [
+          "To automatically handle cascading deletes",
+          "To reduce the storage space required for the table",
+          "To speed up data retrieval operations at the cost of write performance",
+          "To enforce unique constraints on table data"
+        ],
+        "userAnswerIndex": 2,
+        "userAnswerText": "To speed up data retrieval operations at the cost of write performance",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "To speed up data retrieval operations at the cost of write performance",
+        "isCorrect": true
+      },
+      {
+        "questionId": 2,
+        "question": "Why is debouncing frequently used in frontend development for event handlers like search input fields?",
+        "options": [
+          "To encrypt user input before sending it to the API",
+          "To limit the rate at which a function is executed, ensuring it only runs after a specified period of inactivity",
+          "To cache previous search results in local storage",
+          "To ensure that network requests are sent on every single keystroke"
+        ],
+        "userAnswerIndex": 1,
+        "userAnswerText": "To limit the rate at which a function is executed, ensuring it only runs after a specified period of inactivity",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "To limit the rate at which a function is executed, ensuring it only runs after a specified period of inactivity",
+        "isCorrect": true
+      },
+      {
+        "questionId": 3,
+        "question": "What does the 'O' stand for in the SOLID principles of object-oriented and component design?",
+        "options": [
+          "Observer Pattern Principle",
+          "Object Persistence Principle",
+          "Open/Closed Principle",
+          "Optimized Performance Principle"
+        ],
+        "userAnswerIndex": 2,
+        "userAnswerText": "Open/Closed Principle",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "Open/Closed Principle",
+        "isCorrect": true
+      },
+      {
+        "questionId": 4,
+        "question": "In a progressive web application (PWA), what is the primary role of a Service Worker?",
+        "options": [
+          "To execute database queries directly from the client side",
+          "To compile TypeScript code in the browser",
+          "To act as a proxy server between the web app and the network, enabling offline capabilities",
+          "To manage global state across React components"
+        ],
+        "userAnswerIndex": 2,
+        "userAnswerText": "To act as a proxy server between the web app and the network, enabling offline capabilities",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "To act as a proxy server between the web app and the network, enabling offline capabilities",
+        "isCorrect": true
+      },
+      {
+        "questionId": 5,
+        "question": "What is the main advantage of using JSON Web Tokens (JWT) for authentication in a microservices architecture?",
+        "options": [
+          "Tokens are stored securely in the server memory by default",
+          "JWTs are stateless and can be cryptographically verified by any service without querying a central database",
+          "Tokens can never be revoked or expired prematurely",
+          "JWTs eliminate the need for HTTPS"
+        ],
+        "userAnswerIndex": 1,
+        "userAnswerText": "JWTs are stateless and can be cryptographically verified by any service without querying a central database",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "JWTs are stateless and can be cryptographically verified by any service without querying a central database",
+        "isCorrect": true
+      },
+      {
+        "questionId": 6,
+        "question": "What is the primary goal of containerization using tools like Docker in a full stack deployment pipeline?",
+        "options": [
+          "To ensure consistency across development, testing, and production environments by packaging the app and its dependencies together",
+          "To replace version control systems like Git",
+          "To automatically scale server instances based on traffic spikes",
+          "To encrypt database connections in transit"
+        ],
+        "userAnswerIndex": 0,
+        "userAnswerText": "To ensure consistency across development, testing, and production environments by packaging the app and its dependencies together",
+        "correctAnswerIndex": 0,
+        "correctAnswerText": "To ensure consistency across development, testing, and production environments by packaging the app and its dependencies together",
+        "isCorrect": true
+      },
+      {
+        "questionId": 7,
+        "question": "How does server-side rendering (SSR) typically improve SEO compared to client-side rendering (CSR)?",
+        "options": [
+          "SSR compresses images more efficiently than CSR",
+          "Search engine crawlers receive fully rendered HTML immediately, rather than waiting for JavaScript execution",
+          "SSR automatically increases the domain authority of the website",
+          "Search engine bots cannot parse JavaScript at all"
+        ],
+        "userAnswerIndex": 1,
+        "userAnswerText": "Search engine crawlers receive fully rendered HTML immediately, rather than waiting for JavaScript execution",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "Search engine crawlers receive fully rendered HTML immediately, rather than waiting for JavaScript execution",
+        "isCorrect": true
+      },
+      {
+        "questionId": 8,
+        "question": "In the context of web performance optimization, what does LCP (Largest Contentful Paint) measure?",
+        "options": [
+          "The total amount of JavaScript executed on page load",
+          "The visual stability and layout shift of elements during loading",
+          "The time it takes for the browser to load and parse stylesheets",
+          "The point in the page load timeline when the main content has likely loaded and rendered"
+        ],
+        "userAnswerIndex": 3,
+        "userAnswerText": "The point in the page load timeline when the main content has likely loaded and rendered",
+        "correctAnswerIndex": 3,
+        "correctAnswerText": "The point in the page load timeline when the main content has likely loaded and rendered",
+        "isCorrect": true
+      },
+      {
+        "questionId": 9,
+        "question": "Which HTTP status code is most appropriate when a REST API request is successful and creates a new resource?",
+        "options": [
+          "201 Created",
+          "202 Accepted",
+          "200 OK",
+          "204 No Content"
+        ],
+        "userAnswerIndex": 0,
+        "userAnswerText": "201 Created",
+        "correctAnswerIndex": 0,
+        "correctAnswerText": "201 Created",
+        "isCorrect": true
+      },
+      {
+        "questionId": 10,
+        "question": "What does CI/CD stand for in modern software engineering workflows?",
+        "options": [
+          "Continuous Integration / Continuous Delivery (or Deployment)",
+          "Client Interaction / Cloud Distribution",
+          "Code Integration / Code Deployment",
+          "Compiler Inspection / Container Development"
+        ],
+        "userAnswerIndex": 0,
+        "userAnswerText": "Continuous Integration / Continuous Delivery (or Deployment)",
+        "correctAnswerIndex": 0,
+        "correctAnswerText": "Continuous Integration / Continuous Delivery (or Deployment)",
+        "isCorrect": true
+      },
+      {
+        "questionId": 11,
+        "question": "Which of the following best describes CORS (Cross-Origin Resource Sharing)?",
+        "options": [
+          "A database replication strategy for distributed systems",
+          "A method for caching static assets on a CDN",
+          "A security feature implemented by browsers to restrict web pages from making requests to a different domain",
+          "A protocol for encrypting data between client and server"
+        ],
+        "userAnswerIndex": 2,
+        "userAnswerText": "A security feature implemented by browsers to restrict web pages from making requests to a different domain",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "A security feature implemented by browsers to restrict web pages from making requests to a different domain",
+        "isCorrect": true
+      },
+      {
+        "questionId": 12,
+        "question": "In a React application, which hook should be used to perform side effects such as data fetching or subscriptions?",
+        "options": [
+          "useContext",
+          "useMemo",
+          "useReducer",
+          "useEffect"
+        ],
+        "userAnswerIndex": 3,
+        "userAnswerText": "useEffect",
+        "correctAnswerIndex": 3,
+        "correctAnswerText": "useEffect",
+        "isCorrect": true
+      },
+      {
+        "questionId": 13,
+        "question": "In modern CSS, what is the key difference between CSS Grid and Flexbox?",
+        "options": [
+          "Flexbox requires JavaScript to calculate element positions",
+          "Grid is designed for two-dimensional layouts (rows and columns simultaneously), while Flexbox is primarily for one-dimensional layouts (a row or a column)",
+          "CSS Grid is deprecated in modern browsers",
+          "Flexbox is designed for two-dimensional layouts (rows and columns), while Grid is for one-dimensional layouts"
+        ],
+        "userAnswerIndex": 1,
+        "userAnswerText": "Grid is designed for two-dimensional layouts (rows and columns simultaneously), while Flexbox is primarily for one-dimensional layouts (a row or a column)",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "Grid is designed for two-dimensional layouts (rows and columns simultaneously), while Flexbox is primarily for one-dimensional layouts (a row or a column)",
+        "isCorrect": true
+      },
+      {
+        "questionId": 14,
+        "question": "Which Git command should you use to incorporate commits from a feature branch into your current branch by replaying them on top of the current branch's tip, creating a linear history?",
+        "options": [
+          "git cherry-pick",
+          "git stash",
+          "git merge",
+          "git rebase"
+        ],
+        "userAnswerIndex": 3,
+        "userAnswerText": "git rebase",
+        "correctAnswerIndex": 3,
+        "correctAnswerText": "git rebase",
+        "isCorrect": true
+      },
+      {
+        "questionId": 15,
+        "question": "What is the primary difference between SQL (Relational) and NoSQL (Non-Relational) databases?",
+        "options": [
+          "SQL databases have structured schemas and tabular relationships, whereas NoSQL databases offer flexible schemas for unstructured data",
+          "NoSQL databases guarantee strict ACID compliance across all operations",
+          "SQL databases are only used for frontend storage",
+          "NoSQL databases cannot handle JSON data"
+        ],
+        "userAnswerIndex": 0,
+        "userAnswerText": "SQL databases have structured schemas and tabular relationships, whereas NoSQL databases offer flexible schemas for unstructured data",
+        "correctAnswerIndex": 0,
+        "correctAnswerText": "SQL databases have structured schemas and tabular relationships, whereas NoSQL databases offer flexible schemas for unstructured data",
+        "isCorrect": true
+      },
+      {
+        "questionId": 16,
+        "question": "Which of the following caching strategies involves writing data to the cache and the database at the same time upon a write request?",
+        "options": [
+          "Cache-Aside (Lazy Loading)",
+          "Write-Behind (Write-Back)",
+          "Read-Through",
+          "Write-Through"
+        ],
+        "userAnswerIndex": 3,
+        "userAnswerText": "Write-Through",
+        "correctAnswerIndex": 3,
+        "correctAnswerText": "Write-Through",
+        "isCorrect": true
+      },
+      {
+        "questionId": 17,
+        "question": "What is the purpose of database connection pooling in a backend application?",
+        "options": [
+          "To prevent SQL injection attacks",
+          "To maintain a cache of open database connections, reducing the overhead of establishing a new connection for every request",
+          "To allow multiple users to share the same user account",
+          "To automatically backup database tables to cloud storage"
+        ],
+        "userAnswerIndex": 1,
+        "userAnswerText": "To maintain a cache of open database connections, reducing the overhead of establishing a new connection for every request",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "To maintain a cache of open database connections, reducing the overhead of establishing a new connection for every request",
+        "isCorrect": true
+      },
+      {
+        "questionId": 18,
+        "question": "Which of the following is an example of an idempotent HTTP method?",
+        "options": [
+          "POST",
+          "PATCH",
+          "CONNECT",
+          "PUT"
+        ],
+        "userAnswerIndex": 3,
+        "userAnswerText": "PUT",
+        "correctAnswerIndex": 3,
+        "correctAnswerText": "PUT",
+        "isCorrect": true
+      },
+      {
+        "questionId": 19,
+        "question": "When designing a scalable Node.js backend, why is avoiding synchronous (blocking) I/O operations crucial?",
+        "options": [
+          "Node.js runs on a single-threaded event loop, and blocking operations halt all incoming requests",
+          "It prevents async/await syntax from functioning properly",
+          "Node.js will throw a compilation error if synchronous methods are used in production",
+          "Synchronous code cannot access environment variables"
+        ],
+        "userAnswerIndex": 1,
+        "userAnswerText": "It prevents async/await syntax from functioning properly",
+        "correctAnswerIndex": 0,
+        "correctAnswerText": "Node.js runs on a single-threaded event loop, and blocking operations halt all incoming requests",
+        "isCorrect": false
+      },
+      {
+        "questionId": 20,
+        "question": "What is the main security risk mitigated by sanitizing user input before rendering it in a frontend framework like React?",
+        "options": [
+          "SQL Injection",
+          "Man-in-the-Middle (MitM) attacks",
+          "Cross-Site Scripting (XSS)",
+          "Distributed Denial of Service (DDoS)"
+        ],
+        "userAnswerIndex": 3,
+        "userAnswerText": "Distributed Denial of Service (DDoS)",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "Cross-Site Scripting (XSS)",
+        "isCorrect": false
+      }
+    ],
+    "testScore": 90,
+    "testCompletedAt": "2026-09-21T10:53:39.415Z"
+  },
+  {
     "id": "cand_auto_mub3om7z_7foa",
     "name": "Rohan Sharma",
     "email": "sharmavageesha2000@gmail.com",
@@ -8,8 +858,8 @@
     "role": "Full Stack Developer",
     "decision": "SELECTED",
     "matchScore": 85,
-    "status": "TEST_ASSIGNED",
-    "testStatus": "ASSIGNED",
+    "status": "HIRED",
+    "testStatus": "COMPLETED",
     "testToken": "cand_auto_mub3om7z_7foa",
     "testLink": "http://localhost:3000/assessment.html?token=cand_auto_mub3om7z_7foa",
     "testQuestions": [
@@ -264,25 +1114,356 @@
     "proposedInterviewDate": "Thursday, September 24, 2026",
     "interviewDate": "Thursday, September 24, 2026",
     "interviewTime": "30 Minutes Online Technical Assessment",
-    "joiningDate": "Monday, October 19, 2026",
-    "interviewRound": "Domain Technical MCQ Assessment (20 Questions / 30 Mins)",
+    "joiningDate": "Monday, October 5, 2026",
+    "interviewRound": "Final Technical & HR Interview",
     "interviewerName": "Tech Innovations Inc. Technical Hiring Council",
     "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
     "workLocation": "Tech Innovations Inc. Campus, Cyber City, Bangalore",
     "employmentType": "Full-Time Permanent",
     "department": "Core Engineering & Technology",
     "location": "Bangalore, India / Open to Relocation",
-    "salaryOffer": "Competitive / Market Standard (Finalized upon Offer)",
-    "interviewStatus": "Assessment Test Assigned (30 Mins / 20 MCQs)",
-    "emailSubject": "🎯 Technical Assessment & Interview: Full Stack Developer at Tech Innovations Inc.",
+    "salaryOffer": ",000 / annum + Performance Bonuses",
+    "interviewStatus": "🎉 Official Job Offer Dispatched",
+    "emailSubject": "🎉 Congratulations! Job Offer for Full Stack Developer at Tech Innovations Inc.",
     "emailBody": "Dear Vageesha / Rohan,\n\nThank you for submitting your application for the Full Stack Developer role at Tech Innovations Inc. We were thoroughly impressed by your strong background in React.js, modern JavaScript, and building responsive web applications.\n\nWe would love to invite you for an online technical interview on Thursday, September 24, 2026 at 2:30 PM - 3:15 PM IST. Please confirm your availability for this slot by replying to this email so we can share the meeting link.\n\nWe look forward to speaking with you!\n\nBest regards,\n\nSenior Technical Recruiter & Hiring Director\nTech Innovations Inc.",
-    "emailSentAt": "2026-09-21T10:26:46.445Z",
+    "emailSentAt": "2026-09-21T10:49:01.212Z",
     "createdAt": "2026-09-21T10:26:35.519Z",
-    "updatedAt": "2026-09-21T10:26:35.519Z",
+    "updatedAt": "2026-09-21T10:48:58.344Z",
     "source": "Gmail IMAP (Frontend_Developer_1_3_Years_Resume.pdf)",
     "emailMessageId": "<01ab1698-47b8-5fdd-f5a2-9f3492a8047d@gmail.com>",
     "emailDeliveryStatus": "DELIVERED",
-    "emailTransport": "gmail_smtp"
+    "emailTransport": "gmail_smtp",
+    "testScore": 100,
+    "testCorrectCount": 20,
+    "testTotalCount": 20,
+    "testCompletedAt": "2026-09-21T10:48:41.141Z",
+    "testDurationSeconds": 720,
+    "testCheatViolations": 0,
+    "testAnswers": {
+      "0": 1,
+      "1": 3,
+      "2": 2,
+      "3": 1,
+      "4": 3,
+      "5": 0,
+      "6": 0,
+      "7": 3,
+      "8": 0,
+      "9": 0,
+      "10": 2,
+      "11": 2,
+      "12": 0,
+      "13": 1,
+      "14": 3,
+      "15": 2,
+      "16": 1,
+      "17": 3,
+      "18": 2,
+      "19": 1
+    },
+    "testDetailedResults": [
+      {
+        "questionId": 1,
+        "question": "In modern CSS layout systems, when should you choose CSS Grid over Flexbox?",
+        "options": [
+          "When laying out items in a single one-dimensional row or column",
+          "When designing complex two-dimensional layouts with rows and columns simultaneously",
+          "When styling text typography exclusively",
+          "When you need to support Internet Explorer 6"
+        ],
+        "userAnswerIndex": 1,
+        "userAnswerText": "When designing complex two-dimensional layouts with rows and columns simultaneously",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "When designing complex two-dimensional layouts with rows and columns simultaneously",
+        "isCorrect": true
+      },
+      {
+        "questionId": 2,
+        "question": "In Node.js, what is the primary consequence of performing heavy synchronous CPU-bound operations within the main event loop thread?",
+        "options": [
+          "Automatic thread spawning to handle the load",
+          "Memory leak due to garbage collection failure",
+          "Corrupted database connection pools",
+          "Blocked event loop causing the server to stop responding to all incoming requests"
+        ],
+        "userAnswerIndex": 3,
+        "userAnswerText": "Blocked event loop causing the server to stop responding to all incoming requests",
+        "correctAnswerIndex": 3,
+        "correctAnswerText": "Blocked event loop causing the server to stop responding to all incoming requests",
+        "isCorrect": true
+      },
+      {
+        "questionId": 3,
+        "question": "When designing a RESTful API, which status code is most appropriate for a successful resource creation request that also returns the representation of the newly created resource?",
+        "options": [
+          "204 No Content",
+          "202 Accepted",
+          "201 Created",
+          "200 OK"
+        ],
+        "userAnswerIndex": 2,
+        "userAnswerText": "201 Created",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "201 Created",
+        "isCorrect": true
+      },
+      {
+        "questionId": 4,
+        "question": "In a React application, you notice frequent unnecessary re-renders of a child component whenever its parent state updates, even though the props passed to the child haven't changed. Which approach best resolves this?",
+        "options": [
+          "Use the useEffect hook to monitor prop changes",
+          "Wrap the child component in React.memo",
+          "Convert the functional component into a class component",
+          "Move all state management to the global Redux store"
+        ],
+        "userAnswerIndex": 1,
+        "userAnswerText": "Wrap the child component in React.memo",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "Wrap the child component in React.memo",
+        "isCorrect": true
+      },
+      {
+        "questionId": 5,
+        "question": "Which HTTP header is essential for preventing Cross-Origin Resource Sharing (CORS) blocking when a frontend hosted on 'https://app.example.com' requests data from an API on 'https://api.example.com'?",
+        "options": [
+          "Content-Type",
+          "X-Frame-Options",
+          "Strict-Transport-Security",
+          "Access-Control-Allow-Origin"
+        ],
+        "userAnswerIndex": 3,
+        "userAnswerText": "Access-Control-Allow-Origin",
+        "correctAnswerIndex": 3,
+        "correctAnswerText": "Access-Control-Allow-Origin",
+        "isCorrect": true
+      },
+      {
+        "questionId": 6,
+        "question": "Which of the following best describes 'Idempotency' in the context of HTTP methods?",
+        "options": [
+          "Making multiple identical requests has the same effect as making a single request",
+          "Every request must return a different random response",
+          "Requests are guaranteed to execute in chronological order",
+          "Endpoints automatically retry failed network calls"
+        ],
+        "userAnswerIndex": 0,
+        "userAnswerText": "Making multiple identical requests has the same effect as making a single request",
+        "correctAnswerIndex": 0,
+        "correctAnswerText": "Making multiple identical requests has the same effect as making a single request",
+        "isCorrect": true
+      },
+      {
+        "questionId": 7,
+        "question": "What is the primary purpose of using database indexing in a high-traffic web application?",
+        "options": [
+          "To speed up data retrieval operations at the cost of write performance",
+          "To automatically encrypt sensitive column data",
+          "To reduce the storage size of the database tables",
+          "To enforce foreign key constraints"
+        ],
+        "userAnswerIndex": 0,
+        "userAnswerText": "To speed up data retrieval operations at the cost of write performance",
+        "correctAnswerIndex": 0,
+        "correctAnswerText": "To speed up data retrieval operations at the cost of write performance",
+        "isCorrect": true
+      },
+      {
+        "questionId": 8,
+        "question": "What is code splitting in modern frontend module bundlers (like Webpack or Vite)?",
+        "options": [
+          "Splitting unit tests into separate test runners",
+          "Separating HTML markup from CSS stylesheets",
+          "Splitting a monolithic backend into microservices",
+          "Dividing your code into various bundles which can then be loaded on demand or in parallel"
+        ],
+        "userAnswerIndex": 3,
+        "userAnswerText": "Dividing your code into various bundles which can then be loaded on demand or in parallel",
+        "correctAnswerIndex": 3,
+        "correctAnswerText": "Dividing your code into various bundles which can then be loaded on demand or in parallel",
+        "isCorrect": true
+      },
+      {
+        "questionId": 9,
+        "question": "In relational databases, what does the 'N+1 query problem' refer to?",
+        "options": [
+          "Making 1 query to fetch a parent list and N subsequent queries to fetch related child records",
+          "Having N columns in a table and 1 primary key",
+          "Creating N database instances with 1 master replica",
+          "Executing N updates and 1 delete statement in a single transaction"
+        ],
+        "userAnswerIndex": 0,
+        "userAnswerText": "Making 1 query to fetch a parent list and N subsequent queries to fetch related child records",
+        "correctAnswerIndex": 0,
+        "correctAnswerText": "Making 1 query to fetch a parent list and N subsequent queries to fetch related child records",
+        "isCorrect": true
+      },
+      {
+        "questionId": 10,
+        "question": "What does the 'C' in the CAP theorem stand for, and what does it imply in distributed data stores?",
+        "options": [
+          "Consistency; every read receives the most recent write or an error",
+          "Capacity; the maximum storage limit of a cluster",
+          "Concurrency; multiple threads can access data safely",
+          "Compatibility; backward support for legacy APIs"
+        ],
+        "userAnswerIndex": 0,
+        "userAnswerText": "Consistency; every read receives the most recent write or an error",
+        "correctAnswerIndex": 0,
+        "correctAnswerText": "Consistency; every read receives the most recent write or an error",
+        "isCorrect": true
+      },
+      {
+        "questionId": 11,
+        "question": "Which design pattern is commonly used in backend architecture to decouple components by having an entity publish events without knowing who consumes them?",
+        "options": [
+          "Factory Pattern",
+          "Adapter Pattern",
+          "Observer / Pub-Sub Pattern",
+          "Singleton Pattern"
+        ],
+        "userAnswerIndex": 2,
+        "userAnswerText": "Observer / Pub-Sub Pattern",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "Observer / Pub-Sub Pattern",
+        "isCorrect": true
+      },
+      {
+        "questionId": 12,
+        "question": "What is the key difference between optimistic and pessimistic locking in database concurrency control?",
+        "options": [
+          "Optimistic locking is only for NoSQL databases, whereas pessimistic locking is for SQL",
+          "Optimistic locking uses database transactions, while pessimistic locking uses caching",
+          "Optimistic locking assumes conflicts are rare and checks at commit time, while pessimistic locking locks the record immediately",
+          "Pessimistic locking prevents deadlocks automatically, while optimistic locking causes them"
+        ],
+        "userAnswerIndex": 2,
+        "userAnswerText": "Optimistic locking assumes conflicts are rare and checks at commit time, while pessimistic locking locks the record immediately",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "Optimistic locking assumes conflicts are rare and checks at commit time, while pessimistic locking locks the record immediately",
+        "isCorrect": true
+      },
+      {
+        "questionId": 13,
+        "question": "Which Git command should you use to integrate changes from a feature branch into the main branch by replaying your commits on top of the latest main branch history, creating a linear project history?",
+        "options": [
+          "git rebase",
+          "git cherry-pick",
+          "git squash",
+          "git merge"
+        ],
+        "userAnswerIndex": 0,
+        "userAnswerText": "git rebase",
+        "correctAnswerIndex": 0,
+        "correctAnswerText": "git rebase",
+        "isCorrect": true
+      },
+      {
+        "questionId": 14,
+        "question": "Why is input validation on the backend mandatory even if robust frontend validation is already implemented?",
+        "options": [
+          "Browsers do not support JavaScript validation libraries",
+          "Users can easily bypass frontend validation by making direct API requests",
+          "Frontend validation is purely cosmetic and has no performance impact",
+          "Backend validation is faster to execute"
+        ],
+        "userAnswerIndex": 1,
+        "userAnswerText": "Users can easily bypass frontend validation by making direct API requests",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "Users can easily bypass frontend validation by making direct API requests",
+        "isCorrect": true
+      },
+      {
+        "questionId": 15,
+        "question": "When implementing JWT (JSON Web Tokens) for authentication, where is the most secure place to store the access token on the client-side to mitigate XSS theft risks?",
+        "options": [
+          "LocalStorage",
+          "SessionStorage",
+          "JavaScript Global Variable",
+          "HttpOnly Cookie"
+        ],
+        "userAnswerIndex": 3,
+        "userAnswerText": "HttpOnly Cookie",
+        "correctAnswerIndex": 3,
+        "correctAnswerText": "HttpOnly Cookie",
+        "isCorrect": true
+      },
+      {
+        "questionId": 16,
+        "question": "What is the primary benefit of containerizing a full-stack application using Docker?",
+        "options": [
+          "It guarantees faster CPU execution speed",
+          "It automatically writes unit tests for your code",
+          "It eliminates environment inconsistency between development, staging, and production",
+          "It replaces the need for a CI/CD pipeline"
+        ],
+        "userAnswerIndex": 2,
+        "userAnswerText": "It eliminates environment inconsistency between development, staging, and production",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "It eliminates environment inconsistency between development, staging, and production",
+        "isCorrect": true
+      },
+      {
+        "questionId": 17,
+        "question": "What is the primary role of a reverse proxy like Nginx sitting in front of a Node.js application server?",
+        "options": [
+          "To manage database migrations automatically",
+          "To handle SSL termination, load balancing, and static file serving",
+          "To replace the application's routing logic",
+          "To compile JavaScript code into native binaries"
+        ],
+        "userAnswerIndex": 1,
+        "userAnswerText": "To handle SSL termination, load balancing, and static file serving",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "To handle SSL termination, load balancing, and static file serving",
+        "isCorrect": true
+      },
+      {
+        "questionId": 18,
+        "question": "Which of the following vulnerabilities is primarily prevented by implementing strict Content Security Policy (CSP) headers and output encoding?",
+        "options": [
+          "Cross-Site Request Forgery (CSRF)",
+          "Remote Code Execution (RCE)",
+          "SQL Injection (SQLi)",
+          "Cross-Site Scripting (XSS)"
+        ],
+        "userAnswerIndex": 3,
+        "userAnswerText": "Cross-Site Scripting (XSS)",
+        "correctAnswerIndex": 3,
+        "correctAnswerText": "Cross-Site Scripting (XSS)",
+        "isCorrect": true
+      },
+      {
+        "questionId": 19,
+        "question": "When debugging a memory leak in a Node.js application, which tool or technique is standard practice to identify retained objects and heap allocation?",
+        "options": [
+          "Restarting the server every hour via cron",
+          "Increasing the max-old-space-size indefinitely",
+          "Using Chrome DevTools or heap snapshot analyzers (e.g., heapdump)",
+          "Checking console.log output frequency"
+        ],
+        "userAnswerIndex": 2,
+        "userAnswerText": "Using Chrome DevTools or heap snapshot analyzers (e.g., heapdump)",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "Using Chrome DevTools or heap snapshot analyzers (e.g., heapdump)",
+        "isCorrect": true
+      },
+      {
+        "questionId": 20,
+        "question": "What is the purpose of database connection pooling in backend web applications?",
+        "options": [
+          "To maintain a cache of frequently queried SQL statements",
+          "To reuse a set of active database connections, avoiding the high overhead of establishing a new connection per request",
+          "To store user sessions in memory for quick access",
+          "To pool multiple databases into a single sharded cluster"
+        ],
+        "userAnswerIndex": 1,
+        "userAnswerText": "To reuse a set of active database connections, avoiding the high overhead of establishing a new connection per request",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "To reuse a set of active database connections, avoiding the high overhead of establishing a new connection per request",
+        "isCorrect": true
+      }
+    ],
+    "meetingLink": "https://meet.google.com/can-daut-omu"
   },
   {
     "id": "cand_auto_muazrqxf_c7in",
