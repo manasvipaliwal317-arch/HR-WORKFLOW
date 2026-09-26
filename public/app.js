@@ -373,8 +373,22 @@ async function updateScannerTelemetry() {
     const data = await res.json();
     if (data.success && data.stats) {
       const badgeSync = document.getElementById('scanner-last-sync');
+      const radarDot = document.querySelector('.pulse-radar-dot');
+      const isStopped = !data.stats.active || data.stats.scannerEnabled === false;
       if (badgeSync) {
-        badgeSync.textContent = `⚡ Live (Scans: ${data.stats.totalScans} | Resumes: ${data.stats.resumesProcessed})`;
+        if (isStopped) {
+          badgeSync.textContent = `🛑 Scanner STOPPED (Mailbox Safe)`;
+          badgeSync.style.background = 'rgba(239, 68, 68, 0.15)';
+          badgeSync.style.color = '#f87171';
+          badgeSync.style.borderColor = 'rgba(239, 68, 68, 0.4)';
+          if (radarDot) radarDot.style.opacity = '0.3';
+        } else {
+          badgeSync.textContent = `⚡ Live (Scans: ${data.stats.totalScans} | Resumes: ${data.stats.resumesProcessed})`;
+          badgeSync.style.background = '';
+          badgeSync.style.color = '';
+          badgeSync.style.borderColor = '';
+          if (radarDot) radarDot.style.opacity = '1';
+        }
       }
     }
   } catch (e) {}

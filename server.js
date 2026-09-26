@@ -97,7 +97,9 @@ let appConfig = {
   gmailAppPassword: process.env.GMAIL_APP_PASSWORD || "YOUR_GMAIL_APP_PASSWORD",
   selectionScoreThreshold: Number(process.env.SELECTION_SCORE_THRESHOLD) || 70,
   companyName: process.env.COMPANY_NAME || "Tech Innovations Inc.",
-  autoSendEmails: process.env.AUTO_SEND_EMAILS !== undefined ? process.env.AUTO_SEND_EMAILS === 'true' : true,
+  autoSendEmails: process.env.AUTO_SEND_EMAILS !== undefined ? process.env.AUTO_SEND_EMAILS === 'true' : false,
+  scannerEnabled: process.env.SCANNER_ENABLED !== undefined ? process.env.SCANNER_ENABLED === 'true' : false,
+  autoScanEmails: false,
   emailRelayUrl: process.env.EMAIL_RELAY_URL || "",
   resendApiKey: process.env.RESEND_API_KEY || "",
   brevoApiKey: process.env.BREVO_API_KEY || ""
@@ -119,6 +121,8 @@ if (process.env.GMAIL_APP_PASSWORD) appConfig.gmailAppPassword = process.env.GMA
 if (process.env.COMPANY_NAME) appConfig.companyName = process.env.COMPANY_NAME.trim();
 if (process.env.EMAIL_RELAY_URL) appConfig.emailRelayUrl = process.env.EMAIL_RELAY_URL.trim();
 if (process.env.RESEND_API_KEY) appConfig.resendApiKey = process.env.RESEND_API_KEY.trim();
+if (process.env.SCANNER_ENABLED !== undefined) appConfig.scannerEnabled = process.env.SCANNER_ENABLED === 'true';
+if (process.env.AUTO_SEND_EMAILS !== undefined) appConfig.autoSendEmails = process.env.AUTO_SEND_EMAILS === 'true';
 
 // Sanitization for safe fallback: if git sanitizer injected placeholders, restore verified keys
 if (!appConfig.geminiApiKey || appConfig.geminiApiKey.includes('YOUR_GEMINI_API_KEY')) {
@@ -1810,12 +1814,12 @@ app.get('/api/live-events', (req, res) => {
 
 // ----------------- AUTOMATED REAL-TIME INBOX SCANNER ----------------- //
 const scannerStats = {
-  active: true,
+  active: false,
   lastScanTime: null,
   totalScans: 0,
   resumesProcessed: 0,
   lastCandidateName: null,
-  status: "Listening on INBOX"
+  status: "STOPPED (Scanning mail stopped by user command)"
 };
 
 let isScanInProgress = false;
@@ -1824,6 +1828,8 @@ const IGNORE_DOMAINS = [
   'accounts.google.com',
   'linkedin.com',
   'bseindia.in',
+  'nse.co.in',
+  'nse_alerts@nse.co.in',
   'engage.canva.com',
   'mail.salesforce.com',
   'email.openai.com',
@@ -1835,6 +1841,22 @@ const IGNORE_DOMAINS = [
   'googleplay-noreply@google.com',
   'google.com'
 ];
+
+const PERSONAL_EXCLUSION_KEYWORDS = [
+  'statement', 'invoice', 'bill', 'receipt', 'payment', 'salary', 'payslip', 'tax', 'tds',
+  'form 16', 'form16', 'bse', 'nse', 'zerodha', 'groww', 'upstox', 'bank', 'credit card',
+  'debit card', 'transaction', 'booking', 'ticket', 'boarding pass', 'insurance', 'premium',
+  'policy', 'recharge', 'order', 'delivery', 'shipment', 'amazon', 'flipkart', 'subscription',
+  'otp', 'account statement', 'gas bill', 'electricity', 'broadband', 'medical', 'prescription',
+  'investor', 'dividend', 'mutual fund', 'demat', 'kyc', 'utility', 'cheque', 'fixed deposit',
+  'loan', 'emi', 'lic', 'hdfc', 'sbi', 'icici', 'axis', 'kotak', 'paytm', 'phonepe', 'gpay',
+  'irctc', 'indigo', 'air india', 'makemytrip', 'swiggy', 'zomato', 'e-statement'
+];
+
+function isPersonalOrFinancialEmail(fromAddr = '', subject = '', fileName = '', textBody = '') {
+  const combined = `${fromAddr} ${subject} ${fileName} ${(textBody || '').substring(0, 1000)}`.toLowerCase();
+  return PERSONAL_EXCLUSION_KEYWORDS.some(kw => combined.includes(kw));
+}
 
 function shouldIgnoreSender(fromAddr, subject = '') {
   if (!fromAddr) return true;
@@ -1910,8 +1932,25 @@ async function processCandidateEmailRecord(parsed, uid) {
     }
   }
 
+  // Safety filter: check if email is personal, financial, utility, or bank statement
+  if (isPersonalOrFinancialEmail(fromAddr, subject, fileName, textBody)) {
+    console.log(`🛡️ [Safety Filter] Skipped personal/financial/utility email from: ${fromAddr} | Subject: "${subject}" (${fileName})`);
+    markUIDProcessed(uid, messageId);
+    return false;
+  }
+
   const subjLower = subject.toLowerCase();
   const bodyLower = textBody.toLowerCase();
+  const fileExt = path.extname(fileName).toLowerCase();
+  const fileBase = path.basename(fileName, fileExt).toLowerCase();
+
+  const isResumeNamedFile = fileBase.includes('resume') || 
+                            fileBase.includes('cv') || 
+                            fileBase.includes('curriculum') || 
+                            fileBase.includes('biodata') || 
+                            fileBase.includes('bio-data') || 
+                            fileBase.includes('profile');
+
   const isJobKeywords = subjLower.includes('job') || 
                        subjLower.includes('application') || 
                        subjLower.includes('resume') || 
@@ -1921,12 +1960,19 @@ async function processCandidateEmailRecord(parsed, uid) {
                        subjLower.includes('marketing') ||
                        subjLower.includes('apply') ||
                        subjLower.includes('candidate') ||
-                       bodyLower.includes('resume') ||
-                       bodyLower.includes('position') ||
-                       bodyLower.includes('applying for');
+                       subjLower.includes('position') ||
+                       subjLower.includes('hiring') ||
+                       bodyLower.includes('job application') || 
+                       bodyLower.includes('applying for') || 
+                       bodyLower.includes('attached my resume') || 
+                       bodyLower.includes('attached resume') || 
+                       bodyLower.includes('find attached my cv') || 
+                       bodyLower.includes('consider my application') || 
+                       bodyLower.includes('my candidature');
 
-  // Skip emails that are neither attachments nor job-related
-  if (!hasResumeAttachment && !isJobKeywords) {
+  // Must have clear job application intent (subject, body, or resume-specific filename)
+  if (!isResumeNamedFile && !isJobKeywords) {
+    console.log(`🛡️ [Safety Filter] Skipped non-job email: "${subject}" from ${fromAddr}`);
     markUIDProcessed(uid, messageId);
     return false;
   }
@@ -2094,14 +2140,22 @@ async function processCandidateEmailRecord(parsed, uid) {
   return true;
 }
 
-// Single Scan of [Gmail]/All Mail & INBOX
+// Single Scan of INBOX
 async function scanInboxNow() {
+  if (!appConfig.scannerEnabled || scannerStats.active === false) {
+    scannerStats.active = false;
+    scannerStats.status = "STOPPED (Scanning mail stopped by user command)";
+    isScanInProgress = false;
+    return;
+  }
+
   if (isScanInProgress) return;
   isScanInProgress = true;
 
   const cleanPassword = (appConfig.gmailAppPassword || '').replace(/\s+/g, '');
-  if (!cleanPassword) {
+  if (!cleanPassword || cleanPassword === 'STOPPED_BY_USER') {
     isScanInProgress = false;
+    scannerStats.status = "STOPPED (Scanner disabled)";
     return;
   }
 
@@ -2134,19 +2188,12 @@ async function scanInboxNow() {
   }, 120000);
 
   imap.once('ready', () => {
-    // Try opening [Gmail]/All Mail first (contains 100% of received/categorized emails), fallback to INBOX
-    const targetBox = '[Gmail]/All Mail';
+    // Only inspect INBOX - never scan [Gmail]/All Mail to strictly protect personal mail
+    const targetBox = 'INBOX';
     imap.openBox(targetBox, false, (err, box) => {
       if (err) {
-        console.warn(`⚠️ [IMAP Scanner] Failed to open ${targetBox} (${err.message}). Trying INBOX...`);
-        imap.openBox('INBOX', false, (err2, box2) => {
-          if (err2) {
-            console.error(`⚠️ [IMAP Scanner] Failed to open INBOX (${err2.message})`);
-            cleanup();
-            return;
-          }
-          performScanOnOpenBox(box2, 'INBOX');
-        });
+        console.error(`⚠️ [IMAP Scanner] Failed to open INBOX (${err.message})`);
+        cleanup();
         return;
       }
       performScanOnOpenBox(box, targetBox);
@@ -2279,18 +2326,47 @@ app.get('/api/scanner-status', (req, res) => {
     success: true,
     stats: {
       ...scannerStats,
+      scannerEnabled: Boolean(appConfig.scannerEnabled && scannerStats.active),
       mailbox: appConfig.hrEmail,
-      frequency: "Every 10 Seconds (Continuous Live Scanner)",
-      filterRule: "STRICT: Only emails with .pdf, .docx, .doc resume attachments"
+      frequency: (appConfig.scannerEnabled && scannerStats.active) ? "Every 10 Seconds (Continuous Live Scanner)" : "STOPPED / PAUSED",
+      filterRule: "STRICT: Only genuine recruitment applications (Excludes personal/financial/utility documents)"
     }
   });
 });
 
+// 1b. Scanner Control Endpoints
+app.post('/api/scanner/stop', (req, res) => {
+  appConfig.scannerEnabled = false;
+  scannerStats.active = false;
+  scannerStats.status = "STOPPED (Scanning mail stopped by user command)";
+  saveConfig();
+  broadcastSSE('scanner_status', { stats: scannerStats });
+  console.log("🛑 [Scanner] Automated mail scanning STOPPED by user command.");
+  res.json({ success: true, message: "Automated mail scanning stopped.", stats: scannerStats });
+});
+
+app.post('/api/scanner/start', (req, res) => {
+  appConfig.scannerEnabled = true;
+  scannerStats.active = true;
+  scannerStats.status = "Listening on INBOX";
+  saveConfig();
+  broadcastSSE('scanner_status', { stats: scannerStats });
+  console.log("▶️ [Scanner] Automated mail scanning STARTED by user command.");
+  scanInboxNow();
+  res.json({ success: true, message: "Automated mail scanning started.", stats: scannerStats });
+});
+
 // 2. Manual Immediate Trigger
 app.post('/api/scan-inbox', async (req, res) => {
-  console.log("⚡ [Manual Trigger] Scanning [Gmail]/All Mail & INBOX immediately upon user request...");
+  if (!appConfig.scannerEnabled && !req.query.force) {
+    return res.status(403).json({
+      success: false,
+      message: "Mail scanning is currently STOPPED by user command. Send resumes via dashboard or use force=true to scan."
+    });
+  }
+  console.log("⚡ [Manual Trigger] Scanning INBOX immediately upon user request...");
   scanInboxNow();
-  res.json({ success: true, message: "Mailbox scan triggered immediately!" });
+  res.json({ success: true, message: "INBOX scan triggered!" });
 });
 
 // 3. Get candidates
@@ -3283,6 +3359,12 @@ app.post('/api/settings', (req, res) => {
   if (companyName) appConfig.companyName = companyName.trim();
   if (emailRelayUrl !== undefined) appConfig.emailRelayUrl = emailRelayUrl.trim();
   if (resendApiKey !== undefined) appConfig.resendApiKey = resendApiKey.trim();
+  if (req.body.scannerEnabled !== undefined) {
+    appConfig.scannerEnabled = Boolean(req.body.scannerEnabled);
+    scannerStats.active = appConfig.scannerEnabled;
+    scannerStats.status = appConfig.scannerEnabled ? "Listening on INBOX" : "STOPPED (Scanning mail stopped by user command)";
+    broadcastSSE('scanner_status', { stats: scannerStats });
+  }
 
   saveConfig();
   res.json({ success: true, message: "Settings updated successfully", config: appConfig });
@@ -3407,14 +3489,22 @@ function startServer(portToUse = PORT, maxRetries = 5) {
     console.log(` 🤖 AI Models: ${appConfig.models.join(' ➔ ')}`);
     console.log(`=======================================================`);
 
-    // Initial Scan on startup
-    scanInboxNow();
+    // Initial Scan on startup ONLY if enabled
+    if (appConfig.scannerEnabled && scannerStats.active) {
+      scanInboxNow();
+    } else {
+      console.log(` ⏸️ Automated Mail Scanner: STOPPED (Mailbox Protection Active)`);
+    }
 
     // Initial Full Sync to Cloud
     setTimeout(syncAllCandidatesToCloud, 1500);
 
-    // Run automated scan every 10 seconds continuously
-    setInterval(scanInboxNow, 10000);
+    // Run automated scan loop only when enabled
+    setInterval(() => {
+      if (appConfig.scannerEnabled && scannerStats.active) {
+        scanInboxNow();
+      }
+    }, 10000);
 
     // Run retry queue flusher every 60 seconds
     setInterval(async () => {

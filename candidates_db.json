@@ -2087,57 +2087,6 @@
     "emailTransport": "gmail_smtp"
   },
   {
-    "id": "cand_auto_muazqlgp_dqs4",
-    "name": "N/A",
-    "email": "nse_alerts@nse.co.in",
-    "resumeEmail": "nse_alerts@nse.co.in",
-    "phone": "18002660050",
-    "role": "Senior Cloud Security Architect",
-    "decision": "REJECTED",
-    "matchScore": 0,
-    "status": "REJECTED",
-    "testStatus": "N/A",
-    "testToken": "cand_auto_muazqlgp_dqs4",
-    "testLink": "http://localhost:3000/assessment.html?token=cand_auto_muazqlgp_dqs4",
-    "testQuestions": [],
-    "yearsOfExperience": "N/A",
-    "topSkills": [
-      "N/A"
-    ],
-    "education": "N/A",
-    "strengths": [
-      "N/A"
-    ],
-    "areasForImprovement": [
-      "The provided document is an automated investor alert notification from the National Stock Exchange and does not contain a professional resume or relevant experience for the Senior Cloud Security Architect role."
-    ],
-    "evaluationSummary": "The applicant submitted an automated system notification regarding securities balance and investor awareness instead of a professional resume. Consequently, there is no evidence of required technical skills such as AWS, Kubernetes, IAM, or Terraform, nor any professional experience relevant to the Senior Cloud Security Architect role. The submission does not meet the standards for a professional application at Tech Innovations Inc.",
-    "rejectionReason": "Your submission did not contain a professional resume. Please note that our company is currently only hiring for: 'Full Stack Developer', 'Digital Marketing Specialist', and 'Senior Cloud Security Architect'. We encourage you to submit a valid resume if you wish to be considered for these positions.",
-    "interviewQuestions": [],
-    "proposedInterviewDate": "Thursday, September 24, 2026",
-    "interviewDate": "Thursday, September 24, 2026",
-    "interviewTime": "30 Minutes Online Technical Assessment",
-    "joiningDate": "Monday, October 19, 2026",
-    "interviewRound": "Domain Technical MCQ Assessment (20 Questions / 30 Mins)",
-    "interviewerName": "Tech Innovations Inc. Technical Hiring Council",
-    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
-    "workLocation": "Tech Innovations Inc. Campus, Cyber City, Bangalore",
-    "employmentType": "Full-Time Permanent",
-    "department": "Core Engineering & Technology",
-    "location": "Bangalore, India / Open to Relocation",
-    "salaryOffer": "Competitive / Market Standard (Finalized upon Offer)",
-    "interviewStatus": "N/A",
-    "emailSubject": "Application Update: Tech Innovations Inc.",
-    "emailBody": "Dear Applicant, Thank you for contacting Tech Innovations Inc. Upon reviewing your submission, we found that the document provided was an automated investor notification rather than a professional resume. As we are currently only hiring for the roles of 'Full Stack Developer', 'Digital Marketing Specialist', and 'Senior Cloud Security Architect', we require a comprehensive resume detailing your relevant skills and experience to evaluate your candidacy. We encourage you to re-apply with your updated professional credentials. Best regards, Recruitment Team, Tech Innovations Inc.",
-    "emailSentAt": "2026-09-21T08:36:22.715Z",
-    "createdAt": "2026-09-21T08:36:09.385Z",
-    "updatedAt": "2026-09-21T08:36:09.385Z",
-    "source": "Gmail IMAP (1884647172_90187.pdf)",
-    "emailMessageId": "<296970cf-dc66-044e-e940-6d1c513d3ce3@gmail.com>",
-    "emailDeliveryStatus": "DELIVERED",
-    "emailTransport": "gmail_smtp"
-  },
-  {
     "id": "cand_qa_verified_mto2jn2l",
     "name": "Robert Langdon (QA Automation Verified)",
     "email": "robert.langdon.qa@gmail.com",

@@ -14,5 +14,7 @@
   "n8nBaseUrl": "http://localhost:5678",
   "companyName": "Tech Innovations Inc.",
   "interviewPlatform": "Google Meet",
-  "autoSendEmails": true
+  "autoSendEmails": false,
+  "scannerEnabled": false,
+  "autoScanEmails": false
 }

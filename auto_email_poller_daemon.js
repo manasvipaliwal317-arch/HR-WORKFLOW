@@ -22,7 +22,8 @@ const CONFIG = {
   models: ['gemini-3.6-flash', 'gemini-flash-latest', 'gemini-3.5-flash', 'gemini-2.5-flash-lite'],
   companyName: 'Tech Innovations Inc.',
   threshold: 70,
-  pollIntervalMs: 5000 // 5 seconds
+  pollIntervalMs: 5000, // 5 seconds
+  enabled: false // STOPPED: Disabled until explicitly commanded by user
 };
 
 const PROCESSED_FILE = path.join(__dirname, 'processed_email_uids.json');
@@ -448,6 +449,9 @@ async function processCandidateEmail(buffer, uid) {
 let isPolling = false;
 
 function pollInbox() {
+  if (!CONFIG.enabled) {
+    return;
+  }
   if (isPolling) return;
   isPolling = true;
 
