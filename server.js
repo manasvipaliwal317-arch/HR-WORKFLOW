@@ -221,32 +221,22 @@ function buildRolePromptInstructions() {
   const activeRoles = getActiveJobRoles();
   const roleNames = activeRoles.map(r => `"${r.title}"`).join(', ');
   
-  let instructions = `🎯 COMPANY HIRING POLICY & CURRENT ACTIVE OPENINGS:\n`;
-  instructions += `Our company currently has hiring openings ONLY for the following ${activeRoles.length} active role(s):\n`;
-  activeRoles.forEach((r, idx) => {
-    instructions += `${idx + 1}. "${r.title}" (${r.department || 'General'})\n`;
-    if (r.requiredSkills && r.requiredSkills.length > 0) {
-      instructions += `   - Key Required Skills: ${r.requiredSkills.join(', ')}\n`;
-    }
-    if (r.minExperience) {
-      instructions += `   - Minimum Experience: ${r.minExperience}\n`;
-    }
-    if (r.description) {
-      instructions += `   - Role Scope: ${r.description}\n`;
-    }
-  });
+  let instructions = `🎯 COMPANY HIRING POLICY & ROLE EVALUATION SCOPE:\n`;
+  instructions += `Our recruitment pipeline evaluates candidates dynamically for ANY job role or career domain they apply for across the company.\n`;
+  if (activeRoles.length > 0) {
+    instructions += `Reference directory roles actively posted include: ${roleNames}. However, you MUST evaluate applications for ANY specialized or general role the candidate has applied for.\n`;
+  }
 
   instructions += `\nRole & Evaluation Rules:\n`;
-  instructions += `1. Evaluate the candidate SOLELY against the ${activeRoles.length} active opening(s) listed above: ${roleNames}.\n`;
-  instructions += `2. Best Match Determination:\n`;
-  instructions += `   - Map the applicant's experience, skills, and background to the most relevant OPEN role among: ${roleNames}.\n`;
-  instructions += `   - Set "appliedRole" to that exact matched active role.\n`;
-  instructions += `   - If the candidate's skills or targeted position do NOT match any of our active opening(s) (${roleNames}), set decision to 'REJECTED' with an explanation that hiring is currently open only for: ${roleNames}.\n`;
-  instructions += `3. Score Calculation:\n`;
+  instructions += `1. Identify the candidate's applied or target role directly from the email subject line, cover note, or their resume title/domain.\n`;
+  instructions += `2. Set "appliedRole" to the exact role the candidate is applying for or their primary domain of expertise (e.g., Full Stack Developer, Data Scientist, UI/UX Designer, QA Engineer, Sales Manager, Marketing Specialist, Cloud Engineer, etc.).\n`;
+  instructions += `3. Evaluate the candidate objectively against industry benchmarks, technical depth, relevant experience, and competencies required for that specific role.\n`;
+  instructions += `4. Do NOT reject candidates simply because their role isn't on a fixed list; evaluate their competence, background, and practical qualifications for their target role.\n`;
+  instructions += `5. Score Calculation:\n`;
   instructions += `   - If matchScore >= ${appConfig.selectionScoreThreshold}, decision = 'SELECTED'.\n`;
   instructions += `   - If matchScore < ${appConfig.selectionScoreThreshold}, decision = 'REJECTED'.\n`;
-  instructions += `4. If SELECTED: generate 4-5 domain interview questions tailored to the matched active role and proposed interview schedule.\n`;
-  instructions += `5. If REJECTED: generate constructive feedback referencing our current openings: ${roleNames}.\n`;
+  instructions += `6. If SELECTED: generate 4-5 domain interview questions tailored specifically to their applied role.\n`;
+  instructions += `7. If REJECTED: generate constructive feedback highlighting specific areas for skill and experience improvement for that role.\n`;
 
   return { instructions, activeRoles, roleNames };
 }
@@ -610,7 +600,7 @@ RETURN STRICT JSON ONLY (no markdown formatting, no code fences):
   "candidateName": "Extracted Full Name",
   "candidateEmail": "${candidateEmail || 'Extracted Email'}",
   "candidatePhone": "Extracted Phone or N/A",
-  "appliedRole": "Exact matched active role from [${roleNames}]",
+  "appliedRole": "Exact applied or inferred role (Any job role, e.g. 'Full Stack Developer', 'Data Analyst', 'Product Designer', etc.)",
   "decision": "SELECTED" or "REJECTED",
   "matchScore": number (0 to 100),
   "yearsOfExperience": "Years of experience (e.g. '3 years' or 'Fresher')",
@@ -766,16 +756,13 @@ function heuristicFallbackEvaluation({ candidateName, candidateEmail, appliedRol
   };
 }
 
-// Helper: Determine current public application base URL
+// Helper: Determine current public application base URL for candidate links and shared portal access
 function getAppBaseUrl(req = null) {
-  if (req && req.headers && req.headers.host) {
-    const proto = req.headers['x-forwarded-proto'] || req.protocol || 'http';
-    return `${proto}://${req.headers.host}`;
+  let url = (appConfig.publicAppUrl || process.env.PUBLIC_APP_URL || CLOUD_RENDER_URL || 'https://nexus-hr-workflow.onrender.com').trim().replace(/\/+$/, '');
+  if (!url || url.includes('localhost') || url.includes('127.0.0.1')) {
+    url = (CLOUD_RENDER_URL || 'https://nexus-hr-workflow.onrender.com').trim().replace(/\/+$/, '');
   }
-  if (process.env.RENDER || process.env.PORT === '10000') {
-    return 'https://nexus-hr-workflow.onrender.com';
-  }
-  return `http://localhost:${PORT || 3000}`;
+  return url;
 }
 
 // ----------------- DOMAIN-SPECIFIC 20 MCQ QUESTION GENERATOR (ANTI-SERIES RANDOMIZER) ----------------- //
@@ -1016,7 +1003,10 @@ function generateInterviewInviteTemplate({ candidate, req = null }) {
   const role = candidate.role || 'Full Stack Developer';
   const baseUrl = getAppBaseUrl(req);
   const testToken = candidate.id || ('cand_' + Date.now().toString(36));
-  const testLink = `${baseUrl}/assessment.html?token=${encodeURIComponent(testToken)}`;
+  let testLink = candidate.testLink || `${baseUrl}/assessment.html?token=${encodeURIComponent(testToken)}`;
+  if (testLink.includes('localhost') || testLink.includes('127.0.0.1')) {
+    testLink = testLink.replace(/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?/i, 'https://nexus-hr-workflow.onrender.com');
+  }
   const interviewDate = candidate.proposedInterviewDate || candidate.interviewDate || getFormattedInterviewDate(3);
 
   return `
@@ -1814,12 +1804,12 @@ app.get('/api/live-events', (req, res) => {
 
 // ----------------- AUTOMATED REAL-TIME INBOX SCANNER ----------------- //
 const scannerStats = {
-  active: false,
+  active: Boolean(appConfig.scannerEnabled),
   lastScanTime: null,
   totalScans: 0,
   resumesProcessed: 0,
   lastCandidateName: null,
-  status: "STOPPED (Scanning mail stopped by user command)"
+  status: appConfig.scannerEnabled ? "Listening on INBOX" : "STOPPED (Scanning mail stopped by user command)"
 };
 
 let isScanInProgress = false;
@@ -1957,22 +1947,35 @@ async function processCandidateEmailRecord(parsed, uid) {
                        subjLower.includes('cv') || 
                        subjLower.includes('engineer') || 
                        subjLower.includes('developer') || 
-                       subjLower.includes('marketing') ||
-                       subjLower.includes('apply') ||
-                       subjLower.includes('candidate') ||
-                       subjLower.includes('position') ||
-                       subjLower.includes('hiring') ||
+                       subjLower.includes('marketing') || 
+                       subjLower.includes('designer') || 
+                       subjLower.includes('manager') || 
+                       subjLower.includes('analyst') || 
+                       subjLower.includes('specialist') || 
+                       subjLower.includes('consultant') || 
+                       subjLower.includes('apply') || 
+                       subjLower.includes('candidate') || 
+                       subjLower.includes('position') || 
+                       subjLower.includes('hiring') || 
+                       subjLower.includes('vacancy') || 
+                       subjLower.includes('career') || 
+                       subjLower.includes('intern') || 
+                       subjLower.includes('internship') || 
+                       subjLower.includes('candidature') || 
+                       subjLower.includes('opportunity') || 
+                       subjLower.includes('curriculum vitae') || 
                        bodyLower.includes('job application') || 
                        bodyLower.includes('applying for') || 
                        bodyLower.includes('attached my resume') || 
                        bodyLower.includes('attached resume') || 
                        bodyLower.includes('find attached my cv') || 
                        bodyLower.includes('consider my application') || 
-                       bodyLower.includes('my candidature');
+                       bodyLower.includes('my candidature') || 
+                       bodyLower.includes('curriculum vitae');
 
-  // Must have clear job application intent (subject, body, or resume-specific filename)
-  if (!isResumeNamedFile && !isJobKeywords) {
-    console.log(`🛡️ [Safety Filter] Skipped non-job email: "${subject}" from ${fromAddr}`);
+  // Must have a verified resume document AND job application intent
+  if (!hasResumeAttachment || (!isResumeNamedFile && !isJobKeywords)) {
+    console.log(`🛡️ [Safety Filter] Skipped non-job email: "${subject}" from ${fromAddr} (hasResumeAttachment: ${hasResumeAttachment})`);
     markUIDProcessed(uid, messageId);
     return false;
   }
@@ -1984,21 +1987,32 @@ async function processCandidateEmailRecord(parsed, uid) {
   console.log(`   Attachment:  ${fileName} (${hasResumeAttachment ? 'Found' : 'Direct Email Text'})`);
   console.log(`   Text Length: ${resumeText.length} characters`);
 
-  // Dynamically Infer Target Role from currently active openings
-  const activeRoles = getActiveJobRoles();
-  let appliedRole = activeRoles[0] ? activeRoles[0].title : 'Full Stack Developer';
-  const combined = (subject + ' ' + textBody + ' ' + resumeText).toLowerCase();
-  let highestMatchCount = -1;
+  // Dynamically Infer Target Role: detect from subject, cover note, or directory benchmarks
+  let appliedRole = '';
+  const roleMatch = subject.match(/(?:application for|applying for|position of|role of|job application:?|resume for|cv for|position:?|role:?)\s*([a-zA-Z0-9\s\+\#\.\/]+)/i);
+  if (roleMatch && roleMatch[1]) {
+    appliedRole = roleMatch[1].trim().replace(/[-–|].*$/, '').trim();
+  }
 
-  for (const r of activeRoles) {
-    let count = 0;
-    const titleWords = r.title.toLowerCase().split(' ').filter(w => w.length > 2);
-    titleWords.forEach(tw => { if (combined.includes(tw)) count += 3; });
-    (r.requiredSkills || []).forEach(sk => { if (combined.includes(sk.toLowerCase())) count += 1; });
-    if (count > highestMatchCount) {
-      highestMatchCount = count;
-      appliedRole = r.title;
+  if (!appliedRole) {
+    const activeRoles = getActiveJobRoles();
+    const combined = (subject + ' ' + textBody + ' ' + resumeText).toLowerCase();
+    let highestMatchCount = -1;
+
+    for (const r of activeRoles) {
+      let count = 0;
+      const titleWords = r.title.toLowerCase().split(' ').filter(w => w.length > 2);
+      titleWords.forEach(tw => { if (combined.includes(tw)) count += 3; });
+      (r.requiredSkills || []).forEach(sk => { if (combined.includes(sk.toLowerCase())) count += 1; });
+      if (count > highestMatchCount && count > 0) {
+        highestMatchCount = count;
+        appliedRole = r.title;
+      }
     }
+  }
+
+  if (!appliedRole) {
+    appliedRole = 'Auto-Detect Role from Resume';
   }
 
   // Call Gemini Evaluation with dynamic active roles

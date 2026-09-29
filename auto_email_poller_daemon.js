@@ -171,10 +171,8 @@ async function callGeminiEvaluation(resumeText, fileName, senderEmail, senderNam
 You are an expert Senior Technical Recruiter & Hiring Director for ${CONFIG.companyName}.
 Carefully analyze the resume and application content below.
 
-🎯 COMPANY HIRING POLICY (STRICT):
-Our company currently has openings ONLY for the following TWO roles:
-1. "Full Stack Developer"
-2. "Digital Marketing Specialist"
+🎯 COMPANY HIRING POLICY & ROLE EVALUATION SCOPE:
+Our company evaluates candidates dynamically for ANY job role or career domain they apply for.
 
 ⏰ REAL-TIME CALENDAR & SCHEDULING CONTEXT (STRICT ENFORCEMENT):
 1. TODAY'S APPLICATION DATE: Exactly "${todayDateStr}" (Current Year: ${currentYear}).
@@ -185,21 +183,22 @@ Our company currently has openings ONLY for the following TWO roles:
 6. In "emailBody", if decision is SELECTED, invite them specifically for "${defaultInterviewDate} at 2:30 PM - 3:15 PM IST".
 
 Role & Evaluation Instructions:
-1. Infer which of the two active roles the candidate is applying for or best suited for: either "Full Stack Developer" or "Digital Marketing Specialist".
-2. If the candidate's background is unrelated to tech or digital marketing, evaluate whether they possess transferable competencies. If not, set decision = 'REJECTED' with an explanation that hiring is currently open only for Full Stack Developer and Digital Marketing Specialist.
-3. Extract actual candidate name, contact email, phone (prefer resume header details).
-4. Evaluate objectively:
+1. Identify the candidate's target / applied role directly from their application email subject, body, or resume header.
+2. Set "appliedRole" to their target role or primary domain of expertise (e.g., Software Engineer, Data Scientist, UI/UX Designer, QA Engineer, Sales Manager, Marketing Specialist, Cloud Engineer, etc.).
+3. Evaluate the candidate objectively against industry benchmarks, technical depth, relevant experience, and competencies required for that specific role.
+4. Extract actual candidate name, contact email, phone (prefer resume header details).
+5. Evaluate objectively:
    - decision = 'SELECTED' if matchScore >= ${CONFIG.threshold}
    - decision = 'REJECTED' if matchScore < ${CONFIG.threshold}
-5. For SELECTED: generate 4-5 tailored domain interview questions & an interview invitation.
-6. For REJECTED: generate constructive feedback points & a respectful rejection letter.
+6. For SELECTED: generate 4-5 tailored domain interview questions & an interview invitation.
+7. For REJECTED: generate constructive feedback points & a respectful rejection letter.
 
 RETURN STRICT JSON ONLY:
 {
   "candidateName": "Full Name",
   "candidateEmail": "Candidate Email",
   "candidatePhone": "Candidate Phone or N/A",
-  "appliedRole": "Full Stack Developer or Digital Marketing Specialist",
+  "appliedRole": "Exact applied or inferred role (Any job role, e.g. 'Software Engineer', 'Data Analyst', 'Product Designer')",
   "decision": "SELECTED" or "REJECTED",
   "matchScore": number (0-100),
   "yearsOfExperience": "Years of experience",

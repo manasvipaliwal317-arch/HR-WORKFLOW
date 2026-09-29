@@ -1768,10 +1768,13 @@ function openCandidateModal(cand) {
     const inputProfEdu = document.getElementById('modal-profile-edu');
     if (inputProfEdu) inputProfEdu.value = cand.education || 'B.Tech in Computer Science';
 
-    // Online Assessment Test Fields
-    const baseUrl = window.location.origin;
+    // Online Assessment Test Fields - Always use live public URL
+    const liveCloudUrl = 'https://nexus-hr-workflow.onrender.com';
     const testToken = cand.id || cand.testToken || '';
-    const testUrl = cand.testLink || `${baseUrl}/assessment.html?token=${encodeURIComponent(testToken)}`;
+    let testUrl = cand.testLink || `${liveCloudUrl}/assessment.html?token=${encodeURIComponent(testToken)}`;
+    if (testUrl.includes('localhost') || testUrl.includes('127.0.0.1')) {
+      testUrl = testUrl.replace(/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?/i, liveCloudUrl);
+    }
     
     const inputTestLink = document.getElementById('modal-test-link');
     if (inputTestLink) inputTestLink.value = testUrl;

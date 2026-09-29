@@ -584,8 +584,10 @@
       }
     });
 
-    // D. Window Blur & Tab Switch Detection
+    // D. Window Blur & Tab Switch Detection (visibilitychange is primary for mobile devices)
     window.addEventListener('blur', () => {
+      // Ignore blur on mobile screen touches and virtual keyboards
+      if (window.innerWidth < 768) return;
       if (isTestActive && !cheatWarningModal.classList.contains('hidden') === false) {
         handleTabSwitch();
       }

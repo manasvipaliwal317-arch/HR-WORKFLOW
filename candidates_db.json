@@ -587,7 +587,8 @@
     ],
     "rejectionReason": "Technical Assessment score was 40% (Passing threshold is 80%).",
     "emailSubject": "Application Update: Full Stack Developer at Tech Innovations Inc.",
-    "emailSentAt": "2026-09-21T11:00:17.235Z"
+    "emailSentAt": "2026-09-21T11:00:17.235Z",
+    "testLink": "https://nexus-hr-workflow.onrender.com/assessment.html?token=cand_live_interview_demo"
   },
   {
     "id": "cand_mub4mtp1_3cp5",
@@ -1181,7 +1182,8 @@
       }
     ],
     "testScore": 90,
-    "testCompletedAt": "2026-09-21T10:53:39.415Z"
+    "testCompletedAt": "2026-09-21T10:53:39.415Z",
+    "testLink": "https://nexus-hr-workflow.onrender.com/assessment.html?token=cand_mub4mtp1_3cp5"
   },
   {
     "id": "cand_auto_mub3om7z_7foa",
@@ -1195,7 +1197,7 @@
     "status": "HIRED",
     "testStatus": "COMPLETED",
     "testToken": "cand_auto_mub3om7z_7foa",
-    "testLink": "http://localhost:3000/assessment.html?token=cand_auto_mub3om7z_7foa",
+    "testLink": "https://nexus-hr-workflow.onrender.com/assessment.html?token=cand_auto_mub3om7z_7foa",
     "testQuestions": [
       {
         "id": 1,
@@ -1811,7 +1813,7 @@
     "status": "TEST_ASSIGNED",
     "testStatus": "ASSIGNED",
     "testToken": "cand_auto_muazrqxf_c7in",
-    "testLink": "http://localhost:3000/assessment.html?token=cand_auto_muazrqxf_c7in",
+    "testLink": "https://nexus-hr-workflow.onrender.com/assessment.html?token=cand_auto_muazrqxf_c7in",
     "testQuestions": [
       {
         "id": 1,
@@ -2136,7 +2138,8 @@
     "emailSentAt": "2026-09-05T07:36:01.693Z",
     "createdAt": "2026-09-05T07:36:01.677Z",
     "updatedAt": "2026-09-05T07:36:01.693Z",
-    "source": "Automated QA Pipeline"
+    "source": "Automated QA Pipeline",
+    "testLink": "https://nexus-hr-workflow.onrender.com/assessment.html?token=cand_qa_verified_mto2jn2l"
   },
   {
     "id": "cand_auto_mto0u9dj_i2ws",
@@ -2151,7 +2154,7 @@
     "status": "REJECTED",
     "testStatus": "COMPLETED",
     "testToken": "cand_auto_mto0u9dj_i2ws",
-    "testLink": "http://localhost:3000/assessment.html?token=cand_auto_mto0u9dj_i2ws",
+    "testLink": "https://nexus-hr-workflow.onrender.com/assessment.html?token=cand_auto_mto0u9dj_i2ws",
     "testQuestions": [
       {
         "id": 1,
@@ -2743,7 +2746,7 @@
     "status": "REJECTED",
     "testStatus": "N/A",
     "testToken": "cand_auto_mtnykzsa_li2s",
-    "testLink": "http://localhost:3000/assessment.html?token=cand_auto_mtnykzsa_li2s",
+    "testLink": "https://nexus-hr-workflow.onrender.com/assessment.html?token=cand_auto_mtnykzsa_li2s",
     "testQuestions": [],
     "yearsOfExperience": "Fresher",
     "topSkills": [
@@ -2799,7 +2802,7 @@
     "status": "HIRED",
     "testStatus": "COMPLETED",
     "testToken": "cand_auto_mtn7vud6_5bv4",
-    "testLink": "http://localhost:3000/assessment.html?token=cand_auto_mtn7vud6_5bv4",
+    "testLink": "https://nexus-hr-workflow.onrender.com/assessment.html?token=cand_auto_mtn7vud6_5bv4",
     "testQuestions": [
       {
         "id": 1,
@@ -3410,7 +3413,7 @@
     "status": "REJECTED",
     "testStatus": "COMPLETED",
     "testToken": "cand_mtn51kxh_conn",
-    "testLink": "http://localhost:3000/assessment.html?token=cand_mtn51kxh_conn",
+    "testLink": "https://nexus-hr-workflow.onrender.com/assessment.html?token=cand_mtn51kxh_conn",
     "testQuestions": [
       {
         "id": 1,
@@ -4021,7 +4024,7 @@
     "status": "HIRED",
     "testStatus": "COMPLETED",
     "testToken": "cand_mtn50orw_uw3o",
-    "testLink": "http://localhost:3000/assessment.html?token=cand_mtn50orw_uw3o",
+    "testLink": "https://nexus-hr-workflow.onrender.com/assessment.html?token=cand_mtn50orw_uw3o",
     "testQuestions": [
       {
         "id": 1,
@@ -4993,7 +4996,8 @@
         "correctAnswerIndex": 1
       }
     ],
-    "testStatus": "ASSIGNED"
+    "testStatus": "ASSIGNED",
+    "testLink": "https://nexus-hr-workflow.onrender.com/assessment.html?token=cand_mtlh8ket_kfuk"
   },
   {
     "id": "cand_mtifrmoi_pji5",
@@ -5051,7 +5055,8 @@
     "department": "Core Engineering & Technology",
     "location": "Bangalore, India",
     "salaryOffer": "₹22,00,000 LPA + Comprehensive Health Benefits",
-    "hrNotes": "Welcome to the Engineering team, Aarav! We are looking forward to having you onboard."
+    "hrNotes": "Welcome to the Engineering team, Aarav! We are looking forward to having you onboard.",
+    "testLink": "https://nexus-hr-workflow.onrender.com/assessment.html?token=cand_mtifrmoi_pji5"
   },
   {
     "id": "cand_mtib2p6q_fxzr",
@@ -5330,7 +5335,8 @@
         "correctAnswerIndex": 3
       }
     ],
-    "testStatus": "ASSIGNED"
+    "testStatus": "ASSIGNED",
+    "testLink": "https://nexus-hr-workflow.onrender.com/assessment.html?token=cand_mtib2p6q_fxzr"
   },
   {
     "id": "cand_auto_mti8zu3s_jnuf",
@@ -5589,7 +5595,8 @@
     "location": "Bangalore, India",
     "salaryOffer": "₹18 LPA - ₹24 LPA + Benefits",
     "interviewTime": "02:00 PM IST (45 Minutes)",
-    "meetingLink": "https://meet.google.com/tech-hr-interview"
+    "meetingLink": "https://meet.google.com/tech-hr-interview",
+    "testLink": "https://nexus-hr-workflow.onrender.com/assessment.html?token=cand_auto_mtcpvy1q_lwms"
   },
   {
     "id": "cand_auto_mtbgn658_lgnv",
@@ -5646,7 +5653,8 @@
     "workLocation": "Tech Innovations Campus, Cyber City, Bangalore",
     "employmentType": "Full-Time Permanent",
     "department": "Core Engineering & Technology",
-    "location": "Bangalore, India"
+    "location": "Bangalore, India",
+    "testLink": "https://nexus-hr-workflow.onrender.com/assessment.html?token=cand_auto_mtbgn658_lgnv"
   },
   {
     "id": "cand_auto_mtbgmrlj_ql1c",
@@ -6237,7 +6245,8 @@
         "correctAnswerText": "Specifying what elements, behaviors, or formats the model should explicitly avoid generating.",
         "isCorrect": false
       }
-    ]
+    ],
+    "testLink": "https://nexus-hr-workflow.onrender.com/assessment.html?token=cand_auto_mtbgmrlj_ql1c"
   },
   {
     "id": "cand_res_mtbfodof_rqzt",
@@ -6515,7 +6524,8 @@
         "correctAnswerIndex": 0
       }
     ],
-    "testStatus": "ASSIGNED"
+    "testStatus": "ASSIGNED",
+    "testLink": "https://nexus-hr-workflow.onrender.com/assessment.html?token=cand_res_mtbfodof_rqzt"
   },
   {
     "id": "cand_mtbbuw2w_ulw5",
@@ -7123,7 +7133,8 @@
         "correctAnswerText": "They ensure deterministic, version-controlled, and repeatable schema changes across all environments",
         "isCorrect": false
       }
-    ]
+    ],
+    "testLink": "https://nexus-hr-workflow.onrender.com/assessment.html?token=cand_mtbbuw2w_ulw5"
   },
   {
     "id": "cand_mtbblvhx_ksxz",
@@ -7400,7 +7411,8 @@
         "correctAnswerIndex": 2
       }
     ],
-    "testStatus": "ASSIGNED"
+    "testStatus": "ASSIGNED",
+    "testLink": "https://nexus-hr-workflow.onrender.com/assessment.html?token=cand_mtbblvhx_ksxz"
   },
   {
     "id": "cand_m89a1b2c_001",
@@ -7678,7 +7690,8 @@
         "correctAnswerIndex": 0
       }
     ],
-    "testStatus": "ASSIGNED"
+    "testStatus": "ASSIGNED",
+    "testLink": "https://nexus-hr-workflow.onrender.com/assessment.html?token=cand_m89a1b2c_001"
   },
   {
     "id": "cand_m89a1b2c_002",
@@ -7732,7 +7745,8 @@
     "location": "Bangalore, India",
     "salaryOffer": "₹18 LPA - ₹24 LPA + Benefits",
     "interviewTime": "02:00 PM IST (45 Minutes)",
-    "meetingLink": "https://meet.google.com/tech-hr-interview"
+    "meetingLink": "https://meet.google.com/tech-hr-interview",
+    "testLink": "https://nexus-hr-workflow.onrender.com/assessment.html?token=cand_m89a1b2c_002"
   },
   {
     "id": "cand_m89a1b2c_003",
@@ -7833,7 +7847,8 @@
     "location": "Bangalore, India",
     "salaryOffer": "₹18 LPA - ₹24 LPA + Benefits",
     "interviewTime": "02:00 PM IST (45 Minutes)",
-    "meetingLink": "https://meet.google.com/tech-hr-interview"
+    "meetingLink": "https://meet.google.com/tech-hr-interview",
+    "testLink": "https://nexus-hr-workflow.onrender.com/assessment.html?token=cand_m89a1b2c_004"
   },
   {
     "id": "cand_m89a1b2c_005",
