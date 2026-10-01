@@ -63,18 +63,31 @@ app.use(express.static(path.join(__dirname, 'public'), {
   maxAge: 0
 }));
 const websiteDir = path.join(__dirname, 'tech-innovations-inc');
+const COMPANY_WEBSITE_URL = process.env.COMPANY_WEBSITE_URL || 'https://tech-innovations-inc.onrender.com';
 
 app.get(['/website', '/website/'], (req, res) => {
-  res.sendFile(path.join(websiteDir, 'index.html'));
+  if (req.query.local === 'true') {
+    return res.sendFile(path.join(websiteDir, 'index.html'));
+  }
+  res.redirect(302, `${COMPANY_WEBSITE_URL}/`);
 });
 app.get(['/site', '/site/'], (req, res) => {
-  res.sendFile(path.join(websiteDir, 'index.html'));
+  if (req.query.local === 'true') {
+    return res.sendFile(path.join(websiteDir, 'index.html'));
+  }
+  res.redirect(302, `${COMPANY_WEBSITE_URL}/`);
 });
 app.get(['/company', '/company/'], (req, res) => {
-  res.sendFile(path.join(websiteDir, 'index.html'));
+  if (req.query.local === 'true') {
+    return res.sendFile(path.join(websiteDir, 'index.html'));
+  }
+  res.redirect(302, `${COMPANY_WEBSITE_URL}/`);
 });
 app.get(['/careers', '/careers/'], (req, res) => {
-  res.sendFile(path.join(websiteDir, 'careers.html'));
+  if (req.query.local === 'true') {
+    return res.sendFile(path.join(websiteDir, 'careers.html'));
+  }
+  res.redirect(302, `${COMPANY_WEBSITE_URL}/careers.html`);
 });
 
 const staticOptions = {
@@ -97,6 +110,7 @@ let appConfig = {
   gmailAppPassword: process.env.GMAIL_APP_PASSWORD || "YOUR_GMAIL_APP_PASSWORD",
   selectionScoreThreshold: Number(process.env.SELECTION_SCORE_THRESHOLD) || 70,
   companyName: process.env.COMPANY_NAME || "Tech Innovations Inc.",
+  companyWebsiteUrl: process.env.COMPANY_WEBSITE_URL || "https://tech-innovations-inc.onrender.com",
   autoSendEmails: process.env.AUTO_SEND_EMAILS !== undefined ? process.env.AUTO_SEND_EMAILS === 'true' : false,
   scannerEnabled: process.env.SCANNER_ENABLED !== undefined ? process.env.SCANNER_ENABLED === 'true' : false,
   autoScanEmails: false,
@@ -119,6 +133,7 @@ if (process.env.GEMINI_API_KEY) appConfig.geminiApiKey = process.env.GEMINI_API_
 if (process.env.HR_EMAIL) appConfig.hrEmail = process.env.HR_EMAIL.trim();
 if (process.env.GMAIL_APP_PASSWORD) appConfig.gmailAppPassword = process.env.GMAIL_APP_PASSWORD.trim();
 if (process.env.COMPANY_NAME) appConfig.companyName = process.env.COMPANY_NAME.trim();
+if (process.env.COMPANY_WEBSITE_URL) appConfig.companyWebsiteUrl = process.env.COMPANY_WEBSITE_URL.trim();
 if (process.env.EMAIL_RELAY_URL) appConfig.emailRelayUrl = process.env.EMAIL_RELAY_URL.trim();
 if (process.env.RESEND_API_KEY) appConfig.resendApiKey = process.env.RESEND_API_KEY.trim();
 if (process.env.SCANNER_ENABLED !== undefined) appConfig.scannerEnabled = process.env.SCANNER_ENABLED === 'true';

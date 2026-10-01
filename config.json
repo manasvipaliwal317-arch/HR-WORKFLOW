@@ -17,5 +17,6 @@
   "autoSendEmails": false,
   "scannerEnabled": true,
   "autoScanEmails": true,
-  "publicAppUrl": "https://nexus-hr-workflow.onrender.com"
+  "publicAppUrl": "https://nexus-hr-workflow.onrender.com",
+  "companyWebsiteUrl": "https://tech-innovations-inc.onrender.com"
 }
