@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20260901_6">
+  <link rel="stylesheet" href="style.css?v=20261001_mobile">
 </head>
 <body class="dark-theme">
   <!-- App Container -->
@@ -61,7 +61,7 @@
       </div>
 
       <div class="header-right">
-        <a href="/website" target="_blank" class="btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center; gap:0.4rem;" title="View Company Website">
+        <a href="/website" target="_blank" class="btn-secondary btn-header-website" style="text-decoration:none; display:inline-flex; align-items:center; gap:0.4rem;" title="View Company Website">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="10"></circle>
             <line x1="2" y1="12" x2="22" y2="12"></line>
@@ -277,6 +277,9 @@
 
           <!-- Table View (Hidden by default) -->
           <div class="candidate-table-wrapper" id="candidate-table-container" style="display:none;">
+            <div class="table-scroll-hint">
+              <span>👈 Swipe horizontally to view full candidate details 👉</span>
+            </div>
             <table class="data-table">
               <thead>
                 <tr>
@@ -680,7 +683,7 @@
               <div class="interview-questions-card">
                 <div class="card-title-row">
                   <h3>📝 Technical Assessment & Test Portal</h3>
-                  <div style="display: flex; gap: 0.4rem;">
+                  <div class="card-title-actions">
                     <button type="button" class="btn-icon-text" id="btn-copy-test-link" title="Copy Assessment Test Link">
                       📋 Copy Link
                     </button>
@@ -700,18 +703,18 @@
                 </div>
 
                 <!-- Assessment Telemetry Bar -->
-                <div class="assessment-telemetry-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin: 12px 0;">
-                  <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; text-align: center;">
-                    <div style="font-size: 0.72rem; color: var(--text-secondary); margin-bottom: 2px;">Test Status</div>
-                    <div id="modal-test-status-badge" style="font-weight: 700; font-size: 0.85rem; color: #a5b4fc;">Pending</div>
+                <div class="assessment-telemetry-grid">
+                  <div class="telemetry-item">
+                    <div class="telemetry-label">Test Status</div>
+                    <div id="modal-test-status-badge" class="telemetry-value text-indigo">Pending</div>
                   </div>
-                  <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; text-align: center;">
-                    <div style="font-size: 0.72rem; color: var(--text-secondary); margin-bottom: 2px;">Score (Pass: ≥80%)</div>
-                    <div id="modal-test-score-display" style="font-weight: 800; font-size: 0.95rem; color: #f9fafb;">—</div>
+                  <div class="telemetry-item">
+                    <div class="telemetry-label">Score (Pass: ≥80%)</div>
+                    <div id="modal-test-score-display" class="telemetry-value text-bold">—</div>
                   </div>
-                  <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; text-align: center;">
-                    <div style="font-size: 0.72rem; color: var(--text-secondary); margin-bottom: 2px;">Proctoring / Security</div>
-                    <div id="modal-test-violations-display" style="font-weight: 700; font-size: 0.85rem; color: #10b981;">0 Alerts</div>
+                  <div class="telemetry-item">
+                    <div class="telemetry-label">Proctoring / Security</div>
+                    <div id="modal-test-violations-display" class="telemetry-value text-emerald">0 Alerts</div>
                   </div>
                 </div>
 
@@ -824,8 +827,8 @@
                   </div>
                 </div>
 
-                <div class="form-group" style="margin-top: 14px; display: flex; gap: 0.75rem;">
-                  <button type="button" class="btn-primary" style="flex: 1;" id="btn-save-candidate-status">
+                <div class="form-group modal-actions-row">
+                  <button type="button" class="btn-primary" id="btn-save-candidate-status">
                     💾 Save Changes & Update Candidate Profile
                   </button>
                   <button type="button" class="btn-danger" id="btn-modal-delete-candidate" title="Permanently delete this candidate">
@@ -895,7 +898,7 @@
                 <span><strong>Activate this opening immediately</strong> (AI will evaluate applicants for this role)</span>
               </label>
             </div>
-            <div class="form-actions" style="margin-top: 1.5rem; display: flex; justify-content: flex-end; gap: 0.75rem;">
+            <div class="form-actions modal-form-actions">
               <button type="button" class="btn-secondary" id="btn-cancel-add-role">Cancel</button>
               <button type="submit" class="btn-primary" id="btn-save-new-role">Create & Activate Role</button>
             </div>
@@ -945,7 +948,7 @@
                 <span><strong>Active Hiring Opening</strong> (AI will evaluate incoming applications for this position)</span>
               </label>
             </div>
-            <div class="form-actions" style="margin-top: 1.5rem; display: flex; justify-content: flex-end; gap: 0.75rem;">
+            <div class="form-actions modal-form-actions">
               <button type="button" class="btn-secondary" id="btn-cancel-edit-role">Cancel</button>
               <button type="submit" class="btn-primary" id="btn-save-edit-role">Save Changes & Update AI</button>
             </div>
@@ -959,6 +962,6 @@
 
   </div>
 
-  <script src="app.js?v=20260901_6"></script>
+  <script src="app.js?v=20261001_mobile"></script>
 </body>
 </html>

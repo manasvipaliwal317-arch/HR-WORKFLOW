@@ -425,7 +425,13 @@ function initTabs() {
 
 function switchTab(tabId) {
   document.querySelectorAll('.tab-btn').forEach(b => {
-    b.classList.toggle('active', b.getAttribute('data-tab') === tabId);
+    const isActive = b.getAttribute('data-tab') === tabId;
+    b.classList.toggle('active', isActive);
+    if (isActive) {
+      try {
+        b.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      } catch (e) {}
+    }
   });
   document.querySelectorAll('.tab-pane').forEach(p => {
     p.classList.toggle('active', p.id === `tab-${tabId}`);
@@ -548,7 +554,7 @@ function renderPagination(totalCount) {
   if (numbersContainer) {
     numbersContainer.innerHTML = '';
     if (pageSize !== 'ALL' && totalPages > 1) {
-      for (let p = 1; p <= totalPages; p++) {
+      const makeBtn = (p) => {
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = `btn-page-num ${p === currentPage ? 'active' : ''}`;
@@ -558,7 +564,44 @@ function renderPagination(totalCount) {
           renderCandidates(filteredCandidates);
           scrollToPipelineTop();
         };
-        numbersContainer.appendChild(btn);
+        return btn;
+      };
+
+      const makeDots = () => {
+        const dots = document.createElement('span');
+        dots.className = 'pagination-dots';
+        dots.textContent = '…';
+        return dots;
+      };
+
+      if (totalPages <= 5) {
+        for (let p = 1; p <= totalPages; p++) {
+          numbersContainer.appendChild(makeBtn(p));
+        }
+      } else {
+        numbersContainer.appendChild(makeBtn(1));
+        let start = Math.max(2, currentPage - 1);
+        let end = Math.min(totalPages - 1, currentPage + 1);
+
+        if (currentPage <= 2) {
+          end = 3;
+        } else if (currentPage >= totalPages - 1) {
+          start = totalPages - 2;
+        }
+
+        if (start > 2) {
+          numbersContainer.appendChild(makeDots());
+        }
+
+        for (let p = start; p <= end; p++) {
+          numbersContainer.appendChild(makeBtn(p));
+        }
+
+        if (end < totalPages - 1) {
+          numbersContainer.appendChild(makeDots());
+        }
+
+        numbersContainer.appendChild(makeBtn(totalPages));
       }
     }
   }
