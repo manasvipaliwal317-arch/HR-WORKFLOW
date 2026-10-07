@@ -1,5 +1,578 @@
 [
   {
+    "id": "cand_e2e_pass_muxr7a95",
+    "name": "Aditi Sharma",
+    "email": "aditi.sharma.test2026@gmail.com",
+    "role": "Senior Cloud Security Architect",
+    "decision": "SELECTED",
+    "matchScore": 95,
+    "status": "INTERVIEW_SCHEDULED",
+    "testStatus": "COMPLETED",
+    "testToken": "cand_e2e_pass_muxr7a95",
+    "testQuestions": [
+      {
+        "id": 1,
+        "question": "How should a Senior Cloud Security Architect configure Kubernetes Role-Based Access Control (RBAC) to securely integrate with AWS IAM for cluster authentication while satisfying SOC2 access review controls?",
+        "options": [
+          "Map AWS IAM roles directly to Kubernetes service accounts using static Kubernetes Secrets.",
+          "Utilize AWS IAM authenticator for Kubernetes (aws-auth ConfigMap) mapping IAM roles to Kubernetes groups, combined with strict ClusterRole and Role bindings.",
+          "Grant cluster-admin permissions to all developers to streamline deployment velocity.",
+          "Disable Kubernetes RBAC and rely exclusively on AWS Security Groups for pod isolation."
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "Which of the following IAM features should be enforced for all human users accessing AWS management consoles and administrative CLI tools to meet SOC2 multi-factor authentication (MFA) mandates?",
+        "options": [
+          "Allowing users to disable MFA if they find it inconvenient.",
+          "Sharing a single federated login across the entire engineering team.",
+          "Enforcing hardware or virtual MFA devices via IAM password policies and Service Control Policies (SCPs).",
+          "Relying solely on complex passwords updated every 10 years."
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 3,
+        "question": "When designing a secure Terraform workflow for infrastructure-as-code, which practice prevents accidental exposure of sensitive secrets (e.g., database passwords) in the state file?",
+        "options": [
+          "Using Terraform's 'sensitive = true' attribute on output variables and ensuring remote state encryption at rest with customer-managed KMS keys.",
+          "Hardcoding credentials directly into Terraform resource arguments to ease debugging.",
+          "Storing state files unencrypted in a public GitHub repository for transparency.",
+          "Disabling state locking to allow concurrent modifications by multiple pipelines."
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 4,
+        "question": "Which Terraform configuration practice ensures that AWS EBS volumes attached to EKS worker nodes are encrypted by default?",
+        "options": [
+          "Manually encrypting each disk via SSH after node startup.",
+          "Leaving EBS encryption disabled and trusting the operating system.",
+          "Enabling regional EBS encryption by default in AWS IAM/KMS and configuring Terraform launch templates with encrypted root volumes.",
+          "Using unencrypted magnetic storage volumes for performance."
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 5,
+        "question": "In a Terraform-managed AWS architecture, how can you automate the detection of security misconfigurations (e.g., open S3 buckets) before resources are provisioned?",
+        "options": [
+          "Rely on annual penetration testing reports.",
+          "Manually inspect every line of Terraform code after it has been applied in production.",
+          "Integrate Static Application Security Testing (SAST) and Policy-as-Code tools like Checkov or tfsec into the CI/CD pipeline.",
+          "Disable automated testing to speed up pull request merges."
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 6,
+        "question": "What is the primary security risk of over-provisioning IAM roles with the 'AdministratorAccess' policy in an AWS environment, and how does it impact SOC2 Type II compliance?",
+        "options": [
+          "It causes network latency between EC2 instances and RDS databases.",
+          "It increases monthly AWS billing costs without affecting security posture.",
+          "It prevents Terraform from applying configuration changes due to syntax errors.",
+          "It violates the principle of least privilege, expanding the blast radius of compromised credentials and leading to audit findings during access control reviews."
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 7,
+        "question": "Which Kubernetes admission controller is critical for preventing unauthorized container images from running in your EKS cluster, thereby supporting software supply chain security for SOC2?",
+        "options": [
+          "ValidatingAdmissionWebhook or MutatingAdmissionWebhook running policy engines like OPA Gatekeeper / Kyverno",
+          "ResourceQuota",
+          "NamespaceLifecycle",
+          "DefaultStorageClass"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 8,
+        "question": "How does AWS IAM Access Analyzer assist a Cloud Security Architect in maintaining a strong security posture?",
+        "options": [
+          "It automatically writes Terraform code for new security groups.",
+          "It analyzes AWS CloudWatch performance metrics.",
+          "It identifies resources (such as S3 buckets or IAM roles) that are shared with external entities or untrusted zones, helping verify least privilege.",
+          "It manages Kubernetes pod scaling policies."
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 9,
+        "question": "When defining Kubernetes Secrets in an EKS cluster, what is the best practice for securing them at rest to meet stringent enterprise security and compliance standards?",
+        "options": [
+          "Rely solely on base64 encoding, which provides enterprise-grade encryption.",
+          "Store secrets inside public ConfigMaps.",
+          "Store them in plaintext YAML manifests checked into version control.",
+          "Enable Kubernetes Encryption Configuration using an AWS Key Management Service (KMS) key."
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 10,
+        "question": "What is the security implication of exposing the Kubernetes API server publicly to `0.0.0.0/0` without IP restriction?",
+        "options": [
+          "It improves cluster latency for global users.",
+          "It is the recommended best practice for enterprise production environments.",
+          "It prevents kubectl from connecting to the cluster.",
+          "It exposes the control plane to automated vulnerability scanners, brute-force attacks, and potential cluster takeover, violating SOC2 perimeter defense controls."
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 11,
+        "question": "How should a Senior Cloud Security Architect manage Terraform state locking when multiple engineers and CI/CD pipelines run infrastructure deployments?",
+        "options": [
+          "Use an S3 backend with DynamoDB for state locking and consistency checking.",
+          "Store state locally on each engineer's laptop without locking.",
+          "Share a single state file via email attachments.",
+          "Disable state management features entirely."
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 12,
+        "question": "During a SOC2 audit, the auditor requests evidence of continuous monitoring of cloud infrastructure drift. Which architectural pattern best satisfies this requirement using Terraform and AWS?",
+        "options": [
+          "Deleting and recreating all cloud resources every weekend.",
+          "Implementing an automated pipeline that runs scheduled `terraform plan` checks against remote state, coupled with AWS Config rules for drift detection and alerting.",
+          "Running manual `terraform plan` commands once a year.",
+          "Turning off all logging mechanisms to reduce noise."
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 13,
+        "question": "For a SOC2 compliance audit, which AWS service configuration provides immutable, cryptographically verifiable log integrity for all API activity across your AWS organization?",
+        "options": [
+          "Local storage of logs on ephemeral EC2 instance root volumes.",
+          "AWS CloudTrail organizational trail enabled with Log File Validation and encrypted with AWS KMS.",
+          "AWS CloudTrail with S3 bucket versioning and lifecycle policies only.",
+          "Amazon CloudWatch logs with default retention periods."
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 14,
+        "question": "You need to restrict pod-to-pod communication in an Amazon EKS cluster running sensitive microservices. Which Kubernetes native mechanism should you implement via Terraform?",
+        "options": [
+          "AWS Security Groups for Pods combined with Kubernetes NetworkPolicies enforcing default-deny ingress and egress rules.",
+          "Allowing all outbound traffic from every namespace by default.",
+          "Relying solely on Linux kernel compilation flags.",
+          "Disabling kube-proxy across all worker nodes."
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 15,
+        "question": "When configuring AWS Security Hub across an AWS Organization using Terraform, what is the primary compliance benefit?",
+        "options": [
+          "It replaces the need for IAM role management.",
+          "It slows down network traffic to inspect packets.",
+          "It aggregates security findings from services like GuardDuty, Inspector, and IAM Access Analyzer, mapping them directly to frameworks like SOC2 and CIS benchmarks.",
+          "It automatically generates revenue reports for the finance department."
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 16,
+        "question": "What is the recommended method for granting pods in an EKS cluster access to AWS services (like DynamoDB or S3) without using static IAM user credentials or instance profiles?",
+        "options": [
+          "Hardcoding AWS keys in the application source code.",
+          "Using IAM Roles for Service Accounts (IRSA) or EKS Pod Identity.",
+          "Embedding AWS root account credentials inside container environment variables.",
+          "Attaching full admin access to the worker node EC2 instance profile."
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 17,
+        "question": "When designing an incident response plan to meet SOC2 requirements for an AWS and Kubernetes environment, which automated logging and detection setup is essential?",
+        "options": [
+          "Relying solely on manual user reports of system downtime.",
+          "Storing all logs in local text files on worker nodes that auto-delete every hour.",
+          "Disabling all logs to preserve system memory.",
+          "Centralized log aggregation using Amazon CloudWatch, AWS CloudTrail, VPC Flow Logs, and Kubernetes audit logs ingested into a SIEM with alerting rules for anomalous behavior."
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 18,
+        "question": "You are designing an IAM policy for cross-account S3 access. Which condition key should be used to ensure that requests are sent only from specific AWS Virtual Private Clouds (VPCs) or VPC endpoints?",
+        "options": [
+          "aws:SourceVpce or aws:SourceVpc",
+          "aws:SourceIp",
+          "aws:PrincipalOrgID",
+          "aws:CurrentTime"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 19,
+        "question": "In the context of Kubernetes cluster security hardening, what is the purpose of running containers with a read-only root file system (`readOnlyRootFilesystem: true`)?",
+        "options": [
+          "To eliminate the need for Kubernetes Persistent Volumes entirely.",
+          "To increase the speed of container image pulls from the registry.",
+          "To prevent applications from writing logs to standard output.",
+          "To mitigate container escape vulnerabilities and prevent malicious actors from persisting malware on the container's root disk."
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 20,
+        "question": "In an AWS multi-account environment managed via Terraform, which approach best enforces least-privilege IAM permissions for cross-account deployments while maintaining SOC2 audit compliance?",
+        "options": [
+          "Hardcoding long-lived AWS access and secret keys into encrypted Terraform remote state files.",
+          "Employing Terraform AWS provider assumptions with short-lived STS session tokens and restricted IAM permission boundaries.",
+          "Disabling AWS CloudTrail in member accounts to prevent log flooding during Terraform runs.",
+          "Using a single master administrative IAM user across all member accounts."
+        ],
+        "correctAnswerIndex": 1
+      }
+    ],
+    "proposedInterviewDate": "Tuesday, October 13, 2026",
+    "createdAt": "2026-10-07T06:55:53.513Z",
+    "updatedAt": "2026-10-07T06:55:53.603Z",
+    "testScore": 90,
+    "testCorrectCount": 18,
+    "testTotalCount": 20,
+    "testCompletedAt": "2026-10-07T06:55:53.603Z",
+    "testDurationSeconds": 720,
+    "testCheatViolations": 0,
+    "testAnswers": {
+      "0": 1,
+      "1": 2,
+      "2": 0,
+      "3": 2,
+      "4": 2,
+      "5": 3,
+      "6": 0,
+      "7": 2,
+      "8": 3,
+      "9": 3,
+      "10": 0,
+      "11": 1,
+      "12": 1,
+      "13": 0,
+      "14": 2,
+      "15": 1,
+      "16": 3,
+      "17": 0,
+      "18": 0,
+      "19": 2
+    },
+    "testDetailedResults": [
+      {
+        "questionId": 1,
+        "question": "How should a Senior Cloud Security Architect configure Kubernetes Role-Based Access Control (RBAC) to securely integrate with AWS IAM for cluster authentication while satisfying SOC2 access review controls?",
+        "options": [
+          "Map AWS IAM roles directly to Kubernetes service accounts using static Kubernetes Secrets.",
+          "Utilize AWS IAM authenticator for Kubernetes (aws-auth ConfigMap) mapping IAM roles to Kubernetes groups, combined with strict ClusterRole and Role bindings.",
+          "Grant cluster-admin permissions to all developers to streamline deployment velocity.",
+          "Disable Kubernetes RBAC and rely exclusively on AWS Security Groups for pod isolation."
+        ],
+        "userAnswerIndex": 1,
+        "userAnswerText": "Utilize AWS IAM authenticator for Kubernetes (aws-auth ConfigMap) mapping IAM roles to Kubernetes groups, combined with strict ClusterRole and Role bindings.",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "Utilize AWS IAM authenticator for Kubernetes (aws-auth ConfigMap) mapping IAM roles to Kubernetes groups, combined with strict ClusterRole and Role bindings.",
+        "isCorrect": true
+      },
+      {
+        "questionId": 2,
+        "question": "Which of the following IAM features should be enforced for all human users accessing AWS management consoles and administrative CLI tools to meet SOC2 multi-factor authentication (MFA) mandates?",
+        "options": [
+          "Allowing users to disable MFA if they find it inconvenient.",
+          "Sharing a single federated login across the entire engineering team.",
+          "Enforcing hardware or virtual MFA devices via IAM password policies and Service Control Policies (SCPs).",
+          "Relying solely on complex passwords updated every 10 years."
+        ],
+        "userAnswerIndex": 2,
+        "userAnswerText": "Enforcing hardware or virtual MFA devices via IAM password policies and Service Control Policies (SCPs).",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "Enforcing hardware or virtual MFA devices via IAM password policies and Service Control Policies (SCPs).",
+        "isCorrect": true
+      },
+      {
+        "questionId": 3,
+        "question": "When designing a secure Terraform workflow for infrastructure-as-code, which practice prevents accidental exposure of sensitive secrets (e.g., database passwords) in the state file?",
+        "options": [
+          "Using Terraform's 'sensitive = true' attribute on output variables and ensuring remote state encryption at rest with customer-managed KMS keys.",
+          "Hardcoding credentials directly into Terraform resource arguments to ease debugging.",
+          "Storing state files unencrypted in a public GitHub repository for transparency.",
+          "Disabling state locking to allow concurrent modifications by multiple pipelines."
+        ],
+        "userAnswerIndex": 0,
+        "userAnswerText": "Using Terraform's 'sensitive = true' attribute on output variables and ensuring remote state encryption at rest with customer-managed KMS keys.",
+        "correctAnswerIndex": 0,
+        "correctAnswerText": "Using Terraform's 'sensitive = true' attribute on output variables and ensuring remote state encryption at rest with customer-managed KMS keys.",
+        "isCorrect": true
+      },
+      {
+        "questionId": 4,
+        "question": "Which Terraform configuration practice ensures that AWS EBS volumes attached to EKS worker nodes are encrypted by default?",
+        "options": [
+          "Manually encrypting each disk via SSH after node startup.",
+          "Leaving EBS encryption disabled and trusting the operating system.",
+          "Enabling regional EBS encryption by default in AWS IAM/KMS and configuring Terraform launch templates with encrypted root volumes.",
+          "Using unencrypted magnetic storage volumes for performance."
+        ],
+        "userAnswerIndex": 2,
+        "userAnswerText": "Enabling regional EBS encryption by default in AWS IAM/KMS and configuring Terraform launch templates with encrypted root volumes.",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "Enabling regional EBS encryption by default in AWS IAM/KMS and configuring Terraform launch templates with encrypted root volumes.",
+        "isCorrect": true
+      },
+      {
+        "questionId": 5,
+        "question": "In a Terraform-managed AWS architecture, how can you automate the detection of security misconfigurations (e.g., open S3 buckets) before resources are provisioned?",
+        "options": [
+          "Rely on annual penetration testing reports.",
+          "Manually inspect every line of Terraform code after it has been applied in production.",
+          "Integrate Static Application Security Testing (SAST) and Policy-as-Code tools like Checkov or tfsec into the CI/CD pipeline.",
+          "Disable automated testing to speed up pull request merges."
+        ],
+        "userAnswerIndex": 2,
+        "userAnswerText": "Integrate Static Application Security Testing (SAST) and Policy-as-Code tools like Checkov or tfsec into the CI/CD pipeline.",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "Integrate Static Application Security Testing (SAST) and Policy-as-Code tools like Checkov or tfsec into the CI/CD pipeline.",
+        "isCorrect": true
+      },
+      {
+        "questionId": 6,
+        "question": "What is the primary security risk of over-provisioning IAM roles with the 'AdministratorAccess' policy in an AWS environment, and how does it impact SOC2 Type II compliance?",
+        "options": [
+          "It causes network latency between EC2 instances and RDS databases.",
+          "It increases monthly AWS billing costs without affecting security posture.",
+          "It prevents Terraform from applying configuration changes due to syntax errors.",
+          "It violates the principle of least privilege, expanding the blast radius of compromised credentials and leading to audit findings during access control reviews."
+        ],
+        "userAnswerIndex": 3,
+        "userAnswerText": "It violates the principle of least privilege, expanding the blast radius of compromised credentials and leading to audit findings during access control reviews.",
+        "correctAnswerIndex": 3,
+        "correctAnswerText": "It violates the principle of least privilege, expanding the blast radius of compromised credentials and leading to audit findings during access control reviews.",
+        "isCorrect": true
+      },
+      {
+        "questionId": 7,
+        "question": "Which Kubernetes admission controller is critical for preventing unauthorized container images from running in your EKS cluster, thereby supporting software supply chain security for SOC2?",
+        "options": [
+          "ValidatingAdmissionWebhook or MutatingAdmissionWebhook running policy engines like OPA Gatekeeper / Kyverno",
+          "ResourceQuota",
+          "NamespaceLifecycle",
+          "DefaultStorageClass"
+        ],
+        "userAnswerIndex": 0,
+        "userAnswerText": "ValidatingAdmissionWebhook or MutatingAdmissionWebhook running policy engines like OPA Gatekeeper / Kyverno",
+        "correctAnswerIndex": 0,
+        "correctAnswerText": "ValidatingAdmissionWebhook or MutatingAdmissionWebhook running policy engines like OPA Gatekeeper / Kyverno",
+        "isCorrect": true
+      },
+      {
+        "questionId": 8,
+        "question": "How does AWS IAM Access Analyzer assist a Cloud Security Architect in maintaining a strong security posture?",
+        "options": [
+          "It automatically writes Terraform code for new security groups.",
+          "It analyzes AWS CloudWatch performance metrics.",
+          "It identifies resources (such as S3 buckets or IAM roles) that are shared with external entities or untrusted zones, helping verify least privilege.",
+          "It manages Kubernetes pod scaling policies."
+        ],
+        "userAnswerIndex": 2,
+        "userAnswerText": "It identifies resources (such as S3 buckets or IAM roles) that are shared with external entities or untrusted zones, helping verify least privilege.",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "It identifies resources (such as S3 buckets or IAM roles) that are shared with external entities or untrusted zones, helping verify least privilege.",
+        "isCorrect": true
+      },
+      {
+        "questionId": 9,
+        "question": "When defining Kubernetes Secrets in an EKS cluster, what is the best practice for securing them at rest to meet stringent enterprise security and compliance standards?",
+        "options": [
+          "Rely solely on base64 encoding, which provides enterprise-grade encryption.",
+          "Store secrets inside public ConfigMaps.",
+          "Store them in plaintext YAML manifests checked into version control.",
+          "Enable Kubernetes Encryption Configuration using an AWS Key Management Service (KMS) key."
+        ],
+        "userAnswerIndex": 3,
+        "userAnswerText": "Enable Kubernetes Encryption Configuration using an AWS Key Management Service (KMS) key.",
+        "correctAnswerIndex": 3,
+        "correctAnswerText": "Enable Kubernetes Encryption Configuration using an AWS Key Management Service (KMS) key.",
+        "isCorrect": true
+      },
+      {
+        "questionId": 10,
+        "question": "What is the security implication of exposing the Kubernetes API server publicly to `0.0.0.0/0` without IP restriction?",
+        "options": [
+          "It improves cluster latency for global users.",
+          "It is the recommended best practice for enterprise production environments.",
+          "It prevents kubectl from connecting to the cluster.",
+          "It exposes the control plane to automated vulnerability scanners, brute-force attacks, and potential cluster takeover, violating SOC2 perimeter defense controls."
+        ],
+        "userAnswerIndex": 3,
+        "userAnswerText": "It exposes the control plane to automated vulnerability scanners, brute-force attacks, and potential cluster takeover, violating SOC2 perimeter defense controls.",
+        "correctAnswerIndex": 3,
+        "correctAnswerText": "It exposes the control plane to automated vulnerability scanners, brute-force attacks, and potential cluster takeover, violating SOC2 perimeter defense controls.",
+        "isCorrect": true
+      },
+      {
+        "questionId": 11,
+        "question": "How should a Senior Cloud Security Architect manage Terraform state locking when multiple engineers and CI/CD pipelines run infrastructure deployments?",
+        "options": [
+          "Use an S3 backend with DynamoDB for state locking and consistency checking.",
+          "Store state locally on each engineer's laptop without locking.",
+          "Share a single state file via email attachments.",
+          "Disable state management features entirely."
+        ],
+        "userAnswerIndex": 0,
+        "userAnswerText": "Use an S3 backend with DynamoDB for state locking and consistency checking.",
+        "correctAnswerIndex": 0,
+        "correctAnswerText": "Use an S3 backend with DynamoDB for state locking and consistency checking.",
+        "isCorrect": true
+      },
+      {
+        "questionId": 12,
+        "question": "During a SOC2 audit, the auditor requests evidence of continuous monitoring of cloud infrastructure drift. Which architectural pattern best satisfies this requirement using Terraform and AWS?",
+        "options": [
+          "Deleting and recreating all cloud resources every weekend.",
+          "Implementing an automated pipeline that runs scheduled `terraform plan` checks against remote state, coupled with AWS Config rules for drift detection and alerting.",
+          "Running manual `terraform plan` commands once a year.",
+          "Turning off all logging mechanisms to reduce noise."
+        ],
+        "userAnswerIndex": 1,
+        "userAnswerText": "Implementing an automated pipeline that runs scheduled `terraform plan` checks against remote state, coupled with AWS Config rules for drift detection and alerting.",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "Implementing an automated pipeline that runs scheduled `terraform plan` checks against remote state, coupled with AWS Config rules for drift detection and alerting.",
+        "isCorrect": true
+      },
+      {
+        "questionId": 13,
+        "question": "For a SOC2 compliance audit, which AWS service configuration provides immutable, cryptographically verifiable log integrity for all API activity across your AWS organization?",
+        "options": [
+          "Local storage of logs on ephemeral EC2 instance root volumes.",
+          "AWS CloudTrail organizational trail enabled with Log File Validation and encrypted with AWS KMS.",
+          "AWS CloudTrail with S3 bucket versioning and lifecycle policies only.",
+          "Amazon CloudWatch logs with default retention periods."
+        ],
+        "userAnswerIndex": 1,
+        "userAnswerText": "AWS CloudTrail organizational trail enabled with Log File Validation and encrypted with AWS KMS.",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "AWS CloudTrail organizational trail enabled with Log File Validation and encrypted with AWS KMS.",
+        "isCorrect": true
+      },
+      {
+        "questionId": 14,
+        "question": "You need to restrict pod-to-pod communication in an Amazon EKS cluster running sensitive microservices. Which Kubernetes native mechanism should you implement via Terraform?",
+        "options": [
+          "AWS Security Groups for Pods combined with Kubernetes NetworkPolicies enforcing default-deny ingress and egress rules.",
+          "Allowing all outbound traffic from every namespace by default.",
+          "Relying solely on Linux kernel compilation flags.",
+          "Disabling kube-proxy across all worker nodes."
+        ],
+        "userAnswerIndex": 0,
+        "userAnswerText": "AWS Security Groups for Pods combined with Kubernetes NetworkPolicies enforcing default-deny ingress and egress rules.",
+        "correctAnswerIndex": 0,
+        "correctAnswerText": "AWS Security Groups for Pods combined with Kubernetes NetworkPolicies enforcing default-deny ingress and egress rules.",
+        "isCorrect": true
+      },
+      {
+        "questionId": 15,
+        "question": "When configuring AWS Security Hub across an AWS Organization using Terraform, what is the primary compliance benefit?",
+        "options": [
+          "It replaces the need for IAM role management.",
+          "It slows down network traffic to inspect packets.",
+          "It aggregates security findings from services like GuardDuty, Inspector, and IAM Access Analyzer, mapping them directly to frameworks like SOC2 and CIS benchmarks.",
+          "It automatically generates revenue reports for the finance department."
+        ],
+        "userAnswerIndex": 2,
+        "userAnswerText": "It aggregates security findings from services like GuardDuty, Inspector, and IAM Access Analyzer, mapping them directly to frameworks like SOC2 and CIS benchmarks.",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "It aggregates security findings from services like GuardDuty, Inspector, and IAM Access Analyzer, mapping them directly to frameworks like SOC2 and CIS benchmarks.",
+        "isCorrect": true
+      },
+      {
+        "questionId": 16,
+        "question": "What is the recommended method for granting pods in an EKS cluster access to AWS services (like DynamoDB or S3) without using static IAM user credentials or instance profiles?",
+        "options": [
+          "Hardcoding AWS keys in the application source code.",
+          "Using IAM Roles for Service Accounts (IRSA) or EKS Pod Identity.",
+          "Embedding AWS root account credentials inside container environment variables.",
+          "Attaching full admin access to the worker node EC2 instance profile."
+        ],
+        "userAnswerIndex": 1,
+        "userAnswerText": "Using IAM Roles for Service Accounts (IRSA) or EKS Pod Identity.",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "Using IAM Roles for Service Accounts (IRSA) or EKS Pod Identity.",
+        "isCorrect": true
+      },
+      {
+        "questionId": 17,
+        "question": "When designing an incident response plan to meet SOC2 requirements for an AWS and Kubernetes environment, which automated logging and detection setup is essential?",
+        "options": [
+          "Relying solely on manual user reports of system downtime.",
+          "Storing all logs in local text files on worker nodes that auto-delete every hour.",
+          "Disabling all logs to preserve system memory.",
+          "Centralized log aggregation using Amazon CloudWatch, AWS CloudTrail, VPC Flow Logs, and Kubernetes audit logs ingested into a SIEM with alerting rules for anomalous behavior."
+        ],
+        "userAnswerIndex": 3,
+        "userAnswerText": "Centralized log aggregation using Amazon CloudWatch, AWS CloudTrail, VPC Flow Logs, and Kubernetes audit logs ingested into a SIEM with alerting rules for anomalous behavior.",
+        "correctAnswerIndex": 3,
+        "correctAnswerText": "Centralized log aggregation using Amazon CloudWatch, AWS CloudTrail, VPC Flow Logs, and Kubernetes audit logs ingested into a SIEM with alerting rules for anomalous behavior.",
+        "isCorrect": true
+      },
+      {
+        "questionId": 18,
+        "question": "You are designing an IAM policy for cross-account S3 access. Which condition key should be used to ensure that requests are sent only from specific AWS Virtual Private Clouds (VPCs) or VPC endpoints?",
+        "options": [
+          "aws:SourceVpce or aws:SourceVpc",
+          "aws:SourceIp",
+          "aws:PrincipalOrgID",
+          "aws:CurrentTime"
+        ],
+        "userAnswerIndex": 0,
+        "userAnswerText": "aws:SourceVpce or aws:SourceVpc",
+        "correctAnswerIndex": 0,
+        "correctAnswerText": "aws:SourceVpce or aws:SourceVpc",
+        "isCorrect": true
+      },
+      {
+        "questionId": 19,
+        "question": "In the context of Kubernetes cluster security hardening, what is the purpose of running containers with a read-only root file system (`readOnlyRootFilesystem: true`)?",
+        "options": [
+          "To eliminate the need for Kubernetes Persistent Volumes entirely.",
+          "To increase the speed of container image pulls from the registry.",
+          "To prevent applications from writing logs to standard output.",
+          "To mitigate container escape vulnerabilities and prevent malicious actors from persisting malware on the container's root disk."
+        ],
+        "userAnswerIndex": 0,
+        "userAnswerText": "To eliminate the need for Kubernetes Persistent Volumes entirely.",
+        "correctAnswerIndex": 3,
+        "correctAnswerText": "To mitigate container escape vulnerabilities and prevent malicious actors from persisting malware on the container's root disk.",
+        "isCorrect": false
+      },
+      {
+        "questionId": 20,
+        "question": "In an AWS multi-account environment managed via Terraform, which approach best enforces least-privilege IAM permissions for cross-account deployments while maintaining SOC2 audit compliance?",
+        "options": [
+          "Hardcoding long-lived AWS access and secret keys into encrypted Terraform remote state files.",
+          "Employing Terraform AWS provider assumptions with short-lived STS session tokens and restricted IAM permission boundaries.",
+          "Disabling AWS CloudTrail in member accounts to prevent log flooding during Terraform runs.",
+          "Using a single master administrative IAM user across all member accounts."
+        ],
+        "userAnswerIndex": 2,
+        "userAnswerText": "Disabling AWS CloudTrail in member accounts to prevent log flooding during Terraform runs.",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "Employing Terraform AWS provider assumptions with short-lived STS session tokens and restricted IAM permission boundaries.",
+        "isCorrect": false
+      }
+    ],
+    "interviewRound": "Final Technical & HR Interview",
+    "interviewStatus": "🎉 Passed Assessment (90%) — Final Interview Scheduled",
+    "interviewDate": "Tuesday, October 13, 2026",
+    "interviewTime": "11:00 AM - 11:45 AM IST",
+    "meetingLink": "https://meet.google.com/can-de2e-pas",
+    "emailSubject": "🎉 Next Round: Final Interview for Senior Cloud Security Architect at Tech Innovations Inc.",
+    "emailSentAt": "2026-10-07T06:55:53.603Z"
+  },
+  {
     "id": "cand_muxq81ja_e9gt",
     "name": "Kunal Verma",
     "email": "kunal.verma.sales2026@gmail.com",

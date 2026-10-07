@@ -928,27 +928,126 @@ const DOMAIN_QUESTION_BANKS = {
     { q: "What is the difference between WebSockets and Server-Sent Events (SSE)?", options: ["WebSockets provide bidirectional full-duplex communication; SSE provides unidirectional server-to-client streaming over HTTP", "SSE is binary only; WebSockets are text only", "WebSockets only work in Google Chrome", "SSE requires opening a new TCP connection for every message"], correct: 0 },
     { q: "Why is 'prepared statements' / parameterized queries the gold standard against SQL Injection?", options: ["Separates SQL code from user-supplied parameters, preventing inputs from being executed as SQL commands", "Encrypts the database hard drive with BitLocker", "Disables the DROP TABLE command across the database", "Removes all quotation marks from user inputs"], correct: 0 },
     { q: "In Next.js (App Router), what is the key advantage of Server Components?", options: ["Renders on the server with zero client-side JavaScript bundle overhead for non-interactive content", "Enables running PHP scripts inside React JSX", "Allows direct access to user's local filesystem", "Bypasses all CSS stylesheet rules"], correct: 0 }
+  ],
+  cloud_security: [
+    { q: "In AWS IAM, what principle requires granting only the minimum permissions necessary to perform a task?", options: ["Principle of Least Privilege (PoLP)", "Separation of Environments", "Defense in Depth", "Role-Based Access Delegation"], correct: 0 },
+    { q: "In Kubernetes, which resource is used to restrict pod-to-pod network communication across namespaces?", options: ["NetworkPolicy", "SecurityContext", "Ingress Controller", "ResourceQuota"], correct: 0 },
+    { q: "How does AWS KMS Envelope Encryption protect high-volume data payloads?", options: ["Encrypts plaintext data with a Data Encryption Key (DEK), then encrypts the DEK with a KMS Key Management Key (KMS KEK)", "Stores plain text on encrypted EBS volumes without key exchange", "Hashes data using SHA-256 before writing to S3", "Tunnels data through AWS Direct Connect with IPSec"], correct: 0 },
+    { q: "In Terraform Infrastructure as Code, why should state files (.tfstate) be encrypted and locked in remote storage (e.g. S3 with DynamoDB)?", options: ["State files often contain sensitive secrets in plaintext and concurrent writes can cause state corruption", "Terraform cannot execute plan without a public S3 bucket", "Remote state compiles HCL into binary machine code", "DynamoDB validates Terraform syntax prior to apply"], correct: 0 },
+    { q: "What is the primary difference between a Security Group and a Network Access Control List (NACL) in AWS VPC?", options: ["Security Groups are stateful and operate at the ENI level; NACLs are stateless and operate at the subnet subnet boundary", "Security Groups only block traffic; NACLs only allow traffic", "NACLs evaluate rules by tag; Security Groups by IP only", "Security Groups require internet gateway attachment"], correct: 0 },
+    { q: "In a SOC 2 Type II audit, what is evaluated that is NOT covered in a SOC 2 Type I audit?", options: ["Operating effectiveness of security controls tested over a minimum period of 6 months", "Only the architectural design of controls at a single point in time", "Financial statement balance sheets and EBITDA", "Penetration testing of physical office door locks"], correct: 0 },
+    { q: "In Kubernetes security, what is the safest Pod Security Standard (PSS) level for production workloads?", options: ["Restricted", "Baseline", "Privileged", "Default"], correct: 0 },
+    { q: "What does 'Mutual TLS' (mTLS) provide in a microservices Service Mesh architecture (e.g. Istio)?", options: ["Bidirectional cryptographic identity authentication and encrypted transit between client and server", "Automatic caching of HTTP responses at the edge", "Load balancing across multiple cloud regions", "Compression of JSON payloads with Gzip"], correct: 0 },
+    { q: "In Cloud Threat Detection, which AWS service continuously analyzes VPC Flow Logs, CloudTrail, and DNS logs using machine learning to detect anomalies?", options: ["Amazon GuardDuty", "AWS CloudWatch", "AWS Shield Standard", "Amazon Inspector"], correct: 0 },
+    { q: "What is a 'Zero Trust' architecture core axiom?", options: ["Never trust, always verify: assume breach and strictly authenticate every request regardless of network perimeter", "Trust all traffic within the corporate intranet VPN", "Block all outbound egress traffic to port 443", "Rely exclusively on perimeter hardware firewalls"], correct: 0 },
+    { q: "In Docker container security, what is the danger of running containers with '--privileged' flag?", options: ["Gives container full root capabilities and access to host devices, enabling trivial host compromise", "Causes Docker daemon to consume 100% CPU", "Prevents container from pulling images from Docker Hub", "Disables container port mapping to host"], correct: 0 },
+    { q: "In OWASP API Security Top 10, what vulnerability occurs when an API fails to validate whether the requester owns the requested object ID?", options: ["Broken Object Level Authorization (BOLA / IDOR)", "SQL Injection", "Security Misconfiguration", "Server-Side Request Forgery (SSRF)"], correct: 0 },
+    { q: "Which tool scans Terraform HCL code statically to identify security misconfigurations prior to deployment?", options: ["Tfsec / Checkov / Trivy", "Terraform fmt", "Docker lint", "Kubectl explain"], correct: 0 },
+    { q: "How should secrets (API keys, DB credentials) be securely injected into production cloud workloads?", options: ["Dynamic retrieval from Secrets Manager / HashiCorp Vault at runtime with IAM role authentication", "Hardcoding in git repository configuration files", "Passing in Docker build ARGs committed to Dockerfile", "Storing plaintext in public environment variables"], correct: 0 },
+    { q: "In AWS S3, what feature prevents accidental or malicious object deletion even by the account root user during a retention period?", options: ["S3 Object Lock (Compliance Mode / WORM)", "S3 Bucket Versioning alone", "S3 Server Access Logging", "S3 Lifecycle Transition Rules"], correct: 0 },
+    { q: "What is the primary function of AWS Web Application Firewall (WAF)?", options: ["Filter and block malicious HTTP/HTTPS web traffic (SQLi, XSS, rate-limiting) at CloudFront or ALB", "Encrypt EBS volumes at the hypervisor layer", "Provide private DNS resolution within VPC", "Audit IAM permission usage with Access Advisor"], correct: 0 },
+    { q: "In incident response, what is the first critical action during an active credential compromise in cloud environments?", options: ["Revoke compromised credentials, rotate keys, terminate active sessions, and isolate affected compute instances", "Delete the affected cloud account immediately", "Notify media before forensic analysis", "Restore entire database from yesterday's backup"], correct: 0 },
+    { q: "What are AWS Service Control Policies (SCPs) used for in AWS Organizations?", options: ["Set central guardrails and maximum allowable permissions across member accounts in an organization", "Manage individual IAM user passwords", "Route DNS queries using latency routing", "Configure VPC peering across regions"], correct: 0 },
+    { q: "In Linux container security, what kernel mechanism restricts which system calls (syscalls) a container process can execute?", options: ["Seccomp (Secure Computing Mode)", "Cgroups (Control Groups)", "Namespaces", "Iptables"], correct: 0 },
+    { q: "In CI/CD pipeline supply chain security, what standard ensures build provenance and tamper-evident artifact signing?", options: ["SLSA framework and Sigstore / Cosign", "NPM audit only", "Git merge commit signing", "SonarQube code smell analysis"], correct: 0 }
+  ],
+  ai_ml: [
+    { q: "In Transformer architecture, what is the computational complexity of the standard Self-Attention mechanism with respect to sequence length N?", options: ["O(N^2) quadratic complexity", "O(N) linear complexity", "O(log N) logarithmic complexity", "O(N^3) cubic complexity"], correct: 0 },
+    { q: "In Retrieval-Augmented Generation (RAG), what is the primary benefit of 'Semantic Chunking' over fixed-length character chunking?", options: ["Preserves coherent thoughts and contextual meaning within boundaries rather than splitting mid-sentence", "Reduces embedding vector dimensionality to 1", "Eliminates the need for a vector database", "Guarantees zero token consumption during generation"], correct: 0 },
+    { q: "Which metric is most widely used to evaluate semantic proximity between two normalized dense embedding vectors?", options: ["Cosine Similarity (Dot Product of normalized vectors)", "Manhattan Distance (L1 norm)", "Hamming Distance", "Jaccard Index on token strings"], correct: 0 },
+    { q: "In vector databases (e.g. Pinecone, Chroma, Milvus), what does the HNSW index algorithm stand for and provide?", options: ["Hierarchical Navigable Small World: fast approximate nearest neighbor (ANN) search with logarithmic scaling", "Hash Network Symmetric Weight: exact linear scan", "Hyper-Neural Sparse Word: inverted keyword index", "Hardware Native Sharded Web: disk defragmentation"], correct: 0 },
+    { q: "In LLM generation sampling, how does lowering the 'Temperature' parameter affect the output?", options: ["Makes the model more deterministic and focused on top-probability tokens, reducing randomness", "Increases creative hallucinations and vocabulary diversity", "Expands the model's context window", "Slows down token generation speed"], correct: 0 },
+    { q: "What is LoRA (Low-Rank Adaptation) in LLM fine-tuning?", options: ["Freezes pre-trained model weights and injects trainable low-rank decomposition matrices into attention layers", "Quantizes model weights from 16-bit to 4-bit without training", "Retrains all billions of parameters from scratch on new data", "Prunes 90% of model layers to decrease disk size"], correct: 0 },
+    { q: "What is the primary cause of 'Hallucination' in Large Language Models?", options: ["Probabilistic next-token generation without an internal factual grounding or real-time truth verification layer", "Lack of GPU VRAM during inference", "Running the model at temperature 0.0", "Using sub-word tokenizers like BPE"], correct: 0 },
+    { q: "In deep learning optimization, what technique prevents internal covariate shift by normalizing layer inputs during mini-batch training?", options: ["Batch Normalization (or Layer Normalization in Transformers)", "Dropout", "Gradient Clipping", "Weight Decay"], correct: 0 },
+    { q: "In RAG pipelines, what is the role of a 'Cross-Encoder Re-Ranker' after initial vector retrieval?", options: ["Scores retrieved query-document pairs jointly to provide significantly more accurate relevance ranking than bi-encoders", "Generates synthetic query variants", "Compresses documents into summaries before LLM ingestion", "Splits documents into smaller sentences"], correct: 0 },
+    { q: "What is 'Prompt Injection' and how is it primarily mitigated in production AI systems?", options: ["Malicious input hijacking LLM instructions; mitigated by input guardrails, system prompt delimiters, and secondary classifier verification", "Exceeding the context window limit", "Injecting Python code into CUDA kernels", "Fine-tuning on poisoned datasets"], correct: 0 },
+    { q: "In model quantization, what is the trade-off of quantizing model weights from FP16 to INT4 (e.g. AWQ, GGUF)?", options: ["Dramatically reduces memory footprint and increases throughput with minimal degradation in perplexity", "Doubles model memory consumption while improving accuracy", "Requires training the model from scratch on CPU", "Completely eliminates model latency but disables text output"], correct: 0 },
+    { q: "In PyTorch, what method must be called to reset parameter gradients before running backpropagation in an optimization step?", options: ["optimizer.zero_grad()", "model.reset_weights()", "loss.backward(reset=True)", "torch.cuda.empty_cache()"], correct: 0 },
+    { q: "What is the primary difference between Precision and Recall in classification metrics?", options: ["Precision measures accuracy of positive predictions; Recall measures proportion of actual positives captured", "Precision is only used for binary classification; Recall for multi-class", "Recall is always higher than Precision", "Precision ignores false positives"], correct: 0 },
+    { q: "In modern LLM agent architectures, what does 'ReAct' framework combine?", options: ["Interleaving Reasoning (Thought) and Acting (Tool Execution) with Environment Observation steps", "React.js frontend components with Python backends", "Reactive programming with RxJS streams", "Reinforcement learning without rewards"], correct: 0 },
+    { q: "What is the primary function of Byte-Pair Encoding (BPE) in LLMs?", options: ["Subword tokenization algorithm that handles out-of-vocabulary words by iteratively merging frequent byte pairs", "Lossless data compression for storing weights on disk", "A neural network architecture for parsing HTML", "An audio encoding format for speech-to-text"], correct: 0 },
+    { q: "In RAG systems, what problem does 'Lost in the Middle' describe when passing long context to LLMs?", options: ["LLMs exhibit higher recall for information placed at the beginning or end of context than in the middle", "Vector search engines dropping documents in middle partitions", "Tokenizers corrupting sentences in chunk index 50", "Embeddings losing magnitude during dot product calculations"], correct: 0 },
+    { q: "What does ROC-AUC score measure in machine learning evaluation?", options: ["The model's ability to discriminate between positive and negative classes across all classification thresholds", "The training speed of gradient descent per epoch", "The percentage of missing data imputed accurately", "The cosine similarity between features"], correct: 0 },
+    { q: "In FastAPI deployment of PyTorch inference services, why should heavy tensor computations be run in threadpools or dedicated workers?", options: ["To prevent blocking the asynchronous event loop which handles incoming HTTP requests", "FastAPI cannot execute Python code in main thread", "PyTorch only runs on multi-threaded CPUs", "CORS headers require asynchronous worker pools"], correct: 0 },
+    { q: "What is 'Self-Consistency' prompting strategy in complex reasoning tasks?", options: ["Sampling multiple reasoning paths from the LLM and selecting the most consistent answer by majority vote", "Running the prompt through 3 different LLM providers", "Prompting the model to repeat the query 5 times", "Checking grammar with an external spell checker"], correct: 0 },
+    { q: "In multi-modal AI models like CLIP, how are vision and language representations aligned?", options: ["Contrastive learning pulling positive image-text pairs together in a shared embedding space while pushing negative pairs apart", "Passing pixel values directly into text decoder layers", "Converting images to ASCII text before tokenization", "Using a single RNN for both images and audio"], correct: 0 }
+  ],
+  ui_ux: [
+    { q: "According to WCAG 2.1 AA standards, what is the minimum required contrast ratio for normal body text against its background?", options: ["4.5:1", "3:1", "7:1", "2:1"], correct: 0 },
+    { q: "In Atomic Design methodology proposed by Brad Frost, what is the correct hierarchy from smallest to largest?", options: ["Atoms -> Molecules -> Organisms -> Templates -> Pages", "Molecules -> Atoms -> Templates -> Organisms -> Pages", "Components -> Variants -> Instances -> Frames", "Tokens -> Styles -> Components -> Layouts"], correct: 0 },
+    { q: "In Figma, what feature dynamically resizes card containers and buttons based on content padding and sibling spacing?", options: ["Auto Layout", "Smart Animate", "Vector Networks", "Constraint Grid"], correct: 0 },
+    { q: "What does Jakob Nielsen's 'Visibility of System Status' usability heuristic mean in practice?", options: ["The design should keep users informed about what is going on through timely, appropriate feedback (e.g. loaders, toasts)", "All UI elements must use neon accent colors", "Server logs should be visible to end users in the footer", "The entire screen must be visible without scrolling"], correct: 0 },
+    { q: "What is the primary purpose of 'Card Sorting' in user experience research?", options: ["To discover how users naturally categorize and structure information for intuitive Information Architecture (IA)", "To test credit card payment processing speed", "To design playing card game interfaces", "To measure visual visual rendering latency"], correct: 0 },
+    { q: "In usability research, what is the System Usability Scale (SUS) benchmark score representing average usability?", options: ["68 (Scores above 68 are above average)", "50", "85", "100"], correct: 0 },
+    { q: "What does 'Fitts's Law' dictate for interactive touch targets and button design?", options: ["The time required to rapidly move to a target area is a function of the target distance and size (larger, closer targets are easier to click)", "Users scan screens in an F-shaped pattern", "Humans can only hold 7 items in working memory", "Simpler layouts reduce cognitive load"], correct: 0 },
+    { q: "What does 'Hick's Law' state regarding decision-making time in UI navigation?", options: ["The time it takes to make a decision increases logarithmically with the number and complexity of choices", "Users prefer 3-click checkouts over 1-click", "Visual hierarchy should always be symmetrical", "Every page requires a secondary CTA"], correct: 0 },
+    { q: "What is the primary difference between a 'User Journey Map' and a 'User Flow'?", options: ["Journey Maps illustrate emotional states and touchpoints across high-level stages; User Flows map precise step-by-step UI screen paths", "Journey maps are only for mobile apps; user flows for web", "User flows are drawn by developers; journey maps by sales", "Journey maps only show software bugs"], correct: 0 },
+    { q: "In modern design systems, what are 'Design Tokens'?", options: ["Platform-agnostic key-value pairs (colors, spacing, typography) that store visual design attributes as the single source of truth", "Cryptocurrency tokens used to buy UI templates", "Temporary passwords for prototype sharing", "Vector icons stored in SVG format"], correct: 0 },
+    { q: "Why are 'Skeleton Screens' preferred over traditional centered spinner spinners during asynchronous content loading?", options: ["They provide visual continuity and the perception of faster loading speed by previewing layout structure", "They consume 50% less CPU on the client browser", "They prevent screen readers from announcing loading states", "They automatically cache API responses"], correct: 0 },
+    { q: "What is 'Progressive Disclosure' in user interface design?", options: ["Sequencing information and actions across steps so users are not overwhelmed by showing only necessary details upfront", "Showing all 50 form fields on a single page", "Animating modal dialogs with spring physics", "Revealing dark mode options after user logs in"], correct: 0 },
+    { q: "In accessibility testing, why must interactive elements (buttons, inputs) maintain visible ':focus-visible' styles?", options: ["To allow keyboard-only navigation users to clearly see which element currently has focus", "To satisfy CSS reset requirements", "To improve Google Search ranking directly", "To make hover animations trigger automatically"], correct: 0 },
+    { q: "What is an 'Affordance' in interaction design?", options: ["Visual properties of an object that indicate how it can be used (e.g. a 3D-styled button affords clicking)", "The monetary cost of licensing design assets", "The responsiveness of CSS grid columns", "The maximum font size supported by browser"], correct: 0 },
+    { q: "In mobile navigation, why is the 'Thumb Zone' critical when placing primary action buttons?", options: ["Most one-handed mobile users comfortably reach the bottom and center areas of the screen with their thumbs", "Touch screens only register input in the lower half", "Apple App Store guidelines mandate bottom-only CTAs", "Top screens are obscured by phone cases"], correct: 0 },
+    { q: "What is 'Heuristic Evaluation' conducted by UX professionals?", options: ["An expert inspection method evaluating UI compliance against established usability principles without necessarily involving end users", "Automated unit testing with Jest", "A/B testing with 10,000 real users", "Performance benchmarking with Google Lighthouse"], correct: 0 },
+    { q: "What is the primary advantage of a 'Mobile-First' responsive design approach?", options: ["Forces prioritization of core content and functional hierarchy before progressively enhancing for larger viewports", "Prevents websites from rendering on desktop computers", "Reduces CSS file size to zero bytes", "Ensures compliance with iOS native gestures"], correct: 0 },
+    { q: "What does 'Information Architecture' (IA) organize within a digital product?", options: ["The structural organization, labeling, and navigation hierarchies that help users find information and complete tasks", "The database SQL schema relationships", "The server rack layout in cloud datacenters", "The git branch branching strategy"], correct: 0 },
+    { q: "What is a 'Micro-interaction' in digital product design?", options: ["Subtle, single-purpose visual and interactive feedback moments (e.g. a 'like' heart animation or toggle switch slide)", "A 5-second video advertisement", "A popup survey asking for user feedback", "A multi-page onboarding questionnaire"], correct: 0 },
+    { q: "When creating User Personas, what should they primarily be grounded in?", options: ["Empirical qualitative and quantitative user research findings rather than team assumptions or stereotypes", "Stock photos and fictional celebrity biographies", "The personal preferences of the lead developer", "Competitor company executive profiles"], correct: 0 }
   ]
 };
 
 // Generate 20 Unique, Shuffled MCQs for Candidate (Enforces Anti-Pattern & Balanced Distribution)
 async function generateTestQuestionsForCandidate(candidateId, appliedRole) {
   const role = (appliedRole || 'Full Stack Developer').trim();
-  const isMarketing = role.toLowerCase().includes('marketing') || role.toLowerCase().includes('seo');
-  const domainKey = isMarketing ? 'marketing' : 'fullstack';
-  const roleCategory = isMarketing ? 'Digital Marketing Specialist' : role;
+  const rLower = role.toLowerCase();
 
-  // Try Gemini LLM for dynamic AI generation
+  // Match applied role with registered job roles in database
+  let matchedRoleObj = null;
+  try {
+    const allRoles = getJobRoles();
+    matchedRoleObj = allRoles.find(r => 
+      r.title.toLowerCase() === rLower || 
+      rLower.includes(r.title.toLowerCase()) || 
+      r.title.toLowerCase().includes(rLower)
+    );
+  } catch (e) {}
+
+  const roleTitle = matchedRoleObj ? matchedRoleObj.title : role;
+  const roleSkills = (matchedRoleObj && matchedRoleObj.requiredSkills) 
+    ? matchedRoleObj.requiredSkills.join(', ') 
+    : 'core domain fundamentals, modern tooling, architecture, and best practices';
+  const roleDesc = (matchedRoleObj && matchedRoleObj.description) 
+    ? matchedRoleObj.description 
+    : `Practical engineering responsibilities and problem-solving for ${roleTitle}`;
+
+  // Domain key mapping for fallback question banks
+  let domainKey = 'fullstack';
+  if (rLower.includes('marketing') || rLower.includes('seo') || rLower.includes('sem') || rLower.includes('growth')) {
+    domainKey = 'marketing';
+  } else if (rLower.includes('cloud') || rLower.includes('security') || rLower.includes('devops') || rLower.includes('infrastructure')) {
+    domainKey = 'cloud_security';
+  } else if (rLower.includes('ai') || rLower.includes('ml') || rLower.includes('machine learning') || rLower.includes('data')) {
+    domainKey = 'ai_ml';
+  } else if (rLower.includes('design') || rLower.includes('ui') || rLower.includes('ux')) {
+    domainKey = 'ui_ux';
+  }
+
+  // Gemini LLM prompt strictly targeted to the specific job role and required competencies
   const prompt = `
-You are an expert Technical Examiner and Hiring Assessor for the role: "${roleCategory}".
-Generate a comprehensive, professional technical assessment test consisting of exactly 20 Multiple Choice Questions (MCQs) evaluating practical competency, real-world scenario judgment, and core skills for a "${roleCategory}".
+You are an expert Technical Examiner and Hiring Assessor for the specific role: "${roleTitle}".
+Job Description: ${roleDesc}
+Required Skills & Technologies: ${roleSkills}
+
+Generate a comprehensive, professional technical assessment test consisting of exactly 20 Multiple Choice Questions (MCQs) evaluating practical competency, real-world scenario judgment, and core skills strictly regarding "${roleTitle}" and its required competencies: ${roleSkills}.
 
 Requirements:
 1. Exactly 20 questions numbered 1 to 20.
-2. Each question must have 4 distinct, plausible options (A, B, C, D).
-3. Exactly ONE option must be correct.
-4. "correctAnswerIndex" must be an integer (0, 1, 2, or 3) indicating which option in "options" array is correct.
-5. Create practical, insightful questions covering core principles, debugging, strategy, and best practices.
+2. Every single question must be specifically and directly relevant to "${roleTitle}" and "${roleSkills}". Do NOT generate generic or out-of-domain questions.
+3. Each question must have 4 distinct, plausible options (A, B, C, D).
+4. Exactly ONE option must be correct.
+5. "correctAnswerIndex" must be an integer (0, 1, 2, or 3) indicating which option in "options" array is correct.
+6. Create practical, insightful questions covering real-world scenarios, debugging, security, performance, and best practices in "${roleTitle}".
 
 RETURN STRICT JSON ONLY (an array of 20 question objects, no markdown):
 [
@@ -961,7 +1060,7 @@ RETURN STRICT JSON ONLY (an array of 20 question objects, no markdown):
 ]
 `;
 
-  const modelsToTry = appConfig.models || ['gemini-3.5-flash-lite', 'gemini-3.1-flash-lite', 'gemini-3.7-flash', 'gemini-3.6-flash'];
+  const modelsToTry = appConfig.models || ['gemini-flash-latest', 'gemini-3.5-flash-lite', 'gemini-flash-lite-latest', 'gemini-3.1-flash-lite', 'gemini-3.6-flash'];
 
   for (const model of modelsToTry) {
     try {
@@ -999,7 +1098,7 @@ RETURN STRICT JSON ONLY (an array of 20 question objects, no markdown):
       if (Array.isArray(rawQuestions) && rawQuestions.length >= 15) {
         const randomized = optimizeAndRandomizeMCQs(rawQuestions);
         if (randomized.length === 20) {
-          console.log(`✅ [Gemini Test Generator] Generated 20 anti-pattern randomized MCQs for ${roleCategory} using ${model}`);
+          console.log(`✅ [Gemini Test Generator] Generated 20 anti-pattern randomized MCQs for "${roleTitle}" using ${model}`);
           return randomized;
         }
       }
@@ -1009,7 +1108,7 @@ RETURN STRICT JSON ONLY (an array of 20 question objects, no markdown):
   }
 
   // High-Quality Randomized Fallback Bank with Fisher-Yates and Anti-Series Key
-  console.log(`📋 [Test Generator] Using anti-pattern randomized question bank for "${roleCategory}"`);
+  console.log(`📋 [Test Generator] Using domain-specific randomized question bank for "${roleTitle}" (Domain: ${domainKey})`);
   const bank = (DOMAIN_QUESTION_BANKS[domainKey] || DOMAIN_QUESTION_BANKS.fullstack).slice();
   return optimizeAndRandomizeMCQs(bank);
 }
@@ -3737,5 +3836,7 @@ module.exports = {
   shouldIgnoreSender,
   extractTextFromDoc,
   generateTestQuestionsForCandidate,
+  generateGoogleMeetLink,
+  generateFinalInterviewInviteTemplate,
   startServer
 };
