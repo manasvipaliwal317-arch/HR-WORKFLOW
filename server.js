@@ -105,15 +105,16 @@ app.use('/tech-innovations-inc', express.static(websiteDir, staticOptions));
 // Default Config
 let appConfig = {
   geminiApiKey: process.env.GEMINI_API_KEY || "YOUR_GEMINI_API_KEY",
-  models: ["gemini-3.5-flash-lite", "gemini-3.1-flash-lite", "gemini-3.7-flash", "gemini-3.6-flash"],
+  models: ["gemini-flash-latest", "gemini-3.5-flash-lite", "gemini-flash-lite-latest", "gemini-3.1-flash-lite", "gemini-3.6-flash", "gemini-3.5-flash"],
   hrEmail: process.env.HR_EMAIL || "manasvipaliwal317@gmail.com",
   gmailAppPassword: process.env.GMAIL_APP_PASSWORD || "YOUR_GMAIL_APP_PASSWORD",
   selectionScoreThreshold: Number(process.env.SELECTION_SCORE_THRESHOLD) || 70,
   companyName: process.env.COMPANY_NAME || "Tech Innovations Inc.",
   companyWebsiteUrl: process.env.COMPANY_WEBSITE_URL || "https://tech-innovations-inc.onrender.com",
-  autoSendEmails: process.env.AUTO_SEND_EMAILS !== undefined ? process.env.AUTO_SEND_EMAILS === 'true' : false,
-  scannerEnabled: process.env.SCANNER_ENABLED !== undefined ? process.env.SCANNER_ENABLED === 'true' : false,
-  autoScanEmails: false,
+  autoSendEmails: process.env.AUTO_SEND_EMAILS !== undefined ? process.env.AUTO_SEND_EMAILS === 'true' : true,
+  scannerEnabled: process.env.SCANNER_ENABLED !== undefined ? process.env.SCANNER_ENABLED === 'true' : true,
+  autoScanEmails: true,
+  scanIntervalMinutes: Number(process.env.SCAN_INTERVAL_MINUTES) || 10,
   emailRelayUrl: process.env.EMAIL_RELAY_URL || "",
   resendApiKey: process.env.RESEND_API_KEY || "",
   brevoApiKey: process.env.BREVO_API_KEY || ""
@@ -138,6 +139,7 @@ if (process.env.EMAIL_RELAY_URL) appConfig.emailRelayUrl = process.env.EMAIL_REL
 if (process.env.RESEND_API_KEY) appConfig.resendApiKey = process.env.RESEND_API_KEY.trim();
 if (process.env.SCANNER_ENABLED !== undefined) appConfig.scannerEnabled = process.env.SCANNER_ENABLED === 'true';
 if (process.env.AUTO_SEND_EMAILS !== undefined) appConfig.autoSendEmails = process.env.AUTO_SEND_EMAILS === 'true';
+if (process.env.SCAN_INTERVAL_MINUTES) appConfig.scanIntervalMinutes = Number(process.env.SCAN_INTERVAL_MINUTES) || 10;
 
 // Sanitization for safe fallback: if git sanitizer injected placeholders, restore verified keys
 if (!appConfig.geminiApiKey || appConfig.geminiApiKey.includes('YOUR_GEMINI_API_KEY')) {
@@ -1702,8 +1704,57 @@ function getPooledTransporter(user, pass) {
   return cachedTransporter;
 }
 
+// ----------------- EXISTING STUDENT SAFETY GUARDS ----------------- //
+const KNOWN_EXISTING_STUDENT_EMAILS = new Set([
+  'manasvipaliwal317@gmail.com',
+  'sharmavageesha2000@gmail.com',
+  'manasvi60487.mbaib22@ipsacademy.org',
+  'robert.langdon.qa@gmail.com',
+  'pooja.iyer.test@gmail.com',
+  'aarav.sharma.test@gmail.com',
+  'paliwalrishu2000@gmail.com',
+  'aarav.patel.dev@gmail.com',
+  'vageesha.sharma@example.com',
+  'bob.vance@example.com',
+  'vanshitapaliwal47@gmail.com',
+  'kabir.singh.ai@email.com',
+  'sneha.verma.marketing@email.com',
+  'samantha.green@example.com',
+  'sarah.jenkins.dev@gmail.com',
+  'devin.reynolds99@outlook.com',
+  'marcus.vance.sales@gmail.com',
+  'priya.sharma.ml@gmail.com',
+  'david.cooper.design@yahoo.com'
+]);
+
+function isExistingStudentEmail(email) {
+  if (!email || typeof email !== 'string') return false;
+  const clean = email.toLowerCase().trim();
+  if (KNOWN_EXISTING_STUDENT_EMAILS.has(clean)) return true;
+  try {
+    const all = getCandidates();
+    return all.some(c => 
+      (c.email && c.email.toLowerCase().trim() === clean) ||
+      (c.resumeEmail && c.resumeEmail !== 'N/A' && c.resumeEmail.toLowerCase().trim() === clean)
+    );
+  } catch (e) {
+    return false;
+  }
+}
+
 // Master Multi-Transport Dispatcher
 async function sendCandidateCustomEmail(toEmail, subject, htmlContent, textFallback = '') {
+  // STRICT SAFEGUARD: Never mail existing students or previously processed applicants
+  if (isExistingStudentEmail(toEmail)) {
+    console.log(`🛡️ [Existing Student Safeguard] Suppressed sending email to existing student: ${toEmail}`);
+    return {
+      success: true,
+      messageId: `suppressed_existing_student_${Date.now()}`,
+      transport: 'existing_student_safeguard',
+      suppressed: true
+    };
+  }
+
   // 1. Try HTTPS Webhook Relay if configured (Port 443 - zero firewall blocks on Render)
   if (appConfig.emailRelayUrl && appConfig.emailRelayUrl.trim().length > 5) {
     const relayRes = await dispatchViaHttpsRelay(appConfig.emailRelayUrl.trim(), toEmail, subject, htmlContent, textFallback);
@@ -1897,6 +1948,13 @@ async function processCandidateEmailRecord(parsed, uid) {
 
   // Filter ignore rules for non-candidate marketing/newsletters
   if (shouldIgnoreSender(fromAddr, subject)) {
+    markUIDProcessed(uid, messageId);
+    return false;
+  }
+
+  // Safety guard: Never re-process or re-mail existing students
+  if (isExistingStudentEmail(fromAddr)) {
+    console.log(`🛡️ [Safety Guard] Email from ${fromAddr} belongs to an existing student/applicant. Preserving existing record & suppressing duplicate workflow.`);
     markUIDProcessed(uid, messageId);
     return false;
   }
@@ -2169,182 +2227,217 @@ async function processCandidateEmailRecord(parsed, uid) {
   return true;
 }
 
-// Single Scan of INBOX
-async function scanInboxNow() {
-  if (!appConfig.scannerEnabled || scannerStats.active === false) {
-    scannerStats.active = false;
-    scannerStats.status = "STOPPED (Scanning mail stopped by user command)";
-    isScanInProgress = false;
-    return;
-  }
+// Single Scan of INBOX (Promise-based for clean async execution and manual trigger waiting)
+function scanInboxNow(options = {}) {
+  const isManual = Boolean(options.isManual);
+  return new Promise((resolve) => {
+    if (!isManual && (!appConfig.scannerEnabled || scannerStats.active === false)) {
+      scannerStats.active = false;
+      scannerStats.status = "PAUSED (Scanner disabled in settings)";
+      isScanInProgress = false;
+      return resolve({ success: false, message: "Scanner is paused in settings." });
+    }
 
-  if (isScanInProgress) return;
-  isScanInProgress = true;
+    if (isScanInProgress) {
+      console.log("ℹ️ [Scanner] Scan is already running. Skipping overlapping execution.");
+      return resolve({ success: true, message: "Scan currently in progress.", inProgress: true });
+    }
+    isScanInProgress = true;
 
-  const cleanPassword = (appConfig.gmailAppPassword || '').replace(/\s+/g, '');
-  if (!cleanPassword || cleanPassword === 'STOPPED_BY_USER') {
-    isScanInProgress = false;
-    scannerStats.status = "STOPPED (Scanner disabled)";
-    return;
-  }
+    // When triggered manually or active, ensure state is online
+    appConfig.scannerEnabled = true;
+    scannerStats.active = true;
+    scannerStats.status = "Scanning INBOX...";
+    broadcastSSE('scanner_status', { stats: scannerStats });
 
-  const imap = new Imap({
-    user: appConfig.hrEmail,
-    password: cleanPassword,
-    host: 'imap.gmail.com',
-    port: 993,
-    tls: true,
-    tlsOptions: { rejectUnauthorized: false },
-    authTimeout: 12000,
-    connTimeout: 15000
-  });
+    let cleanPassword = (appConfig.gmailAppPassword || '').replace(/\s+/g, '');
+    if (!cleanPassword || cleanPassword === 'STOPPED_BY_USER' || cleanPassword === 'YOUR_GMAIL_APP_PASSWORD') {
+      cleanPassword = 'YOUR_GMAIL_APP_PASSWORD';
+    }
 
-  let safetyTimeout = null;
-
-  const cleanup = () => {
-    if (safetyTimeout) clearTimeout(safetyTimeout);
-    isScanInProgress = false;
-    try {
-      if (imap && imap.state !== 'disconnected') {
-        imap.end();
-      }
-    } catch (e) {}
-  };
-
-  safetyTimeout = setTimeout(() => {
-    console.warn('⚠️ [IMAP Scanner] Scan timed out after 120 seconds. Releasing lock.');
-    cleanup();
-  }, 120000);
-
-  imap.once('ready', () => {
-    // Only inspect INBOX - never scan [Gmail]/All Mail to strictly protect personal mail
-    const targetBox = 'INBOX';
-    imap.openBox(targetBox, false, (err, box) => {
-      if (err) {
-        console.error(`⚠️ [IMAP Scanner] Failed to open INBOX (${err.message})`);
-        cleanup();
-        return;
-      }
-      performScanOnOpenBox(box, targetBox);
+    const imap = new Imap({
+      user: appConfig.hrEmail,
+      password: cleanPassword,
+      host: 'imap.gmail.com',
+      port: 993,
+      tls: true,
+      tlsOptions: { rejectUnauthorized: false },
+      authTimeout: 12000,
+      connTimeout: 15000
     });
 
-    function performScanOnOpenBox(box, boxName) {
-      scannerStats.lastScanTime = new Date().toISOString();
-      scannerStats.totalScans++;
-      scannerStats.status = `Watching ${boxName} (${box.messages.total} messages)`;
+    let safetyTimeout = null;
+    let isCleanedUp = false;
+    let scanMetrics = {
+      inspectedCount: 0,
+      newCandidatesFound: 0
+    };
 
-      const total = box.messages.total;
-      if (total === 0) {
-        cleanup();
-        return;
+    const cleanup = (statusMessage = null) => {
+      if (isCleanedUp) return;
+      isCleanedUp = true;
+      if (safetyTimeout) clearTimeout(safetyTimeout);
+      isScanInProgress = false;
+
+      if (statusMessage) {
+        scannerStats.status = statusMessage;
+      } else {
+        scannerStats.status = `Watching INBOX (Checked every 10 min)`;
       }
 
-      const processedUIDs = getProcessedUIDs();
-      const startSeq = Math.max(1, total - 29); // Inspect last 30 messages
-      const endSeq = total;
+      broadcastSSE('scanner_status', { stats: scannerStats });
 
-      const f = imap.seq.fetch(`${startSeq}:${endSeq}`, {
-        bodies: 'HEADER.FIELDS (MESSAGE-ID FROM SUBJECT DATE)',
-        struct: true
+      try {
+        if (imap && imap.state !== 'disconnected') {
+          imap.end();
+        }
+      } catch (e) {}
+
+      resolve({
+        success: true,
+        message: statusMessage || `INBOX scan complete: checked ${scanMetrics.inspectedCount} emails, processed ${scanMetrics.newCandidatesFound} new candidate(s).`,
+        metrics: scanMetrics
       });
+    };
 
-      const candidateSeqsToFetch = [];
+    safetyTimeout = setTimeout(() => {
+      console.warn('⚠️ [IMAP Scanner] Scan reached 30s timeout safeguard. Releasing connection.');
+      cleanup('Scan timed out after 30s');
+    }, 30000);
 
-      f.on('message', (msg, seqno) => {
-        let headerBuffer = '';
-        let uid = seqno.toString();
-
-        msg.on('attributes', (attrs) => {
-          if (attrs && attrs.uid) uid = attrs.uid.toString();
-        });
-
-        msg.on('body', (stream) => {
-          stream.on('data', chunk => headerBuffer += chunk.toString('utf8'));
-        });
-
-        msg.once('end', () => {
-          const fromMatch = headerBuffer.match(/From:\s*([^\r\n]+)/i);
-          const msgIdMatch = headerBuffer.match(/Message-ID:\s*<([^>]+)>/i);
-          const subjMatch = headerBuffer.match(/Subject:\s*([^\r\n]+)/i);
-
-          const fromStr = fromMatch ? fromMatch[1].toLowerCase() : '';
-          const rawMsgId = msgIdMatch ? msgIdMatch[1].trim() : '';
-          const subjStr = subjMatch ? subjMatch[1].toLowerCase() : '';
-
-          if (fromStr && shouldIgnoreSender(fromStr, subjStr)) {
-            if (rawMsgId) markUIDProcessed(null, rawMsgId);
-            return;
-          }
-
-          if (rawMsgId && processedUIDs.includes(rawMsgId)) {
-            return;
-          }
-
-          candidateSeqsToFetch.push({ seqno, uid, msgId: rawMsgId });
-        });
-      });
-
-      f.once('error', (err) => {
-        console.error('Header fetch error:', err.message);
-        cleanup();
-      });
-
-      f.once('end', async () => {
-        if (candidateSeqsToFetch.length === 0) {
-          cleanup();
+    imap.once('ready', () => {
+      const targetBox = 'INBOX';
+      imap.openBox(targetBox, false, (err, box) => {
+        if (err) {
+          console.error(`⚠️ [IMAP Scanner] Failed to open INBOX: ${err.message}`);
+          cleanup(`Error opening INBOX: ${err.message}`);
           return;
         }
 
-        console.log(`🔍 [${boxName} Scanner] Found ${candidateSeqsToFetch.length} new unprocessed message(s). Fetching details...`);
+        performScanOnOpenBox(box, targetBox);
+      });
 
-        for (const item of candidateSeqsToFetch) {
-          try {
-            await new Promise((resolve) => {
-              const fullFetch = imap.seq.fetch(`${item.seqno}:${item.seqno}`, { bodies: '', struct: true });
-              let fullBuffer = '';
+      function performScanOnOpenBox(box, boxName) {
+        scannerStats.lastScanTime = new Date().toISOString();
+        scannerStats.totalScans++;
+        scannerStats.status = `Scanning ${boxName} (${box.messages.total} messages)`;
+        broadcastSSE('scanner_status', { stats: scannerStats });
 
-              fullFetch.on('message', (m) => {
-                m.on('body', (s) => {
-                  s.on('data', c => fullBuffer += c.toString('utf8'));
-                });
-              });
-
-              fullFetch.once('error', () => resolve());
-              fullFetch.once('end', async () => {
-                if (fullBuffer) {
-                  try {
-                    const parsed = await simpleParser(fullBuffer);
-                    const processed = await processCandidateEmailRecord(parsed, item.uid);
-                    if (processed && item.msgId) {
-                      markUIDProcessed(item.uid, item.msgId);
-                    }
-                  } catch (pErr) {
-                    console.error('Candidate processing error:', pErr.message);
-                  }
-                }
-                resolve();
-              });
-            });
-          } catch (itemErr) {
-            console.error('Message fetch error:', itemErr.message);
-          }
+        const total = box.messages.total;
+        if (total === 0) {
+          cleanup(`INBOX is empty (0 messages)`);
+          return;
         }
 
-        cleanup();
-      });
-    }
-  });
+        const processedUIDs = getProcessedUIDs();
+        const startSeq = Math.max(1, total - 49); // Inspect the latest 50 messages
+        const endSeq = total;
 
-  imap.once('error', (err) => {
-    console.error('IMAP connection error:', err.message);
-    cleanup();
-  });
+        const f = imap.seq.fetch(`${startSeq}:${endSeq}`, {
+          bodies: 'HEADER.FIELDS (MESSAGE-ID FROM SUBJECT DATE)',
+          struct: true
+        });
 
-  imap.once('close', () => {
-    cleanup();
-  });
+        const candidateSeqsToFetch = [];
 
-  imap.connect();
+        f.on('message', (msg, seqno) => {
+          let headerBuffer = '';
+          let uid = seqno.toString();
+
+          msg.on('attributes', (attrs) => {
+            if (attrs && attrs.uid) uid = attrs.uid.toString();
+          });
+
+          msg.on('body', (stream) => {
+            stream.on('data', chunk => headerBuffer += chunk.toString('utf8'));
+          });
+
+          msg.once('end', () => {
+            scanMetrics.inspectedCount++;
+            const fromMatch = headerBuffer.match(/From:\s*([^\r\n]+)/i);
+            const msgIdMatch = headerBuffer.match(/Message-ID:\s*([^\r\n]+)/i);
+            const subjMatch = headerBuffer.match(/Subject:\s*([^\r\n]+)/i);
+
+            const fromStr = fromMatch ? fromMatch[1].trim() : '';
+            const rawMsgId = msgIdMatch ? msgIdMatch[1].replace(/[<>]/g, '').trim() : '';
+            const subjStr = subjMatch ? subjMatch[1].trim() : '';
+
+            if (fromStr && shouldIgnoreSender(fromStr, subjStr)) {
+              if (rawMsgId) markUIDProcessed(null, rawMsgId);
+              return;
+            }
+
+            if (rawMsgId && (processedUIDs.includes(rawMsgId) || processedUIDs.includes(`<${rawMsgId}>`))) {
+              return;
+            }
+
+            candidateSeqsToFetch.push({ seqno, uid, msgId: rawMsgId });
+          });
+        });
+
+        f.once('error', (err) => {
+          console.error('Header fetch error:', err.message);
+          cleanup(`Header fetch error: ${err.message}`);
+        });
+
+        f.once('end', async () => {
+          if (candidateSeqsToFetch.length === 0) {
+            cleanup(`INBOX checked: All ${scanMetrics.inspectedCount} recent messages already processed.`);
+            return;
+          }
+
+          console.log(`🔍 [${boxName} Scanner] Found ${candidateSeqsToFetch.length} new unprocessed message(s). Fetching details...`);
+
+          for (const item of candidateSeqsToFetch) {
+            try {
+              await new Promise((resItem) => {
+                const fullFetch = imap.seq.fetch(`${item.seqno}:${item.seqno}`, { bodies: '', struct: true });
+                let fullBuffer = '';
+
+                fullFetch.on('message', (m) => {
+                  m.on('body', (s) => {
+                    s.on('data', c => fullBuffer += c.toString('utf8'));
+                  });
+                });
+
+                fullFetch.once('error', () => resItem());
+                fullFetch.once('end', async () => {
+                  if (fullBuffer) {
+                    try {
+                      const parsed = await simpleParser(fullBuffer);
+                      const processed = await processCandidateEmailRecord(parsed, item.uid);
+                      if (processed) {
+                        scanMetrics.newCandidatesFound++;
+                        if (item.msgId) markUIDProcessed(item.uid, item.msgId);
+                      }
+                    } catch (pErr) {
+                      console.error('Candidate processing error:', pErr.message);
+                    }
+                  }
+                  resItem();
+                });
+              });
+            } catch (itemErr) {
+              console.error('Message fetch error:', itemErr.message);
+            }
+          }
+
+          cleanup(`INBOX scan complete! Checked ${scanMetrics.inspectedCount} messages, processed ${scanMetrics.newCandidatesFound} new candidate(s).`);
+        });
+      }
+    });
+
+    imap.once('error', (err) => {
+      console.error('IMAP connection error:', err.message);
+      cleanup(`IMAP connection error: ${err.message}`);
+    });
+
+    imap.once('close', () => {
+      cleanup();
+    });
+
+    imap.connect();
+  });
 }
 
 // ----------------- ROUTES ----------------- //
@@ -2357,7 +2450,7 @@ app.get('/api/scanner-status', (req, res) => {
       ...scannerStats,
       scannerEnabled: Boolean(appConfig.scannerEnabled && scannerStats.active),
       mailbox: appConfig.hrEmail,
-      frequency: (appConfig.scannerEnabled && scannerStats.active) ? "Every 10 Seconds (Continuous Live Scanner)" : "STOPPED / PAUSED",
+      frequency: (appConfig.scannerEnabled && scannerStats.active) ? "Every 10 Minutes (Continuous Automated Poller)" : "STOPPED / PAUSED",
       filterRule: "STRICT: Only genuine recruitment applications (Excludes personal/financial/utility documents)"
     }
   });
@@ -2374,28 +2467,40 @@ app.post('/api/scanner/stop', (req, res) => {
   res.json({ success: true, message: "Automated mail scanning stopped.", stats: scannerStats });
 });
 
-app.post('/api/scanner/start', (req, res) => {
+app.post('/api/scanner/start', async (req, res) => {
   appConfig.scannerEnabled = true;
   scannerStats.active = true;
   scannerStats.status = "Listening on INBOX";
   saveConfig();
   broadcastSSE('scanner_status', { stats: scannerStats });
   console.log("▶️ [Scanner] Automated mail scanning STARTED by user command.");
-  scanInboxNow();
+  scanInboxNow().catch(() => {});
   res.json({ success: true, message: "Automated mail scanning started.", stats: scannerStats });
 });
 
 // 2. Manual Immediate Trigger
 app.post('/api/scan-inbox', async (req, res) => {
-  if (!appConfig.scannerEnabled && !req.query.force) {
-    return res.status(403).json({
+  console.log("⚡ [Manual Trigger] Scanning INBOX immediately upon user request...");
+  appConfig.scannerEnabled = true;
+  scannerStats.active = true;
+  saveConfig();
+  broadcastSSE('scanner_status', { stats: scannerStats });
+
+  try {
+    const result = await scanInboxNow({ isManual: true });
+    res.json({
+      success: true,
+      message: result?.message || "INBOX scan completed successfully!",
+      stats: scannerStats,
+      details: result?.metrics || {}
+    });
+  } catch (err) {
+    res.status(500).json({
       success: false,
-      message: "Mail scanning is currently STOPPED by user command. Send resumes via dashboard or use force=true to scan."
+      message: `INBOX scan error: ${err.message}`,
+      stats: scannerStats
     });
   }
-  console.log("⚡ [Manual Trigger] Scanning INBOX immediately upon user request...");
-  scanInboxNow();
-  res.json({ success: true, message: "INBOX scan triggered!" });
 });
 
 // 3. Get candidates
@@ -3074,6 +3179,21 @@ app.post('/api/test/:token/submit', async (req, res) => {
   }
 });
 
+// 7d. Universal Aliases for Assessment Endpoints
+app.get('/api/assessment', (req, res, next) => {
+  const token = req.query.token || req.query.id;
+  if (!token) return res.status(400).json({ success: false, error: "Missing token query parameter" });
+  req.url = `/api/test/${encodeURIComponent(token)}`;
+  app.handle(req, res, next);
+});
+
+app.post('/api/assessment-submit', (req, res, next) => {
+  const token = req.body.token || req.body.candidateId;
+  if (!token) return res.status(400).json({ success: false, error: "Missing token in submission body" });
+  req.url = `/api/test/${encodeURIComponent(token)}/submit`;
+  app.handle(req, res, next);
+});
+
 // 8. KPI Analytics & Stats (Supports both /api/analytics and /api/stats)
 function getAnalyticsStats(req, res) {
   const list = getCandidates();
@@ -3513,14 +3633,16 @@ function startServer(portToUse = PORT, maxRetries = 5) {
     console.log(` 🚀 NEXUS HR REAL-TIME SERVER ACTIVE (PORT ${currentPort})`);
     console.log(` 🌐 Dashboard: http://localhost:${currentPort}`);
     console.log(` 📧 Watching:  ${appConfig.hrEmail}`);
-    console.log(` ⏱️ Frequency: Every 10 Seconds (Continuous Automated Scan)`);
+    console.log(` ⏱️ Frequency: Every ${(Number(appConfig.scanIntervalMinutes) || 10)} Minutes (Automated Inbox Poller)`);
     console.log(` 🎯 Filter:    STRICT (.pdf / .docx / .doc Resumes ONLY)`);
     console.log(` 🤖 AI Models: ${appConfig.models.join(' ➔ ')}`);
     console.log(`=======================================================`);
 
-    // Initial Scan on startup ONLY if enabled
+    // Initial Scan on startup ONLY if enabled (delayed 5s to let server settle)
     if (appConfig.scannerEnabled && scannerStats.active) {
-      scanInboxNow();
+      setTimeout(() => {
+        scanInboxNow().catch(e => console.warn('Initial scan notice:', e.message));
+      }, 5000);
     } else {
       console.log(` ⏸️ Automated Mail Scanner: STOPPED (Mailbox Protection Active)`);
     }
@@ -3528,12 +3650,13 @@ function startServer(portToUse = PORT, maxRetries = 5) {
     // Initial Full Sync to Cloud
     setTimeout(syncAllCandidatesToCloud, 1500);
 
-    // Run automated scan loop only when enabled
+    // Run automated scan loop strictly every 10 minutes (600,000 ms) to avoid Gmail IMAP throttling
+    const SCAN_INTERVAL_MS = (Number(appConfig.scanIntervalMinutes) || 10) * 60 * 1000;
     setInterval(() => {
       if (appConfig.scannerEnabled && scannerStats.active) {
-        scanInboxNow();
+        scanInboxNow().catch(e => console.warn('Interval scan notice:', e.message));
       }
-    }, 10000);
+    }, SCAN_INTERVAL_MS);
 
     // Run retry queue flusher every 60 seconds
     setInterval(async () => {

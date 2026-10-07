@@ -1,594 +1,1665 @@
 [
   {
-    "id": "cand_live_interview_demo",
-    "name": "Manasvi Paliwal",
-    "email": "manasvipaliwal317@gmail.com",
-    "phone": "+91 98765 43210",
+    "id": "cand_muxq81ja_e9gt",
+    "name": "Kunal Verma",
+    "email": "kunal.verma.sales2026@gmail.com",
+    "phone": "+91 90000 11111",
     "role": "Full Stack Developer",
     "decision": "REJECTED",
-    "matchScore": 94,
+    "matchScore": 15,
     "status": "REJECTED",
-    "yearsOfExperience": 4,
+    "testStatus": "N/A",
+    "testToken": "cand_muxq81ja_e9gt",
+    "testLink": "https://nexus-hr-workflow.onrender.com/assessment.html?token=cand_muxq81ja_e9gt",
+    "testQuestions": [],
+    "yearsOfExperience": "2 years",
     "topSkills": [
-      "React",
-      "Node.js",
-      "PostgreSQL",
-      "Docker",
-      "REST APIs"
+      "Cash register handling",
+      "Customer service",
+      "Shelf restocking",
+      "Billing",
+      "POS machines"
     ],
-    "education": "B.Tech in Computer Science",
+    "education": "Not Specified",
     "strengths": [
-      "Full stack architecture",
-      "High throughput API design"
+      "Strong customer-facing retail experience",
+      "Reliable cash handling and daily reconciliation skills"
     ],
-    "evaluationSummary": "High potential candidate demonstrating deep proficiency in scalable distributed systems.",
-    "interviewRound": "Technical & System Design Round",
-    "interviewerName": "Engineering Hiring Panel",
-    "interviewStatus": "Assessment Completed (Score: 40% - Rejected)",
+    "areasForImprovement": [
+      "Complete lack of computer programming or software development background",
+      "Need to acquire foundational technical skills in frontend and backend development",
+      "Requires professional software engineering project experience"
+    ],
+    "evaluationSummary": "Kunal Verma has submitted an application for the Full Stack Developer role. However, his professional background is entirely rooted in retail store operations, cash handling, and customer service as a Retail Store Associate. He possesses no computer science education, programming skills, or software development experience. Consequently, he does not meet the technical competencies required for a Full Stack Developer.",
+    "rejectionReason": "The candidate lacks any software engineering background, programming knowledge, or technical skillsets required for a Full Stack Developer position.",
+    "interviewQuestions": [],
+    "proposedInterviewDate": "Monday, October 12, 2026",
+    "interviewDate": "Monday, October 12, 2026",
+    "interviewTime": "30 Minutes Online Technical Assessment",
+    "joiningDate": "Monday, November 2, 2026",
+    "interviewRound": "Domain Technical MCQ Assessment (20 Questions / 30 Mins)",
+    "interviewerName": "Tech Innovations Inc. Technical Hiring Council",
     "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
-    "workLocation": "Tech Innovations Campus, Cyber City, Bangalore",
+    "workLocation": "Tech Innovations Inc. Campus, Cyber City, Bangalore",
     "employmentType": "Full-Time Permanent",
     "department": "Core Engineering & Technology",
-    "createdAt": "2026-09-21T10:53:52.963Z",
-    "updatedAt": "2026-09-21T11:00:17.235Z",
+    "location": "Bangalore, India / Open to Relocation",
+    "salaryOffer": "Competitive / Market Standard (Finalized upon Offer)",
+    "interviewStatus": "N/A",
+    "emailSubject": "Update regarding your application at Tech Innovations Inc.",
+    "emailBody": "Dear Kunal,\n\nThank you for your interest in the Full Stack Developer position at Tech Innovations Inc. and for submitting your application on October 7, 2026. After careful review of your resume, we found that your background aligns more closely with retail operations rather than software engineering. At this time, we have decided to move forward with other candidates whose technical skills closely match our requirements. We wish you the very best in your career and future job search endeavors.\n\nSincerely,\nTechnical Recruiting Team\nTech Innovations Inc.",
+    "emailSentAt": "2026-10-07T06:28:29.254Z",
+    "createdAt": "2026-10-07T06:28:29.254Z",
+    "updatedAt": "2026-10-07T06:28:29.254Z",
+    "source": "Dashboard Submission"
+  },
+  {
+    "id": "cand_muxq7qnq_8rr1",
+    "name": "Riya Sen",
+    "email": "riya.sen.growth2026@gmail.com",
+    "phone": "+91 91234 56789",
+    "role": "Digital Marketing Specialist",
+    "decision": "SELECTED",
+    "matchScore": 88,
+    "status": "TEST_ASSIGNED",
+    "testStatus": "ASSIGNED",
+    "testToken": "cand_muxq7qnq_8rr1",
+    "testLink": "https://nexus-hr-workflow.onrender.com/assessment.html?token=cand_muxq7qnq_8rr1",
     "testQuestions": [
       {
         "id": 1,
-        "question": "What is the primary purpose of database indexing, and what is a notable trade-off?",
+        "question": "An e-commerce brand notices a sudden drop in organic traffic despite stable keyword rankings. Upon checking Google Search Console, impressions are high, but clicks have declined significantly. What is the most likely cause?",
         "options": [
-          "Indexes speed up data retrieval (SELECT queries) at the cost of slower write operations (INSERT, UPDATE, DELETE) and increased storage space.",
-          "Indexes automatically normalize database tables to 3NF.",
-          "Indexes eliminate the need for foreign key constraints and reduce memory usage.",
-          "Indexes convert relational databases into NoSQL document stores."
+          "A penalty from Google for keyword stuffing",
+          "Server downtime causing search engines to de-index the site",
+          "A change in user search intent or poor meta descriptions/title tags leading to lower CTR",
+          "Ad blockers preventing users from clicking organic links"
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 2,
+        "question": "You are managing a Google Ads search campaign with a limited budget. The campaign is currently using 'Maximize Clicks'. To maximize qualified leads and improve ROI, what strategy should you implement next?",
+        "options": [
+          "Switch to 'Maximize Conversions' or 'Target CPA' and implement conversion tracking",
+          "Pause all broad match keywords and use only exact match keywords",
+          "Switch to 'Maximize Impression Share' to dominate the search results page",
+          "Increase keyword bids by 50% across the board"
         ],
         "correctAnswerIndex": 0
       },
       {
-        "id": 2,
-        "question": "What is the primary role of an ORM (Object-Relational Mapper) like Prisma or TypeORM, and what is a common pitfall?",
+        "id": 3,
+        "question": "In Google Analytics 4 (GA4), how are sessions primarily counted compared to Universal Analytics?",
         "options": [
-          "ORMs automatically encrypt database backups; a common pitfall is accidental deletion of indexes.",
-          "ORMs manage container orchestration; a common pitfall is memory leaks in Node.js.",
-          "ORMs convert frontend UI components into SQL queries; a common pitfall is slow browser rendering.",
-          "ORMs translate database tables into object models; a common pitfall is the N+1 query problem due to lazy loading or unoptimized relations."
+          "GA4 counts a new session every time a user changes a webpage",
+          "GA4 uses the 'session_start' event and relies on client-side timers, meaning session calculations are derived from event data rather than independent session hits",
+          "GA4 does not track sessions at all; it only tracks pageviews",
+          "GA4 counts sessions based strictly on IP address changes"
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "Which of the following Core Web Vitals metric measures visual stability, helping you ensure elements don't shift unexpectedly while the page loads?",
+        "options": [
+          "Largest Contentful Paint (LCP)",
+          "First Input Delay (FID)",
+          "Cumulative Layout Shift (CLS)",
+          "Interaction to Next Paint (INP)"
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 5,
+        "question": "When analyzing Meta Ads performance, you notice a high Click-Through Rate (CTR) of 3.5%, but a very low Conversion Rate (CR) of 0.2% on the landing page. What is the most appropriate diagnostic conclusion?",
+        "options": [
+          "The audience targeting is too broad.",
+          "The ad creative is ineffective and needs to be completely redesigned.",
+          "There is a disconnect between the ad promise and the landing page experience, or the landing page has major friction.",
+          "The Meta Pixel is firing twice on every conversion event."
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 6,
+        "question": "A local business wants to improve its local SEO visibility on Google Maps and Google Search. Which of the following actions will have the most direct positive impact?",
+        "options": [
+          "Optimizing the Google Business Profile, gathering consistent reviews, and ensuring NAP consistency",
+          "Building low-quality directory backlinks in massive quantities",
+          "Running local display ads on Google Display Network",
+          "Publishing daily blog posts on the main website about industry trends"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 7,
+        "question": "Why is establishing a clear 'Customer Journey Map' essential before launching a comprehensive digital marketing campaign?",
+        "options": [
+          "It guarantees lower cost-per-click rates across all paid advertising networks",
+          "It replaces the need for any keyword research or audience demographic analysis",
+          "It helps marketers align messaging, select the right channels, and remove friction at every touchpoint from awareness to conversion and retention",
+          "It automates the creation of ad copy and visual assets"
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 8,
+        "question": "What is 'Churn Rate' in the context of subscription-based digital marketing businesses?",
+        "options": [
+          "The speed at which email subscribers open marketing newsletters",
+          "The rate at which new users sign up for a free trial",
+          "The percentage of cart abandonments on an e-commerce checkout page",
+          "The percentage of subscribers who cancel or fail to renew their subscription over a given time period"
         ],
         "correctAnswerIndex": 3
       },
       {
-        "id": 3,
-        "question": "You are designing a database schema for an e-commerce platform in PostgreSQL where orders frequently require joining with order items and product details. To optimize read performance without sacrificing write integrity, which strategy should you consider first?",
-        "options": [
-          "Create appropriate B-tree indexes on foreign keys and use covering indexes (INCLUDE clause) for frequent queries.",
-          "Denormalize all product data directly into the orders table as a JSONB column.",
-          "Store all transactional data in Redis and persist to PostgreSQL asynchronously once a day.",
-          "Split the database into independent microservices with no foreign key constraints."
-        ],
-        "correctAnswerIndex": 0
-      },
-      {
-        "id": 4,
-        "question": "You need to implement token-based authentication using JSON Web Tokens (JWT) in a Single Page Application. Which storage mechanism presents the highest risk to security regarding Cross-Site Scripting (XSS) attacks?",
-        "options": [
-          "In-memory JavaScript application state variables",
-          "Browser LocalStorage",
-          "HttpOnly, Secure SameSite cookies",
-          "SessionStorage cleared on tab close"
-        ],
-        "correctAnswerIndex": 1
-      },
-      {
-        "id": 5,
-        "question": "What is the primary benefit of implementing Server-Side Rendering (SSR) or Static Site Generation (SSG) in frameworks like Next.js compared to Client-Side Rendering (CSR)?",
-        "options": [
-          "Improving initial page load performance (SEO friendliness and faster First Contentful Paint) by rendering HTML on the server.",
-          "Eliminating the need for CSS stylesheets.",
-          "Removing all server infrastructure costs.",
-          "Allowing developers to write backend code directly inside React components without an API layer."
-        ],
-        "correctAnswerIndex": 0
-      },
-      {
-        "id": 6,
-        "question": "In modern Frontend state management (such as Redux Toolkit, Zustand, or Context API), why is immutability of state emphasized?",
-        "options": [
-          "It prevents browsers from caching JavaScript bundles.",
-          "It automatically synchronizes frontend state with backend databases.",
-          "It ensures state updates can be tracked, enables time-travel debugging, and allows UI components to efficiently detect changes through shallow comparisons.",
-          "It reduces the total lines of code required to build user interfaces."
-        ],
-        "correctAnswerIndex": 2
-      },
-      {
-        "id": 7,
-        "question": "In a microservices architecture, multiple independent services need to communicate asynchronously. Which pattern best ensures reliable event delivery and decoupling between the producer and consumers?",
-        "options": [
-          "Client-side polling via WebSockets connected to a central load balancer.",
-          "Pub/Sub messaging via a distributed broker like Apache Kafka or RabbitMQ.",
-          "Direct synchronous HTTP REST calls with exponential backoff retries.",
-          "Shared database tables where services poll for updates every second."
-        ],
-        "correctAnswerIndex": 1
-      },
-      {
-        "id": 8,
-        "question": "When configuring a React Single Page Application behind a reverse proxy like Nginx, you encounter '404 Not Found' errors when users attempt to hard-refresh deep routes (e.g., /dashboard/settings). What is the correct Nginx configuration adjustment?",
-        "options": [
-          "Enable gzip compression for all static assets.",
-          "Add 'try_files $uri $uri/ /index.html;' to the server block.",
-          "Configure proxy_pass to redirect all traffic to the Node.js backend.",
-          "Set up a permanent redirect from 404 to the root domain."
-        ],
-        "correctAnswerIndex": 1
-      },
-      {
         "id": 9,
-        "question": "What is the primary security vulnerability mitigated by implementing a strict Content Security Policy (CSP) header with nonces or hashes in a modern web application?",
+        "question": "A B2B SaaS company has a long sales cycle. Which content marketing strategy is most effective for nurturing leads at the middle-of-the-funnel (MOFU)?",
         "options": [
-          "Cross-Site Scripting (XSS)",
-          "SQL Injection (SQLi)",
-          "Broken Object Level Authorization (BOLA)",
-          "Distributed Denial of Service (DDoS)"
+          "Broad industry news articles targeting high-volume keywords",
+          "Short-form Instagram Reels and TikTok videos highlighting brand culture",
+          "Discount codes and promotional pop-ups on the homepage",
+          "In-depth whitepapers, case studies, comparison guides, and webinars addressing specific problem solutions"
         ],
-        "correctAnswerIndex": 0
+        "correctAnswerIndex": 3
       },
       {
         "id": 10,
-        "question": "When building a responsive modern web application, what is the primary benefit of utilizing CSS Grid over CSS Flexbox?",
+        "question": "You are running a LinkedIn Sponsored Content campaign targeting enterprise C-level executives. The cost-per-click (CPC) is exceptionally high compared to other platforms. What is the standard and most effective way to optimize cost efficiency on LinkedIn?",
         "options": [
-          "CSS Grid eliminates the need for media queries entirely under all conditions.",
-          "CSS Grid automatically compresses images for faster page loads.",
-          "CSS Grid natively supports two-dimensional layouts (rows and columns simultaneously) with explicit track definitions.",
-          "CSS Grid is better suited for one-dimensional layouts (rows or columns)."
+          "Use broad keyword targeting without any filters to lower the bid competition",
+          "Refine audience targeting using firmographics, job functions, and seniority, and test thought-leadership ad formats",
+          "Switch entirely to Google Search Ads because LinkedIn is never cost-effective",
+          "Lower your maximum daily budget to restrict spending"
         ],
-        "correctAnswerIndex": 2
+        "correctAnswerIndex": 1
       },
       {
         "id": 11,
-        "question": "Which HTTP status code is most appropriate when a request has been successfully processed, but there is no new representation to return in the response body (e.g., a successful DELETE request)?",
+        "question": "What is the primary strategic difference between SEO and PPC?",
         "options": [
-          "202 Accepted",
-          "201 Created",
-          "204 No Content",
-          "200 OK"
+          "PPC relies on content marketing and keyword research, whereas SEO relies purely on ad spend and bidding",
+          "There is no difference; both require ongoing ad budget to maintain visibility",
+          "SEO provides sustainable organic visibility through earned rankings, while PPC delivers immediate paid visibility on a pay-per-click basis",
+          "SEO generates short-term traffic, while PPC builds long-term organic equity"
         ],
         "correctAnswerIndex": 2
       },
       {
         "id": 12,
-        "question": "What does the 'S' in the SOLID design principles stand for, and how does it apply to Full Stack development?",
+        "question": "What is the primary purpose of setting up UTM parameters in digital marketing campaigns?",
         "options": [
-          "Scalability Principle: Systems must scale horizontally automatically.",
-          "Security Principle: Every module must validate user inputs.",
-          "Speed Principle: Functions must execute in constant time O(1).",
-          "Single Responsibility Principle: A class or module should have only one reason to change."
-        ],
-        "correctAnswerIndex": 3
-      },
-      {
-        "id": 13,
-        "question": "You are designing an API endpoint that handles financial transactions and must be idempotent. What does idempotency mean in this context?",
-        "options": [
-          "The endpoint requires multi-factor authentication for every call.",
-          "Making multiple identical requests has the same effect as making a single request.",
-          "The response is always returned in XML format.",
-          "The operation executes faster on subsequent calls."
+          "To encrypt landing page URLs for better user data security",
+          "To track the effectiveness of digital marketing campaigns across traffic sources in analytics tools",
+          "To improve SEO rankings by providing extra metadata to search engines",
+          "To automatically optimize ad creative variants using machine learning"
         ],
         "correctAnswerIndex": 1
       },
       {
-        "id": 14,
-        "question": "What is the purpose of CORS (Cross-Origin Resource Sharing) headers in web browsers?",
+        "id": 13,
+        "question": "In email marketing, what is the best practice to handle a sudden surge in subscriber bounce rates (both hard and soft bounces)?",
         "options": [
-          "To manage user session timeouts across multiple browser tabs.",
-          "To compress HTTP payloads for faster transmission over high-latency networks.",
-          "To encrypt traffic traveling between the browser and the server.",
-          "To allow a server to indicate any origins other than its own from which a browser should permit loading resources."
+          "Immediately resend the campaign to un-engaged users with a different subject line",
+          "Increase the sending frequency to dilute the bounce rate percentage",
+          "Switch to a different email service provider (ESP) to bypass delivery filters",
+          "Clean your email list by removing hard bounces and reviewing inactive subscribers"
         ],
         "correctAnswerIndex": 3
       },
       {
-        "id": 15,
-        "question": "In Git, what is the fundamental operational difference between 'git merge' and 'git rebase'?",
+        "id": 14,
+        "question": "How does Google's 'First-Party Mode' or server-side tagging (via Google Tag Manager) primarily benefit modern digital marketers?",
         "options": [
-          "Merge deletes older commits, while rebase keeps them.",
-          "Merge requires a pull request, while rebase is performed automatically.",
-          "Rebase can only be used on remote repositories, while merge is local-only.",
-          "Merge creates a new merge commit combining histories, while rebase rewrites commit history by moving your feature branch base to the tip of the main branch."
+          "It improves data privacy compliance, bypasses some ad-blocker restrictions, and enhances page load speed",
+          "It completely eliminates the need for any website coding or developer support",
+          "It automatically generates high-converting ad copy using AI",
+          "It guarantees a 100% impression share on Google Ads"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 15,
+        "question": "When planning a multi-channel social media strategy, why is 'content repurposing' a best practice?",
+        "options": [
+          "It ensures that every platform receives identical content without any adjustments",
+          "It reduces the need for analytics tracking and reporting",
+          "Search engines penalize brands that create unique content for every channel",
+          "It allows brands to maximize efficiency and reach different audience segments by adapting core content into platform-native formats"
         ],
         "correctAnswerIndex": 3
       },
       {
         "id": 16,
-        "question": "When designing a GraphQL API compared to a REST API, which scenario represents the most significant advantage?",
+        "question": "What is the primary purpose of a robots.txt file in technical SEO?",
         "options": [
-          "Built-in protection against denial of service attacks without rate limiting.",
-          "Lower server CPU usage due to lack of caching requirements.",
-          "Eliminating over-fetching and under-fetching of data by allowing clients to query exactly what they need.",
-          "Automatic handling of database transaction rollbacks."
-        ],
-        "correctAnswerIndex": 2
-      },
-      {
-        "id": 17,
-        "question": "How does the JavaScript engine handle asynchronous operations under the hood using the Event Loop?",
-        "options": [
-          "It blocks the main thread until the network request completes.",
-          "It offloads I/O tasks to system kernel or thread pool, then pushes callbacks to the callback/task queue once ready, to be executed when the call stack is empty.",
-          "It uses multi-threading directly within JavaScript code execution blocks.",
-          "It constantly polls all async functions every millisecond using CPU cycles."
+          "To speed up browser rendering times for mobile users",
+          "To instruct search engine crawlers which pages or files on your site they can or cannot request",
+          "To submit your XML sitemap directly to Google Search Console",
+          "To block hackers and malicious bots from stealing website content"
         ],
         "correctAnswerIndex": 1
       },
       {
-        "id": 18,
-        "question": "When optimizing a web application's Core Web Vitals, which metric specifically measures visual stability and unexpected layout shifts?",
+        "id": 17,
+        "question": "What is the recommended approach when dealing with cannibalization in SEO (where multiple pages on your site target the same keyword and compete against each other)?",
         "options": [
-          "First Input Delay (FID)",
-          "Time to First Byte (TTFB)",
-          "Largest Contentful Paint (LCP)",
-          "Cumulative Layout Shift (CLS)"
+          "Consolidate the content using 301 redirects to a single definitive pillar page, or clearly differentiate the targeting intent of each page",
+          "Ignore it, as Google automatically merges cannibalized pages without affecting rankings",
+          "Buy more backlinks for the weaker page until it outranks the stronger page",
+          "Delete all competing pages immediately and stop publishing content"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 18,
+        "question": "When setting up an A/B test for a landing page, what is a critical statistical prerequisite before declaring a winner?",
+        "options": [
+          "Achieving statistical significance and ensuring an adequate sample size",
+          "Testing only the background color and font size changes",
+          "Having exactly 50% traffic split across 10 different variations simultaneously",
+          "Running the test for at least 2 hours during peak traffic time"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 19,
+        "question": "What does 'Attribution Modeling' refer to in digital marketing analytics?",
+        "options": [
+          "The method of calculating the total lifetime value of a customer",
+          "The attribution of budget across different social media channels based on follower count",
+          "The process of assigning demographic attributes to anonymous website visitors",
+          "The rule or set of rules that determines how credit for sales and conversions is assigned to touchpoints in conversion paths"
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 20,
+        "question": "You notice your brand's ROAS (Return on Ad Spend) has been declining over the last month on Meta Ads, despite stable CTR and CPC. What factor is most likely causing this?",
+        "options": [
+          "Your domain name was blacklisted by Facebook",
+          "Creative fatigue and audience saturation leading to lower conversion rates post-click",
+          "Competitors have stopped advertising, causing market confusion",
+          "The daily budget is set too low to capture impressions"
+        ],
+        "correctAnswerIndex": 1
+      }
+    ],
+    "yearsOfExperience": "2.5 years",
+    "topSkills": [
+      "Growth Marketing",
+      "Google Ads",
+      "Meta Ads Manager",
+      "SEO",
+      "Google Analytics 4 (GA4)"
+    ],
+    "education": "BBA in Marketing (2020 - 2023)",
+    "strengths": [
+      "Proven track record of managing high monthly ad spend with a strong 4.2x ROAS",
+      "Demonstrated ability to scale organic search traffic significantly through technical SEO",
+      "Comprehensive expertise across paid acquisition, funnel optimization, and email marketing"
+    ],
+    "areasForImprovement": [
+      "Further experience in attribution modeling for complex enterprise omni-channel campaigns",
+      "Deepening proficiency in automated programmatic ad buying"
+    ],
+    "evaluationSummary": "Riya Sen presents a compelling profile as a Digital Marketing Specialist with 2.5 years of hands-on experience in performance marketing, paid acquisition, and SEO. Her demonstrated success at Apex Media Labs managing substantial ad budgets while achieving a 4.2x ROAS showcases her strong analytical acumen and commercial awareness. Furthermore, her ability to drive organic growth through technical SEO and retention workflows aligns perfectly with our growth targets at Tech Innovations Inc.",
+    "rejectionReason": null,
+    "interviewQuestions": [
+      "Can you walk us through a specific campaign where ROAS was underperforming, and the exact steps you took to optimize it?",
+      "How do you approach attribution modeling and performance measurement under current data privacy limitations in GA4 and Meta Ads?",
+      "What is your strategy for conducting technical SEO audits and mapping keywords to a full-funnel content strategy?",
+      "How do you design and execute cross-channel lead nurturing email automation sequences for high-intent SaaS or tech products?"
+    ],
+    "proposedInterviewDate": "Monday, October 12, 2026",
+    "interviewDate": "Monday, October 12, 2026",
+    "interviewTime": "30 Minutes Online Technical Assessment",
+    "joiningDate": "Monday, November 2, 2026",
+    "interviewRound": "Domain Technical MCQ Assessment (20 Questions / 30 Mins)",
+    "interviewerName": "Tech Innovations Inc. Technical Hiring Council",
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Inc. Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Growth & Digital Marketing",
+    "location": "Bangalore, India / Open to Relocation",
+    "salaryOffer": "Competitive / Market Standard (Finalized upon Offer)",
+    "interviewStatus": "Assessment Test Assigned (30 Mins / 20 MCQs)",
+    "emailSubject": "🎯 Technical Assessment & Interview: Digital Marketing Specialist at Tech Innovations Inc.",
+    "emailBody": "Dear Riya, Thank you for applying for the Digital Marketing Specialist position at Tech Innovations Inc. We were thoroughly impressed by your performance marketing background, your expertise in managing high-budget campaigns, and your achievements in SEO and funnel optimization. We would love to invite you for a virtual interview on Monday, October 12, 2026 at 2:30 PM - 3:15 PM IST to discuss your experience and vision further. Please confirm your availability by replying to this email. We look forward to connecting with you!",
+    "emailSentAt": "2026-10-07T06:28:15.158Z",
+    "createdAt": "2026-10-07T06:28:15.158Z",
+    "updatedAt": "2026-10-07T06:28:15.158Z",
+    "source": "Dashboard Submission"
+  },
+  {
+    "id": "cand_muxq7hth_tm3h",
+    "name": "Arjun Mehta",
+    "email": "arjun.mehta.dev2026@gmail.com",
+    "phone": "+91 98765 43210",
+    "role": "Full Stack Developer",
+    "decision": "REJECTED",
+    "matchScore": 92,
+    "status": "REJECTED",
+    "testStatus": "COMPLETED",
+    "testToken": "cand_muxq7hth_tm3h",
+    "testLink": "https://nexus-hr-workflow.onrender.com/assessment.html?token=cand_muxq7hth_tm3h",
+    "testQuestions": [
+      {
+        "id": 1,
+        "question": "In CI/CD pipelines, what is the primary purpose of running automated unit tests during the build stage?",
+        "options": [
+          "To verify end-to-end user journeys in a production-like environment",
+          "To catch regressions and validate that individual code units behave correctly in isolation",
+          "To perform penetration testing against SQL injections",
+          "To deploy the application directly to production servers"
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "What does CORS (Cross-Origin Resource Sharing) protect against, and how is it enforced?",
+        "options": [
+          "It prevents unauthorized database queries, enforced by database drivers.",
+          "It encrypts network traffic between client and server, enforced by DNS servers.",
+          "It protects servers from malicious requests by restricting which domains can access resources, enforced by the web browser.",
+          "It blocks malicious bot traffic, enforced by CDN firewalls."
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 3,
+        "question": "What is the main advantage of using TypeScript over JavaScript in a large-scale full-stack project?",
+        "options": [
+          "It provides static typing which catches errors during development and improves IDE autocompletion.",
+          "It guarantees zero runtime errors.",
+          "It automatically optimizes database query performance.",
+          "It runs natively in web browsers without compilation."
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 4,
+        "question": "In CSS Flexbox, which property is used to define how leftover space is distributed among flex items along the main axis?",
+        "options": [
+          "justify-content",
+          "align-items",
+          "flex-direction",
+          "align-content"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 5,
+        "question": "When debugging memory leaks in a Single Page Application (SPA), which common pattern often causes lingering event listeners or uncollected objects?",
+        "options": [
+          "Using arrow functions in JSX callbacks",
+          "Storing state in React Redux",
+          "Failing to clean up timers or subscriptions inside component unmount lifecycles",
+          "Using strict mode in JavaScript"
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 6,
+        "question": "How does Docker containerization differ fundamentally from traditional hardware virtualization (Virtual Machines)?",
+        "options": [
+          "Containers cannot be deployed to the cloud.",
+          "VMs are always faster to start up than containers.",
+          "Containers require a hypervisor layer to run.",
+          "Containers share the host operating system kernel, whereas VMs run a full guest OS."
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 7,
+        "question": "When designing a RESTful API, which HTTP status code is most appropriate to return immediately after a resource is successfully created via a POST request?",
+        "options": [
+          "201 Created",
+          "202 Accepted",
+          "204 No Content",
+          "200 OK"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 8,
+        "question": "What is a major security risk mitigated by implementing a strict Content Security Policy (CSP) header in a web application?",
+        "options": [
+          "Cross-Site Scripting (XSS)",
+          "SQL Injection",
+          "Distributed Denial of Service (DDoS)",
+          "Broken Object Level Authorization"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 9,
+        "question": "When dealing with distributed transactions across microservices, what architectural pattern is commonly used as an alternative to two-phase commit (2PC)?",
+        "options": [
+          "Observer Pattern",
+          "Singleton Pattern",
+          "Saga Pattern",
+          "MVC Pattern"
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 10,
+        "question": "What is the primary benefit of implementing server-side rendering (SSR) or incremental static regeneration (ISR) for a modern web application?",
+        "options": [
+          "Eliminates the need for CSS styling",
+          "Improves Search Engine Optimization (SEO) and initial page load performance",
+          "Removes the need for database storage",
+          "Reduces server hosting costs to zero"
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 11,
+        "question": "What is the primary use case for GraphQL over traditional REST APIs?",
+        "options": [
+          "Providing automatic database migrations",
+          "Eliminating the need for HTTPS encryption",
+          "Standardizing database schema definitions across microservices",
+          "Enabling clients to request exactly the data they need in a single round trip, avoiding over-fetching and under-fetching"
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 12,
+        "question": "Which of the following caching strategies involves the application checking the cache first, and if a miss occurs, querying the database and updating the cache?",
+        "options": [
+          "Write-Through Cache",
+          "Write-Around Cache",
+          "Write-Behind Cache",
+          "Cache-Aside (Lazy Loading)"
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 13,
+        "question": "In React, what is the primary purpose of the `useMemo` hook?",
+        "options": [
+          "To maintain a reference to a DOM element across renders",
+          "To manage global application state",
+          "To memoize expensive computations between renders",
+          "To perform asynchronous side effects"
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 14,
+        "question": "In Node.js, what is the primary role of the event loop?",
+        "options": [
+          "To transpile modern ECMAScript into CommonJS modules",
+          "To execute CPU-intensive tasks in parallel worker threads",
+          "To handle non-blocking I/O operations by executing callbacks when operations complete",
+          "To manage memory garbage collection automatically"
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 15,
+        "question": "Which HTTP method is defined as idempotent according to the HTTP specification?",
+        "options": [
+          "PATCH",
+          "PUT",
+          "CONNECT",
+          "POST"
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 16,
+        "question": "In relational databases, what is the purpose of a foreign key constraint?",
+        "options": [
+          "To uniquely identify every record in a table",
+          "To encrypt sensitive column data",
+          "To speed up sorting operations",
+          "To ensure referential integrity between two tables"
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 17,
+        "question": "When implementing JSON Web Tokens (JWT) for authentication, what is the best practice for storing the token on the client side to protect against XSS?",
+        "options": [
+          "In an HttpOnly, Secure cookie",
+          "In a global JavaScript variable",
+          "In localStorage",
+          "In sessionStorage"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 18,
+        "question": "What does the 'S' in the SOLID principles stand for, and what does it advocate?",
+        "options": [
+          "Substitution Principle; derived classes must be substitutable for their base classes.",
+          "Synchronous Principle; functions should avoid callback hell by using async/await.",
+          "Secure-by-default principle; applications should enforce encryption everywhere.",
+          "Single Responsibility Principle; a class should have only one reason to change."
         ],
         "correctAnswerIndex": 3
       },
       {
         "id": 19,
-        "question": "In a high-throughput RESTful API built with Node.js and Express, you notice that a specific synchronous JSON parsing operation is blocking the event loop. What is the most idiomatic and efficient way to resolve this?",
+        "question": "Which Git command should you use to rewrite commit history by moving your current branch's tip on top of a different base branch?",
         "options": [
-          "Offload the heavy parsing to worker threads using the 'worker_threads' module.",
-          "Migrate the entire application backend to C++ using native addons.",
-          "Increase the Node.js UV_THREADPOOL_SIZE environment variable.",
-          "Wrap the synchronous operation in a standard JavaScript Promise using Promise.resolve()."
+          "git merge",
+          "git rebase",
+          "git cherry-pick",
+          "git reset"
         ],
-        "correctAnswerIndex": 0
+        "correctAnswerIndex": 1
       },
       {
         "id": 20,
-        "question": "In Docker containerization for a Node.js production application, why is it considered a best practice to use multi-stage builds?",
+        "question": "Which of the following database indexing strategies is most effective for speeding up range queries on a large numeric column?",
         "options": [
-          "To run multiple Node.js versions simultaneously in the same container.",
-          "To speed up local development hot-reloading.",
-          "To exclude development dependencies, build tools, and source code from the final production image, reducing size and attack surface.",
-          "To bypass the need for a reverse proxy like Nginx."
+          "Hash Index",
+          "B-Tree Index",
+          "Bitmap Index",
+          "Full-Text Index"
         ],
-        "correctAnswerIndex": 2
+        "correctAnswerIndex": 1
       }
     ],
-    "testStatus": "COMPLETED",
-    "testStartedAt": "2026-09-21T10:56:39.992Z",
-    "testScore": 40,
-    "testCorrectCount": 8,
+    "yearsOfExperience": "3.5 years",
+    "topSkills": [
+      "React.js",
+      "Node.js",
+      "TypeScript",
+      "PostgreSQL",
+      "AWS"
+    ],
+    "education": "B.Tech in Computer Science & Engineering",
+    "strengths": [
+      "Strong modern tech stack proficiency (React, Node, TypeScript)",
+      "Demonstrated experience in database optimization and query latency reduction",
+      "Hands-on microservices and cloud deployment experience"
+    ],
+    "areasForImprovement": [
+      "Further cloud certification (e.g., AWS Developer Associate)",
+      "Deepening expertise in event-driven architecture"
+    ],
+    "evaluationSummary": "Arjun Mehta presents a compelling profile as a Full Stack Developer with 3.5 years of solid industry experience. His technical expertise spans robust frontend frameworks like React and Next.js, combined with powerful backend technologies including Node.js, Express, and PostgreSQL. His professional achievements, such as optimizing database schemas and scaling web portals to 250,000+ monthly users, demonstrate a high level of engineering maturity and problem-solving capability. He easily clears our evaluation threshold for the Full Stack Developer position.",
+    "rejectionReason": "Technical Assessment score was 20% (Passing threshold is 80%).",
+    "interviewQuestions": [
+      "How do you handle state management in large-scale React applications, and when would you choose Redux Toolkit over Context API?",
+      "Can you explain your approach to optimizing PostgreSQL query latency, drawing from your experience at CloudScale Technologies?",
+      "How do you ensure security and proper authentication in a Node.js microservices architecture?",
+      "Describe a challenging CI/CD pipeline issue you resolved using Docker and GitHub Actions or similar tools."
+    ],
+    "proposedInterviewDate": "Monday, October 12, 2026",
+    "interviewDate": "Monday, October 12, 2026",
+    "interviewTime": "30 Minutes Online Technical Assessment",
+    "joiningDate": "Monday, November 2, 2026",
+    "interviewRound": "Domain Technical MCQ Assessment (20 Questions / 30 Mins)",
+    "interviewerName": "Tech Innovations Inc. Technical Hiring Council",
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Inc. Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Core Engineering & Technology",
+    "location": "Bangalore, India / Open to Relocation",
+    "salaryOffer": "Competitive / Market Standard (Finalized upon Offer)",
+    "interviewStatus": "Assessment Completed (Score: 20% - Rejected)",
+    "emailSubject": "Application Update: Full Stack Developer at Tech Innovations Inc.",
+    "emailBody": "Dear Arjun, Thank you for applying for the Full Stack Developer position at Tech Innovations Inc. We were thoroughly impressed by your background in React, Node.js, and database optimization. We would like to invite you for a technical interview on Monday, October 12, 2026 at 2:30 PM - 3:15 PM IST. Please confirm your availability by replying to this email. We look forward to speaking with you!",
+    "emailSentAt": "2026-10-07T06:28:29.287Z",
+    "createdAt": "2026-10-07T06:28:03.701Z",
+    "updatedAt": "2026-10-07T06:28:29.287Z",
+    "source": "Dashboard Submission",
+    "testScore": 20,
+    "testCorrectCount": 4,
     "testTotalCount": 20,
-    "testCompletedAt": "2026-09-21T11:00:17.235Z",
-    "testDurationSeconds": 217,
+    "testCompletedAt": "2026-10-07T06:28:29.287Z",
+    "testDurationSeconds": 645,
     "testCheatViolations": 0,
     "testAnswers": {
       "0": 0,
-      "1": 3,
-      "2": 1,
-      "3": 1,
+      "1": 1,
+      "2": 2,
+      "3": 3,
       "4": 0,
-      "5": 2,
-      "6": 1,
-      "7": 1,
-      "8": 1,
-      "9": 3,
-      "10": 3,
-      "11": 0,
+      "5": 1,
+      "6": 2,
+      "7": 3,
+      "8": 0,
+      "9": 1,
+      "10": 2,
+      "11": 3,
       "12": 0,
-      "13": 2,
-      "14": 0,
-      "15": 1,
-      "16": 3,
-      "17": 3,
-      "18": 1,
-      "19": 1
+      "13": 1,
+      "14": 2,
+      "15": 3,
+      "16": 0,
+      "17": 1,
+      "18": 2,
+      "19": 3
     },
     "testDetailedResults": [
       {
         "questionId": 1,
-        "question": "What is the primary purpose of database indexing, and what is a notable trade-off?",
+        "question": "In CI/CD pipelines, what is the primary purpose of running automated unit tests during the build stage?",
         "options": [
-          "Indexes speed up data retrieval (SELECT queries) at the cost of slower write operations (INSERT, UPDATE, DELETE) and increased storage space.",
-          "Indexes automatically normalize database tables to 3NF.",
-          "Indexes eliminate the need for foreign key constraints and reduce memory usage.",
-          "Indexes convert relational databases into NoSQL document stores."
+          "To verify end-to-end user journeys in a production-like environment",
+          "To catch regressions and validate that individual code units behave correctly in isolation",
+          "To perform penetration testing against SQL injections",
+          "To deploy the application directly to production servers"
         ],
         "userAnswerIndex": 0,
-        "userAnswerText": "Indexes speed up data retrieval (SELECT queries) at the cost of slower write operations (INSERT, UPDATE, DELETE) and increased storage space.",
-        "correctAnswerIndex": 0,
-        "correctAnswerText": "Indexes speed up data retrieval (SELECT queries) at the cost of slower write operations (INSERT, UPDATE, DELETE) and increased storage space.",
-        "isCorrect": true
+        "userAnswerText": "To verify end-to-end user journeys in a production-like environment",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "To catch regressions and validate that individual code units behave correctly in isolation",
+        "isCorrect": false
       },
       {
         "questionId": 2,
-        "question": "What is the primary role of an ORM (Object-Relational Mapper) like Prisma or TypeORM, and what is a common pitfall?",
+        "question": "What does CORS (Cross-Origin Resource Sharing) protect against, and how is it enforced?",
         "options": [
-          "ORMs automatically encrypt database backups; a common pitfall is accidental deletion of indexes.",
-          "ORMs manage container orchestration; a common pitfall is memory leaks in Node.js.",
-          "ORMs convert frontend UI components into SQL queries; a common pitfall is slow browser rendering.",
-          "ORMs translate database tables into object models; a common pitfall is the N+1 query problem due to lazy loading or unoptimized relations."
+          "It prevents unauthorized database queries, enforced by database drivers.",
+          "It encrypts network traffic between client and server, enforced by DNS servers.",
+          "It protects servers from malicious requests by restricting which domains can access resources, enforced by the web browser.",
+          "It blocks malicious bot traffic, enforced by CDN firewalls."
         ],
-        "userAnswerIndex": 3,
-        "userAnswerText": "ORMs translate database tables into object models; a common pitfall is the N+1 query problem due to lazy loading or unoptimized relations.",
-        "correctAnswerIndex": 3,
-        "correctAnswerText": "ORMs translate database tables into object models; a common pitfall is the N+1 query problem due to lazy loading or unoptimized relations.",
-        "isCorrect": true
+        "userAnswerIndex": 1,
+        "userAnswerText": "It encrypts network traffic between client and server, enforced by DNS servers.",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "It protects servers from malicious requests by restricting which domains can access resources, enforced by the web browser.",
+        "isCorrect": false
       },
       {
         "questionId": 3,
-        "question": "You are designing a database schema for an e-commerce platform in PostgreSQL where orders frequently require joining with order items and product details. To optimize read performance without sacrificing write integrity, which strategy should you consider first?",
+        "question": "What is the main advantage of using TypeScript over JavaScript in a large-scale full-stack project?",
         "options": [
-          "Create appropriate B-tree indexes on foreign keys and use covering indexes (INCLUDE clause) for frequent queries.",
-          "Denormalize all product data directly into the orders table as a JSONB column.",
-          "Store all transactional data in Redis and persist to PostgreSQL asynchronously once a day.",
-          "Split the database into independent microservices with no foreign key constraints."
+          "It provides static typing which catches errors during development and improves IDE autocompletion.",
+          "It guarantees zero runtime errors.",
+          "It automatically optimizes database query performance.",
+          "It runs natively in web browsers without compilation."
         ],
-        "userAnswerIndex": 1,
-        "userAnswerText": "Denormalize all product data directly into the orders table as a JSONB column.",
+        "userAnswerIndex": 2,
+        "userAnswerText": "It automatically optimizes database query performance.",
         "correctAnswerIndex": 0,
-        "correctAnswerText": "Create appropriate B-tree indexes on foreign keys and use covering indexes (INCLUDE clause) for frequent queries.",
+        "correctAnswerText": "It provides static typing which catches errors during development and improves IDE autocompletion.",
         "isCorrect": false
       },
       {
         "questionId": 4,
-        "question": "You need to implement token-based authentication using JSON Web Tokens (JWT) in a Single Page Application. Which storage mechanism presents the highest risk to security regarding Cross-Site Scripting (XSS) attacks?",
+        "question": "In CSS Flexbox, which property is used to define how leftover space is distributed among flex items along the main axis?",
         "options": [
-          "In-memory JavaScript application state variables",
-          "Browser LocalStorage",
-          "HttpOnly, Secure SameSite cookies",
-          "SessionStorage cleared on tab close"
+          "justify-content",
+          "align-items",
+          "flex-direction",
+          "align-content"
         ],
-        "userAnswerIndex": 1,
-        "userAnswerText": "Browser LocalStorage",
-        "correctAnswerIndex": 1,
-        "correctAnswerText": "Browser LocalStorage",
-        "isCorrect": true
+        "userAnswerIndex": 3,
+        "userAnswerText": "align-content",
+        "correctAnswerIndex": 0,
+        "correctAnswerText": "justify-content",
+        "isCorrect": false
       },
       {
         "questionId": 5,
-        "question": "What is the primary benefit of implementing Server-Side Rendering (SSR) or Static Site Generation (SSG) in frameworks like Next.js compared to Client-Side Rendering (CSR)?",
+        "question": "When debugging memory leaks in a Single Page Application (SPA), which common pattern often causes lingering event listeners or uncollected objects?",
         "options": [
-          "Improving initial page load performance (SEO friendliness and faster First Contentful Paint) by rendering HTML on the server.",
-          "Eliminating the need for CSS stylesheets.",
-          "Removing all server infrastructure costs.",
-          "Allowing developers to write backend code directly inside React components without an API layer."
+          "Using arrow functions in JSX callbacks",
+          "Storing state in React Redux",
+          "Failing to clean up timers or subscriptions inside component unmount lifecycles",
+          "Using strict mode in JavaScript"
         ],
         "userAnswerIndex": 0,
-        "userAnswerText": "Improving initial page load performance (SEO friendliness and faster First Contentful Paint) by rendering HTML on the server.",
-        "correctAnswerIndex": 0,
-        "correctAnswerText": "Improving initial page load performance (SEO friendliness and faster First Contentful Paint) by rendering HTML on the server.",
-        "isCorrect": true
+        "userAnswerText": "Using arrow functions in JSX callbacks",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "Failing to clean up timers or subscriptions inside component unmount lifecycles",
+        "isCorrect": false
       },
       {
         "questionId": 6,
-        "question": "In modern Frontend state management (such as Redux Toolkit, Zustand, or Context API), why is immutability of state emphasized?",
+        "question": "How does Docker containerization differ fundamentally from traditional hardware virtualization (Virtual Machines)?",
         "options": [
-          "It prevents browsers from caching JavaScript bundles.",
-          "It automatically synchronizes frontend state with backend databases.",
-          "It ensures state updates can be tracked, enables time-travel debugging, and allows UI components to efficiently detect changes through shallow comparisons.",
-          "It reduces the total lines of code required to build user interfaces."
+          "Containers cannot be deployed to the cloud.",
+          "VMs are always faster to start up than containers.",
+          "Containers require a hypervisor layer to run.",
+          "Containers share the host operating system kernel, whereas VMs run a full guest OS."
         ],
-        "userAnswerIndex": 2,
-        "userAnswerText": "It ensures state updates can be tracked, enables time-travel debugging, and allows UI components to efficiently detect changes through shallow comparisons.",
-        "correctAnswerIndex": 2,
-        "correctAnswerText": "It ensures state updates can be tracked, enables time-travel debugging, and allows UI components to efficiently detect changes through shallow comparisons.",
-        "isCorrect": true
+        "userAnswerIndex": 1,
+        "userAnswerText": "VMs are always faster to start up than containers.",
+        "correctAnswerIndex": 3,
+        "correctAnswerText": "Containers share the host operating system kernel, whereas VMs run a full guest OS.",
+        "isCorrect": false
       },
       {
         "questionId": 7,
-        "question": "In a microservices architecture, multiple independent services need to communicate asynchronously. Which pattern best ensures reliable event delivery and decoupling between the producer and consumers?",
+        "question": "When designing a RESTful API, which HTTP status code is most appropriate to return immediately after a resource is successfully created via a POST request?",
         "options": [
-          "Client-side polling via WebSockets connected to a central load balancer.",
-          "Pub/Sub messaging via a distributed broker like Apache Kafka or RabbitMQ.",
-          "Direct synchronous HTTP REST calls with exponential backoff retries.",
-          "Shared database tables where services poll for updates every second."
+          "201 Created",
+          "202 Accepted",
+          "204 No Content",
+          "200 OK"
         ],
-        "userAnswerIndex": 1,
-        "userAnswerText": "Pub/Sub messaging via a distributed broker like Apache Kafka or RabbitMQ.",
-        "correctAnswerIndex": 1,
-        "correctAnswerText": "Pub/Sub messaging via a distributed broker like Apache Kafka or RabbitMQ.",
-        "isCorrect": true
+        "userAnswerIndex": 2,
+        "userAnswerText": "204 No Content",
+        "correctAnswerIndex": 0,
+        "correctAnswerText": "201 Created",
+        "isCorrect": false
       },
       {
         "questionId": 8,
-        "question": "When configuring a React Single Page Application behind a reverse proxy like Nginx, you encounter '404 Not Found' errors when users attempt to hard-refresh deep routes (e.g., /dashboard/settings). What is the correct Nginx configuration adjustment?",
-        "options": [
-          "Enable gzip compression for all static assets.",
-          "Add 'try_files $uri $uri/ /index.html;' to the server block.",
-          "Configure proxy_pass to redirect all traffic to the Node.js backend.",
-          "Set up a permanent redirect from 404 to the root domain."
-        ],
-        "userAnswerIndex": 1,
-        "userAnswerText": "Add 'try_files $uri $uri/ /index.html;' to the server block.",
-        "correctAnswerIndex": 1,
-        "correctAnswerText": "Add 'try_files $uri $uri/ /index.html;' to the server block.",
-        "isCorrect": true
-      },
-      {
-        "questionId": 9,
-        "question": "What is the primary security vulnerability mitigated by implementing a strict Content Security Policy (CSP) header with nonces or hashes in a modern web application?",
+        "question": "What is a major security risk mitigated by implementing a strict Content Security Policy (CSP) header in a web application?",
         "options": [
           "Cross-Site Scripting (XSS)",
-          "SQL Injection (SQLi)",
-          "Broken Object Level Authorization (BOLA)",
-          "Distributed Denial of Service (DDoS)"
+          "SQL Injection",
+          "Distributed Denial of Service (DDoS)",
+          "Broken Object Level Authorization"
         ],
-        "userAnswerIndex": 1,
-        "userAnswerText": "SQL Injection (SQLi)",
+        "userAnswerIndex": 3,
+        "userAnswerText": "Broken Object Level Authorization",
         "correctAnswerIndex": 0,
         "correctAnswerText": "Cross-Site Scripting (XSS)",
         "isCorrect": false
       },
       {
-        "questionId": 10,
-        "question": "When building a responsive modern web application, what is the primary benefit of utilizing CSS Grid over CSS Flexbox?",
+        "questionId": 9,
+        "question": "When dealing with distributed transactions across microservices, what architectural pattern is commonly used as an alternative to two-phase commit (2PC)?",
         "options": [
-          "CSS Grid eliminates the need for media queries entirely under all conditions.",
-          "CSS Grid automatically compresses images for faster page loads.",
-          "CSS Grid natively supports two-dimensional layouts (rows and columns simultaneously) with explicit track definitions.",
-          "CSS Grid is better suited for one-dimensional layouts (rows or columns)."
+          "Observer Pattern",
+          "Singleton Pattern",
+          "Saga Pattern",
+          "MVC Pattern"
         ],
-        "userAnswerIndex": 3,
-        "userAnswerText": "CSS Grid is better suited for one-dimensional layouts (rows or columns).",
+        "userAnswerIndex": 0,
+        "userAnswerText": "Observer Pattern",
         "correctAnswerIndex": 2,
-        "correctAnswerText": "CSS Grid natively supports two-dimensional layouts (rows and columns simultaneously) with explicit track definitions.",
+        "correctAnswerText": "Saga Pattern",
         "isCorrect": false
       },
       {
-        "questionId": 11,
-        "question": "Which HTTP status code is most appropriate when a request has been successfully processed, but there is no new representation to return in the response body (e.g., a successful DELETE request)?",
+        "questionId": 10,
+        "question": "What is the primary benefit of implementing server-side rendering (SSR) or incremental static regeneration (ISR) for a modern web application?",
         "options": [
-          "202 Accepted",
-          "201 Created",
-          "204 No Content",
-          "200 OK"
+          "Eliminates the need for CSS styling",
+          "Improves Search Engine Optimization (SEO) and initial page load performance",
+          "Removes the need for database storage",
+          "Reduces server hosting costs to zero"
         ],
-        "userAnswerIndex": 3,
-        "userAnswerText": "200 OK",
-        "correctAnswerIndex": 2,
-        "correctAnswerText": "204 No Content",
+        "userAnswerIndex": 1,
+        "userAnswerText": "Improves Search Engine Optimization (SEO) and initial page load performance",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "Improves Search Engine Optimization (SEO) and initial page load performance",
+        "isCorrect": true
+      },
+      {
+        "questionId": 11,
+        "question": "What is the primary use case for GraphQL over traditional REST APIs?",
+        "options": [
+          "Providing automatic database migrations",
+          "Eliminating the need for HTTPS encryption",
+          "Standardizing database schema definitions across microservices",
+          "Enabling clients to request exactly the data they need in a single round trip, avoiding over-fetching and under-fetching"
+        ],
+        "userAnswerIndex": 2,
+        "userAnswerText": "Standardizing database schema definitions across microservices",
+        "correctAnswerIndex": 3,
+        "correctAnswerText": "Enabling clients to request exactly the data they need in a single round trip, avoiding over-fetching and under-fetching",
         "isCorrect": false
       },
       {
         "questionId": 12,
-        "question": "What does the 'S' in the SOLID design principles stand for, and how does it apply to Full Stack development?",
+        "question": "Which of the following caching strategies involves the application checking the cache first, and if a miss occurs, querying the database and updating the cache?",
         "options": [
-          "Scalability Principle: Systems must scale horizontally automatically.",
-          "Security Principle: Every module must validate user inputs.",
-          "Speed Principle: Functions must execute in constant time O(1).",
-          "Single Responsibility Principle: A class or module should have only one reason to change."
+          "Write-Through Cache",
+          "Write-Around Cache",
+          "Write-Behind Cache",
+          "Cache-Aside (Lazy Loading)"
         ],
-        "userAnswerIndex": 0,
-        "userAnswerText": "Scalability Principle: Systems must scale horizontally automatically.",
+        "userAnswerIndex": 3,
+        "userAnswerText": "Cache-Aside (Lazy Loading)",
         "correctAnswerIndex": 3,
-        "correctAnswerText": "Single Responsibility Principle: A class or module should have only one reason to change.",
-        "isCorrect": false
+        "correctAnswerText": "Cache-Aside (Lazy Loading)",
+        "isCorrect": true
       },
       {
         "questionId": 13,
-        "question": "You are designing an API endpoint that handles financial transactions and must be idempotent. What does idempotency mean in this context?",
+        "question": "In React, what is the primary purpose of the `useMemo` hook?",
         "options": [
-          "The endpoint requires multi-factor authentication for every call.",
-          "Making multiple identical requests has the same effect as making a single request.",
-          "The response is always returned in XML format.",
-          "The operation executes faster on subsequent calls."
+          "To maintain a reference to a DOM element across renders",
+          "To manage global application state",
+          "To memoize expensive computations between renders",
+          "To perform asynchronous side effects"
         ],
         "userAnswerIndex": 0,
-        "userAnswerText": "The endpoint requires multi-factor authentication for every call.",
-        "correctAnswerIndex": 1,
-        "correctAnswerText": "Making multiple identical requests has the same effect as making a single request.",
+        "userAnswerText": "To maintain a reference to a DOM element across renders",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "To memoize expensive computations between renders",
         "isCorrect": false
       },
       {
         "questionId": 14,
-        "question": "What is the purpose of CORS (Cross-Origin Resource Sharing) headers in web browsers?",
+        "question": "In Node.js, what is the primary role of the event loop?",
         "options": [
-          "To manage user session timeouts across multiple browser tabs.",
-          "To compress HTTP payloads for faster transmission over high-latency networks.",
-          "To encrypt traffic traveling between the browser and the server.",
-          "To allow a server to indicate any origins other than its own from which a browser should permit loading resources."
+          "To transpile modern ECMAScript into CommonJS modules",
+          "To execute CPU-intensive tasks in parallel worker threads",
+          "To handle non-blocking I/O operations by executing callbacks when operations complete",
+          "To manage memory garbage collection automatically"
         ],
-        "userAnswerIndex": 2,
-        "userAnswerText": "To encrypt traffic traveling between the browser and the server.",
-        "correctAnswerIndex": 3,
-        "correctAnswerText": "To allow a server to indicate any origins other than its own from which a browser should permit loading resources.",
+        "userAnswerIndex": 1,
+        "userAnswerText": "To execute CPU-intensive tasks in parallel worker threads",
+        "correctAnswerIndex": 2,
+        "correctAnswerText": "To handle non-blocking I/O operations by executing callbacks when operations complete",
         "isCorrect": false
       },
       {
         "questionId": 15,
-        "question": "In Git, what is the fundamental operational difference between 'git merge' and 'git rebase'?",
+        "question": "Which HTTP method is defined as idempotent according to the HTTP specification?",
         "options": [
-          "Merge deletes older commits, while rebase keeps them.",
-          "Merge requires a pull request, while rebase is performed automatically.",
-          "Rebase can only be used on remote repositories, while merge is local-only.",
-          "Merge creates a new merge commit combining histories, while rebase rewrites commit history by moving your feature branch base to the tip of the main branch."
+          "PATCH",
+          "PUT",
+          "CONNECT",
+          "POST"
         ],
-        "userAnswerIndex": 0,
-        "userAnswerText": "Merge deletes older commits, while rebase keeps them.",
-        "correctAnswerIndex": 3,
-        "correctAnswerText": "Merge creates a new merge commit combining histories, while rebase rewrites commit history by moving your feature branch base to the tip of the main branch.",
+        "userAnswerIndex": 2,
+        "userAnswerText": "CONNECT",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "PUT",
         "isCorrect": false
       },
       {
         "questionId": 16,
-        "question": "When designing a GraphQL API compared to a REST API, which scenario represents the most significant advantage?",
+        "question": "In relational databases, what is the purpose of a foreign key constraint?",
         "options": [
-          "Built-in protection against denial of service attacks without rate limiting.",
-          "Lower server CPU usage due to lack of caching requirements.",
-          "Eliminating over-fetching and under-fetching of data by allowing clients to query exactly what they need.",
-          "Automatic handling of database transaction rollbacks."
-        ],
-        "userAnswerIndex": 1,
-        "userAnswerText": "Lower server CPU usage due to lack of caching requirements.",
-        "correctAnswerIndex": 2,
-        "correctAnswerText": "Eliminating over-fetching and under-fetching of data by allowing clients to query exactly what they need.",
-        "isCorrect": false
-      },
-      {
-        "questionId": 17,
-        "question": "How does the JavaScript engine handle asynchronous operations under the hood using the Event Loop?",
-        "options": [
-          "It blocks the main thread until the network request completes.",
-          "It offloads I/O tasks to system kernel or thread pool, then pushes callbacks to the callback/task queue once ready, to be executed when the call stack is empty.",
-          "It uses multi-threading directly within JavaScript code execution blocks.",
-          "It constantly polls all async functions every millisecond using CPU cycles."
+          "To uniquely identify every record in a table",
+          "To encrypt sensitive column data",
+          "To speed up sorting operations",
+          "To ensure referential integrity between two tables"
         ],
         "userAnswerIndex": 3,
-        "userAnswerText": "It constantly polls all async functions every millisecond using CPU cycles.",
-        "correctAnswerIndex": 1,
-        "correctAnswerText": "It offloads I/O tasks to system kernel or thread pool, then pushes callbacks to the callback/task queue once ready, to be executed when the call stack is empty.",
-        "isCorrect": false
-      },
-      {
-        "questionId": 18,
-        "question": "When optimizing a web application's Core Web Vitals, which metric specifically measures visual stability and unexpected layout shifts?",
-        "options": [
-          "First Input Delay (FID)",
-          "Time to First Byte (TTFB)",
-          "Largest Contentful Paint (LCP)",
-          "Cumulative Layout Shift (CLS)"
-        ],
-        "userAnswerIndex": 3,
-        "userAnswerText": "Cumulative Layout Shift (CLS)",
+        "userAnswerText": "To ensure referential integrity between two tables",
         "correctAnswerIndex": 3,
-        "correctAnswerText": "Cumulative Layout Shift (CLS)",
+        "correctAnswerText": "To ensure referential integrity between two tables",
         "isCorrect": true
       },
       {
-        "questionId": 19,
-        "question": "In a high-throughput RESTful API built with Node.js and Express, you notice that a specific synchronous JSON parsing operation is blocking the event loop. What is the most idiomatic and efficient way to resolve this?",
+        "questionId": 17,
+        "question": "When implementing JSON Web Tokens (JWT) for authentication, what is the best practice for storing the token on the client side to protect against XSS?",
         "options": [
-          "Offload the heavy parsing to worker threads using the 'worker_threads' module.",
-          "Migrate the entire application backend to C++ using native addons.",
-          "Increase the Node.js UV_THREADPOOL_SIZE environment variable.",
-          "Wrap the synchronous operation in a standard JavaScript Promise using Promise.resolve()."
+          "In an HttpOnly, Secure cookie",
+          "In a global JavaScript variable",
+          "In localStorage",
+          "In sessionStorage"
+        ],
+        "userAnswerIndex": 0,
+        "userAnswerText": "In an HttpOnly, Secure cookie",
+        "correctAnswerIndex": 0,
+        "correctAnswerText": "In an HttpOnly, Secure cookie",
+        "isCorrect": true
+      },
+      {
+        "questionId": 18,
+        "question": "What does the 'S' in the SOLID principles stand for, and what does it advocate?",
+        "options": [
+          "Substitution Principle; derived classes must be substitutable for their base classes.",
+          "Synchronous Principle; functions should avoid callback hell by using async/await.",
+          "Secure-by-default principle; applications should enforce encryption everywhere.",
+          "Single Responsibility Principle; a class should have only one reason to change."
         ],
         "userAnswerIndex": 1,
-        "userAnswerText": "Migrate the entire application backend to C++ using native addons.",
-        "correctAnswerIndex": 0,
-        "correctAnswerText": "Offload the heavy parsing to worker threads using the 'worker_threads' module.",
+        "userAnswerText": "Synchronous Principle; functions should avoid callback hell by using async/await.",
+        "correctAnswerIndex": 3,
+        "correctAnswerText": "Single Responsibility Principle; a class should have only one reason to change.",
+        "isCorrect": false
+      },
+      {
+        "questionId": 19,
+        "question": "Which Git command should you use to rewrite commit history by moving your current branch's tip on top of a different base branch?",
+        "options": [
+          "git merge",
+          "git rebase",
+          "git cherry-pick",
+          "git reset"
+        ],
+        "userAnswerIndex": 2,
+        "userAnswerText": "git cherry-pick",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "git rebase",
         "isCorrect": false
       },
       {
         "questionId": 20,
-        "question": "In Docker containerization for a Node.js production application, why is it considered a best practice to use multi-stage builds?",
+        "question": "Which of the following database indexing strategies is most effective for speeding up range queries on a large numeric column?",
         "options": [
-          "To run multiple Node.js versions simultaneously in the same container.",
-          "To speed up local development hot-reloading.",
-          "To exclude development dependencies, build tools, and source code from the final production image, reducing size and attack surface.",
-          "To bypass the need for a reverse proxy like Nginx."
+          "Hash Index",
+          "B-Tree Index",
+          "Bitmap Index",
+          "Full-Text Index"
         ],
-        "userAnswerIndex": 1,
-        "userAnswerText": "To speed up local development hot-reloading.",
-        "correctAnswerIndex": 2,
-        "correctAnswerText": "To exclude development dependencies, build tools, and source code from the final production image, reducing size and attack surface.",
+        "userAnswerIndex": 3,
+        "userAnswerText": "Full-Text Index",
+        "correctAnswerIndex": 1,
+        "correctAnswerText": "B-Tree Index",
         "isCorrect": false
       }
+    ]
+  },
+  {
+    "id": "cand_muxq7fno_th2m",
+    "name": "Existing Student Test",
+    "email": "robert.langdon.qa@gmail.com",
+    "phone": "N/A",
+    "role": "Full Stack Developer",
+    "decision": "REJECTED",
+    "matchScore": 45,
+    "status": "REJECTED",
+    "testStatus": "N/A",
+    "testToken": "cand_muxq7fno_th2m",
+    "testLink": "https://nexus-hr-workflow.onrender.com/assessment.html?token=cand_muxq7fno_th2m",
+    "testQuestions": [],
+    "yearsOfExperience": "Fresher",
+    "topSkills": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "Testing"
     ],
-    "rejectionReason": "Technical Assessment score was 40% (Passing threshold is 80%).",
-    "emailSubject": "Application Update: Full Stack Developer at Tech Innovations Inc.",
-    "emailSentAt": "2026-09-21T11:00:17.235Z",
-    "testLink": "https://nexus-hr-workflow.onrender.com/assessment.html?token=cand_live_interview_demo"
+    "education": "Not Specified",
+    "strengths": [
+      "Interest in software development and testing",
+      "Proactive application submission"
+    ],
+    "areasForImprovement": [
+      "Needs to provide a detailed resume highlighting specific Full Stack technologies (e.g., React, Node.js, databases)",
+      "Requires more hands-on project experience in building end-to-end web applications"
+    ],
+    "evaluationSummary": "Thank you for applying to Tech Innovations Inc. for the Full Stack Developer position on Wednesday, October 7, 2026. Upon reviewing your submitted application and resume content, we found the information to be too sparse to accurately assess your technical depth and project background. A competitive Full Stack Developer application typically requires demonstrable experience with modern front-end frameworks, back-end runtimes, database management, and version control. At this time, we are unable to advance your application further, but we encourage you to update your resume with detailed project descriptions and reapply in the future.",
+    "rejectionReason": "The resume lacks sufficient details regarding technical skills, frameworks, and practical project experience required for the Full Stack Developer role.",
+    "interviewQuestions": [],
+    "proposedInterviewDate": "Monday, October 12, 2026",
+    "interviewDate": "Monday, October 12, 2026",
+    "interviewTime": "30 Minutes Online Technical Assessment",
+    "joiningDate": "Monday, November 2, 2026",
+    "interviewRound": "Domain Technical MCQ Assessment (20 Questions / 30 Mins)",
+    "interviewerName": "Tech Innovations Inc. Technical Hiring Council",
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Inc. Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Core Engineering & Technology",
+    "location": "Bangalore, India / Open to Relocation",
+    "salaryOffer": "Competitive / Market Standard (Finalized upon Offer)",
+    "interviewStatus": "N/A",
+    "emailSubject": "Update regarding your application at Tech Innovations Inc.",
+    "emailBody": "Dear Existing Student Test,\n\nThank you for submitting your application for the Full Stack Developer role at Tech Innovations Inc. on Wednesday, October 7, 2026. We appreciate the time you took to share your background with us.\n\nAfter careful review by our recruitment team, we regret to inform you that we will not be moving forward with your application at this time. Your profile lacked the detailed project history and technical depth in modern full-stack technologies required for our current openings.\n\nWe encourage you to continue honing your skills, build comprehensive end-to-end projects, and apply again in the future. We wish you the best in your professional endeavors.\n\nSincerely,\nTechnical Recruiting Team\nTech Innovations Inc.",
+    "emailSentAt": "2026-10-07T06:28:00.900Z",
+    "createdAt": "2026-10-07T06:28:00.900Z",
+    "updatedAt": "2026-10-07T06:28:00.900Z",
+    "source": "Dashboard Submission"
+  },
+  {
+    "id": "cand_muxq77qu_fe8w",
+    "name": "Manasvi Paliwal",
+    "email": "manasvipaliwal317@gmail.com",
+    "phone": "N/A",
+    "role": "Full Stack Developer",
+    "decision": "SELECTED",
+    "matchScore": 85,
+    "status": "TEST_ASSIGNED",
+    "testStatus": "ASSIGNED",
+    "testToken": "cand_muxq77qu_fe8w",
+    "testLink": "https://nexus-hr-workflow.onrender.com/assessment.html?token=cand_muxq77qu_fe8w",
+    "testQuestions": [
+      {
+        "id": 1,
+        "question": "What does the 'C' stand for in the CAP theorem, and what does it imply in distributed systems?",
+        "options": [
+          "Consistency; every read receives the most recent write or an error.",
+          "Client-side rendering; pages are generated on the browser.",
+          "Concurrency; transactions must be serializable.",
+          "Compatibility; APIs must remain backward compatible."
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 2,
+        "question": "Which TypeScript feature allows you to extract a union type of all property values from an existing object type?",
+        "options": [
+          "Partial<T>",
+          "Record<K, T>",
+          "ReturnType<T>",
+          "Indexed Access Types (e.g., T[K])"
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 3,
+        "question": "How can you prevent race conditions when multiple asynchronous operations attempt to update shared state in a frontend application?",
+        "options": [
+          "Increasing CPU clock speed",
+          "Disabling JavaScript garbage collection",
+          "Using synchronous `alert` statements",
+          "Implementing request cancellation tokens (e.g., AbortController) or using sequence tracking/debounce"
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 4,
+        "question": "Which CSS Flexbox property determines the default alignment of items along the cross axis?",
+        "options": [
+          "align-self",
+          "align-items",
+          "justify-content",
+          "flex-direction"
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "When working with Git, what is the key operational difference between `git merge` and `git rebase`?",
+        "options": [
+          "Merge only works locally, while rebase requires a remote server.",
+          "There is no functional difference; they are aliases.",
+          "Merge creates a new commit history branch, whereas rebase rewrites the commit history linearly.",
+          "Rebase deletes unmerged branches, while merge preserves them."
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 6,
+        "question": "Which Docker instruction is best practice for reducing final container image sizes in multi-stage builds?",
+        "options": [
+          "Copying only the necessary build artifacts from the builder stage into a lean production image",
+          "Running the final container as the root user",
+          "Using `RUN apt-get update` in every layer",
+          "Disabling layer caching completely"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 7,
+        "question": "In Webpack or Vite, what is 'code splitting'?",
+        "options": [
+          "Compressing CSS files to reduce bandwidth",
+          "Converting ES6 syntax to ES5 for legacy browsers",
+          "Splitting your application code into smaller chunks which are loaded on demand or lazily",
+          "Separating backend and frontend code into different repositories"
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 8,
+        "question": "In a modern React application, what is the primary purpose of the `useMemo` hook?",
+        "options": [
+          "To manage side effects like data fetching",
+          "To memoize expensive calculation results between renders",
+          "To directly manipulate the DOM safely",
+          "To persist state across page reloads"
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 9,
+        "question": "In a microservices architecture, what is the primary role of an API Gateway?",
+        "options": [
+          "To handle cross-cutting concerns like authentication, rate limiting, and request routing",
+          "To automatically scale database replicas",
+          "To store shared persistent data across services",
+          "To replace internal service communication entirely with gRPC"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 10,
+        "question": "When designing a RESTful API, which HTTP status code is most appropriate to return immediately after a successful resource creation request (e.g., POST)?",
+        "options": [
+          "201 Created",
+          "202 Accepted",
+          "204 No Content",
+          "200 OK"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 11,
+        "question": "Which Redis data structure would be most efficient for implementing a real-time leaderboard ranking system?",
+        "options": [
+          "Sets",
+          "Hashes",
+          "Lists",
+          "Sorted Sets (ZSET)"
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 12,
+        "question": "When implementing JSON Web Tokens (JWT) for authentication, where is the most secure storage location for the access token on the client side to protect against XSS?",
+        "options": [
+          "Global JavaScript memory variable",
+          "localStorage",
+          "HttpOnly Cookie",
+          "sessionStorage"
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 13,
+        "question": "What is the main benefit of applying database indexing on frequently queried columns?",
+        "options": [
+          "It reduces overall disk space consumption",
+          "It automatically normalizes unstructured data",
+          "It speeds up read operations at the cost of slower writes and increased storage",
+          "It prevents deadlocks in concurrent transactions"
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 14,
+        "question": "In Redux or similar state management patterns, why must reducers be kept as pure functions?",
+        "options": [
+          "To allow them to interact directly with the DOM",
+          "To automatically persist state to localStorage",
+          "To eliminate the need for action creators",
+          "To ensure predictable state transitions, easier debugging, and reliable time-travel"
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 15,
+        "question": "What is the primary vulnerability addressed by implementing a robust Content Security Policy (CSP) header in a web application?",
+        "options": [
+          "Distributed Denial of Service (DDoS)",
+          "Cross-Site Scripting (XSS)",
+          "Broken Object Level Authorization (BOLA)",
+          "SQL Injection (SQLi)"
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 16,
+        "question": "What is the primary difference between server-side rendering (SSR) and client-side rendering (CSR) regarding SEO?",
+        "options": [
+          "SSR delivers fully rendered HTML to the crawler, making initial indexing much easier than CSR.",
+          "SSR prevents search engines from indexing JavaScript files.",
+          "There is no difference; modern crawlers execute all JS identically.",
+          "CSR is always faster for mobile devices than SSR."
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 17,
+        "question": "In Node.js, how does the event loop handle asynchronous I/O operations?",
+        "options": [
+          "By executing all code synchronously in a single blocking thread",
+          "By using libuv to offload operations to system kernel or worker pools and firing callbacks via the event queue",
+          "By utilizing Web Workers directly within the V8 engine",
+          "By spawning a new OS thread for every incoming request"
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 18,
+        "question": "Which of the following is an effective strategy to mitigate the N+1 query problem in an ORM-backed relational database architecture?",
+        "options": [
+          "Implementing database indexes on foreign keys",
+          "Increasing connection pool size",
+          "Enabling query caching at the load balancer level",
+          "Using eager loading (e.g., `.include()` or `.join()`)"
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 19,
+        "question": "What is the purpose of running database migrations in an enterprise application?",
+        "options": [
+          "To backup live production databases automatically",
+          "To version-control schema changes and apply them consistently across different environments",
+          "To optimize query execution plans on the fly",
+          "To convert SQL databases into NoSQL databases"
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 20,
+        "question": "What is the purpose of the `HttpOnly` flag when setting a cookie in an Express.js backend?",
+        "options": [
+          "It restricts the cookie to a specific domain.",
+          "It ensures the cookie is only sent over HTTPS connections.",
+          "It prevents client-side scripts (JavaScript) from accessing the cookie via `document.cookie`.",
+          "It automatically encrypts the cookie data in transit."
+        ],
+        "correctAnswerIndex": 2
+      }
+    ],
+    "yearsOfExperience": "2 years",
+    "topSkills": [
+      "JavaScript",
+      "React",
+      "Node.js",
+      "HTML/CSS",
+      "Git"
+    ],
+    "education": "Bachelor of Technology in Computer Science",
+    "strengths": [
+      "Solid understanding of core full-stack web technologies",
+      "Strong foundation in modern frontend frameworks like React",
+      "Backend competency with Node.js and RESTful APIs"
+    ],
+    "areasForImprovement": [
+      "Gain deeper production experience with cloud architecture and containerization (Docker/Kubernetes)",
+      "Enhance familiarity with advanced database optimization techniques"
+    ],
+    "evaluationSummary": "Manasvi Paliwal has submitted a compelling application for the Full Stack Developer position at Tech Innovations Inc. Reviewing the provided background and skill set, the candidate demonstrates a strong grasp of both frontend and backend development stacks, particularly in JavaScript, React, and Node.js. This core alignment with our technical stack makes them an ideal candidate for further technical evaluation.\n\nGiven the solid technical foundation and clear enthusiasm for software engineering, the candidate meets our threshold for the interview phase. We look forward to assessing their problem-solving abilities, system design approach, and coding practices during the upcoming interview scheduled for October 2026.",
+    "rejectionReason": null,
+    "interviewQuestions": [
+      "Can you explain the event loop in Node.js and how asynchronous operations are handled?",
+      "How do you manage state effectively in a large-scale React application?",
+      "Describe a time when you optimized a slow-performing database query or web page. What steps did you take?",
+      "How do you ensure security and proper authentication/authorization in a full-stack web application?"
+    ],
+    "proposedInterviewDate": "Monday, October 12, 2026",
+    "interviewDate": "Monday, October 12, 2026",
+    "interviewTime": "30 Minutes Online Technical Assessment",
+    "joiningDate": "Monday, November 2, 2026",
+    "interviewRound": "Domain Technical MCQ Assessment (20 Questions / 30 Mins)",
+    "interviewerName": "Tech Innovations Inc. Technical Hiring Council",
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Inc. Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Core Engineering & Technology",
+    "location": "Bangalore, India / Open to Relocation",
+    "salaryOffer": "Competitive / Market Standard (Finalized upon Offer)",
+    "interviewStatus": "Assessment Test Assigned (30 Mins / 20 MCQs)",
+    "emailSubject": "🎯 Technical Assessment & Interview: Full Stack Developer at Tech Innovations Inc.",
+    "emailBody": "Dear Manasvi,\n\nThank you for applying for the Full Stack Developer position at Tech Innovations Inc. We were thoroughly impressed by your background and technical skills in modern web development.\n\nWe would like to invite you for a technical interview on Monday, October 12, 2026 at 2:30 PM - 3:15 PM IST. This session will give us an opportunity to discuss your experience, technical expertise, and potential fit with our engineering team.\n\nPlease let us know if this time works for you, and we will share the video conference link accordingly.\n\nBest regards,\n\nSenior Technical Recruiter & Hiring Director\nTech Innovations Inc.",
+    "emailSentAt": "2026-10-07T06:27:50.646Z",
+    "createdAt": "2026-10-07T06:27:50.646Z",
+    "updatedAt": "2026-10-07T06:27:50.646Z",
+    "source": "Dashboard Submission"
+  },
+  {
+    "id": "cand_muxq6we2_4zvs",
+    "name": "Vageesha Sharma",
+    "email": "sharmavageesha2000@gmail.com",
+    "phone": "N/A",
+    "role": "Full Stack Developer",
+    "decision": "REJECTED",
+    "matchScore": 45,
+    "status": "REJECTED",
+    "testStatus": "N/A",
+    "testToken": "cand_muxq6we2_4zvs",
+    "testLink": "https://nexus-hr-workflow.onrender.com/assessment.html?token=cand_muxq6we2_4zvs",
+    "testQuestions": [],
+    "yearsOfExperience": "Fresher",
+    "topSkills": [
+      "JavaScript",
+      "HTML",
+      "CSS",
+      "Problem Solving"
+    ],
+    "education": "Bachelor of Technology",
+    "strengths": [
+      "Interested in software development",
+      "Basic foundational knowledge"
+    ],
+    "areasForImprovement": [
+      "Requires substantial practical project experience in full-stack frameworks like React, Node.js, or databases",
+      "Needs more detailed technical documentation and project portfolio in the resume"
+    ],
+    "evaluationSummary": "The candidate has submitted a minimal resume profile indicating an interest in the Full Stack Developer role. However, the provided content lacks sufficient details regarding professional experience, complex technical stacks, and practical project deliverables required for our standard engineering positions. Therefore, the application does not meet our current threshold for the interview stage.",
+    "rejectionReason": "The resume lacks sufficient detail regarding technical projects, modern frameworks, and professional experience required for the Full Stack Developer position.",
+    "interviewQuestions": [],
+    "proposedInterviewDate": "Monday, October 12, 2026",
+    "interviewDate": "Monday, October 12, 2026",
+    "interviewTime": "30 Minutes Online Technical Assessment",
+    "joiningDate": "Monday, November 2, 2026",
+    "interviewRound": "Domain Technical MCQ Assessment (20 Questions / 30 Mins)",
+    "interviewerName": "Tech Innovations Inc. Technical Hiring Council",
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Inc. Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Core Engineering & Technology",
+    "location": "Bangalore, India / Open to Relocation",
+    "salaryOffer": "Competitive / Market Standard (Finalized upon Offer)",
+    "interviewStatus": "N/A",
+    "emailSubject": "Application Update - Full Stack Developer at Tech Innovations Inc.",
+    "emailBody": "Dear Vageesha, Thank you for applying for the Full Stack Developer position at Tech Innovations Inc. on Wednesday, October 7, 2026. While we appreciate your interest in joining our team, we have decided not to move forward with your application at this time. We encourage you to build on your technical projects, gain deeper hands-on experience with modern full-stack frameworks, and apply again in the future. We wish you the best in your career pursuits.",
+    "emailSentAt": "2026-10-07T06:27:35.930Z",
+    "createdAt": "2026-10-07T06:27:35.930Z",
+    "updatedAt": "2026-10-07T06:27:35.930Z",
+    "source": "Dashboard Submission"
+  },
+  {
+    "id": "cand_muxpzsde_j1w8",
+    "name": "Test Candidate",
+    "email": "manasvi60487.mbaib22@ipsacademy.org",
+    "phone": "N/A",
+    "role": "Full Stack Developer",
+    "decision": "SELECTED",
+    "matchScore": 85,
+    "status": "TEST_ASSIGNED",
+    "testStatus": "ASSIGNED",
+    "testToken": "cand_muxpzsde_j1w8",
+    "testLink": "https://nexus-hr-workflow.onrender.com/assessment.html?token=cand_muxpzsde_j1w8",
+    "testQuestions": [
+      {
+        "id": 1,
+        "question": "What is the main benefit of using Docker containerization in full-stack application deployment?",
+        "options": [
+          "It ensures environmental consistency across development, testing, and production",
+          "It automatically optimizes database queries",
+          "It guarantees faster frontend rendering speeds",
+          "It removes the need for CI/CD pipelines"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 2,
+        "question": "What does CORS (Cross-Origin Resource Sharing) protect against?",
+        "options": [
+          "Malicious server-side database injections",
+          "Denial of Service (DoS) attacks",
+          "Unauthorized cross-origin browser requests made by scripts",
+          "Network packet sniffing and man-in-the-middle attacks"
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 3,
+        "question": "What is the difference between server-side rendering (SSR) and client-side rendering (CSR) regarding SEO?",
+        "options": [
+          "There is no difference in how search engines process SSR and CSR",
+          "SSR prevents search engines from indexing JavaScript assets",
+          "SSR delivers fully rendered HTML to the crawler, improving initial SEO indexing compared to blank CSR shells",
+          "CSR is universally better for search engine crawlers"
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 4,
+        "question": "In Node.js, what is the role of the libuv library?",
+        "options": [
+          "To provide the event loop and asynchronous I/O operations",
+          "To manage HTTP routing and middleware",
+          "To handle database pooling and migrations",
+          "To compile JavaScript to native machine code"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 5,
+        "question": "In asynchronous JavaScript, what is the output order of Promises vs setTimeout?",
+        "options": [
+          "Execution order is completely random",
+          "Promise microtasks run before setTimeout macrotasks in the event loop",
+          "setTimeout callbacks always run before Promise microtasks",
+          "They execute concurrently in separate worker threads"
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "When designing a normalized relational database schema, what does the Third Normal Form (3NF) primarily eliminate?",
+        "options": [
+          "Partial functional dependencies",
+          "Many-to-many relationships",
+          "Repeating groups",
+          "Transitive dependencies"
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 7,
+        "question": "Which git command is best suited for incorporating changes from a feature branch into a main branch by rewriting the commit history to be linear?",
+        "options": [
+          "git squash",
+          "git cherry-pick",
+          "git merge",
+          "git rebase"
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 8,
+        "question": "Why is input sanitization crucial even when using parameterized SQL queries?",
+        "options": [
+          "It is required to make queries run faster",
+          "Parameterized queries do not protect against SQL injection",
+          "It prevents Cross-Site Scripting (XSS) and other injection vectors stored in the database",
+          "It automatically handles database migrations"
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 9,
+        "question": "What is the primary purpose of an ORM (Object-Relational Mapper)?",
+        "options": [
+          "To optimize network latency between client and server",
+          "To map application domain objects to relational database tables",
+          "To automatically compile TypeScript into JavaScript",
+          "To manage frontend state management trees"
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 10,
+        "question": "What is a major advantage of using JSON Web Tokens (JWT) for authentication in a distributed microservices architecture?",
+        "options": [
+          "They cannot be decoded if intercepted",
+          "They can be easily invalidated before their expiration time without extra storage",
+          "They eliminate the need for HTTPS",
+          "They are stateless and contain all necessary user claims within the token itself"
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 11,
+        "question": "What is the function of a reverse proxy like Nginx in a production full-stack architecture?",
+        "options": [
+          "To handle client requests and distribute them to backend application servers, adding security and SSL termination",
+          "To store relational database backups",
+          "To compile frontend TypeScript assets",
+          "To manage container orchestration clusters"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 12,
+        "question": "In React, what is the primary purpose of useMemo?",
+        "options": [
+          "To prevent component unmounting",
+          "To memoize DOM nodes directly",
+          "To cache expensive calculations between re-renders",
+          "To manage asynchronous side effects"
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 13,
+        "question": "Which HTTP status code is most appropriate for a RESTful API endpoint when a resource is successfully created?",
+        "options": [
+          "409 Conflict",
+          "201 Created",
+          "200 OK",
+          "204 No Content"
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 14,
+        "question": "What is the primary vulnerability targeted when implementing Content Security Policy (CSP) headers in a web application?",
+        "options": [
+          "SQL Injection",
+          "Cross-Site Scripting (XSS)",
+          "Remote Code Execution",
+          "Cross-Site Request Forgery (CSRF)"
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 15,
+        "question": "What does the 'S' in the SOLID principles stand for, and what does it mean?",
+        "options": [
+          "State Principle: Components must keep state immutable",
+          "Scalability Principle: Systems must scale horizontally",
+          "Single Responsibility Principle: A class should have only one reason to change",
+          "Security Principle: All inputs must be sanitized"
+        ],
+        "correctAnswerIndex": 2
+      },
+      {
+        "id": 16,
+        "question": "Which design pattern is commonly used in backend development to decouple business logic from data access logic?",
+        "options": [
+          "Observer Pattern",
+          "Singleton Pattern",
+          "Factory Pattern",
+          "Repository Pattern"
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 17,
+        "question": "How can you mitigate the risk of a ReDoS (Regular Expression Denial of Service) attack?",
+        "options": [
+          "Convert all strings to uppercase before matching",
+          "Run regex exclusively on the client side",
+          "Always use global flags on all expressions",
+          "Use simpler regex patterns and avoid ambiguous backtracking"
+        ],
+        "correctAnswerIndex": 3
+      },
+      {
+        "id": 18,
+        "question": "How does event delegation work in the DOM?",
+        "options": [
+          "Events are executed asynchronously in a separate thread",
+          "A single event listener is attached to a parent element to manage events on its descendants",
+          "Events bypass child elements and trigger only at the window level",
+          "Events are attached directly to every child element individually"
+        ],
+        "correctAnswerIndex": 1
+      },
+      {
+        "id": 19,
+        "question": "What is the purpose of adding an index to a database column?",
+        "options": [
+          "To speed up data retrieval operations at the cost of write performance",
+          "To encrypt sensitive column data at rest",
+          "To compress the table size on disk",
+          "To enforce unique constraints automatically"
+        ],
+        "correctAnswerIndex": 0
+      },
+      {
+        "id": 20,
+        "question": "In modern CSS layouts, when should you choose CSS Grid over Flexbox?",
+        "options": [
+          "When building a two-dimensional layout (both rows and columns simultaneously)",
+          "When supporting legacy browsers like IE11",
+          "When animating layout dimensions",
+          "When building a one-dimensional layout (row or column)"
+        ],
+        "correctAnswerIndex": 0
+      }
+    ],
+    "yearsOfExperience": "3 years",
+    "topSkills": [
+      "JavaScript",
+      "React",
+      "Node.js",
+      "Python",
+      "SQL"
+    ],
+    "education": "Bachelor of Technology in Computer Science",
+    "strengths": [
+      "Strong foundational background in modern web technologies",
+      "Demonstrated capability in both frontend and backend development",
+      "Clear problem-solving approach"
+    ],
+    "areasForImprovement": [
+      "Deepen knowledge in cloud microservices architecture",
+      "Expand expertise in containerization tools like Docker and Kubernetes"
+    ],
+    "evaluationSummary": "The candidate presents a well-rounded skill set suited for the Full Stack Developer role at Tech Innovations Inc. With a solid foundation in both frontend frameworks and backend technologies, the applicant demonstrates the technical readiness required to tackle our current engineering projects. The overall profile indicates good adaptability and alignment with our tech stack.",
+    "rejectionReason": null,
+    "interviewQuestions": [
+      "Can you explain how you handle state management in large-scale React applications?",
+      "Describe a challenging backend API you built and how you optimized its performance for database queries.",
+      "How do you ensure security and proper authentication/authorization in a full-stack application?",
+      "Walk us through your approach to debugging a production issue where the frontend and backend are out of sync."
+    ],
+    "proposedInterviewDate": "Monday, October 12, 2026",
+    "interviewDate": "Monday, October 12, 2026",
+    "interviewTime": "30 Minutes Online Technical Assessment",
+    "joiningDate": "Monday, November 2, 2026",
+    "interviewRound": "Domain Technical MCQ Assessment (20 Questions / 30 Mins)",
+    "interviewerName": "Tech Innovations Inc. Technical Hiring Council",
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Inc. Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Core Engineering & Technology",
+    "location": "Bangalore, India / Open to Relocation",
+    "salaryOffer": "Competitive / Market Standard (Finalized upon Offer)",
+    "interviewStatus": "Assessment Test Assigned (30 Mins / 20 MCQs)",
+    "emailSubject": "🎯 Technical Assessment & Interview: Full Stack Developer at Tech Innovations Inc.",
+    "emailBody": "Dear Candidate,\n\nThank you for submitting your application for the Full Stack Developer position at Tech Innovations Inc. We were thoroughly impressed by your qualifications, skills, and background.\n\nWe would love to invite you for a technical interview on Monday, October 12, 2026 at 2:30 PM - 3:15 PM IST to discuss your experience and how you can contribute to our engineering team.\n\nPlease confirm your availability by replying to this email. We look forward to meeting you.\n\nBest regards,\n\nExpert Senior Technical Recruiter & Hiring Director\nTech Innovations Inc.",
+    "emailSentAt": "2026-10-07T06:22:04.130Z",
+    "createdAt": "2026-10-07T06:22:04.130Z",
+    "updatedAt": "2026-10-07T06:22:04.130Z",
+    "source": "Dashboard Submission"
+  },
+  {
+    "id": "cand_muxpsx8z_f78e",
+    "name": "Robert Langdon",
+    "email": "robert.langdon.qa@gmail.com",
+    "phone": "N/A",
+    "role": "Full Stack Developer",
+    "decision": "REJECTED",
+    "matchScore": 45,
+    "status": "REJECTED",
+    "testStatus": "N/A",
+    "testToken": "cand_muxpsx8z_f78e",
+    "testLink": "https://nexus-hr-workflow.onrender.com/assessment.html?token=cand_muxpsx8z_f78e",
+    "testQuestions": [],
+    "yearsOfExperience": "1 year",
+    "topSkills": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "Testing",
+      "QA"
+    ],
+    "education": "Bachelor of Science in Computer Science",
+    "strengths": [
+      "Foundational understanding of programming concepts",
+      "Familiarity with web fundamentals",
+      "Enthusiasm for software development"
+    ],
+    "areasForImprovement": [
+      "Needs more hands-on project experience with modern full-stack frameworks like React, Node.js, or Angular",
+      "Requires deeper knowledge of database management and backend architecture"
+    ],
+    "evaluationSummary": "While Robert shows early promise and foundational knowledge in web technologies, his resume lacks the depth of experience and technical stack requirements needed for our Senior Full Stack Developer position at Tech Innovations Inc. At this stage, his profile aligns better with entry-level or QA roles rather than the comprehensive full-stack competencies we require for this specific opening.",
+    "rejectionReason": "Insufficient practical experience and lack of advanced proficiency in modern full-stack frameworks and backend systems required for the role.",
+    "interviewQuestions": [],
+    "proposedInterviewDate": "Monday, October 12, 2026",
+    "interviewDate": "Monday, October 12, 2026",
+    "interviewTime": "30 Minutes Online Technical Assessment",
+    "joiningDate": "Monday, November 2, 2026",
+    "interviewRound": "Domain Technical MCQ Assessment (20 Questions / 30 Mins)",
+    "interviewerName": "Tech Innovations Inc. Technical Hiring Council",
+    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
+    "workLocation": "Tech Innovations Inc. Campus, Cyber City, Bangalore",
+    "employmentType": "Full-Time Permanent",
+    "department": "Core Engineering & Technology",
+    "location": "Bangalore, India / Open to Relocation",
+    "salaryOffer": "Competitive / Market Standard (Finalized upon Offer)",
+    "interviewStatus": "N/A",
+    "emailSubject": "Update on your application at Tech Innovations Inc.",
+    "emailBody": "Dear Robert, Thank you for applying to the Full Stack Developer position at Tech Innovations Inc. on October 7, 2026. While we appreciate your interest in our company and your foundational technical background, we have decided to move forward with other candidates whose profiles more closely match our current project requirements. We encourage you to continue honing your full-stack capabilities and wish you the very best in your professional journey.",
+    "emailSentAt": "2026-10-07T06:16:43.859Z",
+    "createdAt": "2026-10-07T06:16:43.859Z",
+    "updatedAt": "2026-10-07T06:16:43.859Z",
+    "source": "Dashboard Submission"
   },
   {
     "id": "cand_mub4mtp1_3cp5",
@@ -5337,57 +6408,6 @@
     ],
     "testStatus": "ASSIGNED",
     "testLink": "https://nexus-hr-workflow.onrender.com/assessment.html?token=cand_mtib2p6q_fxzr"
-  },
-  {
-    "id": "cand_auto_mti8zu3s_jnuf",
-    "name": "Manasvi Paliwal",
-    "email": "manasvi60487.mbaib22@ipsacademy.org",
-    "phone": "9109933353",
-    "role": "Full Stack Developer",
-    "decision": "REJECTED",
-    "matchScore": 5,
-    "status": "REJECTED",
-    "yearsOfExperience": "Fresher",
-    "topSkills": [
-      "Coordination",
-      "Typing",
-      "Multitasking Abilities",
-      "Time Management",
-      "Active Listening"
-    ],
-    "education": "MBA in International Business, IPS Academy, Indore",
-    "strengths": [
-      "Strong background in coordination and project multitasking",
-      "Solid academic foundations in business management and international business",
-      "Excellent active listening and time management capabilities"
-    ],
-    "areasForImprovement": [
-      "Lacks any formal software development training or experience",
-      "Does not possess required technical stack knowledge (React, Node.js, TypeScript, PostgreSQL, REST APIs)"
-    ],
-    "evaluationSummary": "The candidate, Manasvi Paliwal, is an MBA graduate in International Business from IPS Academy. They have expressed interest in the Full Stack Developer position at Tech Innovations Inc. However, their academic background and skillset are strictly non-technical, focusing primarily on administration, business management, and humanities. There is no evidence of coding capability, system architecture experience, or software engineering practices.\n\nOur current hiring strategy is tightly constrained to three active positions: Full Stack Developer, Digital Marketing Specialist, and AI Solutions Architect. Because the candidate's skills do not align with any of these high-tech roles, and specifically lack the 2+ years of software development experience required for the Full Stack Developer role, we must respectfully decline their application at this stage.",
-    "rejectionReason": "The candidate does not possess the technical skills (React, Node.js, databases) or the minimum 2+ years of software development experience required for the Full Stack Developer role. Our active hiring is currently limited to Full Stack Developer, Digital Marketing Specialist, and AI Solutions Architect positions.",
-    "interviewQuestions": [],
-    "proposedInterviewDate": "Friday, September 4, 2026",
-    "interviewDate": "Friday, September 4, 2026",
-    "interviewTime": "2:30 PM - 3:15 PM IST (45 Minutes)",
-    "interviewRound": "Round 1: Technical & System Architecture Deep-Dive",
-    "meetingLink": "https://meet.google.com/can-daut-omt",
-    "interviewerName": "Tech Innovations Inc. Technical Hiring Panel",
-    "interviewStatus": "N/A",
-    "emailSubject": "Your application at Tech Innovations Inc.",
-    "emailBody": "Dear Manasvi,\n\nThank you for taking the time to apply for the Full Stack Developer position and sharing your resume with Tech Innovations Inc.\n\nAfter a careful review of your background, we regret to inform you that we are unable to move forward with your application. Our team is currently only hiring for three highly specialized roles: Full Stack Developer (requiring 2+ years of developer experience with React, Node.js, and APIs), Digital Marketing Specialist, and AI Solutions Architect. Because your training and qualifications are in business administration and international business, your profile does not match the technical criteria required for our active engineering openings.\n\nWe will retain your resume in our talent database for future opportunities that better align with your expertise in management, coordination, and business operations. We wish you the absolute best in your future career search.\n\nWarm regards,\n\nTech Innovations Inc. Recruiting Team",
-    "emailSentAt": "2026-09-01T05:49:57.928Z",
-    "createdAt": "2026-09-01T05:49:57.928Z",
-    "updatedAt": "2026-09-01T05:49:57.928Z",
-    "source": "Gmail IMAP (Manasvi Paliwal Resume (1).pdf.pdf)",
-    "joiningDate": "Monday, September 28, 2026",
-    "workMode": "Hybrid (3 Days Office / 2 Days Remote)",
-    "workLocation": "Tech Innovations Campus, Cyber City, Bangalore",
-    "employmentType": "Full-Time Permanent",
-    "department": "Core Engineering & Technology",
-    "location": "Bangalore, India",
-    "salaryOffer": "Market Standard"
   },
   {
     "id": "cand_auto_mti8zh1v_2et3",

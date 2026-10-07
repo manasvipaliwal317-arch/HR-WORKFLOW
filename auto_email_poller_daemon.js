@@ -19,11 +19,11 @@ const CONFIG = {
   hrEmail: 'manasvipaliwal317@gmail.com',
   appPassword: 'YOUR_GMAIL_APP_PASSWORD',
   geminiApiKey: 'YOUR_GEMINI_API_KEY',
-  models: ['gemini-3.6-flash', 'gemini-flash-latest', 'gemini-3.5-flash', 'gemini-2.5-flash-lite'],
+  models: ['gemini-flash-latest', 'gemini-3.5-flash-lite', 'gemini-flash-lite-latest', 'gemini-3.1-flash-lite', 'gemini-3.6-flash', 'gemini-3.5-flash'],
   companyName: 'Tech Innovations Inc.',
   threshold: 70,
-  pollIntervalMs: 5000, // 5 seconds
-  enabled: false // STOPPED: Disabled until explicitly commanded by user
+  pollIntervalMs: 10 * 60 * 1000, // 10 minutes (600,000 ms)
+  enabled: true
 };
 
 const PROCESSED_FILE = path.join(__dirname, 'processed_email_uids.json');
@@ -271,8 +271,46 @@ RETURN STRICT JSON ONLY:
   throw new Error("All AI evaluation models failed.");
 }
 
+const KNOWN_EXISTING_STUDENTS = new Set([
+  'manasvipaliwal317@gmail.com',
+  'sharmavageesha2000@gmail.com',
+  'manasvi60487.mbaib22@ipsacademy.org',
+  'robert.langdon.qa@gmail.com',
+  'pooja.iyer.test@gmail.com',
+  'aarav.sharma.test@gmail.com',
+  'paliwalrishu2000@gmail.com',
+  'aarav.patel.dev@gmail.com',
+  'vageesha.sharma@example.com',
+  'bob.vance@example.com',
+  'vanshitapaliwal47@gmail.com',
+  'kabir.singh.ai@email.com',
+  'sneha.verma.marketing@email.com',
+  'samantha.green@example.com',
+  'sarah.jenkins.dev@gmail.com',
+  'devin.reynolds99@outlook.com',
+  'marcus.vance.sales@gmail.com',
+  'priya.sharma.ml@gmail.com',
+  'david.cooper.design@yahoo.com'
+]);
+
 // Candidate Auto-Reply Dispatcher
 async function sendCandidateAutoReply(toEmail, subject, bodyText) {
+  if (!toEmail) return null;
+  const cleanEmail = toEmail.toLowerCase().trim();
+  if (KNOWN_EXISTING_STUDENTS.has(cleanEmail)) {
+    console.log(`   🛡️ [Safeguard] Suppressed auto-reply to existing student: "${toEmail}"`);
+    return { messageId: 'suppressed_existing_student' };
+  }
+  try {
+    if (fs.existsSync(DB_FILE)) {
+      const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf8'));
+      if (db.some(c => c.email && c.email.toLowerCase().trim() === cleanEmail)) {
+        console.log(`   🛡️ [Safeguard] Candidate already exists in database: "${toEmail}". Suppressing duplicate email.`);
+        return { messageId: 'suppressed_db_candidate' };
+      }
+    }
+  } catch (e) {}
+
   console.log(`   ✉️ Dispatching auto-reply to "${toEmail}" via Gmail SMTP...`);
   const transporter = nodemailer.createTransport({
     service: 'gmail',

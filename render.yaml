@@ -23,6 +23,10 @@ services:
         value: 70
       - key: AUTO_SEND_EMAILS
         value: true
+      - key: SCANNER_ENABLED
+        value: "true"
+      - key: SCAN_INTERVAL_MINUTES
+        value: "10"
       - key: EMAIL_RELAY_URL
         sync: false
       - key: RESEND_API_KEY

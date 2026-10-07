@@ -141,18 +141,21 @@ function initRealtimeScanner() {
   if (btnScan) {
     btnScan.addEventListener('click', async () => {
       btnScan.disabled = true;
-      btnScan.innerHTML = `🔄 Scanning...`;
+      btnScan.innerHTML = `<span class="btn-spinner" style="display:inline-block; width:13px; height:13px; margin-right:6px; border:2px solid currentColor; border-top-color:transparent; border-radius:50%; animation:spin 0.8s linear infinite;"></span> Scanning Mail...`;
       try {
         const res = await fetch('/api/scan-inbox', { method: 'POST', cache: 'no-store' });
         const data = await res.json();
-        showToast(data.message || 'Scanning INBOX for candidate resumes...', 'info');
-        setTimeout(() => {
-          loadCandidates();
-          loadStats();
-          btnScan.disabled = false;
-          btnScan.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> Scan Mail Now`;
-        }, 2000);
+        if (data.success) {
+          showToast(data.message || 'INBOX scan complete! Checked recent emails.', 'success');
+        } else {
+          showToast(data.message || 'Scan completed with notice.', 'info');
+        }
+        await loadCandidates();
+        await loadStats();
+        updateScannerTelemetry();
       } catch (err) {
+        showToast('Error communicating with mail scanner: ' + err.message, 'error');
+      } finally {
         btnScan.disabled = false;
         btnScan.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> Scan Mail Now`;
       }
@@ -188,7 +191,7 @@ function initSSE() {
 
     liveEventSource.onopen = () => {
       const badge = document.getElementById('scanner-last-sync');
-      if (badge) badge.innerHTML = `⚡ Live Stream Connected (Every 5s)`;
+      if (badge) badge.innerHTML = `🟢 Live Stream Active (Every 10m)`;
     };
 
     liveEventSource.addEventListener('candidate_added', (e) => {
@@ -383,7 +386,7 @@ async function updateScannerTelemetry() {
           badgeSync.style.borderColor = 'rgba(239, 68, 68, 0.4)';
           if (radarDot) radarDot.style.opacity = '0.3';
         } else {
-          badgeSync.textContent = `⚡ Live (Scans: ${data.stats.totalScans} | Resumes: ${data.stats.resumesProcessed})`;
+          badgeSync.textContent = `🟢 Every 10 min | Scans: ${data.stats.totalScans} | Resumes: ${data.stats.resumesProcessed}`;
           badgeSync.style.background = '';
           badgeSync.style.color = '';
           badgeSync.style.borderColor = '';
